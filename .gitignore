@@ -1,0 +1,41 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Node
+node_modules/
+.next/
+.cache/
+
+# OS
+.DS_Store
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# Local config
+*.local
+.env
+.env.local
+
+# Media files
+*.mp4
+*.mp3
+*.mov
+*.avi
+*.wav
+*.webm
+Raw_Footage_Vault/
+Uploaded_Archive/
+*.json
+client_secret.json
+token.json
