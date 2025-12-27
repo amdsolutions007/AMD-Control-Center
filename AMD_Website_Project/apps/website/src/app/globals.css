@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-ink-950 text-white;
+}
+
+/* Subtle code-stream shimmer */
+.code-stream {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.code-stream::before {
+  content: '';
+  position: absolute;
+  left: -20%;
+  top: 40%;
+  width: 140%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.45), transparent);
+  filter: blur(0.2px);
+  opacity: 0.15;
+  transform: rotate(-8deg);
+}
+
+.code-stream::after {
+  content: '';
+  position: absolute;
+  right: -10%;
+  bottom: 15%;
+  width: 120%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.35), transparent);
+  filter: blur(0.2px);
+  opacity: 0.12;
+  transform: rotate(6deg);
+}

@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-ink-950 text-white;
+}
+
+/* Subtle code-stream shimmer */
+.code-stream {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.code-stream::before {
+  content: '';
+  position: absolute;
+  left: -20%;
+  top: 40%;
+  width: 140%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.45), transparent);
+  filter: blur(0.2px);
+  opacity: 0.15;
+  transform: rotate(-8deg);
+}
+
+.code-stream::after {
+  content: '';
+  position: absolute;
+  right: -10%;
+  bottom: 15%;
+  width: 120%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.35), transparent);
+  filter: blur(0.2px);
+  opacity: 0.12;
+  transform: rotate(6deg);
+}
+
+/* 24K Gold shimmer animation */
+@keyframes shimmer {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 8s linear infinite;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar with gold accent */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050A14;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(202, 138, 4, 0.6), rgba(234, 179, 8, 0.4));
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(234, 179, 8, 0.8), rgba(202, 138, 4, 0.6));
+}

@@ -1,0 +1,114 @@
+name: Social Broadcast System
+
+on:
+  workflow_dispatch:
+    inputs:
+      content:
+        description: 'Content to broadcast'
+        required: true
+        type: string
+      platforms:
+        description: 'Target platforms (comma-separated: twitter,linkedin or "all")'
+        required: false
+        default: 'all'
+        type: string
+  
+  # Trigger on new releases
+  release:
+    types: [published]
+  
+  # Trigger on repo activity (optional)
+  push:
+    branches:
+      - main
+    paths:
+      - 'CHANGELOG.md'
+      - 'RELEASE_NOTES*.md'
+
+jobs:
+  broadcast:
+    name: Multi-Platform Broadcast
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install Dependencies
+        run: |
+          pip install tweepy requests --quiet
+          echo "✅ Installed: tweepy, requests"
+      
+      - name: Prepare Content
+        id: content
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "content=${{ github.event.inputs.content }}" >> $GITHUB_OUTPUT
+            echo "platforms=${{ github.event.inputs.platforms }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" = "release" ]; then
+            RELEASE_TAG="${{ github.event.release.tag_name }}"
+            RELEASE_NAME="${{ github.event.release.name }}"
+            RELEASE_URL="${{ github.event.release.html_url }}"
+            CONTENT="🚀 New Release: ${RELEASE_NAME} (${RELEASE_TAG}) - Check it out: ${RELEASE_URL}"
+            echo "content=${CONTENT}" >> $GITHUB_OUTPUT
+            echo "platforms=all" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            COMMIT_MSG="${{ github.event.head_commit.message }}"
+            REPO_URL="${{ github.event.repository.html_url }}"
+            CONTENT="📝 Update: ${COMMIT_MSG} - ${REPO_URL}"
+            echo "content=${CONTENT}" >> $GITHUB_OUTPUT
+            echo "platforms=all" >> $GITHUB_OUTPUT
+          else
+            echo "content=AMD Control Center activity update" >> $GITHUB_OUTPUT
+            echo "platforms=all" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Run Social Publisher
+        env:
+          # Twitter API v2 Credentials
+          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
+          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
+          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+          TWITTER_BEARER_TOKEN: ${{ secrets.TWITTER_BEARER_TOKEN }}
+          
+          # LinkedIn API Credentials
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+        run: |
+          echo "🚀 Broadcasting to social platforms..."
+          echo "Content: ${{ steps.content.outputs.content }}"
+          echo "Platforms: ${{ steps.content.outputs.platforms }}"
+          echo ""
+          
+          # Build platform flags
+          PLATFORM_FLAGS=""
+          if [ "${{ steps.content.outputs.platforms }}" = "all" ]; then
+            PLATFORM_FLAGS="--twitter --linkedin"
+          else
+            IFS=',' read -ra PLATFORMS <<< "${{ steps.content.outputs.platforms }}"
+            for platform in "${PLATFORMS[@]}"; do
+              PLATFORM_FLAGS="${PLATFORM_FLAGS} --${platform}"
+            done
+          fi
+          
+          # Execute broadcast
+          python scripts/social_publisher.py "${{ steps.content.outputs.content }}" ${PLATFORM_FLAGS}
+      
+      - name: Broadcast Summary
+        if: always()
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "📡 SOCIAL BROADCAST COMPLETE"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "Trigger: ${{ github.event_name }}"
+          echo "Platforms: ${{ steps.content.outputs.platforms }}"
+          echo "Status: Check logs above for results"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

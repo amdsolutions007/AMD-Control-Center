@@ -1,0 +1,15 @@
+google-api-python-client>=2.39.0
+google-auth-httplib2>=0.1.0
+google-auth-oauthlib>=0.4.6
+
+# Optional but useful for local development
+# pip install -r requirements.txt
+moviepy>=2.0.0
+gTTS>=2.3.0
+python-dotenv>=1.0.0
+# Use a google-ads version compatible with Python 3.12
+google-ads>=23.0.0
+streamlit>=1.25.0
+pandas>=2.2.0
+requests>=2.31.0
+facebook-business>=19.0.0
