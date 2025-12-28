@@ -101,14 +101,10 @@ function EcosystemCard({ item, index }: { item: typeof items[0]; index: number }
 			style={{
 				transform: transformStyle,
 				transition: 'transform 0.2s ease-out',
+				cursor: item.link ? 'pointer' : 'default',
 			}}
 			className="group relative overflow-hidden rounded-2xl border border-yellow-500/20 bg-gradient-to-br from-black/60 via-black/40 to-black/60 p-8 backdrop-blur-sm transition-all duration-500 hover:border-yellow-500/60 hover:shadow-[0_0_40px_rgba(234,179,8,0.3),inset_0_0_60px_rgba(234,179,8,0.05)]"
 			onClick={() => item.link && window.open(item.link, '_blank')}
-			style={{
-				transform: transformStyle,
-				transition: 'transform 0.2s ease-out',
-				cursor: item.link ? 'pointer' : 'default',
-			}}
 		>
 			{/* Animated gradient overlay */}
 			<div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
