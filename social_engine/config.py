@@ -159,9 +159,17 @@ RATE_LIMITS = {
     'snapchat': 999999  # Based on ad spend (we have active campaigns)
 }
 
-# ==================== WHATSAPP CONTACT ====================
+# ==================== COMPANY BRANDING ====================
 
-WHATSAPP_NUMBER = '+2348113775880'
+# Official Contact Information
+COMPANY_NAME = 'AMD Solutions'
+OFFICIAL_PHONE = '+234 818 002 1007'
+OFFICIAL_EMAIL = 'ceo@amdsolutions007.com'
+OFFICIAL_WEBSITE = 'https://amdsolutions007.com'
+LINKTREE = 'https://linktr.ee/amdsolutions007'
+
+# WhatsApp Integration (Legacy compatibility)
+WHATSAPP_NUMBER = '+234 818 002 1007'
 WHATSAPP_MESSAGE = 'Hello! I saw your post about CV Analysis. I need help with my CV.'
 
 # ==================== LOGGING ====================
