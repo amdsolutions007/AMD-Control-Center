@@ -16,10 +16,44 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
-      - name: Run AMD Activity Booster
-        uses: amdsolutions007/amd-activity-booster@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          activity_file: 'activity_log.md'
-          commit_message: '🤖 Daily Update'
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Generate AI Quote and Update Activity Log
+        run: |
+          # Array of AI/Tech quotes
+          quotes=(
+            "AI is the new electricity. - Andrew Ng"
+            "The question of whether a computer can think is no more interesting than the question of whether a submarine can swim. - Edsger Dijkstra"
+            "Artificial intelligence is the future, not only for Russia but for all of mankind. - Vladimir Putin"
+            "Success in creating AI would be the biggest event in human history. - Stephen Hawking"
+            "Machine learning is the last invention that humanity will ever need to make. - Nick Bostrom"
+            "AI is not going to replace humans, but humans with AI are going to replace humans without AI. - Karim Lakhani"
+            "The real question is, when will we draft an artificial intelligence bill of rights? - Gray Scott"
+            "Automation is no longer just a problem for those working in manufacturing. - Moshe Vardi"
+            "AI doesn't have to be evil to destroy humanity. - Elon Musk"
+            "The key to artificial intelligence has always been the representation. - Jeff Hawkins"
+          )
+          
+          # Get random quote
+          random_quote="${quotes[$RANDOM % ${#quotes[@]}]}"
+          
+          # Get current date and time
+          current_date=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          
+          # Create or append to activity log
+          echo "" >> activity_log.md
+          echo "---" >> activity_log.md
+          echo "" >> activity_log.md
+          echo "### 🤖 System Active: $current_date" >> activity_log.md
+          echo "" >> activity_log.md
+          echo "> **Daily AI Quote:**" >> activity_log.md
+          echo "> *\"$random_quote\"*" >> activity_log.md
+          
+      - name: Commit and Push Changes
+        run: |
+          git config user.name "AMD Activity Bot"
+          git config user.email "bot@amdsolutions007.com"
+          git add activity_log.md
+          git commit -m "🤖 Daily Update: $(date -u +%Y-%m-%d)" || echo "No changes to commit"
+          git push

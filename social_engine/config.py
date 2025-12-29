@@ -31,8 +31,8 @@ META_ACCESS_TOKEN = os.getenv('META_ACCESS_TOKEN', '')
 META_AD_ACCOUNT_ID = os.getenv('META_AD_ACCOUNT_ID', '')
 META_PAGE_ID = os.getenv('META_PAGE_ID', '')
 
-# Telegram Bot (CONFIGURED - Hardcoded per user instruction)
-TELEGRAM_BOT_TOKEN = "8599161577:AAFtqnsISrN_3wiRtnpMMdUBwe5QdZoHj54"
+# Telegram Bot (CONFIGURED - From environment variable)
+TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '')  # NEVER hardcode tokens!
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID', '8404666834')  # Chat ID
 
 # YouTube API (EXISTING - Uses OAuth from amd_bio_updater.py)
