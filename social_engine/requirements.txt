@@ -1,0 +1,26 @@
+# AMD Social Engine - Python Dependencies
+# Install with: pip install -r requirements.txt
+
+# Core dependencies
+schedule==1.2.0
+python-dotenv==1.0.0
+pytz==2023.3
+requests==2.31.0
+
+# Twitter/X
+tweepy==4.14.0
+
+# Telegram
+python-telegram-bot==20.7
+
+# YouTube (Google APIs)
+google-auth-oauthlib==1.1.0
+google-api-python-client==2.108.0
+
+# Database
+# sqlite3 is built into Python
+
+# Optional (for advanced features)
+# beautifulsoup4==4.12.2  # For web scraping
+# pillow==10.1.0  # For image processing
+# pandas==2.1.4  # For analytics

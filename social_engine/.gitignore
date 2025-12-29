@@ -1,0 +1,48 @@
+# Gitignore for AMD Social Engine
+
+# Environment files
+.env
+.env.local
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Google OAuth
+token.json
+client_secrets.json
+credentials.json
+
+# Logs
+*.log
+social_engine.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp
+temp/
+tmp/
+*.tmp
+
+# Analytics data
+data/analytics.json
