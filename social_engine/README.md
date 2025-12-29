@@ -170,7 +170,7 @@ tail -f social_engine.log
 ## 📞 Support
 
 Issues? Check logs or contact:
-- WhatsApp: +234 913 449 2041
+- WhatsApp: +234 818 002 1007
 - Email: ceo@amdsolutions007.com
 
 ---

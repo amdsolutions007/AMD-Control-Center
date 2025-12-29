@@ -178,7 +178,7 @@ class ContentManager:
                     'price': tier[1].strip(),
                     'features': tier[2].strip(),
                     'cta': 'WhatsApp',
-                    'template': f"🎯 {tier[0]}\n💰 {tier[1]}\n\n{tier[2]}\n\n📞 Chat me on WhatsApp to get started!"
+                    'template': f"🎯 {tier[0]}\n💰 {tier[1]}\n\n{tier[2]}\n\n📞 Chat me on WhatsApp to get started!\n🔗 https://linktr.ee/amdsolutions007"
                 })
         
         # Sample post templates
@@ -186,12 +186,12 @@ class ContentManager:
             {
                 'type': 'service_ad',
                 'service': 'cv_analysis',
-                'template': '🔍 Struggling to get interview callbacks?\n\n✅ Professional CV Analysis\n✅ ATS Optimization\n✅ Expert Recommendations\n✅ Quick 24-hour turnaround\n\nStarting from ₦5,000 only!\n\n📞 WhatsApp: +234 811 377 5880\n\n#CVAnalysis #JobSearch #Nigeria'
+                'template': '🔍 Struggling to get interview callbacks?\n\n✅ Professional CV Analysis\n✅ ATS Optimization\n✅ Expert Recommendations\n✅ Quick 24-hour turnaround\n\nStarting from ₦5,000 only!\n\n📞 WhatsApp: +234 818 002 1007\n🔗 https://linktr.ee/amdsolutions007\n\n#CVAnalysis #JobSearch #Nigeria'
             },
             {
                 'type': 'service_ad',
                 'service': 'cv_analysis',
-                'template': '📊 Did you know 75% of CVs never reach human eyes?\n\nATS systems reject them first!\n\n✨ Get your CV professionally reviewed:\n- ATS compatibility check\n- Format optimization\n- Content enhancement\n\n₦5,000 - ₦15,000 (24hr delivery)\n\nDM now! 💼\n\n#CareerGrowth #TechJobs'
+                'template': '📊 Did you know 75% of CVs never reach human eyes?\n\nATS systems reject them first!\n\n✨ Get your CV professionally reviewed:\n- ATS compatibility check\n- Format optimization\n- Content enhancement\n\n₦5,000 - ₦15,000 (24hr delivery)\n\nDM now! 💼\n🔗 https://linktr.ee/amdsolutions007\n\n#CareerGrowth #TechJobs'
             }
         ])
         
@@ -218,7 +218,7 @@ class ContentManager:
                     'project_name': project[0].strip(),
                     'tech_stack': project[1].strip(),
                     'price': project[2].strip(),
-                    'template': f"💻 {project[0]}\n\n🛠️ Tech: {project[1]}\n💰 Price: {project[2]}\n\n✅ Full source code\n✅ Documentation included\n✅ Installation support\n\nPerfect for students & developers!\n\n📞 WhatsApp: +234 913 449 2041\n\n#SourceCode #FinalYearProject #Nigeria"
+                    'template': f"💻 {project[0]}\n\n🛠️ Tech: {project[1]}\n💰 Price: {project[2]}\n\n✅ Full source code\n✅ Documentation included\n✅ Installation support\n\nPerfect for students & developers!\n\n📞 WhatsApp: +234 818 002 1007\n🔗 https://linktr.ee/amdsolutions007\n\n#SourceCode #FinalYearProject #Nigeria"
                 })
         
         # Generic source code ads
@@ -226,12 +226,12 @@ class ContentManager:
             {
                 'type': 'product_ad',
                 'product': 'source_code',
-                'template': '🎓 Final Year Project Deadline Approaching?\n\nGet production-ready source code:\n- AI/ML systems\n- Web applications\n- Mobile apps\n- Blockchain solutions\n\n₦15,000 - ₦50,000\nFull documentation + support included!\n\nDM for catalog 📚\n\n#FinalYearProject #SourceCode #StudentLife'
+                'template': '🎓 Final Year Project Deadline Approaching?\n\nGet production-ready source code:\n- AI/ML systems\n- Web applications\n- Mobile apps\n- Blockchain solutions\n\n₦15,000 - ₦50,000\nFull documentation + support included!\n\nDM for catalog 📚\n🔗 https://linktr.ee/amdsolutions007\n\n#FinalYearProject #SourceCode #StudentLife'
             },
             {
                 'type': 'product_ad',
                 'product': 'source_code',
-                'template': '⚡ Skip months of coding!\n\n10+ ready-made projects:\n✅ Facial Recognition\n✅ Voice AI\n✅ Crypto Tracker\n✅ Property Intelligence\n✅ More...\n\nAll with documentation & installation guide.\n\nPrices: ₦15K - ₦50K\n\nWhatsApp: +234 913 449 2041\n\n#TechForStudents #Nigeria'
+                'template': '⚡ Skip months of coding!\n\n10+ ready-made projects:\n✅ Facial Recognition\n✅ Voice AI\n✅ Crypto Tracker\n✅ Property Intelligence\n✅ More...\n\nAll with documentation & installation guide.\n\nPrices: ₦15K - ₦50K\n\nWhatsApp: +234 818 002 1007\n🔗 https://linktr.ee/amdsolutions007\n\n#TechForStudents #Nigeria'
             }
         ])
         

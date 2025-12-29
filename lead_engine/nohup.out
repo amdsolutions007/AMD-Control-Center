@@ -1,0 +1,103 @@
+🎯 AMD LEAD GENERATION ENGINE
+============================================================
+
+🗺️ Scraping Google Maps: Technology in Lagos
+✅ Found 5 qualified leads from Google Maps
+
+💼 Scraping LinkedIn: Technology in Lagos
+✅ Found 5 qualified leads from LinkedIn
+
+🗺️ Scraping Google Maps: Technology in Abuja
+✅ Found 5 qualified leads from Google Maps
+
+💼 Scraping LinkedIn: Technology in Abuja
+✅ Found 5 qualified leads from LinkedIn
+
+🗺️ Scraping Google Maps: Financial Services in Lagos
+✅ Found 5 qualified leads from Google Maps
+
+💼 Scraping LinkedIn: Financial Services in Lagos
+✅ Found 5 qualified leads from LinkedIn
+
+🗺️ Scraping Google Maps: Financial Services in Abuja
+✅ Found 5 qualified leads from Google Maps
+
+💼 Scraping LinkedIn: Financial Services in Abuja
+✅ Found 5 qualified leads from LinkedIn
+
+🗺️ Scraping Google Maps: Real Estate in Lagos
+✅ Found 5 qualified leads from Google Maps
+
+💼 Scraping LinkedIn: Real Estate in Lagos
+✅ Found 5 qualified leads from LinkedIn
+
+🗺️ Scraping Google Maps: Real Estate in Abuja
+✅ Found 2 qualified leads from Google Maps
+
+💼 Scraping LinkedIn: Real Estate in Abuja
+✅ Found 5 qualified leads from LinkedIn
+
+📚 Scraping Nigerian Business Directories
+✅ Saved 0 new leads from directories
+
+============================================================
+📊 RESULTS: 30 Qualified Leads
+============================================================
+
+🏆 TOP 10 LEADS:
+
+1. Lagos Estate Developers
+   Industry: Real Estate | Location: Lagos
+   Score: 95 | Revenue: ₦100,000,000
+   Contact: info@estatedeveloperslagos.com.ng
+
+2. Lagos Urban Properties
+   Industry: Real Estate | Location: Lagos
+   Score: 95 | Revenue: ₦500,000,000
+   Contact: info@urbanpropertieslagos.com.ng
+
+3. Lagos TechCorp
+   Industry: Technology | Location: Lagos
+   Score: 90 | Revenue: ₦200,000,000
+   Contact: info@techcorplagos.com.ng
+
+4. Lagos Cloud Systems
+   Industry: Technology | Location: Lagos
+   Score: 90 | Revenue: ₦100,000,000
+   Contact: info@cloudsystemslagos.com.ng
+
+5. Lagos Capital Partners
+   Industry: Financial Services | Location: Lagos
+   Score: 90 | Revenue: ₦200,000,000
+   Contact: info@capitalpartnerslagos.com.ng
+
+6. Lagos Fintech Hub
+   Industry: Financial Services | Location: Lagos
+   Score: 90 | Revenue: ₦200,000,000
+   Contact: info@fintechhublagos.com.ng
+
+7. Lagos Investment Group
+   Industry: Financial Services | Location: Lagos
+   Score: 90 | Revenue: ₦100,000,000
+   Contact: info@investmentgrouplagos.com.ng
+
+8. Lagos Microfinance
+   Industry: Financial Services | Location: Lagos
+   Score: 90 | Revenue: ₦100,000,000
+   Contact: info@microfinancelagos.com.ng
+
+9. Lagos Banking Solutions
+   Industry: Financial Services | Location: Lagos
+   Score: 90 | Revenue: ₦100,000,000
+   Contact: info@bankingsolutionslagos.com.ng
+
+10. Abuja Estate Developers
+   Industry: Real Estate | Location: Abuja
+   Score: 80 | Revenue: ₦100,000,000
+   Contact: info@estatedevelopersabuja.com.ng
+
+
+✅ Exported 30 leads to: /Users/mac/Desktop/AMD_Control_Center/lead_engine/data/exports/qualified_leads.csv
+
+✅ Lead scraping complete!
+💡 Next: Run 'python3 send_outreach.py' to contact these leads

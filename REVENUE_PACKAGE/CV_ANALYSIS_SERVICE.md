@@ -54,7 +54,7 @@ DM me now! 📩
 CV Analysis Service: ₦5,000
 Know what's wrong with your CV.
 
-WhatsApp: +234 811 377 5880
+WhatsApp: +234 818 002 1007
 ```
 
 ### **STATUS 3: Problem Awareness**
@@ -103,7 +103,7 @@ What you get for ₦5,000:
 
 Stop wondering. Start knowing.
 
-WhatsApp: +234 811 377 5880
+WhatsApp: +234 818 002 1007
 ```
 
 ---
@@ -313,7 +313,7 @@ We offer professional CV analysis:
 Investment: ₦5,000
 Delivery: 24 hours
 
-DM me or WhatsApp: +234 811 377 5880
+DM me or WhatsApp: +234 818 002 1007
 
 Don't let a poorly formatted CV cost you your dream job.
 
@@ -409,7 +409,7 @@ PREMIUM UPGRADE (₦10,000):
 ✅ Cover letter template
 ✅ Same-day delivery
 
-📩 DM us or WhatsApp: +234 811 377 5880
+📩 DM us or WhatsApp: +234 818 002 1007
 
 Stop wondering why recruiters ignore you. Get the answers.
 
@@ -574,7 +574,7 @@ To upgrade, send ₦5,000 more (you've already paid ₦5,000)
 NEED HELP?
 --------------------------------------------------
 
-WhatsApp: +234 811 377 5880
+WhatsApp: +234 818 002 1007
 Email: ceo@amdsolutions007.com
 Website: www.amdsolutions007.com
 

@@ -227,7 +227,7 @@ At ₦5K/CV and ₦25K/code, that's **₦50K-₦150K/week** potential revenue!
 ## 📞 Support
 
 Issues? Contact:
-- WhatsApp: +234 913 449 2041
+- WhatsApp: +234 818 002 1007
 - Email: ceo@amdsolutions007.com
 
 ---

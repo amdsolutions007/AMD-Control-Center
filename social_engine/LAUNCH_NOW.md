@@ -127,7 +127,7 @@ The bot reads from your `REVENUE_PACKAGE/` folder:
 ### 1. CV Analysis Service (30% of posts)
 - "🔍 Struggling to get interview callbacks?"
 - "Professional CV Analysis starting from ₦5,000"
-- WhatsApp: +234 913 449 2041
+- WhatsApp: +234 818 002 1007
 
 ### 2. Source Code Sales (40% of posts)
 - "💻 Final Year Project Deadline Approaching?"
@@ -307,6 +307,6 @@ You've built a complete social media automation system:
 
 ---
 
-**Support:** WhatsApp +234 913 449 2041  
+**Support:** WhatsApp +234 818 002 1007  
 **Built by:** AMD Solutions 007  
 **Status:** READY TO MAKE MONEY! 💰

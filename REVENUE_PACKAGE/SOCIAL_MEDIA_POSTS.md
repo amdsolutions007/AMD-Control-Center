@@ -43,7 +43,7 @@ Explore the full arsenal: https://www.amdsolutions007.com
 Portfolio: https://amdsolutions007.github.io
 Quick Links: https://www.amdsolutions007.com/links
 
-Ready to transform your business? Let's talk: +234 811 377 5880
+Ready to transform your business? Let's talk: +234 818 002 1007
 
 #NigeriaTech #ArtificialIntelligence #Innovation #SoftwareEngineering #StartupNigeria #LegalTech #PropTech #AIForGood #TechInAfrica #DigitalTransformation
 ```
@@ -168,7 +168,7 @@ We don't just build software. We architect growth systems.
 
 🌐 Website: https://www.amdsolutions007.com
 💼 Portfolio: https://amdsolutions007.github.io
-📱 WhatsApp: +234 811 377 5880
+📱 WhatsApp: +234 818 002 1007
 
 Licensed to solve impossible problems. 🕵️‍♂️
 
@@ -255,7 +255,7 @@ Illuminate the digital dark. Transform businesses through custom AI, automation,
 Ready to level up your business?
 
 🔗 Links in bio
-💬 DM us or WhatsApp: +234 811 377 5880
+💬 DM us or WhatsApp: +234 818 002 1007
 
 #NigeriaTech #AIInnovation #TechStartup #NigerianEntrepreneurs #SoftwareEngineering #AMDSolutions007 #DigitalTransformation #AIForBusiness #TechInAfrica #LagosTech
 ```
@@ -325,7 +325,7 @@ Plus 13 more enterprise tools for database management, API integration, content 
 4. Follow our journey on social media
 
 📱 CONTACT:
-WhatsApp: +234 811 377 5880
+WhatsApp: +234 818 002 1007
 Email: ceo@amdsolutions007.com
 Website: www.amdsolutions007.com
 
@@ -368,7 +368,7 @@ We've spent months building what Nigerian companies desperately need:
 Ready to transform your business?
 
 🌐 https://www.amdsolutions007.com
-📱 +234 811 377 5880
+📱 +234 818 002 1007
 
 Licensed to solve impossible problems 🕵️‍♂️
 ```
@@ -405,7 +405,7 @@ We've built 18 production-grade systems:
 
 Starting from ₦2M
 
-WhatsApp me: +234 811 377 5880
+WhatsApp me: +234 818 002 1007
 ```
 
 **STATUS 3:**
@@ -439,7 +439,7 @@ DM me for service
 
 [End card] AMD Solutions 007 - Licensed to Solve
 www.amdsolutions007.com
-+234 811 377 5880
++234 818 002 1007
 ```
 
 ---

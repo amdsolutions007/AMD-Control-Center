@@ -307,7 +307,7 @@ WHY BUY FROM ME?
 PAYMENT: Bank transfer or Paystack
 DELIVERY: Within 1 hour after payment
 
-WhatsApp: +234 811 377 5880
+WhatsApp: +234 818 002 1007
 Telegram: @AMDSolutions007
 
 Don't risk failing your project. Get guaranteed success! 🎯
@@ -347,7 +347,7 @@ These are REAL projects deployed for actual clients. Not toy examples.
 
 Guaranteed to impress your supervisor. A+ material.
 
-📱 WhatsApp: +234 811 377 5880
+📱 WhatsApp: +234 818 002 1007
 💬 DM: @AMDSolutions007
 
 Fast delivery. Secure payment. 🚀

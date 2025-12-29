@@ -1,0 +1,30 @@
+
+============================================================
+📢 WHATSAPP BROADCAST AUTOMATION
+============================================================
+
+📊 Target: 10 contacts
+💬 Message: Default template
+
+⏳ Connecting...
+
+✅ Connected to WhatsApp
+
+⏳ Loading contacts...
+/Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/node_modules/puppeteer-core/lib/cjs/puppeteer/common/ExecutionContext.js:229
+        throw new Error('Evaluation failed: ' + (0, util_js_1.getExceptionMessage)(exceptionDetails));
+              ^
+
+Error: Evaluation failed: TypeError: window.Store.ContactMethods.getIsMyContact is not a function
+    at window.WWebJS.getContactModel (pptr://__puppeteer_evaluation_script__:632:55)
+    at pptr://__puppeteer_evaluation_script__:659:54
+    at Array.map (<anonymous>)
+    at window.WWebJS.getContacts (pptr://__puppeteer_evaluation_script__:659:25)
+    at pptr://__puppeteer_evaluation_script__:2:34
+    at ExecutionContext._ExecutionContext_evaluate (/Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/node_modules/puppeteer-core/lib/cjs/puppeteer/common/ExecutionContext.js:229:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async ExecutionContext.evaluate (/Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/node_modules/puppeteer-core/lib/cjs/puppeteer/common/ExecutionContext.js:107:16)
+    at async Client.getContacts (/Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/node_modules/whatsapp-web.js/src/Client.js:1177:24)
+    at async Client.<anonymous> (/Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/send_broadcast.js:58:25)
+
+Node.js v24.12.0

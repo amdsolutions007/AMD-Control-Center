@@ -1,0 +1,55 @@
+2025-12-29 08:42:50,899 - platforms.twitter - INFO - ✅ Twitter authenticated as: @amdsolutions007
+2025-12-29 08:42:53,409 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8599161577:AAFtqnsISrN_3wiRtnpMMdUBwe5QdZoHj54/getMe "HTTP/1.1 200 OK"
+2025-12-29 08:42:53,418 - platforms.telegram - INFO - Bot username: @amd_crypto_007_bot
+2025-12-29 08:42:53,435 - platforms.telegram - INFO - ✅ Telegram bot authenticated
+2025-12-29 08:42:54,361 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-12-29 08:42:55,372 - platforms.youtube - INFO - ✅ YouTube authenticated: AMD Media Solutions 007
+2025-12-29 08:42:56,990 - platforms.snapchat - INFO - ✅ Snapchat authenticated successfully
+2025-12-29 08:42:57,010 - scheduler - INFO - ✅ Scheduler initialized with 4 platforms
+2025-12-29 08:42:57,013 - scheduler - INFO - 🚀 AMD Social Engine starting...
+2025-12-29 08:42:57,014 - scheduler - INFO - ⏰ Timezone: Africa/Lagos
+2025-12-29 08:42:57,021 - scheduler - INFO - ✅ All schedules configured
+2025-12-29 08:42:57,022 - scheduler - INFO - 
+============================================================
+2025-12-29 08:42:57,023 - scheduler - INFO - 📅 POSTING SCHEDULE
+2025-12-29 08:42:57,023 - scheduler - INFO - ============================================================
+2025-12-29 08:42:57,024 - scheduler - INFO - 
+TWITTER: 5 posts/day
+2025-12-29 08:42:57,024 - scheduler - INFO -   ⏰ 08:00 WAT
+2025-12-29 08:42:57,024 - scheduler - INFO -   ⏰ 12:00 WAT
+2025-12-29 08:42:57,025 - scheduler - INFO -   ⏰ 15:00 WAT
+2025-12-29 08:42:57,025 - scheduler - INFO -   ⏰ 18:00 WAT
+2025-12-29 08:42:57,033 - scheduler - INFO -   ⏰ 21:00 WAT
+2025-12-29 08:42:57,034 - scheduler - INFO - 
+TELEGRAM: 5 posts/day
+2025-12-29 08:42:57,034 - scheduler - INFO -   ⏰ 08:30 WAT
+2025-12-29 08:42:57,035 - scheduler - INFO -   ⏰ 12:30 WAT
+2025-12-29 08:42:57,035 - scheduler - INFO -   ⏰ 15:30 WAT
+2025-12-29 08:42:57,036 - scheduler - INFO -   ⏰ 18:30 WAT
+2025-12-29 08:42:57,036 - scheduler - INFO -   ⏰ 21:30 WAT
+2025-12-29 08:42:57,036 - scheduler - INFO - 
+YOUTUBE: 5 posts/day
+2025-12-29 08:42:57,037 - scheduler - INFO -   ⏰ 09:00 WAT
+2025-12-29 08:42:57,037 - scheduler - INFO -   ⏰ 13:00 WAT
+2025-12-29 08:42:57,037 - scheduler - INFO -   ⏰ 16:00 WAT
+2025-12-29 08:42:57,038 - scheduler - INFO -   ⏰ 19:00 WAT
+2025-12-29 08:42:57,039 - scheduler - INFO -   ⏰ 22:00 WAT
+2025-12-29 08:42:57,039 - scheduler - INFO - 
+SNAPCHAT: 5 posts/day
+2025-12-29 08:42:57,040 - scheduler - INFO -   ⏰ 09:30 WAT
+2025-12-29 08:42:57,040 - scheduler - INFO -   ⏰ 13:30 WAT
+2025-12-29 08:42:57,040 - scheduler - INFO -   ⏰ 16:30 WAT
+2025-12-29 08:42:57,041 - scheduler - INFO -   ⏰ 19:30 WAT
+2025-12-29 08:42:57,041 - scheduler - INFO -   ⏰ 22:30 WAT
+2025-12-29 08:42:57,042 - scheduler - INFO - 
+============================================================
+2025-12-29 08:42:57,043 - scheduler - INFO - 
+✅ Scheduler running. Press Ctrl+C to stop.
+
+2025-12-29 09:01:57,177 - platforms.youtube - ERROR - ❌ Unexpected error updating YouTube: The read operation timed out
+2025-12-29 09:01:57,181 - scheduler - ERROR - ❌ Failed to post to youtube
+2025-12-29 09:31:10,981 - platforms.snapchat - ERROR - ❌ Snapchat API error: HTTPSConnectionPool(host='adsapi.snapchat.com', port=443): Max retries exceeded with url: /v1/adaccounts/dddb4616-8437-46e2-b754-ce8500dcb19d/campaigns (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)')))
+2025-12-29 09:31:10,983 - scheduler - ERROR - ❌ Failed to post to snapchat
+2025-12-29 12:00:04,359 - scheduler - WARNING - ⚠️ No content available for twitter
+2025-12-29 12:30:46,896 - platforms.telegram - ERROR - Error sending message: Unknown error in HTTP implementation: RuntimeError('Event loop is closed')
+2025-12-29 12:30:46,910 - scheduler - ERROR - ❌ Failed to post to telegram
