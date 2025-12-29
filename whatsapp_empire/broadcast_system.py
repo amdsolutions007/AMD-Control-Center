@@ -403,11 +403,8 @@ def main():
     cursor = conn.cursor()
     
     sample_contacts = [
-        ('Chidi Okafor', '+234 901 234 5678', 'Lagos Tech Solutions', 'Technology'),
-        ('Amina Ibrahim', '+234 809 876 5432', 'Abuja Finance Group', 'Financial Services'),
-        ('Tunde Bakare', '+234 803 456 7890', 'Lagos Enterprise Solutions', 'Real Estate'),
-        ('Ngozi Eze', '+234 805 123 4567', 'Port Harcourt E-commerce', 'E-commerce'),
-        ('Femi Adeyemi', '+234 807 987 6543', 'Ibadan Manufacturing', 'Manufacturing'),
+        # DEMO DATA DISABLED - Use real contacts from database only
+        # ('Sample Contact', '+234 818 002 1007', 'AMD Solutions', 'Technology'),
     ]
     
     for contact in sample_contacts:

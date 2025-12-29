@@ -53,3 +53,17 @@ SNAPCHAT: 5 posts/day
 2025-12-29 12:00:04,359 - scheduler - WARNING - ⚠️ No content available for twitter
 2025-12-29 12:30:46,896 - platforms.telegram - ERROR - Error sending message: Unknown error in HTTP implementation: RuntimeError('Event loop is closed')
 2025-12-29 12:30:46,910 - scheduler - ERROR - ❌ Failed to post to telegram
+2025-12-29 13:00:14,819 - platforms.youtube - ERROR - ❌ YouTube API error: <HttpError 400 when requesting https://youtube.googleapis.com/youtube/v3/channels?part=snippet&alt=json returned "'branding_settings'". Details: "[{'message': "'branding_settings'", 'domain': 'youtube.part', 'reason': 'unexpectedPart', 'location': 'part', 'locationType': 'parameter'}]">
+2025-12-29 13:00:14,821 - scheduler - ERROR - ❌ Failed to post to youtube
+2025-12-29 13:30:16,086 - platforms.snapchat - ERROR - ❌ Snapchat API error: 401 Client Error: Unauthorized for url: https://adsapi.snapchat.com/v1/adaccounts/dddb4616-8437-46e2-b754-ce8500dcb19d/campaigns
+2025-12-29 13:30:16,089 - platforms.snapchat - ERROR - Response: unauthorized
+2025-12-29 13:30:16,094 - scheduler - ERROR - ❌ Failed to post to snapchat
+2025-12-29 16:27:05,424 - platforms.twitter - INFO - ✅ Tweet posted: https://twitter.com/amdsolutions007/status/2005658972917805429
+2025-12-29 16:27:05,430 - scheduler - INFO - ✅ Posted to twitter: Post ID 8
+2025-12-29 16:27:05,431 - scheduler - INFO -    URL: https://twitter.com/amdsolutions007/status/2005658972917805429
+2025-12-29 16:27:05,431 - scheduler - WARNING - ⚠️ No content available for telegram
+2025-12-29 16:27:06,864 - platforms.youtube - ERROR - ❌ YouTube API error: <HttpError 400 when requesting https://youtube.googleapis.com/youtube/v3/channels?part=snippet&alt=json returned "'branding_settings'". Details: "[{'message': "'branding_settings'", 'domain': 'youtube.part', 'reason': 'unexpectedPart', 'location': 'part', 'locationType': 'parameter'}]">
+2025-12-29 16:27:06,864 - scheduler - ERROR - ❌ Failed to post to youtube
+2025-12-29 16:36:42,594 - platforms.snapchat - ERROR - ❌ Snapchat API error: 401 Client Error: Unauthorized for url: https://adsapi.snapchat.com/v1/adaccounts/dddb4616-8437-46e2-b754-ce8500dcb19d/campaigns
+2025-12-29 16:36:42,596 - platforms.snapchat - ERROR - Response: unauthorized
+2025-12-29 16:36:42,601 - scheduler - ERROR - ❌ Failed to post to snapchat

@@ -87,11 +87,8 @@ def setup_whatsapp_database():
     
     # Add sample contacts
     sample_contacts = [
-        ("Chidi Okafor", "+234 803 123 4567", "Lagos Tech Solutions", "Technology", "Met at conference"),
-        ("Amina Ibrahim", "+234 806 234 5678", "Abuja Finance Group", "Finance", "LinkedIn connection"),
-        ("Tunde Bakare", "+234 803 456 7890", "Lagos Enterprise Solutions", "Enterprise", "Referral from client"),
-        ("Ngozi Eze", "+234 809 567 8901", "Port Harcourt E-commerce", "E-commerce", "Previous client"),
-        ("Femi Adeyemi", "+234 805 678 9012", "Ibadan Manufacturing", "Manufacturing", "Trade show contact")
+        # DEMO DATA DISABLED - Import real contacts only
+        # ("Sample Contact", "+234 818 002 1007", "AMD Solutions", "Technology", "Real client")
     ]
     
     for name, phone, company, industry, notes in sample_contacts:

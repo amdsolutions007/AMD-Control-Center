@@ -493,7 +493,7 @@ def demo():
     # 2. Simulate broadcast response
     print("\n📩 SIMULATING BROADCAST RESPONSE...")
     integration.log_broadcast_response(
-        contact_phone="+234 803 123 4567",
+        contact_phone="+234 818 002 1007",
         message_text="Yes, I'm interested! Please call me.",
         sentiment='positive'
     )

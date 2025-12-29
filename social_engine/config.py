@@ -33,7 +33,7 @@ META_PAGE_ID = os.getenv('META_PAGE_ID', '')
 
 # Telegram Bot (CONFIGURED - From environment variable)
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '')  # NEVER hardcode tokens!
-TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID', '8404666834')  # Chat ID
+TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID', '@amd_ai_solutions')  # Chat ID
 
 # YouTube API (EXISTING - Uses OAuth from amd_bio_updater.py)
 YOUTUBE_CLIENT_SECRETS_FILE = os.getenv('YOUTUBE_CLIENT_SECRETS', 'client_secrets.json')
@@ -70,14 +70,14 @@ LINKEDIN_PERSON_URN = os.getenv('LINKEDIN_PERSON_URN', '')
 # Nigerian Time Zone
 TIMEZONE = 'Africa/Lagos'
 
-# Posting Schedule (24-hour format)
+# Posting Schedule (24-hour format) - HUMAN BEHAVIOR TO AVOID BANS
 POSTING_TIMES = {
-    'twitter': ['08:00', '12:00', '15:00', '18:00', '21:00'],  # 5 posts/day
-    'telegram': ['08:30', '12:30', '15:30', '18:30', '21:30'],  # 5 posts/day
-    'youtube': ['09:00', '13:00', '16:00', '19:00', '22:00'],  # 5 posts/day
-    'snapchat': ['09:30', '13:30', '16:30', '19:30', '22:30'],  # 5 posts/day
-    'pinterest': ['10:00', '14:00', '20:00'],  # 3 posts/day
-    'linkedin': ['09:00', '17:00']  # 2 posts/day (professional hours)
+    'twitter': ['09:00', '14:00', '20:00'],  # 3 posts/day (ANTI-SPAM)
+    'telegram': ['09:00', '14:00', '20:00'],  # 3 posts/day (ANTI-SPAM)
+    'youtube': ['09:00', '14:00', '20:00'],  # 3 posts/day (ANTI-SPAM)
+    'snapchat': ['09:00', '14:00', '20:00'],  # 3 posts/day (ANTI-SPAM)
+    'pinterest': ['09:00', '14:00', '20:00'],  # 3 posts/day (ANTI-SPAM)
+    'linkedin': ['09:00', '20:00']  # 2 posts/day (professional hours)
 }
 
 # Content Source Paths

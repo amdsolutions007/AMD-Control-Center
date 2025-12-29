@@ -168,7 +168,7 @@ class RevenueMachine:
         sample_inquiry = {
             'name': 'Tunde Bakare',
             'email': 'tunde@lagos-enterprise.ng',
-            'phone': '+234 803 456 7890',
+            'phone': '+234 818 002 1007',
             'company': 'Lagos Enterprise Solutions',
             'message': 'Need AI automation for 500+ employees. Processing delays costing us millions.',
             'budget': '₦5M+',

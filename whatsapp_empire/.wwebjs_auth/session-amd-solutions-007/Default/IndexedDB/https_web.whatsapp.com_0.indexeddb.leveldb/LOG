@@ -1,8 +1,20 @@
-2025/12/29-09:04:31.903 9203 Reusing MANIFEST /Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/.wwebjs_auth/session-amd-solutions-007/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/12/29-09:04:31.904 9203 Recovering log #146
-2025/12/29-09:04:32.029 9203 Reusing old log /Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/.wwebjs_auth/session-amd-solutions-007/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000146.log 
-2025/12/29-09:04:32.029 9203 Delete type=2 #143
-2025/12/29-09:04:32.029 9203 Delete type=2 #142
-2025/12/29-09:04:32.029 9203 Delete type=2 #147
-2025/12/29-09:04:32.029 9203 Delete type=2 #145
-2025/12/29-09:04:32.029 9203 Delete type=2 #144
+2025/12/29-13:12:10.480 9803 Reusing MANIFEST /Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/.wwebjs_auth/session-amd-solutions-007/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/12/29-13:12:10.480 9803 Recovering log #146
+2025/12/29-13:12:10.656 9803 Reusing old log /Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/.wwebjs_auth/session-amd-solutions-007/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000146.log 
+2025/12/29-13:12:14.714 15203 Level-0 table #153: started
+2025/12/29-13:12:14.757 15203 Level-0 table #153: 782663 bytes OK
+2025/12/29-13:12:14.771 15203 Delete type=0 #146
+2025/12/29-13:12:14.775 15203 Manual compaction at level-0 from '\x00\x1b\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x1c\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/12/29-13:12:14.918 fa13 Compacting 1@1 + 5@2 files
+2025/12/29-13:12:15.073 fa13 Generated table #154@1: 43378 keys, 2191695 bytes
+2025/12/29-13:12:15.349 fa13 Generated table #155@1: 38917 keys, 2210543 bytes
+2025/12/29-13:12:15.531 fa13 Generated table #156@1: 37744 keys, 2199541 bytes
+2025/12/29-13:12:15.751 fa13 Generated table #157@1: 32844 keys, 1304744 bytes
+2025/12/29-13:12:15.751 fa13 Compacted 1@1 + 5@2 files => 7906523 bytes
+2025/12/29-13:12:15.766 fa13 compacted to: files[ 0 0 4 0 0 0 0 ]
+2025/12/29-13:12:15.766 fa13 Delete type=2 #149
+2025/12/29-13:12:15.766 fa13 Delete type=2 #148
+2025/12/29-13:12:15.766 fa13 Delete type=2 #153
+2025/12/29-13:12:15.766 fa13 Delete type=2 #150
+2025/12/29-13:12:15.766 fa13 Delete type=2 #121
+2025/12/29-13:12:15.767 fa13 Delete type=2 #127

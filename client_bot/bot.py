@@ -372,7 +372,7 @@ def main():
     inquiry_1 = {
         'name': 'Chidi Okafor',
         'email': 'chidi@lagostech.com',
-        'phone': '+234 901 234 5678',
+        'phone': '+234 818 002 1007',
         'company': 'Lagos Tech Solutions',
         'message': 'Need AI system to automate our customer service. Processing 10,000+ tickets monthly.',
         'budget': '₦3M+',
@@ -384,7 +384,7 @@ def main():
     inquiry_2 = {
         'name': 'Amina Ibrahim',
         'email': 'amina@abujafinance.ng',
-        'phone': '+234 809 876 5432',
+        'phone': '+234 818 002 1007',
         'company': 'Abuja Finance Group',
         'message': 'Looking for data analytics dashboard',
         'budget': '₦1M - ₦3M',
