@@ -186,7 +186,7 @@ class ContentManager:
             {
                 'type': 'service_ad',
                 'service': 'cv_analysis',
-                'template': '🔍 Struggling to get interview callbacks?\n\n✅ Professional CV Analysis\n✅ ATS Optimization\n✅ Expert Recommendations\n✅ Quick 24-hour turnaround\n\nStarting from ₦5,000 only!\n\n📞 WhatsApp: +234 913 449 2041\n\n#CVAnalysis #JobSearch #Nigeria'
+                'template': '🔍 Struggling to get interview callbacks?\n\n✅ Professional CV Analysis\n✅ ATS Optimization\n✅ Expert Recommendations\n✅ Quick 24-hour turnaround\n\nStarting from ₦5,000 only!\n\n📞 WhatsApp: +234 811 377 5880\n\n#CVAnalysis #JobSearch #Nigeria'
             },
             {
                 'type': 'service_ad',

@@ -410,7 +410,7 @@ You're not a "coder" anymore. You're a **Tech Entrepreneur** with:
 
 **Before Starting:**
 - [ ] Bank account ready for payments
-- [ ] WhatsApp number active (+234 913 449 2041)
+- [ ] WhatsApp number active (+234 811 377 5880)
 - [ ] Email checking (ceo@amdsolutions007.com)
 - [ ] All 3 files opened and reviewed
 - [ ] Social media accounts logged in

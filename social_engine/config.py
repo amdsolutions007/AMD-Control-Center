@@ -161,7 +161,7 @@ RATE_LIMITS = {
 
 # ==================== WHATSAPP CONTACT ====================
 
-WHATSAPP_NUMBER = '+2349134492041'
+WHATSAPP_NUMBER = '+2348113775880'
 WHATSAPP_MESSAGE = 'Hello! I saw your post about CV Analysis. I need help with my CV.'
 
 # ==================== LOGGING ====================
