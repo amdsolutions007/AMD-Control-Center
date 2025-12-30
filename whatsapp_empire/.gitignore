@@ -1,0 +1,44 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# NAIJABIZ PILOT - SECURITY PROTOCOL
+# ═══════════════════════════════════════════════════════════════════════════
+# CRITICAL: Never commit sensitive credentials or dependencies to GitHub
+# ═══════════════════════════════════════════════════════════════════════════
+
+# Environment Variables (OpenAI API Key)
+.env
+.env.*
+!.env.example
+
+# Node Modules
+node_modules/
+package-lock.json
+
+# Session Data (WhatsApp Auth)
+.whatsapp-session/
+.wwebjs_auth/
+.wwebjs_cache/
+
+# Logs
+*.log
+whatsapp_ai_bot.log
+whatsapp_bot.log
+nohup.out
+
+# Process IDs
+*.pid
+.whatsapp_ai_bot.pid
+.whatsapp_bot.pid
+
+# Conversation History (Privacy)
+.conversation_history.json
+
+# System Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Temporary Files
+tmp/
+temp/
