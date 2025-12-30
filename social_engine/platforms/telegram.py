@@ -34,6 +34,7 @@ class TelegramPlatform:
     
     def __init__(self):
         self.bot = None
+        self.loop = None
         self._authenticate()
     
     def _authenticate(self):
@@ -48,13 +49,21 @@ class TelegramPlatform:
         
         try:
             self.bot = Bot(token=TELEGRAM_BOT_TOKEN)
+            
+            # Create persistent event loop for all async operations
+            self.loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(self.loop)
+            
             # Test authentication
-            asyncio.run(self._test_connection())
+            self.loop.run_until_complete(self._test_connection())
             logger.info("✅ Telegram bot authenticated")
         
         except Exception as e:
             logger.error(f"❌ Telegram authentication failed: {e}")
             self.bot = None
+            if self.loop:
+                self.loop.close()
+                self.loop = None
     
     async def _test_connection(self):
         """Test bot connection"""
@@ -98,14 +107,12 @@ class TelegramPlatform:
                 ]
                 reply_markup = InlineKeyboardMarkup(keyboard)
             
-            # Post to channel - create new event loop if needed
-            try:
-                loop = asyncio.get_event_loop()
-            except RuntimeError:
-                loop = asyncio.new_event_loop()
-                asyncio.set_event_loop(loop)
+            # Post to channel using persistent event loop
+            if not self.loop or self.loop.is_closed():
+                self.loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(self.loop)
             
-            result = loop.run_until_complete(self._send_message(text, reply_markup))
+            result = self.loop.run_until_complete(self._send_message(text, reply_markup))
             
             if result:
                 logger.info(f"✅ Telegram message posted: {result['message_id']}")

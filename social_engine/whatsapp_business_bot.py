@@ -241,8 +241,8 @@ class WhatsAppBusinessBot:
         options = webdriver.ChromeOptions()
         
         # Use persistent Chrome profile (no QR scan after first time)
-        options.add_argument(f"user-data-dir={CHROME_PROFILE_PATH}")
-        options.add_argument(f"profile-directory={PROFILE_DIRECTORY}")
+        # NOTE: Simplified approach - don't use system Chrome profile on first run
+        # User will scan QR, then Chrome saves session automatically
         
         # Anti-detection measures
         options.add_argument("--disable-blink-features=AutomationControlled")
@@ -252,17 +252,25 @@ class WhatsAppBusinessBot:
         # Performance optimizations
         options.add_argument("--disable-dev-shm-usage")
         options.add_argument("--no-sandbox")
+        options.add_argument("--disable-gpu")  # macOS compatibility
         
         # User agent (look like real browser)
-        options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36")
+        options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+        
+        # Create persistent data directory for WhatsApp session
+        whatsapp_data_dir = Path(__file__).parent / "whatsapp_session_data"
+        whatsapp_data_dir.mkdir(exist_ok=True)
+        options.add_argument(f"--user-data-dir={str(whatsapp_data_dir)}")
         
         try:
+            logger.info("⏳ Starting Chrome (this may take 10-20 seconds)...")
             self.driver = webdriver.Chrome(options=options)
             self.wait = WebDriverWait(self.driver, 30)
             logger.info("✅ Chrome WebDriver initialized successfully")
             return True
         except Exception as e:
             logger.error(f"❌ Failed to initialize WebDriver: {e}")
+            logger.error("💡 TIP: Make sure Chrome browser is installed on your Mac")
             return False
     
     def open_whatsapp(self):
