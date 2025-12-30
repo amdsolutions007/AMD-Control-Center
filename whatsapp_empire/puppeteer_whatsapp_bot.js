@@ -436,15 +436,43 @@ class WhatsAppBot {
 
     async getLastMessage() {
         try {
-            // Get all message bubbles
-            const messages = await this.page.$$('div[class*="message-in"]');
+            // Try multiple selectors for message bubbles (WhatsApp keeps changing them!)
+            let messages = await this.page.$$('div[class*="message-in"]');
+            
+            // Fallback 1: Try data-testid
+            if (messages.length === 0) {
+                messages = await this.page.$$('div[data-testid="msg-container"]');
+            }
+            
+            // Fallback 2: Try role-based selector
+            if (messages.length === 0) {
+                messages = await this.page.$$('div[role="row"]');
+            }
+            
             if (messages.length === 0) return null;
 
-            // Get the last incoming message
+            // Get the last incoming message - try multiple text selectors
             const lastMsg = messages[messages.length - 1];
-            const text = await lastMsg.$eval('span.selectable-text', el => el.textContent).catch(() => '');
-            return text;
-        } catch {
+            
+            // Try multiple text selectors
+            let text = await lastMsg.$eval('span.selectable-text', el => el.textContent).catch(() => '');
+            
+            if (!text) {
+                text = await lastMsg.$eval('span[dir="ltr"]', el => el.textContent).catch(() => '');
+            }
+            
+            if (!text) {
+                text = await lastMsg.$eval('div[class*="copyable-text"]', el => el.textContent).catch(() => '');
+            }
+            
+            if (!text) {
+                // Last resort: get all text content
+                text = await lastMsg.evaluate(el => el.textContent).catch(() => '');
+            }
+            
+            return text.trim();
+        } catch (error) {
+            await this.logger.error(`Error reading message: ${error.message}`);
             return null;
         }
     }
