@@ -1,0 +1,92 @@
+═══════════════════════════════════════════════════════════════════════════
+🤖 AMD WHATSAPP BOT - QUICK REFERENCE CARD
+═══════════════════════════════════════════════════════════════════════════
+
+📱 BOT IS CURRENTLY RUNNING!
+   PID: Check with ./start_whatsapp_bot.sh status
+   Log: ~/Desktop/AMD_Control_Center/whatsapp_empire/whatsapp_bot.log
+
+⚠️  NEXT STEP: Scan QR Code (ONLY ONCE)
+   1. Chrome is open showing WhatsApp Web
+   2. Open WhatsApp on your phone
+   3. Go to Settings → Linked Devices → Link Device
+   4. Scan the QR code shown in Chrome
+   5. DONE! Session saved forever
+
+═══════════════════════════════════════════════════════════════════════════
+DAILY COMMANDS (Copy & Paste)
+═══════════════════════════════════════════════════════════════════════════
+
+✅ START BOT (Morning)
+cd ~/Desktop/AMD_Control_Center/whatsapp_empire && ./start_whatsapp_bot.sh start
+
+📊 CHECK STATUS (Anytime)
+cd ~/Desktop/AMD_Control_Center/whatsapp_empire && ./start_whatsapp_bot.sh status
+
+📜 VIEW LIVE LOGS (Watch bot work)
+cd ~/Desktop/AMD_Control_Center/whatsapp_empire && ./start_whatsapp_bot.sh logs
+
+🛑 STOP BOT (Night - Optional)
+cd ~/Desktop/AMD_Control_Center/whatsapp_empire && ./start_whatsapp_bot.sh stop
+
+🔄 RESTART BOT (If stuck)
+cd ~/Desktop/AMD_Control_Center/whatsapp_empire && ./start_whatsapp_bot.sh restart
+
+═══════════════════════════════════════════════════════════════════════════
+WHAT THE BOT DOES AUTOMATICALLY
+═══════════════════════════════════════════════════════════════════════════
+
+✅ Monitors WhatsApp every 10 seconds
+✅ Detects customer intent from keywords:
+   - CV/resume/job → CV Writing Service offer
+   - code/source/software → Source Code Marketplace
+   - price/cost/how much → Full Pricing Guide
+   - menu/help/what → Services Menu
+   - custom/build/website → Custom Development
+   - Anything else → Smart introduction to AMD Solutions
+
+✅ Responds after 5-15 seconds (looks human)
+✅ Won't spam same person (60-second cooldown)
+✅ Auto-reconnects if WhatsApp disconnects
+✅ Logs everything to file
+
+═══════════════════════════════════════════════════════════════════════════
+TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════════════════
+
+❌ Bot won't start?
+cd ~/Desktop/AMD_Control_Center/whatsapp_empire && npm install && ./start_whatsapp_bot.sh start
+
+❌ Not responding to messages?
+./start_whatsapp_bot.sh restart
+
+❌ Need to re-scan QR code?
+rm -rf ~/Desktop/AMD_Control_Center/whatsapp_empire/.whatsapp-session
+./start_whatsapp_bot.sh restart
+
+❌ Check for errors?
+tail -50 ~/Desktop/AMD_Control_Center/whatsapp_empire/whatsapp_bot.log
+
+❌ Kill stuck bot?
+pkill -f puppeteer_whatsapp_bot
+./start_whatsapp_bot.sh start
+
+═══════════════════════════════════════════════════════════════════════════
+TIME SAVINGS
+═══════════════════════════════════════════════════════════════════════════
+
+BEFORE: 18 hours/day troubleshooting manual console bot
+AFTER:  10 seconds/day to start bot, then go be with family
+
+THIS IS WHAT YOU PAID FOR. Full automation. No more manual work.
+
+═══════════════════════════════════════════════════════════════════════════
+📞 AMD SOLUTIONS OFFICIAL CONTACT (Auto-included in all responses)
+═══════════════════════════════════════════════════════════════════════════
+
+Phone:    +234 818 002 1007
+Email:    ceo@amdsolutions007.com
+Website:  https://amdsolutions007.com
+LinkTree: https://linktr.ee/amdsolutions007
+
+═══════════════════════════════════════════════════════════════════════════

@@ -1,2 +1,3 @@
-2025/12/30-16:07:08.449 15a12c Creating DB /Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/.whatsapp-session/Default/Sync Data/LevelDB since it was missing.
-2025/12/30-16:07:08.491 15a12c Reusing MANIFEST /Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/.whatsapp-session/Default/Sync Data/LevelDB/MANIFEST-000001
+2025/12/30-16:48:15.772 162f43 Reusing MANIFEST /Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/.whatsapp-session/Default/Sync Data/LevelDB/MANIFEST-000001
+2025/12/30-16:48:15.812 162f43 Recovering log #3
+2025/12/30-16:48:15.814 162f43 Reusing old log /Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/.whatsapp-session/Default/Sync Data/LevelDB/000003.log 
