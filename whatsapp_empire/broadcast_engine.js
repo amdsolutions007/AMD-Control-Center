@@ -417,12 +417,16 @@ class BroadcastEngine {
                 '--disable-accelerated-2d-canvas',
                 '--no-first-run',
                 '--no-zygote',
-                '--disable-gpu'
+                '--disable-gpu',
+                '--no-default-browser-check',
+                '--disable-session-crashed-bubble',
+                '--disable-infobars',
+                '--disable-blink-features=AutomationControlled'
             ]
         });
 
         this.page = await this.browser.newPage();
-        await this.page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+        await this.page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
         
         console.log('📱 Opening WhatsApp Web...');
         await this.page.goto('https://web.whatsapp.com', { waitUntil: 'networkidle2', timeout: 60000 });
