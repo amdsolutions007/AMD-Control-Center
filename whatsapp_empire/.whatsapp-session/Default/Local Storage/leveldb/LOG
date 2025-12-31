@@ -1,3 +1,6 @@
-2025/12/30-16:48:16.122 162f91 Reusing MANIFEST /Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/.whatsapp-session/Default/Local Storage/leveldb/MANIFEST-000001
-2025/12/30-16:48:16.142 162f91 Recovering log #3
-2025/12/30-16:48:16.144 162f91 Reusing old log /Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/.whatsapp-session/Default/Local Storage/leveldb/000003.log 
+2025/12/31-06:12:34.072 1d089c Reusing MANIFEST /Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/.whatsapp-session/Default/Local Storage/leveldb/MANIFEST-000001
+2025/12/31-06:12:34.117 1d089c Recovering log #6
+2025/12/31-06:12:34.126 1d089c Reusing old log /Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/.whatsapp-session/Default/Local Storage/leveldb/000006.log 
+2025/12/31-06:16:41.249 1d089f Level-0 table #10: started
+2025/12/31-06:16:41.297 1d089f Level-0 table #10: 17375 bytes OK
+2025/12/31-06:16:41.317 1d089f Delete type=0 #6

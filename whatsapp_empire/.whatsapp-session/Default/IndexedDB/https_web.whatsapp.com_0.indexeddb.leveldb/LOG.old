@@ -1,25 +1,4 @@
-2025/12/30-16:25:56.822 15e484 Reusing MANIFEST /Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/.whatsapp-session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/12/30-16:25:56.824 15e484 Recovering log #300
-2025/12/30-16:25:57.707 15e484 Reusing old log /Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/.whatsapp-session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000300.log 
-2025/12/30-16:25:57.707 15e484 Delete type=2 #301
-2025/12/30-16:25:57.707 15e484 Delete type=2 #299
-2025/12/30-16:25:57.708 15e484 Delete type=2 #298
-2025/12/30-16:26:05.108 15e48d Level-0 table #306: started
-2025/12/30-16:26:05.180 15e48d Level-0 table #306: 685600 bytes OK
-2025/12/30-16:26:05.192 15e48d Delete type=0 #300
-2025/12/30-16:26:05.194 15e484 Manual compaction at level-0 from '\x00r\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00s\x00\x00\x00' @ 0 : 0; will stop at '\x00r\x00\x00\x05' @ 327111 : 1
-2025/12/30-16:26:05.194 15e484 Compacting 1@0 + 2@1 files
-2025/12/30-16:26:06.180 15e484 Generated table #307@0: 126886 keys, 2304376 bytes
-2025/12/30-16:26:06.361 15e484 Generated table #308@0: 13813 keys, 640892 bytes
-2025/12/30-16:26:06.362 15e484 Compacted 1@0 + 2@1 files => 2945268 bytes
-2025/12/30-16:26:06.390 15e484 compacted to: files[ 0 2 1 0 0 0 0 ]
-2025/12/30-16:26:06.394 15e484 Delete type=2 #306
-2025/12/30-16:26:06.395 15e48e Manual compaction at level-0 from '\x00r\x00\x00\x05' @ 327111 : 1 .. '\x00s\x00\x00\x00' @ 0 : 0; will stop at (end)
-2025/12/30-16:31:02.423 15e482 Compacting 1@1 + 1@2 files
-2025/12/30-16:31:02.563 15e482 Generated table #309@1: 28934 keys, 1505103 bytes
-2025/12/30-16:31:02.563 15e482 Compacted 1@1 + 1@2 files => 1505103 bytes
-2025/12/30-16:31:02.573 15e482 compacted to: files[ 0 1 1 0 0 0 0 ]
-2025/12/30-16:31:02.574 15e482 Delete type=2 #303
-2025/12/30-16:31:02.576 15e482 Delete type=2 #302
-2025/12/30-16:31:02.578 15e482 Delete type=2 #307
-2025/12/30-16:31:02.578 15e482 Delete type=2 #84
+2025/12/31-06:04:17.973 1ccdb9 Reusing MANIFEST /Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/.whatsapp-session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/12/31-06:04:17.975 1ccdb9 Recovering log #317
+2025/12/31-06:04:18.023 1ccdb9 Reusing old log /Users/mac/Desktop/AMD_Control_Center/whatsapp_empire/.whatsapp-session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000317.log 
+2025/12/31-06:04:32.874 1ccdc7 Manual compaction at level-0 from '\x00u\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00v\x00\x00\x00' @ 0 : 0; will stop at (end)
