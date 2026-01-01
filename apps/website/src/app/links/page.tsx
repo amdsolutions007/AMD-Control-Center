@@ -7,7 +7,7 @@ export default function LinksPage() {
   const [copied, setCopied] = useState(false)
   
   const stats = [
-    { number: '18', label: 'Active Projects' },
+    { number: '24', label: 'Active Projects' },
     { number: '50K+', label: 'Lines of Code' },
     { number: '12', label: 'Social Platforms' },
   ]
@@ -21,7 +21,7 @@ export default function LinksPage() {
     },
     {
       icon: '🎨',
-      title: 'Projects Portfolio - 18 Active Projects',
+      title: 'Projects Portfolio - 24 Active Projects',
       url: 'https://amdsolutions007.github.io',
       badge: 'Featured',
     },

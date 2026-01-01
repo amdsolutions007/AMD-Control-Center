@@ -184,6 +184,66 @@ const projects = [
     github: 'https://github.com/amdsolutions007/NaijaBiz-Assist',
     featured: false,
   },
+  {
+    id: 19,
+    name: 'Address-Intel',
+    emoji: '🗺️',
+    description: 'AI-powered parser for unstructured Nigerian addresses - Turn "behind yellow shop" into valid shipping data',
+    category: 'AI/ML',
+    tech: ['Python', 'NLP', 'Geospatial AI'],
+    github: 'https://github.com/amdsolutions007/Address-Intel',
+    featured: false,
+  },
+  {
+    id: 20,
+    name: 'Bank-Statement-Parser',
+    emoji: '🔍',
+    description: 'AI-powered bank statement parser for Nigerian banks - Extract transactions from PDFs instantly',
+    category: 'Fintech',
+    tech: ['Python', 'PDF Processing', 'AI'],
+    github: 'https://github.com/amdsolutions007/Bank-Statement-Parser',
+    featured: false,
+  },
+  {
+    id: 21,
+    name: 'CBN-Compliance-Copilot',
+    emoji: '⚖️',
+    description: 'Automated CBN compliance checking for Nigerian Fintechs - The Regulatory AI',
+    category: 'Legal Tech',
+    tech: ['Python', 'Compliance AI', 'RegTech'],
+    github: 'https://github.com/amdsolutions007/CBN-Compliance-Copilot',
+    featured: false,
+  },
+  {
+    id: 22,
+    name: 'NaijaStack-AI',
+    emoji: '🇳🇬',
+    description: 'The Ultimate Nigerian SaaS Starter Kit - Next.js + Paystack + AI',
+    category: 'Enterprise',
+    tech: ['Next.js', 'TypeScript', 'Paystack'],
+    github: 'https://github.com/amdsolutions007/NaijaStack-AI',
+    featured: true,
+  },
+  {
+    id: 23,
+    name: 'Little Drop 💧 Mighty Ocean',
+    emoji: '📚',
+    description: 'Financial literacy ebook and audiobook teaching Nigerians wealth-building through consistent small savings',
+    category: 'Education',
+    tech: ['OpenAI TTS', 'Content Creation', 'Publishing'],
+    github: 'https://www.amdsolutions007.com',
+    featured: true,
+  },
+  {
+    id: 24,
+    name: 'RiseTogether NG',
+    emoji: '🤝',
+    description: '999 Nigerian creatives backing 1 spotlight daily - Community platform for collaborative wealth building',
+    category: 'Community',
+    tech: ['WhatsApp Automation', 'Community Building', 'AI'],
+    github: 'https://www.amdsolutions007.com',
+    featured: true,
+  },
 ];
 
 const categories = [
@@ -194,6 +254,8 @@ const categories = [
   'Fintech',
   'Legal Tech',
   'Automation',
+  'Education',
+  'Community',
 ];
 
 export function PortfolioGrid() {
@@ -226,12 +288,12 @@ export function PortfolioGrid() {
             AI & Software Projects
           </h2>
           <p className="mx-auto max-w-3xl text-lg text-yellow-100/60 md:text-xl">
-            18 production-grade systems powering Nigerian businesses with custom AI, automation, and enterprise solutions.
+            24 production-grade systems powering Nigerian businesses with custom AI, automation, and enterprise solutions.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <div className="flex items-center gap-2 rounded-full border border-yellow-500/20 bg-yellow-500/5 px-4 py-2">
               <span className="text-2xl">🏆</span>
-              <span className="text-sm font-semibold text-yellow-300">18 Active Projects</span>
+              <span className="text-sm font-semibold text-yellow-300">24 Active Projects</span>
             </div>
             <div className="flex items-center gap-2 rounded-full border border-yellow-500/20 bg-yellow-500/5 px-4 py-2">
               <span className="text-2xl">💻</span>
