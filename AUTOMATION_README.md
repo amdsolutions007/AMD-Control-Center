@@ -14,7 +14,9 @@
 
 ## 1. CORE RULES (READ FIRST)
 * **Directory:** ALWAYS operate in `AMD Control Center/social_engine`.
-* **Terminal:** ALWAYS activate `source venv/bin/activate`.
+* **Terminal:** ALWAYS activate the repo venv:
+    - From repo root: `source .venv/bin/activate`
+    - From `social_engine/`: `source ../.venv/bin/activate`
 * **Resource Check:** BEFORE downloading anything (Video tools, libraries), CHECK if it exists locally. **DO NOT RE-DOWNLOAD** `ffmpeg`, `imagemagick`, or `moviepy` if they are already in the folder.
 * **Voice Authority:** Use ONLY **'Onyx'** (OpenAI) for all audio.
 
@@ -89,7 +91,7 @@
 - Status: ✅ Active
 
 ### OpenAI
-- API Key: sk-proj-CWOqewjJJ-... (Paid tier)
+- API Key: **NEVER store keys in docs or git**. Keep it only in `.env` / environment variables.
 - Voice: **ONYX ONLY** (brand consistency)
 - Status: ✅ Active
 
