@@ -27,6 +27,13 @@ node_modules/
 .env
 .env.local
 
+# Local secrets / tokens (never commit)
+youtube_token.pickle
+*.pickle
+scripts/social_engine:.env
+social_engine/sk_*
+social_engine/social_engine.out
+
 # Media files
 *.mp4
 *.mp3
@@ -39,3 +46,6 @@ Uploaded_Archive/
 *.json
 client_secret.json
 token.json
+
+# Local runtime artifacts
+whatsapp_empire/.whatsapp-session-status/
