@@ -1,0 +1,29 @@
+# JOB 16: SHINE MUSIC PROMO 🎵
+
+## 📜 THE MANIFESTO
+
+*[TO BE FILLED]*
+
+---
+
+## 🛠️ THE MANUAL
+
+*[TO BE FILLED]*
+
+---
+
+## 📂 ASSET TRINITY
+
+*[TO BE FILLED]*
+
+---
+
+## ✋ MANUAL CAPTIONS
+
+*[TO BE FILLED]*
+
+---
+
+## 🤖 AGENT PROMPT
+
+*[TO BE FILLED]*

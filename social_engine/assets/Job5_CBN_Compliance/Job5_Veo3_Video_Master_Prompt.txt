@@ -1,0 +1,16 @@
+JOB: Job5
+INPUT IMAGE (UPLOAD TO VEO3): Job5_Twin_Master.png
+TARGET OUTPUT (SAVE AS): Job5_Video_Master.mp4
+FORMAT: Vertical 9:16 (Reels/TikTok).
+CONSTRAINTS: Keep identity locked (no face drift), no extra people, no text glitches.
+BRANDING: End with a clean gold footer watermark reading: AMD SOLUTIONS 007.
+
+VEO3 PROMPT:
+Create a vertical 9:16 cinematic boardroom video using this exact image as the character lock (same face, same outfit; no identity drift; no distortions; no random text; no text glitches).
+
+The Digital Twin gestures confidently toward the screen, then looks into the camera and speaks clearly with natural mouth movement and subtle hand gestures:
+"One mistake. That is all it takes for the CBN to freeze your license. Stop managing compliance on spreadsheets. The CBN Compliance Copilot audits your bank 24/7. No fines. No panic. Just green lights. DM COMPLY to secure your license. Powered by AMD Solutions 007."
+
+While he speaks, the green compliance status bars on the screen pulse and update, ending on VERIFIED / GREEN LIGHT.
+
+End with a clean gold footer watermark reading: AMD SOLUTIONS 007.

@@ -1,0 +1,9 @@
+JOB: Job4
+INPUT IMAGE (UPLOAD TO VEO3): Job4_Twin_Master.png
+TARGET OUTPUT (SAVE AS): Job4_Video_Master.mp4
+FORMAT: Vertical 9:16 (Reels/TikTok).
+CONSTRAINTS: Keep identity locked (no face drift), no extra people, no text glitches.
+BRANDING: End with a clean gold footer watermark reading: AMD SOLUTIONS 007.
+
+VEO3 PROMPT:
+Create a vertical 9:16 cinematic, high-tech Wall Street scene using this exact image as the character lock (same face, same navy suit). The Twin takes one confident step forward, then looks into the camera and speaks with clean lip sync and natural hand gestures: 'The market doesn't care about your feelings. It eats emotion for breakfast. Stop trading with your heart. Use the AMD Trading Bot. It enters with logic. It exits with profit. While you panic, we profit. DM TRADE to install. Powered by AMD Solutions 007.' Behind him, green holographic charts rotate and pulse with clean BUY/SELL HUD animations. End with a clean gold footer watermark reading AMD SOLUTIONS 007. No identity drift, no extra people, no text glitches.

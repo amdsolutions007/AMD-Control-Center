@@ -1,0 +1,6 @@
+JOB 7 — ADDRESS-INTEL (SMART LOGISTICS & GPS)
+SOURCE TRUTH: Job7_Twin_Master.png
+
+Veo3 Image-to-Video Prompt:
+
+Animate this car interior scene as a premium night-drive logistics UI. Keep the same person and outfit exactly (do not change identity). Preserve any imperfections/tear in the photo. Add subtle motion: city lights streaking outside the windows, gentle camera push-in, and a holographic GPS dashboard overlay that pulses with route updates, ETA countdown, and traffic warnings. Use a black + 24K-gold brand palette for the UI glow/accents (gold highlights on black). The Digital Twin remains focused and calm. Cyberpunk night drive vibe, realistic lighting, smooth motion blur, ultra-clean, 8k feel. Do not add extra text overlays or change any logos/branding.

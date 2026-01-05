@@ -1,0 +1,9 @@
+JOB: Job3
+INPUT IMAGE (UPLOAD TO VEO3): Job3_Twin_Master.png
+TARGET OUTPUT (SAVE AS): Job3_Video_Master.mp4
+FORMAT: Vertical 9:16 (Reels/TikTok).
+CONSTRAINTS: Keep identity locked (no face drift), no extra people, no text glitches.
+BRANDING: End with a clean gold footer watermark reading: AMD SOLUTIONS 007.
+
+VEO3 PROMPT:
+Create a vertical 9:16 cinematic, luxurious, high-tech video using this exact reference image as the character lock. The Digital Twin (same face, same skin tone, same white polo, same balcony vibe) stands on a balcony at sunset. Camera starts wide, then slowly dollies in. The Twin holds a tablet. The Twin looks into the camera and speaks clearly with natural mouth movement and subtle gestures: 'They told you it was dry land. But did you check the satellite history from 2020? Stop gambling with your millions in Lekki. Naija Prop Intel lets you see the truth from the sky before you pay. Verify the land. Verify the future. DM MAP to start. Powered by AMD Solutions 007.' While speaking, the tablet UI is sleek and premium; a drone + satellite map overlay animates over Lagos land with coordinate pins and a VERIFIED checkmark. End on the VERIFIED screen, then a clean gold footer watermark reading AMD SOLUTIONS 007. No identity drift, no distortions, no extra people, no random text.
