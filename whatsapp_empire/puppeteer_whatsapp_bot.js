@@ -20,12 +20,13 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-const puppeteer = require('puppeteer-extra');
-const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+const { Client, LocalAuth } = require('whatsapp-web.js');
+const qrcode = require('qrcode-terminal');
+const OpenAI = require('openai');
 const fs = require('fs').promises;
+const fsSync = require('fs');
 const path = require('path');
-
-puppeteer.use(StealthPlugin());
+const { SYSTEM_PROMPT: LEGACY_BRAIN_PROMPT } = require('./ai_knowledge_base_v2');
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CONFIGURATION
@@ -45,94 +46,55 @@ const CONFIG = {
     SPAM_PROTECTION: 60000, // 60 seconds cooldown per chat
     TYPING_SPEED: 100, // ms per character when typing
     
-    // Session persistence
-    SESSION_DIR: path.join(__dirname, '.whatsapp-session'),
+    // Auth/session persistence (whatsapp-web.js)
+    AUTH_DIR: path.join(__dirname, '.wwebjs_auth'),
     LOG_FILE: path.join(__dirname, 'whatsapp_bot.log'),
     
     // Browser settings
-    HEADLESS: false, // Set to true to run invisible
+    HEADLESS: true,
     WHATSAPP_URL: 'https://web.whatsapp.com',
 };
+
+const openai = process.env.OPENAI_API_KEY ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY }) : null;
+
+function loadOptionalTextFile(relativePath, maxChars) {
+    try {
+        const absolutePath = path.join(__dirname, relativePath);
+        const content = fsSync.readFileSync(absolutePath, 'utf8');
+        const trimmed = String(content || '').trim();
+        if (!trimmed) return '';
+        return maxChars ? trimmed.slice(0, maxChars) : trimmed;
+    } catch {
+        return '';
+    }
+}
 
 // ═══════════════════════════════════════════════════════════════════════════
 // RESPONSE TEMPLATES
 // ═══════════════════════════════════════════════════════════════════════════
 
 const RESPONSES = {
-    cv_service: `🎯 *PROFESSIONAL CV WRITING SERVICE*
+    cv_service: `🎯 *CV Writing Service*
 
-We create CVs that get you HIRED! Our expert team specializes in:
-✅ ATS-optimized CVs that pass automated screening
-✅ Industry-specific formatting
-✅ Professional cover letters
-✅ LinkedIn profile optimization
+✅ ATS-optimized CV
+✅ Cover letter add-on
+✅ LinkedIn optimization
 
-💼 *Pricing:*
-• Standard CV: ₦5,000
-• Executive CV: ₦10,000
-• Complete Package: ₦15,000
+Reply "PRICING" for fees or "MENU" for services.`,
 
-📞 Contact us NOW:
-Phone: ${CONFIG.OFFICIAL_PHONE}
-Email: ${CONFIG.OFFICIAL_EMAIL}
-Website: ${CONFIG.OFFICIAL_WEBSITE}
-LinkTree: ${CONFIG.LINKTREE}
+    source_code: `💻 *Source Code / Systems*
 
-Reply "PRICING" for full service list!`,
+We have ready-to-deploy projects (e-commerce, booking, school systems, POS, real estate).
 
-    source_code: `💻 *PREMIUM SOURCE CODE MARKETPLACE*
+Reply "PRICING" for price ranges or tell me what you need.`,
 
-Need ready-to-deploy solutions? We've got you covered!
+    pricing: `💰 *Quick Pricing*
 
-🚀 *Available Projects:*
-• E-commerce websites (₦50,000+)
-• Booking systems (₦40,000+)
-• School management systems (₦60,000+)
-• Restaurant POS (₦45,000+)
-• Real estate platforms (₦55,000+)
-• Custom solutions available!
+• CV: ₦5k–₦15k
+• Source code projects: from ₦40k+
+• Custom builds: from ₦100k+
 
-✅ Fully documented
-✅ Easy setup & deployment
-✅ Free technical support
-✅ Regular updates
-
-📞 Contact us NOW:
-Phone: ${CONFIG.OFFICIAL_PHONE}
-Email: ${CONFIG.OFFICIAL_EMAIL}
-Website: ${CONFIG.OFFICIAL_WEBSITE}
-LinkTree: ${CONFIG.LINKTREE}
-
-Reply "CUSTOM" for bespoke development!`,
-
-    pricing: `💰 *AMD SOLUTIONS - FULL PRICING GUIDE*
-
-📝 *CV SERVICES:*
-• Standard CV: ₦5,000
-• Executive CV: ₦10,000
-• Complete Package: ₦15,000
-
-💻 *SOURCE CODE:*
-• E-commerce: ₦50,000+
-• Booking systems: ₦40,000+
-• School systems: ₦60,000+
-• Restaurant POS: ₦45,000+
-
-🛠️ *CUSTOM DEVELOPMENT:*
-• Website development: ₦100,000+
-• Mobile apps: ₦150,000+
-• Enterprise systems: ₦200,000+
-
-🎓 *TRAINING:*
-• Web development: ₦30,000/month
-• Mobile app development: ₦40,000/month
-• Full-stack bootcamp: ₦80,000 (3 months)
-
-📞 Contact us NOW:
-Phone: ${CONFIG.OFFICIAL_PHONE}
-Email: ${CONFIG.OFFICIAL_EMAIL}
-Website: ${CONFIG.OFFICIAL_WEBSITE}
-LinkTree: ${CONFIG.LINKTREE}`,
+Tell me what you need and I’ll quote accurately.`,
 
     menu: `🎯 *AMD SOLUTIONS - SERVICES MENU*
 
@@ -153,34 +115,83 @@ Email: ${CONFIG.OFFICIAL_EMAIL}
 Website: ${CONFIG.OFFICIAL_WEBSITE}
 LinkTree: ${CONFIG.LINKTREE}`,
 
-    smart_catchall: `👋 *Hello from AMD Solutions!*
-
-Thank you for reaching out! We're a full-service tech company specializing in:
-
-🎯 Professional CV writing
-💻 Software development  
-📱 Mobile app creation
-🌐 Website design & hosting
-🎓 Tech training programs
-
-We build solutions for ALL businesses - whether you're in:
-• Hospitality (restaurants, hotels)
-• Healthcare (clinics, pharmacies)
-• Education (schools, tutoring)
-• Retail (shops, supermarkets)
-• Professional services (salons, mechanics, consultants)
-• And MORE!
-
-*Tell us about your business and what you need - we'll create the perfect solution!*
-
-📞 Contact us NOW:
+    contact: `📞 *Contact AMD Solutions 007*
 Phone: ${CONFIG.OFFICIAL_PHONE}
 Email: ${CONFIG.OFFICIAL_EMAIL}
 Website: ${CONFIG.OFFICIAL_WEBSITE}
-LinkTree: ${CONFIG.LINKTREE}
+LinkTree: ${CONFIG.LINKTREE}`,
 
-Reply "MENU" to see all our services!`,
+    smart_catchall: `Tell me what you need, and I’ll help.
+
+Type "MENU" to see services.`,
 };
+
+function getKeywordIntent(userText) {
+    const normalized = String(userText || '').trim().toLowerCase();
+    if (!normalized) return null;
+
+    const tokens = normalized.split(/\s+/).filter(Boolean);
+    const first = tokens[0];
+
+    const aliases = {
+        cv: 'cv_service',
+        resume: 'cv_service',
+        pricing: 'pricing',
+        price: 'pricing',
+        menu: 'menu',
+        help: 'menu',
+        services: 'menu',
+        code: 'source_code',
+        source: 'source_code',
+        custom: 'source_code',
+        contact: 'contact',
+    };
+
+    // Only treat it as a "keyword command" if it's short.
+    if (tokens.length <= 2 && aliases[first]) {
+        return aliases[first];
+    }
+
+    return null;
+}
+
+async function generateAiReply(userText) {
+    if (!process.env.OPENAI_API_KEY || !openai) {
+        return 'AI smart mode is not configured yet. Type "MENU" to see services.';
+    }
+
+    const portfolioKb = loadOptionalTextFile('portfolio_24_kb.txt', 12000);
+    const riseTogetherKb = loadOptionalTextFile('risetogether_summary.txt', 6000);
+
+    const systemPrompt =
+        "You are the AI Sales Manager for AMD Solutions 007 (Nigeria).\n" +
+        "You have deep knowledge of the AMD portfolio, including: Little Drop (Savings discipline), RiseTogether / Rise Up (community growth), and the 24-project portfolio.\n" +
+        "Sell aggressively but professionally: clarify needs, recommend a best-fit offer, and propose the next step.\n" +
+        "Do NOT send a generic menu unless the user explicitly types MENU.\n" +
+        "Do NOT repeat contact info unless asked.\n\n" +
+        "=== AMD MASTER BRAIN (Legacy MacBook Knowledge) ===\n" +
+        LEGACY_BRAIN_PROMPT +
+        (portfolioKb ? "\n\n=== AMD 24-PROJECT PORTFOLIO (Compact) ===\n" + portfolioKb : '') +
+        (riseTogetherKb ? "\n\n=== RISETOGETHER NG (Summary) ===\n" + riseTogetherKb : '');
+
+    try {
+        const completion = await openai.chat.completions.create({
+            model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+            messages: [
+                { role: 'system', content: systemPrompt },
+                { role: 'user', content: userText },
+            ],
+            max_tokens: 120,
+            temperature: 0.4,
+        });
+
+        const text = completion?.choices?.[0]?.message?.content?.trim();
+        return text || 'Type "MENU" to see services.';
+    } catch (err) {
+        console.error('OpenAI Error:', err?.message || err);
+        return 'I can help — tell me what you need, or type "MENU".';
+    }
+}
 
 // ═══════════════════════════════════════════════════════════════════════════
 // LOGGING
@@ -258,13 +269,10 @@ function detectIntent(message) {
 
 class WhatsAppBot {
     constructor() {
-        this.browser = null;
-        this.page = null;
+        this.client = null;
         this.logger = new Logger(CONFIG.LOG_FILE);
         this.processedChats = new Map(); // Track last response time per chat
         this.isRunning = false;
-        this.reconnectAttempts = 0;
-        this.maxReconnectAttempts = 5;
     }
 
     async start() {
@@ -276,227 +284,110 @@ class WhatsAppBot {
         await this.logger.info(`🔗 LinkTree: ${CONFIG.LINKTREE}`);
         await this.logger.info('════════════════════════════════════════════════════════════');
 
-        try {
-            await this.initBrowser();
-            await this.login();
-            this.isRunning = true;
-            await this.monitorMessages();
-        } catch (error) {
-            await this.logger.error(`Fatal error: ${error.message}`);
-            await this.handleReconnect();
-        }
+        this.isRunning = true;
+        this.setupClient();
+        this.client.initialize();
     }
 
-    async initBrowser() {
-        await this.logger.info('🚀 Launching browser...');
-        
-        this.browser = await puppeteer.launch({
-            headless: CONFIG.HEADLESS,
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-                '--disable-dev-shm-usage',
-                '--disable-accelerated-2d-canvas',
-                '--no-first-run',
-                '--no-zygote',
-                '--disable-gpu',
-                '--disable-blink-features=AutomationControlled',
-            ],
-            userDataDir: CONFIG.SESSION_DIR, // Persist session
+    setupClient() {
+        this.client = new Client({
+            authStrategy: new LocalAuth({
+                clientId: 'amd-solutions-007',
+                dataPath: CONFIG.AUTH_DIR,
+            }),
+            puppeteer: {
+                headless: "new",
+                args: [
+                    '--no-sandbox',
+                    '--disable-setuid-sandbox',
+                    '--disable-dev-shm-usage',
+                    '--disable-accelerated-2d-canvas',
+                    '--no-first-run',
+                    '--no-zygote',
+                    '--disable-gpu'
+                ]
+            },
         });
 
-        this.page = await this.browser.newPage();
-        await this.page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
-        await this.page.setViewport({ width: 1280, height: 800 });
-        
-        await this.logger.success('✅ Browser launched successfully');
-    }
+        this.client.on('ready', async () => {
+            console.log('✅ Client is ready!');
+            await this.logger.success('✅ Client is ready');
+        });
 
-    async login() {
-        await this.logger.info('🔐 Navigating to WhatsApp Web...');
-        await this.page.goto(CONFIG.WHATSAPP_URL, { waitUntil: 'networkidle2', timeout: 60000 });
+        this.client.on('authenticated', async () => {
+            await this.logger.success('✅ Authenticated');
+        });
 
-        // Check if already logged in
-        try {
-            await this.page.waitForSelector('div[contenteditable="true"][data-tab="3"]', { timeout: 10000 });
-            await this.logger.success('✅ Already logged in!');
-            this.reconnectAttempts = 0; // Reset counter on successful login
-            return;
-        } catch {
-            // Not logged in, need to scan QR
-            await this.logger.warn('⚠️  Not logged in. Waiting for QR code scan...');
-            await this.logger.info('📱 Please scan the QR code with your phone');
-            
-            // Wait for login (QR code scan)
-            await this.page.waitForSelector('div[contenteditable="true"][data-tab="3"]', { timeout: 120000 });
-            await this.logger.success('✅ Login successful!');
-            this.reconnectAttempts = 0;
-        }
-    }
+        this.client.on('auth_failure', async (msg) => {
+            await this.logger.error(`❌ Auth failure: ${msg}`);
+        });
 
-    async monitorMessages() {
-        await this.logger.success('✅ BOT STARTED - Monitoring for messages...');
-        await this.logger.info(`⏱️  Checking every ${CONFIG.CHECK_INTERVAL / 1000} seconds`);
+        this.client.on('disconnected', async (reason) => {
+            await this.logger.warn(`🔌 Disconnected: ${reason}`);
+        });
 
-        while (this.isRunning) {
+        this.client.on('qr', (qr) => {
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(qr)}`;
+
+            console.log('\n\n=================================================');
+            console.log('🔴 ACTION REQUIRED: CLICK THE LINK BELOW TO SCAN 🔴');
+            console.log('=================================================');
+            console.log(qrUrl);
+            console.log('=================================================\n\n');
+        });
+
+        this.client.on('message', async (message) => {
             try {
-                await this.checkForUnreadMessages();
-                await this.sleep(CONFIG.CHECK_INTERVAL);
-            } catch (error) {
-                await this.logger.error(`Error in monitoring loop: ${error.message}`);
-                await this.handleReconnect();
-                break;
-            }
-        }
-    }
+                if (!this.isRunning) return;
+                if (!message || !message.body) return;
+                if (message.fromMe) return;
 
-    async checkForUnreadMessages() {
-        try {
-            // Find unread message badges using aria-label (the selector that works!)
-            const unreadChats = await this.page.$$('span[aria-label*="unread message"]');
-            
-            if (unreadChats.length === 0) {
-                return;
-            }
-
-            await this.logger.info(`📬 Found ${unreadChats.length} unread chat(s)`);
-
-            for (const badge of unreadChats) {
-                try {
-                    // Find the chat container
-                    const chatElement = await badge.evaluateHandle(el => {
-                        return el.closest('div[data-testid="cell-frame-container"]') ||
-                               el.closest('div[tabindex="-1"]') ||
-                               el.closest('div');
-                    });
-
-                    if (!chatElement) continue;
-
-                    // Click to open chat
-                    await chatElement.click();
-                    await this.sleep(2000); // Wait for chat to load
-
-                    // Process the chat
-                    await this.processCurrentChat();
-
-                } catch (error) {
-                    await this.logger.error(`Error processing chat: ${error.message}`);
+                const chatKey = message.from;
+                if (this.isRecentlyProcessed(chatKey)) {
+                    return;
                 }
+
+                const keywordIntent = getKeywordIntent(message.body);
+                const response = keywordIntent
+                    ? (RESPONSES[keywordIntent] || RESPONSES.menu)
+                    : await generateAiReply(message.body);
+
+                // Human-like behavior: seen + typing indicator + realistic pacing.
+                const chat = await message.getChat();
+                try {
+                    await chat.sendSeen();
+                } catch {
+                    // ignore
+                }
+
+                // Time scales with response length but stays within min/max.
+                const charCount = String(response || '').length;
+                const typingTime = Math.min(
+                    CONFIG.RESPONSE_DELAY_MAX,
+                    Math.max(CONFIG.RESPONSE_DELAY_MIN, charCount * CONFIG.TYPING_SPEED)
+                );
+                const jitter = Math.random() * 800;
+
+                try {
+                    await chat.sendStateTyping();
+                } catch {
+                    // ignore
+                }
+
+                await this.sleep(typingTime + jitter);
+
+                try {
+                    await chat.clearState();
+                } catch {
+                    // ignore
+                }
+
+                await message.reply(response);
+                this.processedChats.set(chatKey, Date.now());
+            } catch (error) {
+                await this.logger.error(`Message handler error: ${error.message}`);
             }
-        } catch (error) {
-            await this.logger.error(`Error checking messages: ${error.message}`);
-        }
-    }
-
-    async processCurrentChat() {
-        try {
-            // Get chat name from header
-            const chatName = await this.page.$eval('header span[dir="auto"]', el => el.textContent).catch(() => 'Unknown');
-            
-            // Check spam protection
-            if (this.isRecentlyProcessed(chatName)) {
-                await this.logger.warn(`⏭️  Skipping ${chatName} - recently responded (spam protection)`);
-                return;
-            }
-
-            await this.logger.info(`💬 Processing chat: ${chatName}`);
-
-            // Get the last message
-            const lastMessage = await this.getLastMessage();
-            if (!lastMessage) {
-                await this.logger.warn('⚠️  Could not read message');
-                return;
-            }
-
-            await this.logger.info(`📖 Message: "${lastMessage.substring(0, 100)}..."`);
-
-            // Detect intent
-            const intent = detectIntent(lastMessage);
-            await this.logger.info(`🎯 Intent detected: ${intent}`);
-
-            // Get response template
-            const response = RESPONSES[intent];
-
-            // Human-like delay before responding
-            const delay = CONFIG.RESPONSE_DELAY_MIN + Math.random() * (CONFIG.RESPONSE_DELAY_MAX - CONFIG.RESPONSE_DELAY_MIN);
-            await this.logger.info(`⏳ Waiting ${Math.round(delay / 1000)}s before responding...`);
-            await this.sleep(delay);
-
-            // Send response
-            await this.sendMessage(response);
-            await this.logger.success(`✅ Sent ${intent} response to ${chatName}`);
-
-            // Mark as processed
-            this.processedChats.set(chatName, Date.now());
-
-        } catch (error) {
-            await this.logger.error(`Error processing chat: ${error.message}`);
-        }
-    }
-
-    async getLastMessage() {
-        try {
-            // Try multiple selectors for message bubbles (WhatsApp keeps changing them!)
-            let messages = await this.page.$$('div[class*="message-in"]');
-            
-            // Fallback 1: Try data-testid
-            if (messages.length === 0) {
-                messages = await this.page.$$('div[data-testid="msg-container"]');
-            }
-            
-            // Fallback 2: Try role-based selector
-            if (messages.length === 0) {
-                messages = await this.page.$$('div[role="row"]');
-            }
-            
-            if (messages.length === 0) return null;
-
-            // Get the last incoming message - try multiple text selectors
-            const lastMsg = messages[messages.length - 1];
-            
-            // Try multiple text selectors
-            let text = await lastMsg.$eval('span.selectable-text', el => el.textContent).catch(() => '');
-            
-            if (!text) {
-                text = await lastMsg.$eval('span[dir="ltr"]', el => el.textContent).catch(() => '');
-            }
-            
-            if (!text) {
-                text = await lastMsg.$eval('div[class*="copyable-text"]', el => el.textContent).catch(() => '');
-            }
-            
-            if (!text) {
-                // Last resort: get all text content
-                text = await lastMsg.evaluate(el => el.textContent).catch(() => '');
-            }
-            
-            return text.trim();
-        } catch (error) {
-            await this.logger.error(`Error reading message: ${error.message}`);
-            return null;
-        }
-    }
-
-    async sendMessage(text) {
-        try {
-            // Find message input box
-            const inputSelector = 'div[contenteditable="true"][data-tab="10"]';
-            await this.page.waitForSelector(inputSelector, { timeout: 5000 });
-
-            // Type message with human-like speed
-            await this.page.click(inputSelector);
-            await this.page.type(inputSelector, text, { delay: 50 });
-
-            // Wait a bit
-            await this.sleep(1000);
-
-            // Send message (press Enter)
-            await this.page.keyboard.press('Enter');
-            await this.sleep(2000); // Wait for message to send
-
-        } catch (error) {
-            throw new Error(`Failed to send message: ${error.message}`);
-        }
+        });
     }
 
     isRecentlyProcessed(chatName) {
@@ -507,26 +398,15 @@ class WhatsAppBot {
         return timeSince < CONFIG.SPAM_PROTECTION;
     }
 
-    async handleReconnect() {
-        if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-            await this.logger.error('❌ Max reconnection attempts reached. Please restart manually.');
-            await this.stop();
-            process.exit(1);
-        }
-
-        this.reconnectAttempts++;
-        await this.logger.warn(`🔄 Reconnecting... (Attempt ${this.reconnectAttempts}/${this.maxReconnectAttempts})`);
-        
-        await this.stop();
-        await this.sleep(5000);
-        await this.start();
-    }
-
     async stop() {
         this.isRunning = false;
-        if (this.browser) {
-            await this.browser.close();
-            await this.logger.info('🛑 Browser closed');
+        if (this.client) {
+            try {
+                await this.client.destroy();
+            } catch {
+                // ignore
+            }
+            await this.logger.info('🛑 Client closed');
         }
     }
 

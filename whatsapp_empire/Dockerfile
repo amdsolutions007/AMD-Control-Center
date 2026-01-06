@@ -1,5 +1,9 @@
 FROM ghcr.io/puppeteer/puppeteer:21.5.2
 
+# Railway volumes are mounted as root. Running as root avoids EACCES when the
+# service needs to create/write auth files inside the mounted volume.
+USER root
+
 # Set the working directory
 WORKDIR /usr/src/app
 
@@ -13,4 +17,4 @@ RUN npm ci
 COPY . .
 
 # Start the bot
-CMD [ "node", "puppeteer_whatsapp_bot.js" ]
+CMD [ "sh", "-c", "mkdir -p /usr/src/app/.wwebjs_auth && chmod -R 777 /usr/src/app/.wwebjs_auth && node puppeteer_whatsapp_bot.js" ]
