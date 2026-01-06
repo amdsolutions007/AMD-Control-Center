@@ -44,6 +44,8 @@ social_engine/social_engine.out
 Raw_Footage_Vault/
 Uploaded_Archive/
 *.json
+!whatsapp_empire/package.json
+!whatsapp_empire/package-lock.json
 client_secret.json
 token.json
 
