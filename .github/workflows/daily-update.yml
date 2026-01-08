@@ -12,15 +12,19 @@ jobs:
     
     permissions:
       contents: write
+      pull-requests: write
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+          persist-credentials: true
       
       - name: Generate AI Quote and Update Activity Log
         run: |
+          set -euo pipefail
+
           # Array of AI/Tech quotes
           quotes=(
             "AI is the new electricity. - Andrew Ng"
@@ -41,6 +45,9 @@ jobs:
           # Get current date and time
           current_date=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
           
+          # Ensure file exists
+          touch activity_log.md
+
           # Create or append to activity log
           echo "" >> activity_log.md
           echo "---" >> activity_log.md
@@ -50,10 +57,39 @@ jobs:
           echo "> **Daily AI Quote:**" >> activity_log.md
           echo "> *\"$random_quote\"*" >> activity_log.md
           
-      - name: Commit and Push Changes
+      - name: Commit changes
         run: |
+          set -euo pipefail
+
           git config user.name "AMD Activity Bot"
           git config user.email "bot@amdsolutions007.com"
           git add activity_log.md
-          git commit -m "🤖 Daily Update: $(date -u +%Y-%m-%d)" || echo "No changes to commit"
-          git push
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "🤖 Daily Update: $(date -u +%Y-%m-%d)"
+
+      - name: Push changes (direct)
+        id: push
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: Fallback - open PR if push blocked
+        if: steps.push.outcome == 'failure'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ github.token }}
+          commit-message: "🤖 Daily Update: ${{ github.run_id }}"
+          title: "🤖 Daily Activity Update"
+          body: "Automated daily activity update (direct push was blocked, so this PR was opened as a fallback)."
+          branch: "bot/daily-activity"
+          delete-branch: true
