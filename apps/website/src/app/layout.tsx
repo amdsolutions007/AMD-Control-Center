@@ -4,9 +4,23 @@ import { Navbar } from '@/components/navbar'
 import { SnapPixel } from '@/components/SnapPixel'
 
 export const metadata: Metadata = {
-  title: 'AMD SOLUTIONS 007 | Illuminating the Digital Dark',
-  description: 'Growth Systems built with custom software and media engineering.',
+  title:
+    'AMD SOLUTIONS 007 | Best AI Company Nigeria | Software Developers Abuja | Web Design Port Harcourt | AI Developer Lagos',
+  description:
+    'National dominance in Nigeria: AI developers in Lagos, software engineers in Abuja, web design in Port Harcourt, and enterprise automation nationwide. AMD Solutions 007 delivers custom software, AI copilots, and conversion-focused web platforms.',
   metadataBase: new URL('https://www.amdsolutions007.com'),
+  keywords: [
+    'Best AI Company Nigeria',
+    'Software Developers Abuja',
+    'Web Design Port Harcourt',
+    'AI Developer Lagos',
+    'Enterprise Automation Nigeria',
+    'AMD Solutions 007',
+    'Software Agency Nigeria',
+    'Web Development Nigeria',
+    'Custom Software Engineering',
+    'Media Engineering',
+  ],
   icons: {
     icon: '/amd_logo.png',
     apple: '/amd_logo.png',
@@ -17,8 +31,10 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://www.amdsolutions007.com',
     siteName: 'AMD SOLUTIONS 007',
-    title: 'AMD SOLUTIONS 007 | Illuminating the Digital Dark',
-    description: 'Growth Systems built with custom software and media engineering.',
+    title:
+      'AMD SOLUTIONS 007 | Best AI Company Nigeria | Software Developers Abuja | Web Design Port Harcourt | AI Developer Lagos',
+    description:
+      'Nigeria-wide software and AI delivery: enterprise automation, AI developers in Lagos, software teams in Abuja, and web design in Port Harcourt. AMD Solutions 007 leads national digital transformation.',
     images: [
       {
         url: '/amd_logo.png',
@@ -30,8 +46,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AMD SOLUTIONS 007 | Illuminating the Digital Dark',
-    description: 'Growth Systems built with custom software and media engineering.',
+    title:
+      'AMD SOLUTIONS 007 | Best AI Company Nigeria | Software Developers Abuja | Web Design Port Harcourt | AI Developer Lagos',
+    description:
+      'Growth systems, AI, and enterprise automation across Lagos, Abuja, and Port Harcourt. AMD Solutions 007 for national-scale software and web development.',
     images: ['/amd_logo.png'],
   },
   manifest: '/manifest.json',
