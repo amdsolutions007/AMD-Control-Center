@@ -33,6 +33,15 @@ youtube_token.pickle
 scripts/social_engine:.env
 social_engine/sk_*
 social_engine/social_engine.out
+.credentials/
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!next.config.js
+!vercel.json
+!.vercel/*.json
+!config/*.json
 
 # Media files
 *.mp4
@@ -51,3 +60,5 @@ token.json
 
 # Local runtime artifacts
 whatsapp_empire/.whatsapp-session-status/
+.vercel
+.env*.local
