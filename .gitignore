@@ -34,6 +34,8 @@ scripts/social_engine:.env
 social_engine/sk_*
 social_engine/social_engine.out
 .credentials/
+
+# JSON files - allow config files only
 *.json
 !package.json
 !package-lock.json
@@ -42,6 +44,10 @@ social_engine/social_engine.out
 !vercel.json
 !.vercel/*.json
 !config/*.json
+!whatsapp_empire/package.json
+!whatsapp_empire/package-lock.json
+client_secret.json
+token.json
 
 # Media files
 *.mp4
@@ -52,11 +58,6 @@ social_engine/social_engine.out
 *.webm
 Raw_Footage_Vault/
 Uploaded_Archive/
-*.json
-!whatsapp_empire/package.json
-!whatsapp_empire/package-lock.json
-client_secret.json
-token.json
 
 # Local runtime artifacts
 whatsapp_empire/.whatsapp-session-status/
