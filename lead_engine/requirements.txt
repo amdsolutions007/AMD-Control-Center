@@ -6,3 +6,7 @@ google-api-python-client>=2.156.0
 google-auth-httplib2>=0.2.0
 google-auth-oauthlib>=1.2.1
 beautifulsoup4>=4.12.3
+
+# Map Hunter & Nairaland Ghost dependencies
+playwright>=1.40.0
+googlesearch-python>=1.2.3
