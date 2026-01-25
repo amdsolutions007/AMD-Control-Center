@@ -1,18 +1,16 @@
 /**
- * AMD Solutions 007 - Railway Deployment Configuration
+ * AMD Solutions 007 - PM2 Worker Configuration
  * 
  * PRODUCTION DEPLOYMENT - EU West (Amsterdam)
  * 
- * ACTIVE SERVICES:
+ * WORKER SERVICES (Background Cron Jobs):
  * 1. Social Publisher (Cron: 9 AM & 9 PM)
  * 2. Lead Scraper (Cron: 10 AM)
  * 3. Lead Outreach (Cron: 11 AM)
- * 4. AMD Dashboard (Streamlit Server - Continuous)
  * 
- * ⚠️ REMOVED: One-shot test scripts (creative-engine, content-manager, facebook-poster)
- * ⚠️ WhatsApp Bot DISABLED (Local development only)
+ * NOTE: Dashboard runs separately as Procfile 'web' process
  * 
- * Usage: pm2-runtime ecosystem.config.js
+ * Usage: pm2-runtime ecosystem.config.js (called from Procfile worker)
  */
 
 module.exports = {
@@ -81,37 +79,18 @@ module.exports = {
       out_file: '/tmp/lead-outreach-out.log',
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
       merge_logs: true
-    },
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // 📈 DASHBOARD & MONITORING (Streamlit Server - Continuous)
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    {
-      name: 'amd-dashboard',
-      script: '/opt/venv/bin/python',
-      args: '-m streamlit run amd_dashboard.py --server.port=8501 --server.address=0.0.0.0',
-      instances: 1,
-      autorestart: true,
-      watch: false,
-      max_memory_restart: '500M',
-      env: {
-        NODE_ENV: 'production',
-        PYTHONUNBUFFERED: '1',
-        TZ: 'Europe/Amsterdam'
-      },
-      error_file: '/tmp/dashboard-error.log',
-      out_file: '/tmp/dashboard-out.log',
-      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
-      merge_logs: true
     }
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // 📝 REMOVED SERVICES (One-shot scripts, not daemons):
+    // 📝 REMOVED SERVICES:
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // - amd-dashboard: Moved to Procfile web process
     // - creative-engine: Test script, exits after execution
     // - content-manager: Test script, exits after execution  
     // - facebook-poster: Browser automation, exits after posting
     // 
-    // These are utility scripts called by social-publisher when needed.
+    // Utility scripts are called by social-publisher when needed.
+    // Dashboard runs as separate web process via Procfile.
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
