@@ -3,12 +3,13 @@
  * 
  * PRODUCTION DEPLOYMENT - EU West (Amsterdam)
  * 
- * WORKER SERVICES (Background Cron Jobs):
+ * WORKER SERVICES (Background Jobs):
  * 1. Social Publisher (Cron: 9 AM & 9 PM)
  * 2. Lead Scraper (Cron: 10 AM)
  * 3. Lead Outreach (Cron: 11 AM)
+ * 4. Gmail Scout Sniper (24/7 Real-Time Lead Intelligence)
  * 
- * NOTE: Dashboard runs separately as Procfile 'web' process
+ * NOTE: Dashboard runs separately via railway.json startCommand
  * 
  * Usage: pm2-runtime ecosystem.config.js (called from Procfile worker)
  */
@@ -34,6 +35,34 @@ module.exports = {
       },
       error_file: '/tmp/social-publisher-error.log',
       out_file: '/tmp/social-publisher-out.log',
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
+      merge_logs: true
+    },
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 🎯 GMAIL SCOUT SNIPER (Real-Time 24/7)
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    {
+      name: 'gmail-scout-sniper',
+      script: '/opt/venv/bin/python',
+      args: 'lead_engine/gmail_scout_sniper.py',
+      instances: 1,
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '500M',
+      restart_delay: 5000, // Wait 5s before restarting on crash
+      max_restarts: 10, // Max 10 restarts per hour
+      min_uptime: '30s', // Must run 30s to be considered started
+      env: {
+        NODE_ENV: 'production',
+        PYTHONUNBUFFERED: '1',
+        TZ: 'Europe/Amsterdam',
+        TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN,
+        TELEGRAM_CHAT_ID: process.env.TELEGRAM_CHAT_ID,
+        OPENAI_API_KEY: process.env.OPENAI_API_KEY
+      },
+      error_file: '/tmp/gmail-scout-sniper-error.log',
+      out_file: '/tmp/gmail-scout-sniper-out.log',
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
       merge_logs: true
     },
