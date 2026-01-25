@@ -4,19 +4,21 @@
  * PRODUCTION DEPLOYMENT - EU West (Amsterdam)
  * 
  * ACTIVE SERVICES:
- * 1. Social Broadcast Engine
- * 2. Lead Generator
- * 3. Daily Activity Bot
+ * 1. Social Publisher (Cron: 9 AM & 9 PM)
+ * 2. Lead Scraper (Cron: 10 AM)
+ * 3. Lead Outreach (Cron: 11 AM)
+ * 4. AMD Dashboard (Streamlit Server - Continuous)
  * 
+ * ⚠️ REMOVED: One-shot test scripts (creative-engine, content-manager, facebook-poster)
  * ⚠️ WhatsApp Bot DISABLED (Local development only)
  * 
- * Usage: pm2-runtime start ecosystem.railway.js
+ * Usage: pm2-runtime ecosystem.config.js
  */
 
 module.exports = {
   apps: [
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // 🚀 SOCIAL BROADCAST ENGINE
+    // 🚀 SOCIAL BROADCAST ENGINE (Scheduled)
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     {
       name: 'social-publisher',
@@ -38,46 +40,8 @@ module.exports = {
       merge_logs: true
     },
 
-    {
-      name: 'creative-engine',
-      script: '/opt/venv/bin/python',
-      args: '/app/social_engine/creative_engine.py',
-      instances: 1,
-      autorestart: true,
-      watch: false,
-      max_memory_restart: '2G',
-      env: {
-        NODE_ENV: 'production',
-        PYTHONUNBUFFERED: '1',
-        TZ: 'Europe/Amsterdam'
-      },
-      error_file: '/tmp/creative-engine-error.log',
-      out_file: '/tmp/creative-engine-out.log',
-      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
-      merge_logs: true
-    },
-
-    {
-      name: 'content-manager',
-      script: '/opt/venv/bin/python',
-      args: '/app/social_engine/content_manager.py',
-      instances: 1,
-      autorestart: true,
-      watch: false,
-      max_memory_restart: '500M',
-      env: {
-        NODE_ENV: 'production',
-        PYTHONUNBUFFERED: '1',
-        TZ: 'Europe/Amsterdam'
-      },
-      error_file: '/tmp/content-manager-error.log',
-      out_file: '/tmp/content-manager-out.log',
-      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
-      merge_logs: true
-    },
-
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // 📊 LEAD GENERATION ENGINE
+    // 📊 LEAD GENERATION ENGINE (Scheduled)
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     {
       name: 'lead-scraper',
@@ -120,38 +84,16 @@ module.exports = {
     },
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // 🤖 FACEBOOK AUTOMATION
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    {
-      name: 'facebook-poster',
-      script: '/opt/venv/bin/python',
-      args: '/app/facebook_browser_poster.py',
-      instances: 1,
-      autorestart: true,
-      watch: false,
-      max_memory_restart: '1G',
-      env: {
-        NODE_ENV: 'production',
-        PYTHONUNBUFFERED: '1',
-        TZ: 'Europe/Amsterdam'
-      },
-      error_file: '/tmp/facebook-poster-error.log',
-      out_file: '/tmp/facebook-poster-out.log',
-      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
-      merge_logs: true
-    },
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // 📈 DASHBOARD & MONITORING
+    // 📈 DASHBOARD & MONITORING (Streamlit Server - Continuous)
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     {
       name: 'amd-dashboard',
-      script: '/opt/venv/bin/python',
-      args: '/app/amd_dashboard.py',
+      script: '/opt/venv/bin/streamlit',
+      args: 'run /app/amd_dashboard.py --server.port=8501 --server.address=0.0.0.0',
       instances: 1,
       autorestart: true,
       watch: false,
-      max_memory_restart: '300M',
+      max_memory_restart: '500M',
       env: {
         NODE_ENV: 'production',
         PYTHONUNBUFFERED: '1',
@@ -162,6 +104,15 @@ module.exports = {
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
       merge_logs: true
     }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 📝 REMOVED SERVICES (One-shot scripts, not daemons):
+    // - creative-engine: Test script, exits after execution
+    // - content-manager: Test script, exits after execution  
+    // - facebook-poster: Browser automation, exits after posting
+    // 
+    // These are utility scripts called by social-publisher when needed.
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     // ⚠️ WHATSAPP BOT - DISABLED FOR RAILWAY DEPLOYMENT
