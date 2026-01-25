@@ -979,11 +979,6 @@ def main():
                 st.write(campaigns)
         else:
             st.info("ℹ️ No active campaigns. Campaign data will appear here once Google Ads are configured.")
-        else:
-            st.markdown(
-                f"<p style='color:{DEEP_GOLD}'>No Google Ads data available — using placeholder values.</p>",
-                unsafe_allow_html=True,
-            )
 
         st.markdown(
             f"<div style='color:{DEEP_GOLD};opacity:0.85;font-size:12px;margin-top:12px'>Last refresh: {time.strftime('%Y-%m-%d %H:%M:%S')}</div>",
