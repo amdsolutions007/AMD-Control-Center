@@ -1,0 +1,21 @@
+VEO3 VIDEO MASTER PROMPT - JOB 20
+============================================================
+
+INSTRUCTIONS:
+1. Upload the source image: Job20_Twin_Master.png
+2. Paste the VISUAL PROMPT below into Veo3 (image-to-video)
+3. Set duration: 8-10 seconds
+4. Generate and download
+5. Save as: Job20_Video_Master.mp4
+
+============================================================
+VISUAL PROMPT (Image-to-Video):
+============================================================
+
+Animate the medical lab scene. The holographic DNA helix spins slowly. Data points (Heart Rate, Oxygen) scroll on the screen. The Twin examines the data closely. Clean, sterile, high-tech vibe. 8k.
+
+============================================================
+AUDIO SCRIPT (Narration):
+============================================================
+
+Why wait 6 hours in a waiting room for a 5-minute consultation? The world has changed. Telemed Health AI brings the hospital to your phone. Instant diagnosis. E-prescriptions. Vital monitoring. Your health can't wait. The Doctor is always in. DM 'HEALTH' to start. Powered by AMD SOLUTIONS 007.

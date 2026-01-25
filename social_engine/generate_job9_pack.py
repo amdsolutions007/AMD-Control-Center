@@ -7,7 +7,7 @@ Creates a Job 9 asset pack STRICTLY derived from the branded Source Truth image:
   - Audio:  assets/Job9_Naija_Law_GPT/Job9_Audio_Master.mp3 (optional)
   - Video:  assets/Job9_Naija_Law_GPT/Job9_Video_Master.mp4 (still + narration fallback, requires audio)
 
-Branding rules: black + 24K gold (#D4AF37) and a gold border line.
+Branding rules: black + 24K gold (#D4AF37), minimalist full-bleed (no borders/frames).
 
 Usage:
   python3 generate_job9_pack.py --flyer
@@ -55,27 +55,13 @@ def build_flyer(master_png: Path, out_png: Path, force: bool) -> None:
     w, h = img.size
 
     gold = (212, 175, 55, 255)  # #D4AF37
+    shadow = (0, 0, 0, 210)
 
     headline = "YOUR POCKET LAWYER."
     subhead = "INSTANT LEGAL HELP."
     footer = "AMD SOLUTIONS 007"
 
-    # Readability strips
-    strip_h_top = int(h * 0.22)
-    strip_h_bottom = int(h * 0.12)
-
-    overlay = Image.new("RGBA", img.size, (0, 0, 0, 0))
-    odraw = ImageDraw.Draw(overlay)
-    odraw.rectangle([0, 0, w, strip_h_top], fill=(0, 0, 0, 170))
-    odraw.rectangle([0, h - strip_h_bottom, w, h], fill=(0, 0, 0, 190))
-    img = Image.alpha_composite(img, overlay)
-
     draw = ImageDraw.Draw(img)
-
-    # Gold border
-    border = max(4, int(min(w, h) * 0.008))
-    for i in range(border):
-        draw.rectangle([i, i, w - 1 - i, h - 1 - i], outline=gold)
 
     headline_font = _get_font(size=int(h * 0.055))
     subhead_font = _get_font(size=int(h * 0.042))
@@ -85,6 +71,8 @@ def build_flyer(master_png: Path, out_png: Path, force: bool) -> None:
         bbox = draw.textbbox((0, 0), text, font=font)
         tw = bbox[2] - bbox[0]
         x = (w - tw) // 2
+        for dx, dy in [(-2, 0), (2, 0), (0, -2), (0, 2), (-2, -2), (2, 2), (-2, 2), (2, -2)]:
+            draw.text((x + dx, y + dy), text, font=font, fill=shadow)
         draw.text((x, y), text, font=font, fill=fill)
 
     centered_text(int(h * 0.05), headline, headline_font, gold)
@@ -102,12 +90,14 @@ def generate_audio(client: OpenAI, script: str, out_mp3: Path, force: bool) -> N
         return
     out_mp3.parent.mkdir(parents=True, exist_ok=True)
     print("🎙️  Generating Job 9 audio master (Onyx / tts-1-hd)…")
-    response = client.audio.speech.create(
+    with client.audio.speech.with_streaming_response.create(
         model="tts-1-hd",
         voice="onyx",
         input=script,
-    )
-    response.stream_to_file(out_mp3)
+    ) as response:
+        with open(out_mp3, "wb") as f:
+            for chunk in response.iter_bytes():
+                f.write(chunk)
     print(f"✅ Saved audio: {out_mp3.name} ({out_mp3.stat().st_size/1024:.0f} KB)")
 
 

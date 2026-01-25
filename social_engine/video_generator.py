@@ -122,15 +122,16 @@ Write the script now:"""
         try:
             logger.info("🎙️ Generating voiceover...")
             
-            response = self.client.audio.speech.create(
+            audio_path = self.output_dir / f"{output_name}.mp3"
+            with self.client.audio.speech.with_streaming_response.create(
                 model="tts-1-hd",
                 voice="nova",  # Female voice, energetic
                 input=script,
-                speed=1.1  # Slightly faster for dynamic feel
-            )
-            
-            audio_path = self.output_dir / f"{output_name}.mp3"
-            response.stream_to_file(str(audio_path))
+                speed=1.1,  # Slightly faster for dynamic feel
+            ) as response:
+                with open(audio_path, "wb") as f:
+                    for chunk in response.iter_bytes():
+                        f.write(chunk)
             
             logger.info(f"✅ Voiceover saved: {audio_path}")
             return str(audio_path)

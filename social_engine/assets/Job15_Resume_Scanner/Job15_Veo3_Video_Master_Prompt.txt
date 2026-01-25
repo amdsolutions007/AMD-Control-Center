@@ -1,0 +1,21 @@
+VEO3 VIDEO MASTER PROMPT - JOB 15
+============================================================
+
+INSTRUCTIONS:
+1. Upload the source image: Job15_Twin_Master.png
+2. Paste the VISUAL PROMPT below into Veo3 (image-to-video)
+3. Set duration: 8-10 seconds
+4. Generate and download
+5. Save as: Job15_Video_Master.mp4
+
+============================================================
+VISUAL PROMPT (Image-to-Video):
+============================================================
+
+Animate the handshake. As they shake hands, green 'HIRED' and '100% MATCH' tags float up from the center. The office background bustles with success. 8k.
+
+============================================================
+AUDIO SCRIPT (Narration):
+============================================================
+
+You are qualified. You are talented. But your resume is invisible. HR robots reject 75% of applicants instantly because of missing keywords. Stop applying blind. The Naija Resume Scanner optimizes your CV to beat the bot and get you the interview. Get Hired. DM 'HIRED' to start. Powered by AMD SOLUTIONS 007.

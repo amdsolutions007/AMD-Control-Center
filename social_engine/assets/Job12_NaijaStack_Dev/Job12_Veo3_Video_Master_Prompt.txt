@@ -1,0 +1,21 @@
+VEO3 VIDEO MASTER PROMPT - JOB 12
+============================================================
+
+INSTRUCTIONS:
+1. Upload the source image: Job12_Twin_Master.png
+2. Paste the VISUAL PROMPT below into Veo3 (image-to-video)
+3. Set duration: 8-10 seconds
+4. Generate and download
+5. Save as: Job12_Video_Master.mp4
+
+============================================================
+VISUAL PROMPT (Image-to-Video):
+============================================================
+
+Animate the Matrix code raining down around the Digital Twin. The server lights blink rapidly. He types fast. Cinematic cyberpunk vibe. 8k.
+
+============================================================
+AUDIO SCRIPT (Narration):
+============================================================
+
+They say it takes 10,000 hours to master coding. Not anymore. NaijaStack Dev gives you the brain of a Senior Engineer instantly. Fix bugs. Generate apps. Secure your code. Stop typing. Start building. DM 'CODE' to install. Powered by AMD SOLUTIONS 007.

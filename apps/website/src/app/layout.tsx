@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { Navbar } from '@/components/navbar'
 import { SnapPixel } from '@/components/SnapPixel'
+import { ChatWidget } from '@/components/ChatWidget'
 
 export const metadata: Metadata = {
   title:
@@ -77,6 +78,7 @@ export default function RootLayout({
         <SnapPixel />
         <Navbar />
         {children}
+        <ChatWidget />
       </body>
     </html>
   )

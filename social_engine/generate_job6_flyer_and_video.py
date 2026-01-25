@@ -85,37 +85,36 @@ def build_flyer_from_source(source_png: Path, out_png: Path, force: bool) -> Non
     img = Image.open(source_png).convert("RGBA")
     draw = ImageDraw.Draw(img)
 
+    shadow = (0, 0, 0, 210)
+
     headline = "1,000 PAGES IN 1 SECOND."
     subhead = "INSTANT LOAN DECISIONS."
     footer = "AMD SOLUTIONS 007"
 
-    # Semi-transparent strips for readability
+    # GLOBAL DESIGN OVERRIDE (Jobs 3–20):
+    # - No borders/frames
+    # - No heavy bars/strips that obstruct the image
+    # - Text only (with subtle shadow) over the full-bleed image
+
     w, h = img.size
-    strip_h_top = int(h * 0.18)
-    strip_h_bottom = int(h * 0.12)
-
-    overlay = Image.new("RGBA", img.size, (0, 0, 0, 0))
-    odraw = ImageDraw.Draw(overlay)
-    odraw.rectangle([0, 0, w, strip_h_top], fill=(0, 0, 0, 110))
-    odraw.rectangle([0, h - strip_h_bottom, w, h], fill=(0, 0, 0, 140))
-
-    img = Image.alpha_composite(img, overlay)
-    draw = ImageDraw.Draw(img)
 
     headline_font = _get_font(size=int(h * 0.06))
     subhead_font = _get_font(size=int(h * 0.05))
     footer_font = _get_font(size=int(h * 0.035))
 
     # Centered text
-    def centered_text(y: int, text: str, font, fill):
+    def centered_text(y: int, text: str, font, fill, stroke_fill=None):
         bbox = draw.textbbox((0, 0), text, font=font)
         tw = bbox[2] - bbox[0]
         x = (w - tw) // 2
+        if stroke_fill is not None:
+            for dx, dy in [(-2, 0), (2, 0), (0, -2), (0, 2), (-2, -2), (2, 2), (-2, 2), (2, -2)]:
+                draw.text((x + dx, y + dy), text, font=font, fill=stroke_fill)
         draw.text((x, y), text, font=font, fill=fill)
 
-    centered_text(int(h * 0.05), headline, headline_font, (255, 255, 255, 255))
-    centered_text(int(h * 0.12), subhead, subhead_font, (0, 255, 140, 255))
-    centered_text(h - int(h * 0.085), footer, footer_font, (255, 255, 255, 255))
+    centered_text(int(h * 0.05), headline, headline_font, (255, 255, 255, 255), stroke_fill=shadow)
+    centered_text(int(h * 0.12), subhead, subhead_font, (0, 255, 140, 255), stroke_fill=shadow)
+    centered_text(h - int(h * 0.085), footer, footer_font, (255, 255, 255, 255), stroke_fill=shadow)
 
     out_png.parent.mkdir(parents=True, exist_ok=True)
     img.convert("RGB").save(out_png, format="PNG")

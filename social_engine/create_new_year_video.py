@@ -48,15 +48,16 @@ print(f"Voice: Same as Little Drop audiobook\n")
 client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
 try:
-    response = client.audio.speech.create(
+    audio_path = '/Users/mac/Desktop/AMD_Control_Center/social_engine/new_year_voiceover.mp3'
+    with client.audio.speech.with_streaming_response.create(
         model="tts-1-hd",  # High quality
         voice="onyx",  # Professional male voice (same as Little Drop)
         input=script,
-        speed=0.95  # Slightly slower for clarity
-    )
-    
-    audio_path = '/Users/mac/Desktop/AMD_Control_Center/social_engine/new_year_voiceover.mp3'
-    response.stream_to_file(audio_path)
+        speed=0.95,  # Slightly slower for clarity
+    ) as response:
+        with open(audio_path, "wb") as f:
+            for chunk in response.iter_bytes():
+                f.write(chunk)
     print(f"✅ Voiceover generated: {audio_path}")
     
 except Exception as e:

@@ -1,0 +1,21 @@
+VEO3 VIDEO MASTER PROMPT - JOB 19
+============================================================
+
+INSTRUCTIONS:
+1. Upload the source image: Job19_Twin_Master.png
+2. Paste the VISUAL PROMPT below into Veo3 (image-to-video)
+3. Set duration: 8-10 seconds
+4. Generate and download
+5. Save as: Job19_Video_Master.mp4
+
+============================================================
+VISUAL PROMPT (Image-to-Video):
+============================================================
+
+Animate the bridge scene. The cars behind him move in fast-forward streaks (timelapse style). The holographic map on his tablet pulses red to green as he reroutes traffic. Focused expression. 8k.
+
+============================================================
+AUDIO SCRIPT (Narration):
+============================================================
+
+Lagos traffic destroys productivity. You spend 3 hours going to work and 3 hours coming back. That is 6 hours of your life wasted. Stop driving blind. The AMD Traffic AI predicts the gridlock before you leave your house. Find the shortcuts. Optimize your fleet. Move while others are stuck. DM 'MOVE' to install. Powered by AMD SOLUTIONS 007.

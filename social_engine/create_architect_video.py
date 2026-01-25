@@ -42,15 +42,15 @@ try:
     client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
     
     print("\n🎤 Generating CEO voiceover...")
-    response = client.audio.speech.create(
+    with client.audio.speech.with_streaming_response.create(
         model="tts-1-hd",
         voice="onyx",  # Deep, authoritative, CEO voice
         speed=0.92,  # Slightly slower for gravitas
-        input=script
-    )
-    
-    # Save audio
-    response.stream_to_file(AUDIO_OUTPUT)
+        input=script,
+    ) as response:
+        with open(AUDIO_OUTPUT, "wb") as f:
+            for chunk in response.iter_bytes():
+                f.write(chunk)
     
     audio_size = Path(AUDIO_OUTPUT).stat().st_size / 1024  # KB
     print(f"✅ Voiceover created: {AUDIO_OUTPUT}")

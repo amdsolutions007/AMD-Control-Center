@@ -273,9 +273,15 @@ class WhatsAppBot {
         this.logger = new Logger(CONFIG.LOG_FILE);
         this.processedChats = new Map(); // Track last response time per chat
         this.isRunning = false;
+        this._initializing = false;
+        this._restartScheduled = false;
+        this._restartAttempts = 0;
     }
 
     async start() {
+        if (this._initializing) return;
+        this._initializing = true;
+
         await this.logger.info('════════════════════════════════════════════════════════════');
         await this.logger.info('🤖 AMD SOLUTIONS - WHATSAPP AUTO-RESPONDER');
         await this.logger.info('════════════════════════════════════════════════════════════');
@@ -285,8 +291,64 @@ class WhatsAppBot {
         await this.logger.info('════════════════════════════════════════════════════════════');
 
         this.isRunning = true;
+        try {
+            await this._initClientOnce();
+        } finally {
+            this._initializing = false;
+        }
+    }
+
+    async _initClientOnce() {
+        if (!this.isRunning) return;
+        if (this.client) return;
+
         this.setupClient();
-        this.client.initialize();
+        try {
+            await this.client.initialize();
+        } catch (err) {
+            const message = err?.message || String(err);
+            await this.logger.error(`Client initialize error: ${message}`);
+            await this._scheduleRestart(`init_error: ${message}`);
+        }
+    }
+
+    async _scheduleRestart(reason) {
+        if (!this.isRunning) return;
+        if (this._restartScheduled) return;
+
+        this._restartScheduled = true;
+        this._restartAttempts += 1;
+
+        const baseDelayMs = 5000;
+        const maxDelayMs = 60000;
+        const backoffMs = Math.min(maxDelayMs, baseDelayMs * this._restartAttempts);
+
+        await this.logger.warn(`🌀 Restart scheduled in ${Math.round(backoffMs / 1000)}s (reason=${reason})`);
+
+        setTimeout(async () => {
+            this._restartScheduled = false;
+            await this._restartNow(reason);
+        }, backoffMs);
+    }
+
+    async _restartNow(reason) {
+        if (!this.isRunning) return;
+
+        await this.logger.warn(`♻️ Restarting WhatsApp client (reason=${reason})`);
+
+        try {
+            if (this.client) {
+                try {
+                    await this.client.destroy();
+                } catch {
+                    // ignore
+                }
+            }
+        } finally {
+            this.client = null;
+        }
+
+        await this._initClientOnce();
     }
 
     setupClient() {
@@ -320,10 +382,12 @@ class WhatsAppBot {
 
         this.client.on('auth_failure', async (msg) => {
             await this.logger.error(`❌ Auth failure: ${msg}`);
+            await this._scheduleRestart('AUTH_FAILURE');
         });
 
         this.client.on('disconnected', async (reason) => {
             await this.logger.warn(`🔌 Disconnected: ${reason}`);
+            await this._scheduleRestart(String(reason || 'DISCONNECTED'));
         });
 
         this.client.on('qr', (qr) => {
@@ -421,6 +485,29 @@ class WhatsAppBot {
 
 async function main() {
     const bot = new WhatsAppBot();
+
+    // Keep the process alive on common puppeteer/whatsapp-web crashes and attempt a clean restart.
+    process.on('uncaughtException', async (err) => {
+        const message = err?.message || String(err);
+        console.error('Uncaught Exception:', err);
+        try {
+            await bot.logger.error(`Uncaught exception: ${message}`);
+            await bot._scheduleRestart(`uncaughtException: ${message}`);
+        } catch {
+            // ignore
+        }
+    });
+
+    process.on('unhandledRejection', async (err) => {
+        const message = err?.message || String(err);
+        console.error('Unhandled Rejection:', err);
+        try {
+            await bot.logger.error(`Unhandled rejection: ${message}`);
+            await bot._scheduleRestart(`unhandledRejection: ${message}`);
+        } catch {
+            // ignore
+        }
+    });
 
     // Graceful shutdown
     process.on('SIGINT', async () => {

@@ -60,13 +60,14 @@ def generate_audio(job_num, asset_folder, script):
     
     print(f"   🎙️  Generating audio...")
     
-    response = client.audio.speech.create(
+    with client.audio.speech.with_streaming_response.create(
         model="tts-1-hd",
         voice="onyx",
-        input=script
-    )
-    
-    response.stream_to_file(output_file)
+        input=script,
+    ) as response:
+        with open(output_file, "wb") as f:
+            for chunk in response.iter_bytes():
+                f.write(chunk)
     
     size_kb = output_file.stat().st_size / 1024
     print(f"   ✅ Audio saved: {size_kb:.1f} KB")

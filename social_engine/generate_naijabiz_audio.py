@@ -42,15 +42,15 @@ print("⏳ Generating professional voiceover... (10-20 seconds)")
 print()
 
 try:
-    # Generate audio with TTS
-    response = client.audio.speech.create(
+    # Generate audio with TTS (streamed) and save via standard binary write
+    with client.audio.speech.with_streaming_response.create(
         model="tts-1-hd",  # High-definition quality
         voice="onyx",       # Mandatory voice per AUTOMATION_README.md
-        input=SCRIPT
-    )
-    
-    # Save audio file
-    response.stream_to_file(str(OUTPUT_FILE))
+        input=SCRIPT,
+    ) as response:
+        with open(OUTPUT_FILE, "wb") as f:
+            for chunk in response.iter_bytes():
+                f.write(chunk)
     
     # Get file size
     file_size = OUTPUT_FILE.stat().st_size / (1024 * 1024)

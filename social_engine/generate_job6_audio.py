@@ -31,15 +31,16 @@ def generate_audio():
     print()
     print("🔄 Generating audio...")
     
-    response = client.audio.speech.create(
+    # Save audio file (streamed) using standard binary write
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    with client.audio.speech.with_streaming_response.create(
         model="tts-1-hd",
         voice="onyx",
-        input=SCRIPT
-    )
-    
-    # Save audio file
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    response.stream_to_file(OUTPUT_FILE)
+        input=SCRIPT,
+    ) as response:
+        with open(OUTPUT_FILE, "wb") as f:
+            for chunk in response.iter_bytes():
+                f.write(chunk)
     
     print(f"✅ Audio saved: {OUTPUT_FILE}")
     print(f"💾 File size: {OUTPUT_FILE.stat().st_size / 1024:.1f} KB")

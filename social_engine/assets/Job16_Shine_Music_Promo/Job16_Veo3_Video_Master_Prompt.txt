@@ -1,0 +1,21 @@
+VEO3 VIDEO MASTER PROMPT - JOB 16
+============================================================
+
+INSTRUCTIONS:
+1. Upload the source image: Job16_Twin_Master.png
+2. Paste the VISUAL PROMPT below into Veo3 (image-to-video)
+3. Set duration: 8-10 seconds
+4. Generate and download
+5. Save as: Job16_Video_Master.mp4
+
+============================================================
+VISUAL PROMPT (Image-to-Video):
+============================================================
+
+Animate the club scene. The 'SHINE' neon sign glows brightly. In front of the Digital Twin, a floating holographic interface appears showing 'TOTAL STREAMS: 1,000,000' and charts rising. He raises his glass to the data. 8k.
+
+============================================================
+AUDIO SCRIPT (Narration):
+============================================================
+
+Stop guessing your numbers. Stop logging into 10 different apps. Shine AI brings Spotify, Apple Music, Boomplay, and YouTube into one intelligent dashboard. See your streams, track your revenue, and spot viral trends instantly. Run your Label like a business. DM 'SHINE' to install. Powered by AMD MEDIA SOLUTIONS.

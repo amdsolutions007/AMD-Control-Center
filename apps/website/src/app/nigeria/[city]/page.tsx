@@ -2,18 +2,27 @@ import { Hero } from '@/components/hero'
 import { Footer } from '@/components/footer'
 import { getCityData } from './cityData'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
 export const dynamicParams = true
 
-export default function CityPage({ params }: { params: { city: string } }) {
-  const data = getCityData(params.city)
+export default async function CityPage({ params }: { params: Promise<{ city: string }> }) {
+  const { city } = await params
 
-  // Fallback for unknown city: use city name in title/desc
-  const title = data?.title || `Top AI Software Company in ${params.city.replace(/-/g, ' ')}`
-  const description =
-    data?.description ||
-    `AMD Solutions 007 builds AI software, automation, and web platforms for ${params.city.replace(/-/g, ' ')}. Get enterprise-grade engineering and faster launches.`
-  const cta = data?.cta || 'Book a build session today'
+  const citySlug = city.toLowerCase()
+  const cityName = citySlug
+    .split('-')
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ')
+
+  const data = getCityData(citySlug)
+
+  if (!data) {
+    return notFound()
+  }
+
+  const { title, description, cta } = data
 
   const headline = `${title} | AMD Solutions 007`
   const subline = `${description}`

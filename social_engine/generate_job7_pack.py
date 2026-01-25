@@ -62,38 +62,30 @@ def build_flyer_from_master(master_png: Path, out_png: Path, force: bool) -> Non
     # 24K Gold commonly represented as #D4AF37
     gold = (212, 175, 55, 255)
     black = (0, 0, 0, 255)
+    shadow = (0, 0, 0, 210)
 
-    # Readability strips (non-destructive overlay)
-    strip_h_top = int(h * 0.22)
-    strip_h_bottom = int(h * 0.12)
-
-    overlay = Image.new("RGBA", img.size, (0, 0, 0, 0))
-    odraw = ImageDraw.Draw(overlay)
-    odraw.rectangle([0, 0, w, strip_h_top], fill=(0, 0, 0, 160))
-    # Bottom strip for footer readability (keep black, not gold bar)
-    odraw.rectangle([0, h - strip_h_bottom, w, h], fill=(0, 0, 0, 190))
-
-    img = Image.alpha_composite(img, overlay)
+    # GLOBAL DESIGN OVERRIDE (Jobs 3–20):
+    # - No borders/frames
+    # - No heavy bars/strips that obstruct the image
+    # - Text only (with subtle shadow) over the full-bleed image
     draw = ImageDraw.Draw(img)
-
-    # Gold border line (brand frame)
-    border = max(4, int(min(w, h) * 0.008))
-    for i in range(border):
-        draw.rectangle([i, i, w - 1 - i, h - 1 - i], outline=gold)
 
     headline_font = _get_font(size=int(h * 0.055))
     subhead_font = _get_font(size=int(h * 0.042))
     footer_font = _get_font(size=int(h * 0.032))
 
-    def centered_text(y: int, text: str, font, fill):
+    def centered_text(y: int, text: str, font, fill, stroke_fill=None):
         bbox = draw.textbbox((0, 0), text, font=font)
         tw = bbox[2] - bbox[0]
         x = (w - tw) // 2
+        if stroke_fill is not None:
+            for dx, dy in [(-2, 0), (2, 0), (0, -2), (0, 2), (-2, -2), (2, 2), (-2, 2), (2, -2)]:
+                draw.text((x + dx, y + dy), text, font=font, fill=stroke_fill)
         draw.text((x, y), text, font=font, fill=fill)
 
-    centered_text(int(h * 0.05), headline, headline_font, gold)
-    centered_text(int(h * 0.115), subhead, subhead_font, gold)
-    centered_text(h - int(h * 0.085), footer, footer_font, gold)
+    centered_text(int(h * 0.05), headline, headline_font, gold, stroke_fill=shadow)
+    centered_text(int(h * 0.115), subhead, subhead_font, gold, stroke_fill=shadow)
+    centered_text(h - int(h * 0.085), footer, footer_font, gold, stroke_fill=shadow)
 
     out_png.parent.mkdir(parents=True, exist_ok=True)
     img.convert("RGB").save(out_png, format="PNG")
@@ -108,12 +100,14 @@ def generate_audio(client: OpenAI, script: str, out_mp3: Path, force: bool) -> N
     out_mp3.parent.mkdir(parents=True, exist_ok=True)
     print("🎙️  Generating Job 7 audio master (Onyx / tts-1-hd)…")
 
-    response = client.audio.speech.create(
+    with client.audio.speech.with_streaming_response.create(
         model="tts-1-hd",
         voice="onyx",
         input=script,
-    )
-    response.stream_to_file(out_mp3)
+    ) as response:
+        with open(out_mp3, "wb") as f:
+            for chunk in response.iter_bytes():
+                f.write(chunk)
     print(f"✅ Saved audio: {out_mp3.name} ({out_mp3.stat().st_size/1024:.0f} KB)")
 
 

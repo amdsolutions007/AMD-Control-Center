@@ -47,16 +47,17 @@ Twenty twenty-six. The year Nigeria rises. Let's build!
 print("\n🎤 Generating voiceover with OpenAI TTS...")
 print("Voice: Professional (same as Little Drop audiobook)")
 
-# Generate voiceover
-response = client.audio.speech.create(
+# Generate voiceover (streamed) and save via standard binary write
+audio_path = '/Users/mac/Desktop/AMD_Control_Center/social_engine/new_year_voiceover.mp3'
+with client.audio.speech.with_streaming_response.create(
     model="tts-1-hd",
     voice="onyx",  # Same voice as Little Drop
     input=script,
-    speed=0.95
-)
-
-audio_path = '/Users/mac/Desktop/AMD_Control_Center/social_engine/new_year_voiceover.mp3'
-response.stream_to_file(audio_path)
+    speed=0.95,
+) as response:
+    with open(audio_path, "wb") as f:
+        for chunk in response.iter_bytes():
+            f.write(chunk)
 print(f"✅ Voiceover created: {audio_path}")
 
 # Load audio to get duration

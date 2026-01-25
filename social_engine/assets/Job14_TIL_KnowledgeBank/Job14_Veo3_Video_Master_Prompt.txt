@@ -1,0 +1,21 @@
+VEO3 VIDEO MASTER PROMPT - JOB 14
+============================================================
+
+INSTRUCTIONS:
+1. Upload the source image: Job14_Twin_Master.png
+2. Paste the VISUAL PROMPT below into Veo3 (image-to-video)
+3. Set duration: 8-10 seconds
+4. Generate and download
+5. Save as: Job14_Video_Master.mp4
+
+============================================================
+VISUAL PROMPT (Image-to-Video):
+============================================================
+
+Animate the stage scene. The 'KNOWLEDGE IS POWER' screen behind him glows and shifts with data streams. The Twin gestures as if controlling the information flow. Cinematic spotlight. 8k.
+
+============================================================
+AUDIO SCRIPT (Narration):
+============================================================
+
+School taught you to memorize. Life requires you to understand. The world is changing too fast for textbooks. The TIL Knowledge Bank updates instantly. Learn Crypto, Coding, or Law in minutes, not years. Upgrade your operating system. DM 'LEARN' to start. Powered by AMD SOLUTIONS 007.

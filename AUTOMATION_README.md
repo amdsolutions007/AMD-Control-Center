@@ -1,9 +1,23 @@
 # 🚨 MANDATORY INTELLIGENCE PROTOCOL 🚨
-* **RULE 0:** **CONTRIBUTE, DON'T JUST EXECUTE.**
-  - Every time you receive a prompt, you MUST evaluate it.
-  - If you see a better way, a missing hashtag, or a smarter caption, **RECOMMEND IT.**
-  - Your goal is **WORLD-CLASS COMMUNICATION.**
-  - **Hybrid Approval:** We combine the CEO's Vision with your AI Precision.
+* **RULE 0 (LAW): HYBRID OUTPUT IS MANDATORY — CONTRIBUTE, DON'T JUST EXECUTE.**
+    - Every time you receive a prompt, you MUST evaluate it and add **World‑Class Recommendation** improvements.
+    - **Non‑negotiable preservation rule:** If the CEO provides “EXACT content”, you MUST include it **verbatim, unchanged**.
+    - **Then you MUST append** a clearly separated section titled: **WORLD‑CLASS HYBRID ADDENDUM (AI RECOMMENDATIONS)**.
+    - Your goal is **WORLD‑CLASS COMMUNICATION + WORLD‑CLASS CONVERSION**.
+    - **Hybrid Approval:** CEO Vision (kept intact) + AI Precision (added as an upgrade).
+
+**WORLD‑CLASS HYBRID ADDENDUM — REQUIRED CONTENT (MINIMUM STANDARD):**
+- **Positioning upgrade:** clarify who it’s for + outcome in one line.
+- **Offer/CTA upgrade:** tighten the DM keyword + next step.
+- **Channel fit:** 1 tweak each for WhatsApp, LinkedIn, X (short), and YouTube.
+- **Hashtag strategy:** 10–20 relevant tags (avoid spam; include 1–2 brand tags).
+- **Risk & compliance check:** remove anything that could cause policy flags (claims, guarantees, regulated advice) while keeping impact.
+- **A/B hook variants:** 3 alternative hooks and 2 alternative caption angles.
+
+**Formatting rule (so “exact content” remains exact):**
+1) Paste the CEO-provided markdown EXACTLY.
+2) Add `---`.
+3) Add the “WORLD‑CLASS HYBRID ADDENDUM (AI RECOMMENDATIONS)” section.
 * **Official Links:**
   - 🌍 Website: [https://amdsolutions007.com](https://amdsolutions007.com)
   - 🔗 LinkTree: [https://amdsolutions007.com/links](https://amdsolutions007.com/links)
@@ -236,6 +250,11 @@ This README is the ONLY reference for all automation agents. Read this BEFORE ev
     * **The Gold Globe Logo** OR
     * **Actual Software Screenshots**.
 * **Audio Rule:** ONLY use **Onyx** (OpenAI) voice.
+* **COLOR SYSTEM (NON-NEGOTIABLE):** Our brand look is **Black + 24K Gold**.
+    * **24K Gold:** `#D4AF37` (RGB: 212, 175, 55)
+    * **Black:** `#000000`
+    * **Flyer Standard:** Dark-mode base, **thin gold border line**, gold footer watermark text.
+    * **Accent Colors:** Do **NOT** introduce random accent colors (green/red/cyan) unless the CEO explicitly approves for that job.
 * **The Signature:** Every post MUST end with:
     > 🌍 **Website:** https://amdsolutions007.com
     > 📂 **Portfolio:** https://amdsolutions007.github.io

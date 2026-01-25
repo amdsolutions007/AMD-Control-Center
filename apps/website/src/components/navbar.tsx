@@ -9,10 +9,10 @@ const navigationLinks = [
   { href: '/#ecosystem', label: 'Ecosystem' },
   { href: '/intelligence', label: 'Intelligence' },
   { href: '/media', label: 'Media' },
-  { href: '/portal', label: 'Portal' },
+  { href: 'https://www.amdsolutions007.com/links', label: 'Socials', external: true },
+  { href: 'https://amdsolutions007.github.io/', label: 'Portfolio', external: true },
+  { href: '/payment', label: 'Services' },
 ]
-
-const paymentLink = { href: '/payment', label: 'Services' }
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -42,31 +42,18 @@ export function Navbar() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <Link href="/about" className="group relative text-sm font-medium text-yellow-200/80 transition-all duration-300 hover:text-yellow-300">
-              <span className="relative z-10">About</span>
-              <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-yellow-500 to-yellow-300 transition-all duration-300 group-hover:w-full" />
-            </Link>
-            <Link href="/#ecosystem" className="group relative text-sm font-medium text-yellow-200/80 transition-all duration-300 hover:text-yellow-300">
-              <span className="relative z-10">Ecosystem</span>
-              <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-yellow-500 to-yellow-300 transition-all duration-300 group-hover:w-full" />
-            </Link>
-            <Link href="/intelligence" className="group relative text-sm font-medium text-yellow-200/80 transition-all duration-300 hover:text-yellow-300">
-              <span className="relative z-10">Intelligence</span>
-              <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-yellow-500 to-yellow-300 transition-all duration-300 group-hover:w-full" />
-            </Link>
-            <Link href="/media" className="group relative text-sm font-medium text-yellow-200/80 transition-all duration-300 hover:text-yellow-300">
-              <span className="relative z-10">Media</span>
-              <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-yellow-500 to-yellow-300 transition-all duration-300 group-hover:w-full" />
-            </Link>
-            
-            {/* Services/Payment Link - Distinctive Gold Border */}
-            <Link
-              href="/payment"
-              className="group relative overflow-hidden rounded-lg border-2 border-yellow-500 bg-gradient-to-r from-yellow-500/10 to-yellow-600/10 px-4 py-2 text-sm font-bold text-yellow-300 backdrop-blur-sm transition-all duration-300 hover:border-yellow-400 hover:bg-yellow-500/20 hover:text-yellow-200 hover:shadow-[0_0_25px_rgba(234,179,8,0.5)]"
-            >
-              <span className="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-500 group-hover:translate-x-[100%]" />
-              <span className="relative z-10">Services</span>
-            </Link>
+            {navigationLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noreferrer' : undefined}
+                className="group relative text-sm font-medium text-yellow-200/80 transition-all duration-300 hover:text-yellow-300"
+              >
+                <span className="relative z-10">{link.label}</span>
+                <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-yellow-500 to-yellow-300 transition-all duration-300 group-hover:w-full" />
+              </Link>
+            ))}
           </motion.div>
 
           {/* Desktop Portal Button & Mobile Menu Button */}
@@ -78,7 +65,7 @@ export function Navbar() {
           >
             {/* Desktop Portal Button */}
             <Link
-              href="/portal"
+              href="/client-portal"
               className="group relative hidden overflow-hidden rounded-lg border border-yellow-500/40 bg-gradient-to-r from-yellow-600/15 to-yellow-500/15 px-5 py-2 text-sm font-bold text-yellow-400 backdrop-blur-sm transition-all duration-300 hover:border-yellow-400 hover:text-yellow-300 hover:shadow-[0_0_20px_rgba(234,179,8,0.4)] md:block"
             >
               <span className="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-500 group-hover:translate-x-[100%]" />
@@ -167,6 +154,8 @@ export function Navbar() {
                   >
                     <Link
                       href={link.href}
+                      target={link.external ? '_blank' : undefined}
+                      rel={link.external ? 'noreferrer' : undefined}
                       onClick={closeMobileMenu}
                       className="group relative block overflow-hidden rounded-xl border border-yellow-500/20 bg-gradient-to-r from-yellow-500/5 to-transparent p-5 transition-all duration-300 hover:border-yellow-500/40 hover:bg-yellow-500/10 hover:shadow-[0_0_20px_rgba(234,179,8,0.2)]"
                     >
@@ -174,48 +163,19 @@ export function Navbar() {
                         <span className="relative z-10 text-lg font-semibold text-yellow-200 transition-colors duration-300 group-hover:text-yellow-300">
                           {link.label}
                         </span>
-                        <svg 
-                          className="h-5 w-5 text-yellow-400/50 transition-all duration-300 group-hover:translate-x-1 group-hover:text-yellow-400" 
-                          fill="none" 
-                          viewBox="0 0 24 24" 
+                        <svg
+                          className="h-5 w-5 text-yellow-400/50 transition-all duration-300 group-hover:translate-x-1 group-hover:text-yellow-400"
+                          fill="none"
+                          viewBox="0 0 24 24"
                           stroke="currentColor"
                         >
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </div>
-                      {/* Gold Glow on Tap */}
                       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-yellow-500/20 via-yellow-400/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                     </Link>
                   </motion.div>
                 ))}
-
-                {/* Services/Payment Link - Mobile */}
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: navigationLinks.length * 0.1 }}
-                >
-                  <Link
-                    href="/payment"
-                    onClick={closeMobileMenu}
-                    className="group relative block overflow-hidden rounded-xl border-2 border-yellow-500 bg-gradient-to-r from-yellow-500/10 to-yellow-600/10 p-5 transition-all duration-300 hover:border-yellow-400 hover:bg-yellow-500/20 hover:shadow-[0_0_25px_rgba(234,179,8,0.3)]"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="relative z-10 text-lg font-bold text-yellow-300 transition-colors duration-300 group-hover:text-yellow-200">
-                        Services
-                      </span>
-                      <svg 
-                        className="h-5 w-5 text-yellow-400 transition-all duration-300 group-hover:translate-x-1" 
-                        fill="none" 
-                        viewBox="0 0 24 24" 
-                        stroke="currentColor"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
-                    <div className="absolute inset-0 -z-10 bg-gradient-to-r from-yellow-500/20 via-yellow-400/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                  </Link>
-                </motion.div>
 
                 {/* Mobile Portal Button */}
                 <motion.div
@@ -225,7 +185,7 @@ export function Navbar() {
                   className="mt-4"
                 >
                   <Link
-                    href="/portal"
+                    href="/client-portal"
                     onClick={closeMobileMenu}
                     className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-xl border-2 border-yellow-500 bg-gradient-to-r from-yellow-500 to-yellow-600 p-5 font-bold text-black shadow-[0_0_30px_rgba(234,179,8,0.3)] transition-all duration-300 hover:shadow-[0_0_50px_rgba(234,179,8,0.5)]"
                   >

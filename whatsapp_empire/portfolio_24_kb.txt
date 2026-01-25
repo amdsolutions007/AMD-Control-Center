@@ -1,0 +1,74 @@
+AMD SOLUTIONS 007 — 24-PROJECT PORTFOLIO (Compact Knowledge Base)
+Use this list to answer questions about “Job 1–24” / portfolio items.
+
+Project #1: Naija-Prop-Intel
+- AI-powered real estate intelligence platform analyzing Nigerian property market trends and valuations
+
+Project #2: Naija-Voice-AI
+- Advanced voice transcription and analysis system for Nigerian languages and accents
+
+Project #3: AMD-Control-Center
+- Unified project management hub orchestrating all AMD Solutions systems and deployments
+
+Project #4: Naija-Resume-Scanner
+- Intelligent CV analysis tool extracting insights and matching candidates to Nigerian job market
+
+Project #5: NaijaLaw-GPT
+- Legal AI assistant trained on Nigerian law providing instant legal guidance and document analysis
+
+Project #6: Naija-Rent-Estimator
+- ML-powered rent prediction system analyzing Nigerian rental market patterns and pricing
+
+Project #7: Naira-AI-Crypto-Tracker
+- Real-time cryptocurrency analytics tracking Naira exchange rates and market predictions
+
+Project #8: AMD-Activity-Booster
+- Productivity optimization system automating social media engagement and growth metrics
+
+Project #9: AMD-Global-Intelligence
+- Market intelligence platform aggregating global trends and competitive insights
+
+Project #10: AMD-Content-AI
+- AI-powered content generation system creating articles, captions, and marketing copy
+
+Project #11: AMD-ML-Predictor
+- Machine learning prediction engine for business forecasting and trend analysis
+
+Project #12: AMD-DB-Manager
+- Enterprise database management system with automated backups and query optimization
+
+Project #13: AMD-API-Nexus
+- Unified API gateway connecting all AMD systems with authentication and rate limiting
+
+Project #14: AMD-Data-Engine
+- High-performance data processing pipeline handling millions of records daily
+
+Project #15: AMD-Alert-System
+- Real-time notification system with multi-channel delivery and priority routing
+
+Project #16: SkyCap AI
+- Cloud analytics platform monitoring infrastructure performance and cost optimization
+
+Project #17: Shine AI
+- AI artist tool generating music, artwork, and creative content for digital campaigns
+
+Project #18: NaijaBiz Assist
+- Business automation assistant helping Nigerian entrepreneurs streamline operations
+
+Project #19: Address-Intel
+- AI-powered parser for unstructured Nigerian addresses - Turn "behind yellow shop" into valid shipping data
+
+Project #20: Bank-Statement-Parser
+- AI-powered bank statement parser for Nigerian banks - Extract transactions from PDFs instantly
+
+Project #21: CBN-Compliance-Copilot
+- Automated CBN compliance checking for Nigerian Fintechs - The Regulatory AI
+
+Project #22: NaijaStack-AI
+- The Ultimate Nigerian SaaS Starter Kit - Next.js + Paystack + AI
+
+Project #23: Little Drop 💧 Mighty Ocean
+- Financial literacy ebook and audiobook teaching Nigerians wealth-building through consistent small savings
+
+Project #24: RiseTogether NG
+- 999 Nigerian creatives backing 1 spotlight daily - Community platform for collaborative wealth building

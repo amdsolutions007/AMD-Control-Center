@@ -46,14 +46,15 @@ Link in bio."""
     try:
         client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
         
-        response = client.audio.speech.create(
+        with client.audio.speech.with_streaming_response.create(
             model="tts-1-hd",
             voice="onyx",
             speed=0.92,
-            input=script
-        )
-        
-        response.stream_to_file(AUDIO_OUTPUT)
+            input=script,
+        ) as response:
+            with open(AUDIO_OUTPUT, "wb") as f:
+                for chunk in response.iter_bytes():
+                    f.write(chunk)
         print(f"✅ Voiceover created")
         
     except Exception as e:

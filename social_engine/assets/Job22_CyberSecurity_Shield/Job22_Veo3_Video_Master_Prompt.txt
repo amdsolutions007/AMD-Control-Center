@@ -1,0 +1,21 @@
+VEO3 VIDEO MASTER PROMPT - JOB 22
+============================================================
+
+INSTRUCTIONS:
+1. Upload the source image: Job22_Twin_Master.png
+2. Paste the VISUAL PROMPT below into Veo3 (image-to-video)
+3. Set duration: 8-10 seconds
+4. Generate and download
+5. Save as: Job22_Video_Master.mp4
+
+============================================================
+VISUAL PROMPT (Image-to-Video):
+============================================================
+
+Animate the shield scene. Red 'VIRUS' missiles fly towards the Digital Twin but vaporize against the glowing blue shield. He stands calm and unmoving. Cyberpunk city background. 8k.
+
+============================================================
+AUDIO SCRIPT (Narration):
+============================================================
+
+Every 39 seconds, a hacker attacks. They want your bank login. They want your photos. They want your life. Stop leaving your digital door open. The AMD CyberSecurity Shield blocks phishing, malware, and ransomware instantly. Sleep safe. Browse safe. DM 'SECURE' to install. Powered by AMD SOLUTIONS 007.

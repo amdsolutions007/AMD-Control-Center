@@ -29,12 +29,14 @@ print(SCRIPT)
 print()
 
 try:
-    response = client.audio.speech.create(
+    with client.audio.speech.with_streaming_response.create(
         model="tts-1-hd",
         voice="onyx",
         input=SCRIPT,
-    )
-    response.stream_to_file(str(OUTPUT))
+    ) as response:
+        with open(OUTPUT, "wb") as f:
+            for chunk in response.iter_bytes():
+                f.write(chunk)
     size_mb = OUTPUT.stat().st_size / (1024 * 1024)
     print(f"✅ Saved: {OUTPUT} ({size_mb:.2f} MB)")
 except Exception as e:

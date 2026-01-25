@@ -1,0 +1,21 @@
+VEO3 VIDEO MASTER PROMPT - JOB 13
+============================================================
+
+INSTRUCTIONS:
+1. Upload the source image: Job13_Twin_Master.png
+2. Paste the VISUAL PROMPT below into Veo3 (image-to-video)
+3. Set duration: 8-10 seconds
+4. Generate and download
+5. Save as: Job13_Video_Master.mp4
+
+============================================================
+VISUAL PROMPT (Image-to-Video):
+============================================================
+
+Animate the scene. Augmented Reality price tags float over the house windows (e.g., '₦3.5M'). The 'SOLD' sign in the Twin's hand glows. He smiles like he just won a deal. Sunny day. 8k.
+
+============================================================
+AUDIO SCRIPT (Narration):
+============================================================
+
+Your landlord is lying to you. The Agent is adding 30% on top. Stop guessing the price. Use the Naija Rent Estimator. Scan the house, get the real market value, and get the script to negotiate the price down. Don't pay the Lagos Tax. Pay the Real Price. DM 'RENT' to install. Powered by AMD SOLUTIONS 007.

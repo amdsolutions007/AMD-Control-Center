@@ -55,6 +55,7 @@ def _draw_centered_multiline(
     box: tuple[int, int, int, int],
     fill: tuple[int, int, int],
     line_spacing: int,
+    stroke_fill: tuple[int, int, int] | None = None,
 ) -> None:
     x0, y0, x1, y1 = box
     lines = text.split("\n")
@@ -64,6 +65,9 @@ def _draw_centered_multiline(
     for line, h in zip(lines, line_heights):
         w = draw.textbbox((0, 0), line, font=font)[2]
         x = x0 + ((x1 - x0) - w) // 2
+        if stroke_fill is not None:
+            for dx, dy in [(-2, 0), (2, 0), (0, -2), (0, 2), (-2, -2), (2, 2), (-2, 2), (2, -2)]:
+                draw.text((x + dx, y + dy), line, font=font, fill=stroke_fill)
         draw.text((x, y), line, font=font, fill=fill)
         y += h + line_spacing
 
@@ -74,15 +78,11 @@ def build_flyer(spec: FlyerSpec) -> None:
 
     draw = ImageDraw.Draw(canvas)
 
-    # Top dark overlay for readability
-    top_h = 320
-    overlay = Image.new("RGBA", (1080, top_h), (0, 0, 0, 110))
-    canvas.paste(overlay, (0, 0), overlay)
-
-    # Footer gold bar
-    footer_h = 220
-    footer = Image.new("RGB", (1080, footer_h), GOLD)
-    canvas.paste(footer, (0, 1920 - footer_h))
+    # GLOBAL DESIGN OVERRIDE (Jobs 3–20):
+    # - No borders/frames
+    # - No heavy bars/strips that obstruct the image
+    # - Text only (with subtle shadow) over the full-bleed image
+    shadow = (0, 0, 0)
 
     headline_font = _load_font(86, bold=True)
     sub_font = _load_font(36)
@@ -96,6 +96,7 @@ def build_flyer(spec: FlyerSpec) -> None:
         (40, 20, 1040, 190),
         WHITE,
         line_spacing=10,
+        stroke_fill=shadow,
     )
 
     _draw_centered_multiline(
@@ -105,14 +106,12 @@ def build_flyer(spec: FlyerSpec) -> None:
         (60, 195, 1020, 315),
         WHITE,
         line_spacing=6,
+        stroke_fill=shadow,
     )
 
-    # Footer text: brand + CTA
-    brand_box = (0, 1920 - footer_h, 1080, 1920 - 120)
-    cta_box = (0, 1920 - 120, 1080, 1920)
-
-    _draw_centered_multiline(draw, "AMD MEDIA SOLUTIONS", brand_font, brand_box, BLACK, 6)
-    _draw_centered_multiline(draw, spec.cta, cta_font, cta_box, BLACK, 6)
+    # Footer text (no footer bar): brand + CTA over image
+    _draw_centered_multiline(draw, "AMD MEDIA SOLUTIONS", brand_font, (0, 1680, 1080, 1820), GOLD, 6, stroke_fill=shadow)
+    _draw_centered_multiline(draw, spec.cta, cta_font, (0, 1820, 1080, 1920), WHITE, 6, stroke_fill=shadow)
 
     spec.output_image.parent.mkdir(parents=True, exist_ok=True)
     # Avoid PNG optimize edge-cases on some Pillow builds.

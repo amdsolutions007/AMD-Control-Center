@@ -1,0 +1,21 @@
+VEO3 VIDEO MASTER PROMPT - JOB 18
+============================================================
+
+INSTRUCTIONS:
+1. Upload the source image: Job18_Twin_Master.png
+2. Paste the VISUAL PROMPT below into Veo3 (image-to-video)
+3. Set duration: 8-10 seconds
+4. Generate and download
+5. Save as: Job18_Video_Master.mp4
+
+============================================================
+VISUAL PROMPT (Image-to-Video):
+============================================================
+
+Animate the warehouse scene. The rows of clothes rack move automatically like a conveyor belt. The Digital Twin hands the box toward the camera. The 'BUQIAZO' text on his hoodie glows slightly. High-energy streetwear vibe. 8k.
+
+============================================================
+AUDIO SCRIPT (Narration):
+============================================================
+
+Stop wearing what everyone else is wearing. Stop stressing in the market. Buqiazo Thrift brings premium, curated vintage fashion directly to your door. Our AI Stylist finds the perfect fit for your body and your budget. Fashion meant for you. Visit buqaizoempire.com. DM 'STYLE' to shop. Powered by AMD MEDIA SOLUTIONS.
