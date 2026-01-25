@@ -1,0 +1,22 @@
+{
+  "billing_identity": {
+    "entity_name": "AMD MEDIA SOLUTIONS",
+    "status": "Self-Service Ad Account",
+    "currency": "USD"
+  },
+  "us_billing_address": {
+    "street_1": "651 N Broad Street",
+    "street_2": "Suite 206",
+    "city": "Middletown",
+    "state": "Delaware",
+    "state_code": "DE",
+    "zip_code": "19709",
+    "country": "United States",
+    "phone_prefix": "+1"
+  },
+  "payment_methods": {
+    "primary_card_type": "Visa Virtual (USD)",
+    "backup_card_provider": "Grey / Chipper",
+    "billing_threshold_alert": 20.0
+  }
+}

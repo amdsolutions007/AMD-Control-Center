@@ -1,0 +1,35 @@
+{
+  "empire_identity": {
+    "name": "AMD Media Solutions",
+    "legal_name": "AMD MEDIA SOLUTIONS (BN)",
+    "ceo": "Olawale Shoyemi",
+    "slogan": "Illuminating the Digital Dark"
+  },
+  "contact_channels": {
+    "official_email": "ceo@amdsolutions007.com",
+    "official_phone": "+234 811 377 5880",
+    "website": "https://amdsolutions007.com"
+  },
+  "operational_tools": {
+    "design_studio": "https://www.canva.com/settings/your-account",
+    "link_manager_admin": "https://taplink.at/en/profile/17028197/account/profiles/",
+    "email_portal": "https://privateemail.com",
+    "meta_ads_manager": "https://adsmanager.facebook.com"
+  },
+  "social_grid": {
+    "youtube_channel": "https://www.youtube.com/@AMDSolutions007",
+    "youtube_video": "https://youtu.be/5rTr3K4CJNI",
+    "tiktok": "https://www.tiktok.com/@amdmedia8",
+    "twitter": "https://twitter.com/amdmedia2",
+    "instagram": "https://instagram.com/amdmedia_",
+    "linkedin": "https://linkedin.com/in/amdmediasolutions007",
+    "pinterest": "https://pinterest.com/amdmediaoffice",
+    "reddit": "https://www.reddit.com/user/amdmedia1",
+    "facebook_page": "https://www.facebook.com/profile.php?id=107369105309965",
+    "snapchat_profile": "https://www.snapchat.com/add/amdsolutions007"
+  },
+  "dashboard_settings": {
+    "display_tools_sidebar": true,
+    "embed_youtube_player": true
+  }
+}
