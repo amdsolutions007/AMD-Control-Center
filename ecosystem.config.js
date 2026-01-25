@@ -88,8 +88,8 @@ module.exports = {
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     {
       name: 'amd-dashboard',
-      script: '/opt/venv/bin/streamlit',
-      args: 'run /app/amd_dashboard.py --server.port=8501 --server.address=0.0.0.0',
+      script: '/opt/venv/bin/python',
+      args: '-m streamlit run /app/amd_dashboard.py --server.port=8501 --server.address=0.0.0.0',
       instances: 1,
       autorestart: true,
       watch: false,
