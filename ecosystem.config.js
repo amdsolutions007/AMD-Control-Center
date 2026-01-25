@@ -20,8 +20,8 @@ module.exports = {
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     {
       name: 'social-publisher',
-      script: 'python',
-      args: 'scripts/social_publisher.py',
+      script: '/opt/venv/bin/python',
+      args: '/app/scripts/social_publisher.py',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -40,8 +40,8 @@ module.exports = {
 
     {
       name: 'creative-engine',
-      script: 'python',
-      args: 'social_engine/creative_engine.py',
+      script: '/opt/venv/bin/python',
+      args: '/app/social_engine/creative_engine.py',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -59,8 +59,8 @@ module.exports = {
 
     {
       name: 'content-manager',
-      script: 'python',
-      args: 'social_engine/content_manager.py',
+      script: '/opt/venv/bin/python',
+      args: '/app/social_engine/content_manager.py',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -81,8 +81,8 @@ module.exports = {
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     {
       name: 'lead-scraper',
-      script: 'python',
-      args: 'lead_engine/scrape_leads.py',
+      script: '/opt/venv/bin/python',
+      args: '/app/lead_engine/scrape_leads.py',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -101,8 +101,8 @@ module.exports = {
 
     {
       name: 'lead-outreach',
-      script: 'python',
-      args: 'lead_engine/send_outreach.py',
+      script: '/opt/venv/bin/python',
+      args: '/app/lead_engine/send_outreach.py',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -124,8 +124,8 @@ module.exports = {
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     {
       name: 'facebook-poster',
-      script: 'python',
-      args: 'facebook_browser_poster.py',
+      script: '/opt/venv/bin/python',
+      args: '/app/facebook_browser_poster.py',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -146,8 +146,8 @@ module.exports = {
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     {
       name: 'amd-dashboard',
-      script: 'python',
-      args: 'amd_dashboard.py',
+      script: '/opt/venv/bin/python',
+      args: '/app/amd_dashboard.py',
       instances: 1,
       autorestart: true,
       watch: false,
