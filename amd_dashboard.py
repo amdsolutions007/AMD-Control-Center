@@ -13,6 +13,12 @@ try:
 except Exception:  # pragma: no cover
     load_dotenv = None
 
+# OpenAI for Intelligence Core
+try:
+    from openai import OpenAI
+except Exception:
+    OpenAI = None
+
 # Optional connectors
 try:
     from connectors.google_ads_connector import GoogleAdsConnector
@@ -745,6 +751,73 @@ def _meta_total_spend_today(rows: List[Dict[str, Any]]) -> float:
     return total
 
 
+def get_openai_client() -> Optional[Any]:
+    """Get OpenAI client if API key is available in environment."""
+    if OpenAI is None:
+        return None
+    
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        return None
+    
+    try:
+        return OpenAI(api_key=api_key)
+    except Exception:
+        return None
+
+
+def render_ai_chat_sidebar():
+    """Render AI Intelligence Chat in sidebar if OpenAI is configured."""
+    openai_client = get_openai_client()
+    
+    if not openai_client:
+        return
+    
+    with st.sidebar:
+        st.markdown(
+            f"<div style='color:{DEEP_GOLD};font-weight:900;margin-top:20px;margin-bottom:10px'>🧠 AMD INTELLIGENCE</div>",
+            unsafe_allow_html=True,
+        )
+        
+        # Initialize chat history
+        if "ai_messages" not in st.session_state:
+            st.session_state.ai_messages = []
+        
+        # Chat input
+        user_input = st.text_input("Ask Intelligence Core:", key="ai_chat_input", placeholder="How are campaigns performing?")
+        
+        if user_input:
+            # Add user message
+            st.session_state.ai_messages.append({"role": "user", "content": user_input})
+            
+            # Get AI response
+            try:
+                response = openai_client.chat.completions.create(
+                    model="gpt-4",
+                    messages=[
+                        {"role": "system", "content": "You are AMD Intelligence Core, a strategic AI assistant for AMD Solutions 007. Provide concise, actionable insights about marketing campaigns, leads, and automation strategies. Keep responses under 100 words."},
+                        *st.session_state.ai_messages
+                    ],
+                    max_tokens=150,
+                    temperature=0.7
+                )
+                ai_message = response.choices[0].message.content
+                st.session_state.ai_messages.append({"role": "assistant", "content": ai_message})
+            except Exception as e:
+                st.session_state.ai_messages.append({"role": "assistant", "content": f"⚠️ Error: {str(e)}"})
+        
+        # Display chat history (last 4 messages)
+        for msg in st.session_state.ai_messages[-4:]:
+            if msg["role"] == "user":
+                st.markdown(f"**You:** {msg['content']}")
+            else:
+                st.markdown(f"**🧠:** {msg['content']}")
+        
+        if st.button("Clear Chat", key="clear_ai_chat"):
+            st.session_state.ai_messages = []
+            st.rerun()
+
+
 def main():
     st.set_page_config(page_title=PAGE_TITLE, layout="wide")
     inject_css()
@@ -764,6 +837,9 @@ def main():
 
     # Sidebar contact button (always available when email is configured)
     _render_sidebar_contact(_social_email(social_cfg))
+    
+    # AI Intelligence Chat (if OpenAI key is configured)
+    render_ai_chat_sidebar()
 
     # Connectors
     yt = None
@@ -774,6 +850,7 @@ def main():
             yt = None
     if yt is None:
         yt = YouTubeFallback()
+
 
     tabs = st.tabs(
         [
@@ -863,28 +940,45 @@ def main():
             views, subs, campaigns, ad_spend = fetch_metrics(yt)
 
         with c1:
-            st.markdown(
-                f"<div class='metric-card'><div class='metric-number'>{views}</div><div class='metric-label'>AMD_MANIFESTO_FINAL VIEWS</div></div>",
-                unsafe_allow_html=True,
+            st.metric(
+                label="AMD_MANIFESTO_FINAL VIEWS",
+                value=views if views != "—" else "No Data",
+                delta=None,
+                help="Total views on flagship video"
             )
         with c2:
-            st.markdown(
-                f"<div class='metric-card'><div class='metric-number'>{subs}</div><div class='metric-label'>SUBSCRIBERS</div></div>",
-                unsafe_allow_html=True,
+            st.metric(
+                label="SUBSCRIBERS",
+                value=subs if subs != "—" else "No Data",
+                delta=None,
+                help="Current subscriber count"
             )
         with c3:
-            st.markdown(
-                f"<div class='metric-card'><div class='metric-number'>{ad_spend}</div><div class='metric-label'>AD SPEND (LIVE/PLACEHOLDER)</div></div>",
-                unsafe_allow_html=True,
+            st.metric(
+                label="AD SPEND (LIVE)",
+                value=ad_spend,
+                delta=None,
+                help="Total advertising spend today"
             )
 
         st.markdown("---")
-        if campaigns:
+        
+        # Campaign Performance Chart
+        if campaigns and isinstance(campaigns, list) and len(campaigns) > 0:
+            st.markdown(f"<div style='color:{DEEP_GOLD};font-weight:700;margin-bottom:10px'>📊 CAMPAIGN PERFORMANCE</div>", unsafe_allow_html=True)
             try:
                 df = pd.DataFrame(campaigns)
-                st.dataframe(df)
+                st.dataframe(df, use_container_width=True)
+                
+                # Add simple bar chart if cost data is available
+                if 'cost' in df.columns:
+                    chart_data = df[['name', 'cost']].head(10)
+                    chart_data = chart_data.set_index('name')
+                    st.bar_chart(chart_data)
             except Exception:
                 st.write(campaigns)
+        else:
+            st.info("ℹ️ No active campaigns. Campaign data will appear here once Google Ads are configured.")
         else:
             st.markdown(
                 f"<p style='color:{DEEP_GOLD}'>No Google Ads data available — using placeholder values.</p>",
@@ -950,51 +1044,51 @@ def main():
 
     # --- TAB 3: TikTok Ads (placeholder) ---
     with tabs[2]:
-        st.markdown(
-            "<div class='metric-card'><div class='metric-number'>Status</div><div class='metric-label'>🔒 API Key Required</div></div>",
-            unsafe_allow_html=True,
-        )
-        st.markdown("---")
-        st.markdown(
-            f"<p style='color:{DEEP_GOLD};opacity:0.90'>TikTok Ads integration is not configured yet.</p>",
-            unsafe_allow_html=True,
-        )
+        st.info("🎵 **TikTok Ads Integration**")
+        st.markdown(f"<p style='color:{DEEP_GOLD};opacity:0.90'>📋 **Setup Instructions:**</p>", unsafe_allow_html=True)
+        st.markdown("""
+        1. Create a TikTok Business Account
+        2. Generate API Access Token
+        3. Add `TIKTOK_ACCESS_TOKEN` to Railway environment variables
+        4. Restart service to activate
+        """)
+        st.markdown(f"<p style='color:{DEEP_GOLD};opacity:0.70;font-size:12px'>Status: Awaiting Configuration</p>", unsafe_allow_html=True)
 
     # --- TAB 4: Snapchat Ads (placeholder) ---
     with tabs[3]:
-        st.markdown(
-            "<div class='metric-card'><div class='metric-number'>Status</div><div class='metric-label'>🔒 API Key Required</div></div>",
-            unsafe_allow_html=True,
-        )
-        st.markdown("---")
-        st.markdown(
-            f"<p style='color:{DEEP_GOLD};opacity:0.90'>Snapchat Ads integration is not configured yet.</p>",
-            unsafe_allow_html=True,
-        )
+        st.info("👻 **Snapchat Ads Integration**")
+        st.markdown(f"<p style='color:{DEEP_GOLD};opacity:0.90'>📋 **Setup Instructions:**</p>", unsafe_allow_html=True)
+        st.markdown("""
+        1. Register at Snapchat Business Manager
+        2. Create OAuth App and get credentials
+        3. Add `SNAPCHAT_CLIENT_ID` and `SNAPCHAT_CLIENT_SECRET` to environment
+        4. Restart service to activate
+        """)
+        st.markdown(f"<p style='color:{DEEP_GOLD};opacity:0.70;font-size:12px'>Status: Awaiting Configuration</p>", unsafe_allow_html=True)
 
     # --- TAB 5: LinkedIn Ads (placeholder) ---
     with tabs[4]:
-        st.markdown(
-            "<div class='metric-card'><div class='metric-number'>Status</div><div class='metric-label'>🔒 API Key Required</div></div>",
-            unsafe_allow_html=True,
-        )
-        st.markdown("---")
-        st.markdown(
-            f"<p style='color:{DEEP_GOLD};opacity:0.90'>LinkedIn Ads integration is not configured yet.</p>",
-            unsafe_allow_html=True,
-        )
+        st.info("💼 **LinkedIn Ads Integration**")
+        st.markdown(f"<p style='color:{DEEP_GOLD};opacity:0.90'>📋 **Setup Instructions:**</p>", unsafe_allow_html=True)
+        st.markdown("""
+        1. Access LinkedIn Campaign Manager
+        2. Generate API Access Token
+        3. Add `LINKEDIN_ACCESS_TOKEN` to Railway environment variables
+        4. Restart service to activate
+        """)
+        st.markdown(f"<p style='color:{DEEP_GOLD};opacity:0.70;font-size:12px'>Status: Awaiting Configuration</p>", unsafe_allow_html=True)
 
     # --- TAB 6: X Ads (placeholder) ---
     with tabs[5]:
-        st.markdown(
-            "<div class='metric-card'><div class='metric-number'>Status</div><div class='metric-label'>🔒 API Key Required</div></div>",
-            unsafe_allow_html=True,
-        )
-        st.markdown("---")
-        st.markdown(
-            f"<p style='color:{DEEP_GOLD};opacity:0.90'>X Ads integration is not configured yet.</p>",
-            unsafe_allow_html=True,
-        )
+        st.info("🐦 **X (Twitter) Ads Integration**")
+        st.markdown(f"<p style='color:{DEEP_GOLD};opacity:0.90'>📋 **Setup Instructions:**</p>", unsafe_allow_html=True)
+        st.markdown("""
+        1. Apply for X Ads API access
+        2. Generate API Keys from developer portal
+        3. Add `TWITTER_API_KEY` and `TWITTER_API_SECRET` to environment
+        4. Restart service to activate
+        """)
+        st.markdown(f"<p style='color:{DEEP_GOLD};opacity:0.70;font-size:12px'>Status: Awaiting Configuration</p>", unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
