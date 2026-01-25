@@ -1,11 +1,10 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "builder": "NIXPACKS",
-    "buildCommand": "python3 -m pip install -r requirements.txt && npm install -g pm2"
+    "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "pm2-runtime start ecosystem.railway.js",
+    "startCommand": "npm install -g pm2 && pm2-runtime start ecosystem.railway.js",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }

@@ -1,18 +1,9 @@
 # Nixpacks Configuration for Railway
-# https://nixpacks.com/docs/configuration/file
+# Let Nixpacks auto-detect Python from requirements.txt
+# Only specify additional packages needed
 
 [phases.setup]
-nixPkgs = ["python312", "python312Packages.pip", "nodejs_20", "ffmpeg"]
-
-[phases.install]
-cmds = [
-  "python3 -m pip install --upgrade pip",
-  "python3 -m pip install -r requirements.txt",
-  "npm install -g pm2"
-]
-
-[phases.build]
-cmds = ["echo 'Build phase complete'"]
+aptPkgs = ["ffmpeg"]
 
 [start]
-cmd = "pm2-runtime start ecosystem.railway.js"
+cmd = "npm install -g pm2 && pm2-runtime start ecosystem.railway.js"
