@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "npm install -g pm2 && npx pm2-runtime start /app/ecosystem.railway.js --env production",
+    "startCommand": "npm install -g pm2 && npx pm2-runtime /app/ecosystem.railway.js --env production",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }
