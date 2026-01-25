@@ -55,6 +55,7 @@ export type AutomationRun = {
 export const clientsTable = {
   // Create new client inquiry
   async create(data: Omit<Client, 'id' | 'created_at' | 'status'>) {
+    if (!supabase) throw new Error('Supabase client not initialized')
     const { data: client, error } = await supabase
       .from('clients')
       .insert([{ ...data, status: 'new' }])
@@ -67,6 +68,7 @@ export const clientsTable = {
 
   // Get all clients
   async getAll() {
+    if (!supabase) throw new Error('Supabase client not initialized')
     const { data, error } = await supabase
       .from('clients')
       .select('*')
@@ -78,6 +80,7 @@ export const clientsTable = {
 
   // Update client status
   async updateStatus(id: string, status: Client['status']) {
+    if (!supabase) throw new Error('Supabase client not initialized')
     const { data, error } = await supabase
       .from('clients')
       .update({ status })
@@ -93,6 +96,7 @@ export const clientsTable = {
 export const chatLogsTable = {
   // Log chat interaction
   async create(data: Omit<ChatLog, 'id' | 'created_at'>) {
+    if (!supabase) throw new Error('Supabase client not initialized')
     const { data: log, error } = await supabase
       .from('chat_logs')
       .insert([data])
@@ -105,6 +109,7 @@ export const chatLogsTable = {
 
   // Get recent chats by session
   async getBySession(sessionId: string, limit = 50) {
+    if (!supabase) throw new Error('Supabase client not initialized')
     const { data, error } = await supabase
       .from('chat_logs')
       .select('*')
@@ -120,6 +125,7 @@ export const chatLogsTable = {
 export const automationRunsTable = {
   // Log automation run
   async create(data: Omit<AutomationRun, 'id' | 'created_at'>) {
+    if (!supabase) throw new Error('Supabase client not initialized')
     const { data: run, error } = await supabase
       .from('automation_runs')
       .insert([data])
@@ -132,6 +138,7 @@ export const automationRunsTable = {
 
   // Get recent runs by platform
   async getByPlatform(platform: AutomationRun['platform'], limit = 100) {
+    if (!supabase) throw new Error('Supabase client not initialized')
     const { data, error } = await supabase
       .from('automation_runs')
       .select('*')
@@ -145,6 +152,7 @@ export const automationRunsTable = {
 
   // Get failed runs for debugging
   async getFailed(limit = 50) {
+    if (!supabase) throw new Error('Supabase client not initialized')
     const { data, error } = await supabase
       .from('automation_runs')
       .select('*')
