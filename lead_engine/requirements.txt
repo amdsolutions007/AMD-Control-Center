@@ -10,3 +10,4 @@ beautifulsoup4>=4.12.3
 # Map Hunter & Nairaland Ghost dependencies
 playwright>=1.40.0
 googlesearch-python>=1.2.3
+googlemaps>=4.10.0
