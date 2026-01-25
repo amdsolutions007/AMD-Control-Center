@@ -6,8 +6,8 @@ nixPkgs = ["python312", "nodejs_20", "ffmpeg"]
 
 [phases.install]
 cmds = [
-  "pip install --upgrade pip",
-  "pip install -r requirements.txt",
+  "python3 -m pip install --upgrade pip",
+  "python3 -m pip install -r requirements.txt",
   "npm install -g pm2"
 ]
 
