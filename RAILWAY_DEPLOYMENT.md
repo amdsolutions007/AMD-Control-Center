@@ -38,6 +38,11 @@ PYTHONUNBUFFERED=1
 NODE_ENV=production
 TZ=Europe/Amsterdam
 
+# 🧠 OpenAI API - AMD INTELLIGENCE CORE (CRITICAL)
+# This trains AI on EVERY operation across ALL projects
+# The AI learns from A to Z and provides intelligent recommendations
+OPENAI_API_KEY=sk-your-key-from-railway-account
+
 # Google API Credentials (Required for YouTube, Ads)
 GOOGLE_CLIENT_ID=your_client_id
 GOOGLE_CLIENT_SECRET=your_client_secret
@@ -46,9 +51,6 @@ GOOGLE_REFRESH_TOKEN=your_refresh_token
 # Facebook/Meta API (Required for social posting)
 FACEBOOK_ACCESS_TOKEN=your_token
 FACEBOOK_PAGE_ID=your_page_id
-
-# OpenAI API (Required for creative engine)
-OPENAI_API_KEY=sk-your-key
 
 # Optional: Monitoring & Notifications
 TELEGRAM_BOT_TOKEN=your_bot_token
