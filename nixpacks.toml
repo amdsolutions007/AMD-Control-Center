@@ -5,4 +5,4 @@
 aptPkgs = ["ffmpeg", "nodejs", "npm"]
 
 [start]
-cmd = "cd /app && npm install -g pm2 && npx pm2-runtime ecosystem.config.js"
+cmd = "npm install -g pm2 && npx pm2-runtime ecosystem.config.js"

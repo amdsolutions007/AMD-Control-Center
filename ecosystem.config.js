@@ -23,7 +23,7 @@ module.exports = {
     {
       name: 'social-publisher',
       script: '/opt/venv/bin/python',
-      args: '/app/scripts/social_publisher.py',
+      args: 'scripts/social_publisher.py',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -46,7 +46,7 @@ module.exports = {
     {
       name: 'lead-scraper',
       script: '/opt/venv/bin/python',
-      args: '/app/lead_engine/scrape_leads.py',
+      args: 'lead_engine/scrape_leads.py',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -66,7 +66,7 @@ module.exports = {
     {
       name: 'lead-outreach',
       script: '/opt/venv/bin/python',
-      args: '/app/lead_engine/send_outreach.py',
+      args: 'lead_engine/send_outreach.py',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -89,7 +89,7 @@ module.exports = {
     {
       name: 'amd-dashboard',
       script: '/opt/venv/bin/python',
-      args: '-m streamlit run /app/amd_dashboard.py --server.port=8501 --server.address=0.0.0.0',
+      args: '-m streamlit run amd_dashboard.py --server.port=8501 --server.address=0.0.0.0',
       instances: 1,
       autorestart: true,
       watch: false,

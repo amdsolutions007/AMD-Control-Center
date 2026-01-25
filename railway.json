@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "cd /app && npm install -g pm2 && npx pm2-runtime ecosystem.config.js",
+    "startCommand": "npm install -g pm2 && npx pm2-runtime ecosystem.config.js",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }
