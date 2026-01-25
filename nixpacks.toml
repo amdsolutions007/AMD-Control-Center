@@ -2,7 +2,7 @@
 # https://nixpacks.com/docs/configuration/file
 
 [phases.setup]
-nixPkgs = ["python312", "nodejs-20_x", "ffmpeg"]
+nixPkgs = ["python312", "nodejs_20", "ffmpeg"]
 
 [phases.install]
 cmds = [
