@@ -1,0 +1,72 @@
+# Railway Deployment - Exclude Large Files/Folders
+# Only deploy essential automation scripts
+
+# Large project folders (not needed for Digital Twin)
+apps/
+whatsapp_empire/
+social_engine/
+amd-whatsapp-bot/
+
+# Media assets (not needed for email automation)
+Raw_Footage_Vault/
+Ready_to_Upload/
+Uploaded_Archive/
+assets/
+Synergy_Inbox/
+
+# Minecraft files
+*.dmg
+bedrock-server-*
+
+# Development files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+.tmp*/
+tmp/
+temp/
+
+# Git
+.git/
+.gitignore
+
+# Large documentation
+_A_TO_Z_GEMINI_MEMORY_LOGS/
+
+# Website source (deployed separately to GitHub Pages)
+amdsolutions007.github.io/
+
+# Only keep core automation scripts:
+# - amd_digital_twin.py
+# - amd_dna.py
+# - amd_knowledge_base.py
+# - amd_nexus.py
+# - gmail_scout_sniper.py
+# - revenue_machine.py
+# - Procfile
+# - requirements.txt
+# - ecosystem.config.js
