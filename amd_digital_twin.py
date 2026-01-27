@@ -30,19 +30,117 @@ load_dotenv()
 # ========================= DIGITAL DNA (AI CONTEXT) =========================
 
 USER_CONTEXT = """
-NAME: Olawale Shoyemi (Solutions 007)
-ROLE: CEO, AMD Media Solutions
-TAGLINE: Illuminating the Digital Dark.
-STATS: 24 Active Projects, 50K+ Lines of Code, 12 Social Platforms
-STACK: Python, Next.js, AI/ML, React
-OFFER: Custom-built, world-class link pages & AI Systems
-PORTFOLIO LINKS:
-- WhatsApp Hotline: +234 811 377 5880
-- Telegram: Join Intelligence Hub
-- LinkedIn: Professional Network
-- GitHub: 50K+ Lines of Code Portfolio
-- Website: amdsolutions007.com
-VALUE PROPOSITION: Agency model beats hiring - no recruitment risk, no payroll burden, proven delivery.
+═══════════════════════════════════════════════════════════════════════
+                    AMD SOLUTIONS 007 - DIGITAL DNA
+                      "Illuminating the Digital Dark"
+═══════════════════════════════════════════════════════════════════════
+
+CORE IDENTITY:
+Name: Olawale Shoyemi (Solutions 007)
+Role: Founder & Lead Architect
+Tagline: "Illuminating the Digital Dark."
+Philosophy: "We believe business problems are just lack of data. We use AI and 
+custom software engineering to solve them with military-grade intelligence."
+
+═══════════════════════════════════════════════════════════════════════
+THE MANIFESTO
+═══════════════════════════════════════════════════════════════════════
+
+🌑 THE DIGITAL DARK:
+In today's business landscape, companies drown in data but starve for insights. 
+They operate in darkness, making decisions without the intelligence needed to 
+navigate competitive markets. Traditional agencies offer cookie-cutter solutions 
+that don't address the core problem: the absence of customized, intelligent systems.
+
+💡 OUR ILLUMINATION:
+We are developers first, not just marketers. We build proprietary AI tools that 
+turn your data into actionable intelligence. Our hybrid approach combines Custom 
+Software Engineering (Python/AI) with Creative Media (Video/Ads) to create growth 
+systems that actually work.
+
+🎯 THE SOLUTIONS 007 PHILOSOPHY:
+"Working Smartly. Solutions to Every Dark Cloud."
+We don't believe in working harder—we believe in working smarter. Every challenge 
+is an opportunity for innovation. Every "dark cloud" in your business has a solution 
+waiting to be engineered. Our mission is to illuminate your path with elite precision 
+and military-grade intelligence.
+
+═══════════════════════════════════════════════════════════════════════
+TECHNOLOGY ARSENAL (Proprietary AI Tools)
+═══════════════════════════════════════════════════════════════════════
+
+📊 SkyCap AI - Financial Market Intelligence
+Advanced AI system for analyzing financial markets, tracking trends, and generating 
+actionable investment intelligence. Built for traders and investment firms who need 
+real-time data interpretation.
+→ Use Case: Finance sector, trading firms, investment companies
+
+🎵 Shine AI - Music & Entertainment Analytics
+Specialized platform for artists, labels, and entertainment brands. Analyzes streaming 
+data, audience behavior, and campaign performance to maximize reach and revenue in the 
+music industry.
+→ Use Case: Musicians, record labels, entertainment marketing
+
+🚀 NaijaBiz Assist - Local Business Scaling Engine
+AI-powered growth assistant designed for Nigerian SMEs. Provides market insights, 
+competitor analysis, and automated marketing strategies tailored to the African 
+business landscape.
+→ Use Case: Nigerian startups, SMEs, local businesses scaling up
+
+✈️ Japa Readiness Calculator - Migration Analytics Platform
+Comprehensive assessment tool for professionals planning international relocation. 
+Analyzes financial readiness, skill marketability, and visa eligibility using 
+AI-driven data models.
+→ Use Case: HR firms, migration consultants, professionals relocating
+
+═══════════════════════════════════════════════════════════════════════
+PORTFOLIO STATS & PROOF
+═══════════════════════════════════════════════════════════════════════
+
+📈 24 Active Projects (Real-time production systems)
+💻 50K+ Lines of Code (Battle-tested, deployed)
+🌐 12 Social Platforms (Omnichannel presence)
+🛠️ Tech Stack: Python, Next.js, AI/ML, React, Node.js
+🎨 Services: Custom AI Systems + Creative Media Production
+
+═══════════════════════════════════════════════════════════════════════
+CONTACT INTELLIGENCE
+═══════════════════════════════════════════════════════════════════════
+
+📞 Official Line: +234 818 002 1007
+📱 WhatsApp Hotline: +234 811 377 5880 (Priority Channel)
+✉️ CEO Direct: ceo@amdsolutions007.com
+🌐 Web: amdsolutions007.com
+💼 LinkedIn: Professional Network Available
+
+═══════════════════════════════════════════════════════════════════════
+VALUE PROPOSITION (Why Agency > Hiring)
+═══════════════════════════════════════════════════════════════════════
+
+✅ No Recruitment Risk (Proven team, no trial-and-error)
+✅ No Payroll Burden (Pay for delivery, not salaries)
+✅ Military-Grade Intelligence (Custom AI, not generic tools)
+✅ Developer-First Approach (We build solutions, not presentations)
+✅ Proven Track Record (24 live projects, real results)
+
+═══════════════════════════════════════════════════════════════════════
+TONE & VOICE GUIDELINES FOR AI
+═══════════════════════════════════════════════════════════════════════
+
+🎯 Use These Phrases:
+- "Military-grade intelligence"
+- "Illuminating the digital dark"
+- "We are developers first"
+- "Turn data into actionable intelligence"
+- "Elite precision and innovation"
+
+🚫 Avoid These:
+- Generic freelancer language
+- "We offer services" (too vague)
+- Over-promising without proof
+- Salesy/desperate tone
+
+✅ Ideal Tone: Confident, technical, precise, elite-level professional
 """
 
 # ========================= CONFIGURATION =========================
@@ -93,17 +191,19 @@ def get_agency_pitch(recipient_name: str) -> str:
     templates = [
         f"""Hello {recipient_name},
 
-I noticed your team is hiring developers. Before committing to a full-time salary, have you considered an agency partnership?
+I noticed your team is hiring developers. Here's a question: are you recruiting because you need tasks done, or because you need intelligence-driven solutions?
 
-AMD Solutions 007 provides:
-✅ Full-stack development (React, Node.js, Python, Flutter, Next.js)
-✅ No recruitment overhead or payroll burden
-✅ Flexible scaling - pay only for delivery
-✅ Currently managing 24 active projects with 50K+ lines of code
+Most companies operate in what we call the "Digital Dark"—drowning in data but starving for actionable insights.
 
-We've helped businesses across Nigeria and UK launch their digital products without the risk of bad hires.
+AMD Solutions 007 takes a different approach:
+✅ Military-grade intelligence: We build proprietary AI systems, not cookie-cutter websites
+✅ Developers first: 24 active projects, 50K+ lines of production code
+✅ Zero recruitment risk: No payroll burden, no bad hire costs
+✅ Tech Stack: Python, Next.js, AI/ML, React (battle-tested)
 
-Would you be open to a 15-minute call this week?
+We don't believe in working harder—we believe in working smarter. Every challenge is an opportunity for innovation.
+
+Would you be open to a 15-minute strategy session this week?
 
 --------------------------------------------------
 Best regards,
@@ -119,19 +219,21 @@ CEO, AMD Solutions 007
         
         f"""Hi {recipient_name},
 
-Quick question: What's the total cost of a bad developer hire?
+Quick calculation: What's the true cost of a bad developer hire?
 
-(Recruitment fees + 3-6 months salary + project delays = ₦5M+)
+(Recruitment fees + 3-6 months salary + project delays = ₦5M+ wasted)
 
-AMD Solutions 007 offers a smarter alternative:
-• No recruitment risk
-• No payroll commitments
-• 24 active projects, 50K+ lines of production code
-• Same expertise, flexible terms
+AMD Solutions 007 illuminates a smarter path:
 
-We specialize in web apps, mobile apps, AI systems, and automation.
+🎯 We are developers first, not just marketers
+📊 24 active projects, 50K+ lines of deployed code
+🤖 Proprietary AI tools (SkyCap AI, Shine AI, NaijaBiz Assist)
+💡 Custom software engineering meets creative media
+⚡ No payroll burden, no recruitment gamble
 
-Can I send you our portfolio and case studies?
+Our philosophy: "Business problems are just lack of data. We solve them with military-grade intelligence."
+
+Can I send you our technology arsenal and case studies?
 
 --------------------------------------------------
 Best regards,
@@ -147,23 +249,27 @@ CEO, AMD Solutions 007
         
         f"""Dear {recipient_name},
 
-I help businesses avoid the "hiring trap."
+Most businesses operate in the "Digital Dark"—they have data, but no intelligence.
 
-Instead of spending 3-6 months recruiting (and risking a bad fit), we deliver your project in weeks with an experienced agency team.
+Traditional agencies offer cookie-cutter solutions. Traditional hiring is a 3-6 month gamble.
 
-**What we do:**
-- Full-stack web development (Next.js, React)
-- Mobile apps (iOS/Android)
-- AI/ML systems & automation
-- Cloud deployment (AWS, Railway, Vercel)
+We offer something different: **Elite precision and innovation.**
 
-**Why agencies win:**
-- Faster delivery (no onboarding lag)
-- Lower risk (no long-term commitment)
-- Higher quality (peer-reviewed code)
-- Proven track: 24 active projects, 50K+ lines shipped
+🛠️ What We Build:
+• Custom AI systems (not generic templates)
+• Full-stack applications (Next.js, React, Python)
+• Automated growth engines (data → intelligence → results)
+• Creative media production (video, ads, content)
 
-Would you like to see how we've helped companies like yours?
+💼 Why Agencies Beat Hiring:
+• Faster delivery (no onboarding lag)
+• Zero recruitment risk (proven team)
+• Military-grade intelligence (custom AI tools)
+• Proven track: 24 live projects, 50K+ lines shipped
+
+"Working Smartly. Solutions to Every Dark Cloud."
+
+Ready to illuminate your business trajectory?
 
 --------------------------------------------------
 Best regards,
