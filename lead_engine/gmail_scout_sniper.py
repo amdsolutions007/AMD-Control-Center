@@ -1,15 +1,22 @@
 """
-Gmail Scout Sniper - World-Class Lead Intelligence System
-==========================================================
+Gmail Scout Sniper + Agency Converter - World-Class Lead Intelligence System
+=============================================================================
 
 Architecture Upgrades:
 1. SQLite Integration: Leads inserted directly into Railway dashboard database
 2. OpenAI Auto-Draft: AI generates first response proposals automatically
 3. Smart Filtering: High-ticket lead scoring eliminates spam
 4. Multi-Source: Google Alerts + RSS feeds + keyword monitoring
+5. AGENCY CONVERTER: Transforms job alerts into B2B agency contracts
+
+Agency Converter Features:
+- Google Alerts: Auto-send agency pitch via Gmail API (if email found)
+- LinkedIn Alerts: Extract company, draft message (manual posting - safe)
+- Daily Report: Telegram summary of conversions
 
 Author: AMD Solutions 007
-Status: Production-Ready Sniper Class
+Status: Production-Ready Sniper Class + Agency Mode
+Protocol 007 Compliant: Official APIs only, no auto-posting to LinkedIn
 """
 
 import base64
@@ -32,19 +39,37 @@ from openai import OpenAI
 
 # ==================== CONFIGURATION ====================
 
-SCOPES = ["https://www.googleapis.com/auth/gmail.modify"]
+SCOPES = ["https://www.googleapis.com/auth/gmail.modify", "https://www.googleapis.com/auth/gmail.send"]
 BASE_DIR = Path(__file__).parent
 TOKEN_PATH = BASE_DIR / "token.json"
 CREDENTIALS_PATH = BASE_DIR.parent / ".credentials" / "lead_engine_credentials.json"
 DATABASE_PATH = BASE_DIR / "data" / "leads.db"
+LINKEDIN_DRAFTS_PATH = BASE_DIR / "data" / "DAILY_LEADS_REPORT.txt"
 POLL_INTERVAL = 30  # Faster polling: 30 seconds (Sniper mode)
 
-# Gmail queries - expanded for comprehensive lead capture
+# Gmail queries - expanded for comprehensive lead capture + AGENCY CONVERTER
 GMAIL_QUERIES = [
     "from:googlealerts-noreply@google.com is:unread",
     "subject:(freelance OR contract OR project OR opportunity) is:unread",
     "subject:(proposal OR RFP OR tender OR bid) is:unread",
     "(upwork OR freelancer OR fiverr OR toptal) is:unread",
+]
+
+# AGENCY CONVERTER: Google Alert Keywords (monitored by user)
+AGENCY_KEYWORDS = [
+    'need a developer', 'need developer', 'looking for developer',
+    'looking for website', 'need a website', 'website developer',
+    'hiring app developer', 'app developer needed', 'software developer',
+    'full stack developer', 'react developer', 'python developer',
+    'need web designer', 'web development', 'mobile app development'
+]
+
+# AGENCY CONVERTER: LinkedIn Job Alert Keywords
+LINKEDIN_JOB_KEYWORDS = [
+    'application developer', 'full stack', 'full-stack',
+    'software engineer', 'backend developer', 'frontend developer',
+    'cto', 'chief technology officer', 'lead developer',
+    'senior developer', 'software architect'
 ]
 
 # High-value keyword scoring (more keywords = higher score)
@@ -376,6 +401,201 @@ def mark_as_read(service, msg_id: str):
     ).execute()
 
 
+# ==================== AGENCY CONVERTER ====================
+
+def extract_email_from_text(text: str) -> Optional[str]:
+    """Extract email address from text"""
+    email_pattern = r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
+    matches = re.findall(email_pattern, text)
+    
+    # Filter out noreply/alerts emails
+    valid_emails = [
+        email for email in matches
+        if not any(skip in email.lower() for skip in ['noreply', 'alerts', 'notification', 'no-reply'])
+    ]
+    
+    return valid_emails[0] if valid_emails else None
+
+
+def extract_company_from_linkedin(subject: str, content: str) -> Optional[str]:
+    """Extract company name from LinkedIn job alert"""
+    # Try subject line first
+    company_patterns = [
+        r'at\s+([A-Z][A-Za-z\s&\.]+?)(?:\s+in|\s+\||$)',
+        r'hiring.*?at\s+([A-Z][A-Za-z\s&\.]+?)(?:\s+in|\s+\||$)',
+        r'([A-Z][A-Za-z\s&\.]+?)\s+is\s+hiring',
+    ]
+    
+    for pattern in company_patterns:
+        match = re.search(pattern, subject)
+        if match:
+            company = match.group(1).strip()
+            if len(company) > 2 and company.lower() not in ['the', 'and', 'for']:
+                return company
+    
+    # Try content
+    soup = BeautifulSoup(content, 'html.parser')
+    text = soup.get_text()
+    
+    for pattern in company_patterns:
+        match = re.search(pattern, text[:500])
+        if match:
+            company = match.group(1).strip()
+            if len(company) > 2:
+                return company
+    
+    return None
+
+
+def generate_agency_pitch(context: Dict) -> str:
+    """Generate agency pitch using OpenAI"""
+    api_key = os.getenv("OPENAI_API_KEY", "").strip()
+    if not api_key:
+        # Fallback template
+        return f"""Hi,
+
+I saw you're looking for a developer for {context.get('role', 'your project')}.
+
+Instead of hiring a salary employee, consider working with my agency, AMD Solutions 007.
+
+Why agencies beat employees:
+✅ Full team (not just 1 person)
+✅ No recruitment costs
+✅ Faster delivery (we have resources ready)
+✅ No benefits/overhead
+✅ Same cost or less
+
+We've built 19+ projects for Nigerian businesses - from POS systems to AI automation.
+
+Let's discuss how we can help: +234 818 002 1007
+
+Best regards,
+Olawale Shoyemi
+CEO, AMD Solutions 007
+www.amdsolutions007.com"""
+    
+    try:
+        client = OpenAI(api_key=api_key)
+        
+        prompt = f"""You are Olawale Shoyemi, CEO of AMD Solutions 007, pitching your agency as an alternative to hiring a salary employee.
+
+Context:
+- They posted: "{context.get('role', 'Developer needed')}"
+- Company: {context.get('company', 'Unknown')}
+- Source: {context.get('source', 'Job board')}
+
+Write a 150-word pitch that:
+1. Shows you understand they need a developer
+2. Proposes agency model instead of employee (same cost, full team)
+3. Highlights 2 benefits (no recruitment hassle, faster delivery)
+4. Mentions AMD Solutions track record (19+ projects)
+5. Proposes quick call: +234 818 002 1007
+
+Tone: Professional, confident, helpful (not desperate)
+Sign off: Olawale Shoyemi | CEO, AMD Solutions 007"""
+
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=250,
+            temperature=0.7
+        )
+        
+        return response.choices[0].message.content.strip()
+        
+    except Exception as e:
+        logger.error("❌ Agency pitch generation failed: %s", e)
+        # Return fallback on error
+        return f"""Hi,
+
+I saw you're looking for a developer. Instead of a salary employee, consider AMD Solutions 007 (my agency).
+
+Same cost, but you get:
+✅ Full development team
+✅ No recruitment hassle  
+✅ Faster delivery
+✅ 19+ completed projects
+
+Let's talk: +234 818 002 1007
+
+Olawale Shoyemi | CEO, AMD Solutions 007"""
+
+
+def send_agency_email(service, to_email: str, subject: str, body: str) -> bool:
+    """Send agency pitch via Gmail API"""
+    try:
+        from email.mime.text import MIMEText
+        import base64
+        
+        message = MIMEText(body)
+        message['to'] = to_email
+        message['subject'] = subject
+        
+        raw_message = base64.urlsafe_b64encode(message.as_bytes()).decode('utf-8')
+        
+        service.users().messages().send(
+            userId='me',
+            body={'raw': raw_message}
+        ).execute()
+        
+        logger.info("✅ Agency email sent to: %s", to_email)
+        return True
+        
+    except Exception as e:
+        logger.error("❌ Failed to send email to %s: %s", to_email, e)
+        return False
+
+
+def save_linkedin_draft(company: str, role: str, pitch: str):
+    """Save LinkedIn draft to daily report file"""
+    LINKEDIN_DRAFTS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    draft_entry = f"""
+{'=' * 70}
+DATE: {timestamp}
+COMPANY: {company}
+ROLE: {role}
+{'=' * 70}
+
+LINKEDIN DRAFT (Manual Posting Required):
+
+{pitch}
+
+{'=' * 70}
+
+"""
+    
+    with open(LINKEDIN_DRAFTS_PATH, 'a', encoding='utf-8') as f:
+        f.write(draft_entry)
+    
+    logger.info("✅ LinkedIn draft saved: %s - %s", company, role)
+
+
+def is_google_alert(subject: str, sender: str) -> bool:
+    """Check if email is from Google Alerts"""
+    return 'googlealerts-noreply@google.com' in sender.lower()
+
+
+def is_linkedin_job_alert(subject: str, sender: str) -> bool:
+    """Check if email is LinkedIn job alert"""
+    return ('linkedin' in sender.lower() and 
+            any(keyword in subject.lower() for keyword in ['job', 'opportunity', 'hiring', 'application']))
+
+
+def contains_agency_keywords(text: str) -> bool:
+    """Check if text contains agency conversion keywords"""
+    text_lower = text.lower()
+    return any(keyword in text_lower for keyword in AGENCY_KEYWORDS)
+
+
+def contains_linkedin_job_keywords(text: str) -> bool:
+    """Check if text contains LinkedIn job keywords"""
+    text_lower = text.lower()
+    return any(keyword in text_lower for keyword in LINKEDIN_JOB_KEYWORDS)
+
+
 # ==================== TELEGRAM ALERTING ====================
 
 def send_telegram_alert(bot: Bot, chat_id: str, lead_data: Dict, lead_id: int, score: int, reason: str):
@@ -419,9 +639,11 @@ def send_telegram_alert(bot: Bot, chat_id: str, lead_data: Dict, lead_id: int, s
 # ==================== MAIN POLLING LOOP ====================
 
 def process_messages(service, bot: Bot, chat_id: str):
-    """Process all unread messages matching our queries"""
+    """Process all unread messages matching our queries + AGENCY CONVERTER"""
     total_processed = 0
     total_qualified = 0
+    agency_emails_sent = 0
+    linkedin_drafts_created = 0
     
     for query in GMAIL_QUERIES:
         try:
@@ -435,12 +657,96 @@ def process_messages(service, bot: Bot, chat_id: str):
                 msg_id = msg["id"]
                 full = service.users().messages().get(userId="me", id=msg_id, format="full").execute()
                 
-                # Extract subject and body
+                # Extract subject, sender, and body
                 headers = full.get("payload", {}).get("headers", [])
                 subject = next((h['value'] for h in headers if h['name'].lower() == 'subject'), 'No Subject')
+                sender = next((h['value'] for h in headers if h['name'].lower() == 'from'), '')
                 
                 payload = full.get("payload", {})
                 content = extract_body(payload)
+                
+                # ==================== AGENCY CONVERTER LOGIC ====================
+                
+                # TRACK 1: Google Alerts with Agency Keywords
+                if is_google_alert(subject, sender) and contains_agency_keywords(subject + content):
+                    logger.info("🎯 AGENCY OPPORTUNITY (Google Alert): %s", subject[:60])
+                    
+                    # Extract email from content
+                    contact_email = extract_email_from_text(content)
+                    
+                    if contact_email:
+                        # Generate agency pitch
+                        pitch_context = {
+                            'role': subject[:100],
+                            'company': 'Unknown',
+                            'source': 'Google Alert'
+                        }
+                        pitch = generate_agency_pitch(pitch_context)
+                        
+                        # Send email via Gmail API
+                        email_subject = "Agency Alternative - AMD Solutions 007"
+                        if send_agency_email(service, contact_email, email_subject, pitch):
+                            agency_emails_sent += 1
+                            logger.info("✅ Agency email sent: %s", contact_email)
+                        
+                        # Also save to database as converted lead
+                        lead_data = {
+                            'company_name': 'Google Alert Lead',
+                            'job_title': subject[:200],
+                            'job_description': content[:500],
+                            'email': contact_email,
+                            'job_link': 'Google Alert',
+                            'lead_score': 75,
+                            'source': 'google_alert_converted',
+                            'notes': f'Agency email auto-sent to {contact_email}',
+                            'status': 'auto_contacted',
+                            'ai_draft_proposal': pitch
+                        }
+                        insert_lead(lead_data)
+                    
+                    mark_as_read(service, msg_id)
+                    total_processed += 1
+                    continue
+                
+                # TRACK 2: LinkedIn Job Alerts
+                if is_linkedin_job_alert(subject, sender) and contains_linkedin_job_keywords(subject + content):
+                    logger.info("💼 LINKEDIN JOB ALERT: %s", subject[:60])
+                    
+                    # Extract company name
+                    company = extract_company_from_linkedin(subject, content)
+                    
+                    if company:
+                        # Generate agency pitch
+                        pitch_context = {
+                            'role': subject[:100],
+                            'company': company,
+                            'source': 'LinkedIn'
+                        }
+                        pitch = generate_agency_pitch(pitch_context)
+                        
+                        # Save draft (manual posting to LinkedIn - Protocol 007 compliant)
+                        save_linkedin_draft(company, subject[:100], pitch)
+                        linkedin_drafts_created += 1
+                        
+                        # Save to database
+                        lead_data = {
+                            'company_name': company,
+                            'job_title': subject[:200],
+                            'job_description': content[:500],
+                            'job_link': 'LinkedIn Alert',
+                            'lead_score': 70,
+                            'source': 'linkedin_job_converted',
+                            'notes': f'LinkedIn draft saved for manual posting',
+                            'status': 'draft_ready',
+                            'ai_draft_proposal': pitch
+                        }
+                        insert_lead(lead_data)
+                    
+                    mark_as_read(service, msg_id)
+                    total_processed += 1
+                    continue
+                
+                # ==================== STANDARD LEAD PROCESSING ====================
                 
                 # Parse lead data
                 lead_data = parse_lead_from_email(subject, content)
@@ -487,11 +793,34 @@ def process_messages(service, bot: Bot, chat_id: str):
         except Exception as exc:
             logger.error("❌ Error processing query '%s': %s", query, exc)
     
+    # Enhanced logging with Agency Converter stats
     if total_processed > 0:
-        logger.info("📊 Processed %d emails | Qualified %d leads | Filtered %d spam",
+        logger.info("📊 PROCESSED: %d emails | QUALIFIED: %d leads | SPAM FILTERED: %d",
                    total_processed, total_qualified, total_processed - total_qualified)
+        logger.info("🎯 AGENCY CONVERTER: %d emails sent | %d LinkedIn drafts created",
+                   agency_emails_sent, linkedin_drafts_created)
     else:
         logger.info("✓ No new emails")
+    
+    # Send daily summary if agency conversions happened
+    if agency_emails_sent > 0 or linkedin_drafts_created > 0:
+        summary = f"""🤖 **AGENCY CONVERTER DAILY SUMMARY**
+
+📧 Auto-Emails Sent: {agency_emails_sent}
+💼 LinkedIn Drafts: {linkedin_drafts_created}
+📊 Total Processed: {total_processed}
+✅ Qualified Leads: {total_qualified}
+
+{'📁 Check: lead_engine/data/DAILY_LEADS_REPORT.txt for LinkedIn drafts' if linkedin_drafts_created > 0 else ''}
+
+---
+Gmail Scout Sniper + Agency Converter"""
+        
+        try:
+            bot.send_message(chat_id=chat_id, text=summary, parse_mode="Markdown")
+        except Exception as e:
+            logger.warning("Failed to send summary: %s", e)
+
 
 
 def main():
