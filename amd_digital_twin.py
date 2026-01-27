@@ -27,6 +27,24 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
+# ========================= DIGITAL DNA (AI CONTEXT) =========================
+
+USER_CONTEXT = """
+NAME: Olawale Shoyemi (Solutions 007)
+ROLE: CEO, AMD Media Solutions
+TAGLINE: Illuminating the Digital Dark.
+STATS: 24 Active Projects, 50K+ Lines of Code, 12 Social Platforms
+STACK: Python, Next.js, AI/ML, React
+OFFER: Custom-built, world-class link pages & AI Systems
+PORTFOLIO LINKS:
+- WhatsApp Hotline: +234 811 377 5880
+- Telegram: Join Intelligence Hub
+- LinkedIn: Professional Network
+- GitHub: 50K+ Lines of Code Portfolio
+- Website: amdsolutions007.com
+VALUE PROPOSITION: Agency model beats hiring - no recruitment risk, no payroll burden, proven delivery.
+"""
+
 # ========================= CONFIGURATION =========================
 
 SMTP_SERVER = "mail.privateemail.com"
@@ -78,21 +96,25 @@ def get_agency_pitch(recipient_name: str) -> str:
 I noticed your team is hiring developers. Before committing to a full-time salary, have you considered an agency partnership?
 
 AMD Solutions 007 provides:
-✅ Full-stack development (React, Node.js, Python, Flutter)
+✅ Full-stack development (React, Node.js, Python, Flutter, Next.js)
 ✅ No recruitment overhead or payroll burden
 ✅ Flexible scaling - pay only for delivery
-✅ 10+ years combined experience
+✅ Currently managing 24 active projects with 50K+ lines of code
 
-We've helped 15+ businesses across Nigeria and UK launch their digital products without the risk of bad hires.
+We've helped businesses across Nigeria and UK launch their digital products without the risk of bad hires.
 
 Would you be open to a 15-minute call this week?
 
+--------------------------------------------------
 Best regards,
-**Ademola Otun**  
-CEO, AMD Solutions 007  
-📧 ceo@amdsolutions007.com  
-🌐 amdsolutions007.com  
-📱 WhatsApp: +234 816 658 7770
+
+Olawale Shoyemi
+CEO, AMD Solutions 007
+✉️ ceo@amdsolutions007.com
+🌐 amdsolutions007.com
+📞 Official: +234 818 002 1007
+📱 WhatsApp: +234 811 377 5880
+--------------------------------------------------
 """,
         
         f"""Hi {recipient_name},
@@ -104,18 +126,23 @@ Quick question: What's the total cost of a bad developer hire?
 AMD Solutions 007 offers a smarter alternative:
 • No recruitment risk
 • No payroll commitments
-• Proven track record (15+ successful projects)
+• 24 active projects, 50K+ lines of production code
 • Same expertise, flexible terms
 
-We specialize in web apps, mobile apps, and automation systems.
+We specialize in web apps, mobile apps, AI systems, and automation.
 
 Can I send you our portfolio and case studies?
 
-Regards,
-**Ademola Otun**  
-Founder & CEO  
-AMD Solutions 007  
-ceo@amdsolutions007.com
+--------------------------------------------------
+Best regards,
+
+Olawale Shoyemi
+CEO, AMD Solutions 007
+✉️ ceo@amdsolutions007.com
+🌐 amdsolutions007.com
+📞 Official: +234 818 002 1007
+📱 WhatsApp: +234 811 377 5880
+--------------------------------------------------
 """,
         
         f"""Dear {recipient_name},
@@ -125,23 +152,29 @@ I help businesses avoid the "hiring trap."
 Instead of spending 3-6 months recruiting (and risking a bad fit), we deliver your project in weeks with an experienced agency team.
 
 **What we do:**
-- Full-stack web development
+- Full-stack web development (Next.js, React)
 - Mobile apps (iOS/Android)
-- API integrations & automation
+- AI/ML systems & automation
 - Cloud deployment (AWS, Railway, Vercel)
 
 **Why agencies win:**
 - Faster delivery (no onboarding lag)
 - Lower risk (no long-term commitment)
 - Higher quality (peer-reviewed code)
+- Proven track: 24 active projects, 50K+ lines shipped
 
 Would you like to see how we've helped companies like yours?
 
-Best,
-**Ademola Otun**  
-AMD Solutions 007  
-📧 ceo@amdsolutions007.com  
-💼 LinkedIn: linkedin.com/in/ademolaotun
+--------------------------------------------------
+Best regards,
+
+Olawale Shoyemi
+CEO, AMD Solutions 007
+✉️ ceo@amdsolutions007.com
+🌐 amdsolutions007.com
+📞 Official: +234 818 002 1007
+📱 WhatsApp: +234 811 377 5880
+--------------------------------------------------
 """
     ]
     
@@ -187,7 +220,7 @@ def send_email(target: dict) -> bool:
     try:
         # Create message
         msg = MIMEMultipart("alternative")
-        msg["From"] = f"Ademola Otun <{SMTP_USER}>"
+        msg["From"] = f"Olawale Shoyemi <{SMTP_USER}>"
         msg["To"] = target["to"]
         msg["Subject"] = target["subject"]
         
