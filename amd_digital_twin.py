@@ -23,9 +23,13 @@ from datetime import datetime, date
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
+from openai import OpenAI
 
 # Load environment variables
 load_dotenv()
+
+# Initialize OpenAI client
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # ========================= DIGITAL DNA (AI CONTEXT) =========================
 
@@ -150,29 +154,41 @@ SMTP_PORT = 587  # STARTTLS port (465 blocked on some networks)
 SMTP_USER = "ceo@amdsolutions007.com"
 SMTP_PASS = os.getenv("SMTP_PASS")
 
-# Email targets (Agency pitches)
+# Email targets (Agency pitches with AI context)
 EMAIL_TARGETS = [
     {
         "to": "amdmediaoffice@gmail.com",
-        "subject": "🧪 Digital Twin Test - AMD Solutions 007",
-        "name": "Ademola"
+        "subject": "🧪 AI-Powered Digital Twin Test - AMD Solutions 007",
+        "name": "Test User",
+        "company": "AMD Media",
+        "industry": "Tech",
+        "job_role": "Full Stack Developer"
     },
     {
         "to": "jobs@example.com",
         "subject": "Agency Partnership - AMD Solutions 007",
-        "name": "Hiring Manager"
+        "name": "Hiring Manager",
+        "company": "Tech Startup",
+        "industry": "Software",
+        "job_role": "Senior Developer"
     },
     {
         "to": "hr@techstartup.com",
-        "subject": "Cost-Effective Development Alternative",
-        "name": "HR Team"
+        "subject": "Intelligence-Driven Development Alternative",
+        "name": "HR Team",
+        "company": "Tech Startup",
+        "industry": "Technology",
+        "job_role": "Engineering Team"
     },
     {
         "to": "contact@businessowner.com",
-        "subject": "Website & App Development Agency",
-        "name": "Business Owner"
+        "subject": "Illuminating Your Digital Dark",
+        "name": "Business Owner",
+        "company": "Local Business",
+        "industry": "Nigerian SME",
+        "job_role": "Technical Leadership"
     },
-    # Add more targets as needed
+    # Add more targets with industry context for intelligent AI matching
 ]
 
 # Rate limits (PROTOCOL 007: Stay under radar)
@@ -183,10 +199,143 @@ MAX_SLEEP_SECONDS = 3600  # 60 minutes
 # Tracking file
 SENT_LOG_FILE = "data/digital_twin_sent.log"
 
-# ========================= EMAIL TEMPLATES =========================
+# ========================= AI-POWERED EMAIL GENERATION =========================
+
+def generate_intelligent_pitch(recipient_name: str, company: str = "", industry: str = "", job_role: str = "") -> str:
+    """
+    Use OpenAI to generate intelligent, contextual pitch emails
+    Based on USER_CONTEXT (manifesto + tech arsenal) + recipient context
+    """
+    
+    # Build contextual prompt based on industry
+    industry_context = ""
+    if industry:
+        industry_lower = industry.lower()
+        if any(word in industry_lower for word in ['finance', 'trading', 'investment', 'bank']):
+            industry_context = "IMPORTANT: Mention SkyCap AI (Financial Market Intelligence) as a relevant tool."
+        elif any(word in industry_lower for word in ['music', 'entertainment', 'artist', 'label', 'media']):
+            industry_context = "IMPORTANT: Mention Shine AI (Music & Entertainment Analytics) as a relevant tool."
+        elif any(word in industry_lower for word in ['nigeria', 'sme', 'startup', 'local business']):
+            industry_context = "IMPORTANT: Mention NaijaBiz Assist (Local Business Scaling Engine) as a relevant tool."
+        elif any(word in industry_lower for word in ['hr', 'recruitment', 'migration', 'relocation']):
+            industry_context = "IMPORTANT: Mention Japa Readiness Calculator (Migration Analytics) as a relevant tool."
+    
+    prompt = f"""You are Olawale Shoyemi, CEO of AMD Solutions 007.
+
+FULL COMPANY DNA (USE THIS AS YOUR KNOWLEDGE BASE):
+{USER_CONTEXT}
+
+RECIPIENT DETAILS:
+- Name: {recipient_name}
+- Company: {company if company else "Unknown"}
+- Industry: {industry if industry else "General Business"}
+- Role they're hiring for: {job_role if job_role else "Developer/Technical role"}
+
+{industry_context}
+
+TASK:
+Write a compelling 150-word B2B email pitch.
+
+CRITICAL REQUIREMENTS:
+1. Use the "Digital Dark" metaphor (they drown in data, starve for insights)
+2. Position as strategic partner, NOT vendor
+3. Mention "military-grade intelligence" tone
+4. Reference "24 active projects, 50K+ lines of code" for credibility
+5. Use the philosophy: "Working Smartly. Solutions to Every Dark Cloud."
+6. If industry context provided above, mention that specific AI tool
+7. Keep tone: Confident, elite-level, technical precision
+8. End with clear call-to-action (15-min strategy session)
+9. DO NOT include signature block (will be added separately)
+
+AVOID:
+- Generic freelancer language
+- "We offer services" (too vague)
+- Over-promising
+- Salesy/desperate tone
+
+Write the email now:"""
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {
+                    "role": "system", 
+                    "content": "You are Olawale Shoyemi, CEO of AMD Solutions 007. You write elite-level B2B emails using military-grade intelligence language. You are a developer first, not a marketer. You build proprietary AI systems."
+                },
+                {
+                    "role": "user", 
+                    "content": prompt
+                }
+            ],
+            temperature=0.7,
+            max_tokens=400
+        )
+        
+        ai_pitch = response.choices[0].message.content.strip()
+        
+        # Add signature block
+        signature = """
+--------------------------------------------------
+Best regards,
+
+Olawale Shoyemi
+CEO, AMD Solutions 007
+✉️ ceo@amdsolutions007.com
+🌐 amdsolutions007.com
+📞 Official: +234 818 002 1007
+📱 WhatsApp: +234 811 377 5880
+--------------------------------------------------"""
+        
+        return ai_pitch + "\n" + signature
+        
+    except Exception as e:
+        print(f"⚠️  OpenAI generation failed: {e}")
+        print("   Falling back to static template...")
+        # Fallback to static template if API fails
+        return get_agency_pitch_static(recipient_name)
+
+def get_agency_pitch_static(recipient_name: str) -> str:
+    """Fallback static templates if OpenAI fails"""
+    templates = [
+        f"""Hello {recipient_name},
+
+I noticed your team is hiring developers. Here's a question: are you recruiting because you need tasks done, or because you need intelligence-driven solutions?
+
+Most companies operate in what we call the "Digital Dark"—drowning in data but starving for actionable insights.
+
+AMD Solutions 007 takes a different approach:
+✅ Military-grade intelligence: We build proprietary AI systems, not cookie-cutter websites
+✅ Developers first: 24 active projects, 50K+ lines of production code
+✅ Zero recruitment risk: No payroll burden, no bad hire costs
+✅ Tech Stack: Python, Next.js, AI/ML, React (battle-tested)
+
+We don't believe in working harder—we believe in working smarter. Every challenge is an opportunity for innovation.
+
+Would you be open to a 15-minute strategy session this week?
+
+--------------------------------------------------
+Best regards,
+
+Olawale Shoyemi
+CEO, AMD Solutions 007
+✉️ ceo@amdsolutions007.com
+🌐 amdsolutions007.com
+📞 Official: +234 818 002 1007
+📱 WhatsApp: +234 811 377 5880
+--------------------------------------------------
+"""
+    ]
+    return random.choice(templates)
+
+# ========================= LEGACY EMAIL TEMPLATES (BACKUP) =========================
 
 def get_agency_pitch(recipient_name: str) -> str:
-    """Generate personalized agency pitch"""
+    """
+    DEPRECATED: Use generate_intelligent_pitch() for AI-powered emails
+    This function kept for backward compatibility only
+    """
+    return generate_intelligent_pitch(recipient_name)
     
     templates = [
         f"""Hello {recipient_name},
@@ -322,7 +471,7 @@ def log_sent_email(recipient: str):
         f.write(f"{timestamp} | {recipient}\n")
 
 def send_email(target: dict) -> bool:
-    """Send single email via Namecheap SMTP"""
+    """Send single email via Namecheap SMTP with AI-generated content"""
     try:
         # Create message
         msg = MIMEMultipart("alternative")
@@ -330,8 +479,14 @@ def send_email(target: dict) -> bool:
         msg["To"] = target["to"]
         msg["Subject"] = target["subject"]
         
-        # Generate personalized body
-        body = get_agency_pitch(target["name"])
+        # Generate AI-powered pitch using recipient context
+        print(f"🤖 Generating AI pitch for {target['name']}...")
+        body = generate_intelligent_pitch(
+            recipient_name=target["name"],
+            company=target.get("company", ""),
+            industry=target.get("industry", ""),
+            job_role=target.get("job_role", "")
+        )
         msg.attach(MIMEText(body, "plain"))
         
         # Create SSL context
