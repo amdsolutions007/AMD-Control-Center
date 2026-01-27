@@ -8,6 +8,7 @@
  * 2. Lead Scraper (Cron: 10 AM)
  * 3. Lead Outreach (Cron: 11 AM)
  * 4. Gmail Scout Sniper (24/7 Real-Time Lead Intelligence)
+ * 5. AMD NEXUS (Autopilot: Daily at 10 AM WAT)
  * 
  * NOTE: Dashboard runs separately via railway.json startCommand
  * 
@@ -106,6 +107,38 @@ module.exports = {
       },
       error_file: '/tmp/lead-outreach-error.log',
       out_file: '/tmp/lead-outreach-out.log',
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
+      merge_logs: true
+    },
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 🤖 AMD NEXUS - AUTONOMOUS BUSINESS ENGINE (Scheduled)
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    {
+      name: 'amd-nexus',
+      script: '/opt/venv/bin/python',
+      args: 'amd_nexus.py',
+      instances: 1,
+      autorestart: false, // Run once per day, don't auto-restart
+      watch: false,
+      max_memory_restart: '800M',
+      cron_restart: '0 10 * * *', // 10:00 AM daily (WAT = Amsterdam +1 = 9 AM Amsterdam)
+      env: {
+        NODE_ENV: 'production',
+        PYTHONUNBUFFERED: '1',
+        TZ: 'Europe/Amsterdam',
+        OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+        TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN,
+        TELEGRAM_CHAT_ID: process.env.TELEGRAM_CHAT_ID,
+        LINKEDIN_ACCESS_TOKEN: process.env.LINKEDIN_ACCESS_TOKEN || '',
+        LINKEDIN_PERSON_URN: process.env.LINKEDIN_PERSON_URN || '',
+        TWITTER_API_KEY: process.env.TWITTER_API_KEY || '',
+        TWITTER_API_SECRET: process.env.TWITTER_API_SECRET || '',
+        TWITTER_ACCESS_TOKEN: process.env.TWITTER_ACCESS_TOKEN || '',
+        TWITTER_ACCESS_SECRET: process.env.TWITTER_ACCESS_SECRET || ''
+      },
+      error_file: '/tmp/amd-nexus-error.log',
+      out_file: '/tmp/amd-nexus-out.log',
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
       merge_logs: true
     }
