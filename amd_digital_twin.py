@@ -24,6 +24,12 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
 from openai import OpenAI
+from amd_knowledge_base import (
+    PROJECT_PORTFOLIO, 
+    SERVICES_CATALOG, 
+    CLIENT_TESTIMONIALS,
+    COMPANY_INFO
+)
 
 # Load environment variables
 load_dotenv()
@@ -201,29 +207,98 @@ SENT_LOG_FILE = "data/digital_twin_sent.log"
 
 # ========================= AI-POWERED EMAIL GENERATION =========================
 
+def select_relevant_knowledge(industry: str, job_role: str):
+    """
+    Intelligently select relevant knowledge modules based on recipient context
+    Returns dict with focused project/service/testimonial recommendations
+    """
+    industry_lower = industry.lower() if industry else ""
+    
+    knowledge = {
+        'projects': [],
+        'key_metric': '',
+        'case_study': '',
+        'tool_mention': ''
+    }
+    
+    # REAL ESTATE SECTOR
+    if any(word in industry_lower for word in ['real estate', 'property', 'proptech']):
+        knowledge['projects'] = ['Naija-Prop-Intel', 'Naija-Rent-Estimator']
+        knowledge['key_metric'] = '94% prediction accuracy, 340% revenue increase for PropTech Nigeria'
+        knowledge['case_study'] = 'PropTech Nigeria'
+        knowledge['tool_mention'] = 'Naija-Prop-Intel'
+    
+    # FINANCE/FINTECH SECTOR
+    elif any(word in industry_lower for word in ['finance', 'crypto', 'fintech', 'trading', 'bank']):
+        knowledge['projects'] = ['Naira-AI-Crypto-Tracker', 'Bank-Statement-Parser', 'CBN-Compliance-Copilot', 'SkyCap AI']
+        knowledge['key_metric'] = '5x ROI in first quarter for fintech startup'
+        knowledge['case_study'] = 'Fintech Startup'
+        knowledge['tool_mention'] = 'SkyCap AI and Naira-AI-Crypto-Tracker'
+    
+    # LEGAL SECTOR
+    elif any(word in industry_lower for word in ['legal', 'law', 'attorney', 'lawyer']):
+        knowledge['projects'] = ['NaijaLaw-GPT']
+        knowledge['key_metric'] = '20 hours/week saved, 70% faster case prep, expanded to 5 law firms'
+        knowledge['case_study'] = 'LegalTech Solutions'
+        knowledge['tool_mention'] = 'NaijaLaw-GPT'
+    
+    # MEDIA/ENTERTAINMENT
+    elif any(word in industry_lower for word in ['media', 'entertainment', 'music', 'artist', 'content']):
+        knowledge['projects'] = ['Shine AI', 'AMD-Content-AI']
+        knowledge['key_metric'] = '5.7M views in 2 weeks, 3x sales increase'
+        knowledge['case_study'] = 'E-commerce viral campaign'
+        knowledge['tool_mention'] = 'Shine AI'
+    
+    # HR/RECRUITMENT
+    elif any(word in industry_lower for word in ['hr', 'recruitment', 'staffing', 'talent']):
+        knowledge['projects'] = ['Naija-Resume-Scanner', 'Address-Intel']
+        knowledge['key_metric'] = 'Intelligent CV analysis and talent matching for Nigerian market'
+        knowledge['case_study'] = 'HR Tech innovation'
+        knowledge['tool_mention'] = 'Naija-Resume-Scanner'
+    
+    # E-COMMERCE/RETAIL
+    elif any(word in industry_lower for word in ['ecommerce', 'retail', 'commerce', 'shop']):
+        knowledge['projects'] = ['AMD-Activity-Booster', 'AMD-Content-AI', 'NaijaStack-AI']
+        knowledge['key_metric'] = '3x sales increase, 5.7M views'
+        knowledge['case_study'] = 'E-commerce Platform'
+        knowledge['tool_mention'] = 'AMD-Content-AI and NaijaStack-AI'
+    
+    # LOGISTICS/OPERATIONS
+    elif any(word in industry_lower for word in ['logistics', 'operations', 'transport', 'delivery']):
+        knowledge['projects'] = ['AMD-Alert-System', 'Address-Intel', 'AMD-Data-Engine']
+        knowledge['key_metric'] = '85% faster response time, 96% customer satisfaction'
+        knowledge['case_study'] = 'Logistics Company'
+        knowledge['tool_mention'] = 'AMD-Alert-System'
+    
+    # STARTUPS/SMEs (Default Nigerian business)
+    else:
+        knowledge['projects'] = ['NaijaBiz Assist', 'NaijaStack-AI', 'AMD-Control-Center']
+        knowledge['key_metric'] = '25+ Nigerian clients, ₦2.5B+ revenue generated'
+        knowledge['case_study'] = 'Nigerian SME ecosystem'
+        knowledge['tool_mention'] = 'NaijaBiz Assist'
+    
+    return knowledge
+
+
 def generate_intelligent_pitch(recipient_name: str, company: str = "", industry: str = "", job_role: str = "") -> str:
     """
     Use OpenAI to generate intelligent, contextual pitch emails
-    Based on USER_CONTEXT (manifesto + tech arsenal) + recipient context
+    With intelligent knowledge base selection (NEW: loads relevant projects/case studies)
     """
     
-    # Build contextual prompt based on industry
-    industry_context = ""
-    if industry:
-        industry_lower = industry.lower()
-        if any(word in industry_lower for word in ['finance', 'trading', 'investment', 'bank']):
-            industry_context = "IMPORTANT: Mention SkyCap AI (Financial Market Intelligence) as a relevant tool."
-        elif any(word in industry_lower for word in ['music', 'entertainment', 'artist', 'label', 'media']):
-            industry_context = "IMPORTANT: Mention Shine AI (Music & Entertainment Analytics) as a relevant tool."
-        elif any(word in industry_lower for word in ['nigeria', 'sme', 'startup', 'local business']):
-            industry_context = "IMPORTANT: Mention NaijaBiz Assist (Local Business Scaling Engine) as a relevant tool."
-        elif any(word in industry_lower for word in ['hr', 'recruitment', 'migration', 'relocation']):
-            industry_context = "IMPORTANT: Mention Japa Readiness Calculator (Migration Analytics) as a relevant tool."
+    # Get focused knowledge for this recipient
+    knowledge = select_relevant_knowledge(industry, job_role)
     
+    # Build enhanced prompt with relevant context
     prompt = f"""You are Olawale Shoyemi, CEO of AMD Solutions 007.
 
-FULL COMPANY DNA (USE THIS AS YOUR KNOWLEDGE BASE):
+FULL COMPANY DNA (YOUR KNOWLEDGE BASE):
 {USER_CONTEXT}
+
+ADDITIONAL CONTEXT FROM KNOWLEDGE BASE:
+- We have built: {', '.join(knowledge['projects'])}
+- Proven results: {knowledge['key_metric']}
+- Relevant case study: {knowledge['case_study']}
 
 RECIPIENT DETAILS:
 - Name: {recipient_name}
@@ -231,7 +306,7 @@ RECIPIENT DETAILS:
 - Industry: {industry if industry else "General Business"}
 - Role they're hiring for: {job_role if job_role else "Developer/Technical role"}
 
-{industry_context}
+IMPORTANT: Specifically mention {knowledge['tool_mention']} as relevant to their {industry} industry.
 
 TASK:
 Write a compelling 150-word B2B email pitch.
@@ -240,9 +315,9 @@ CRITICAL REQUIREMENTS:
 1. Use the "Digital Dark" metaphor (they drown in data, starve for insights)
 2. Position as strategic partner, NOT vendor
 3. Mention "military-grade intelligence" tone
-4. Reference "24 active projects, 50K+ lines of code" for credibility
+4. Reference specific case study metrics: {knowledge['key_metric']}
 5. Use the philosophy: "Working Smartly. Solutions to Every Dark Cloud."
-6. If industry context provided above, mention that specific AI tool
+6. Mention {knowledge['tool_mention']} as directly relevant to their business
 7. Keep tone: Confident, elite-level, technical precision
 8. End with clear call-to-action (15-min strategy session)
 9. DO NOT include signature block (will be added separately)
@@ -261,7 +336,7 @@ Write the email now:"""
             messages=[
                 {
                     "role": "system", 
-                    "content": "You are Olawale Shoyemi, CEO of AMD Solutions 007. You write elite-level B2B emails using military-grade intelligence language. You are a developer first, not a marketer. You build proprietary AI systems."
+                    "content": "You are Olawale Shoyemi, CEO of AMD Solutions 007. You write elite-level B2B emails using military-grade intelligence language. You are a developer first, not a marketer. You build proprietary AI systems with proven ROI."
                 },
                 {
                     "role": "user", 
