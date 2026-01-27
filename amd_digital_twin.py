@@ -30,12 +30,17 @@ load_dotenv()
 # ========================= CONFIGURATION =========================
 
 SMTP_SERVER = "mail.privateemail.com"
-SMTP_PORT = 465  # SSL port
+SMTP_PORT = 587  # STARTTLS port (465 blocked on some networks)
 SMTP_USER = "ceo@amdsolutions007.com"
 SMTP_PASS = os.getenv("SMTP_PASS")
 
 # Email targets (Agency pitches)
 EMAIL_TARGETS = [
+    {
+        "to": "amdmediaoffice@gmail.com",
+        "subject": "🧪 Digital Twin Test - AMD Solutions 007",
+        "name": "Ademola"
+    },
     {
         "to": "jobs@example.com",
         "subject": "Agency Partnership - AMD Solutions 007",
@@ -192,9 +197,13 @@ def send_email(target: dict) -> bool:
         
         # Create SSL context
         context = ssl.create_default_context()
+        # Namecheap Private Email compatibility
+        context.check_hostname = False
+        context.verify_mode = ssl.CERT_NONE
         
-        # Connect and send
-        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, context=context) as server:
+        # Connect and send (using STARTTLS for port 587)
+        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+            server.starttls(context=context)
             server.login(SMTP_USER, SMTP_PASS)
             server.send_message(msg)
         
