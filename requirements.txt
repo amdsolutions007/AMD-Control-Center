@@ -19,3 +19,8 @@ openai>=1.0.0
 Pillow>=10.0.0
 imageio-ffmpeg>=0.4.9
 python-dotenv==1.0.0
+
+# Social media automation (amd_social_manager.py)
+requests-oauthlib>=1.3.1  # Twitter OAuth
+tweepy>=4.14.0  # Twitter API wrapper (alternative)
+python-telegram-bot>=20.0  # Telegram bot framework
