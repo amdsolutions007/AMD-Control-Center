@@ -1,6 +1,8 @@
-// Content Refinery - Rebrand external news with AMD identity
+// Content Refinery - Rebrand external news with AMD identity + AI graphics
 
 import type { ExternalArticle } from './ingest';
+import { generateImage } from './graphics-generator';
+import { cacheImage, getCachedImage } from './image-cache';
 import footers from '../data/footers.json';
 
 export interface RefinedArticle {
@@ -12,6 +14,7 @@ export interface RefinedArticle {
   source: string;
   link: string;
   type: 'external';
+  imageUrl?: string; // AI-generated image URL
 }
 
 // Truncate text to fit character limit
@@ -71,7 +74,10 @@ function selectFooterType(tags: string[]): keyof typeof footers {
 }
 
 // Refine external article with AMD branding
-export function refineArticle(article: ExternalArticle): RefinedArticle {
+export async function refineArticle(
+  article: ExternalArticle,
+  generateGraphics: boolean = true
+): Promise<RefinedArticle> {
   // Extract tags
   const tags = extractTags(article.title, article.description);
   
@@ -95,6 +101,28 @@ export function refineArticle(article: ExternalArticle): RefinedArticle {
   // Generate unique ID from guid
   const id = `ext_${hashGuid(article.guid)}`;
   
+  // Check for cached image or generate new one
+  let imageUrl: string | undefined;
+  
+  if (generateGraphics) {
+    // Check cache first
+    const cachedImageUrl = getCachedImage(id, article.title);
+    
+    if (cachedImageUrl) {
+      imageUrl = cachedImageUrl;
+      console.log(`✅ Using cached image for: ${article.title.substring(0, 40)}...`);
+    } else {
+      // Generate new image
+      console.log(`🎨 Generating image for: ${article.title.substring(0, 40)}...`);
+      const imageResult = await generateImage(article.title, tags);
+      
+      if (imageResult) {
+        imageUrl = imageResult.imageUrl;
+        cacheImage(id, article.title, imageResult);
+      }
+    }
+  }
+  
   return {
     id,
     title: article.title,
@@ -104,6 +132,7 @@ export function refineArticle(article: ExternalArticle): RefinedArticle {
     source: article.source,
     link: article.link,
     type: 'external',
+    imageUrl,
   };
 }
 
@@ -119,10 +148,30 @@ function hashGuid(guid: string): string {
 }
 
 // Batch refine articles
-export function refineArticles(articles: ExternalArticle[]): RefinedArticle[] {
+export async function refineArticles(
+  articles: ExternalArticle[],
+  generateGraphics: boolean = true
+): Promise<RefinedArticle[]> {
   console.log('✨ Refining articles with AMD branding...');
   
-  const refined = articles.map(article => refineArticle(article));
+  const refined: RefinedArticle[] = [];
+  
+  // Process articles sequentially if generating graphics (to respect DALL-E rate limits)
+  if (generateGraphics) {
+    for (const article of articles) {
+      const refinedArticle = await refineArticle(article, true);
+      refined.push(refinedArticle);
+      
+      // Rate limit: wait 5 seconds between generations if not cached
+      if (refinedArticle.imageUrl) {
+        await new Promise(resolve => setTimeout(resolve, 5000));
+      }
+    }
+  } else {
+    // Process all at once if not generating graphics
+    const promises = articles.map(article => refineArticle(article, false));
+    refined.push(...await Promise.all(promises));
+  }
   
   console.log(`✓ Refined ${refined.length} articles`);
   return refined;

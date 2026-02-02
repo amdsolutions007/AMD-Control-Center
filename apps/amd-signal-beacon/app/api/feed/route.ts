@@ -3,8 +3,9 @@ import { getPublishedPosts, buildPostContent, type Post, type Footers } from '@/
 import { generateRSSFeed } from '@/lib/rss-generator';
 import { ingestExternalNews, filterFreshArticles } from '@/lib/ingest';
 import { filterArticles } from '@/lib/filter';
-import { refineArticles } from '@/lib/refine';
+import { refineArticles, type RefinedArticle } from '@/lib/refine';
 import { mixContent, getMixStats, type MixedPost } from '@/lib/mixer';
+import { cleanupExpiredCache, getCacheStats } from '@/lib/image-cache';
 
 // Import data files
 import postsData from '@/data/posts.json';
@@ -16,7 +17,7 @@ export const revalidate = 0;
 
 // In-memory cache for external news (1 hour TTL)
 let externalNewsCache: {
-  articles: any[];
+  articles: RefinedArticle[];
   timestamp: number;
 } | null = null;
 
@@ -38,7 +39,10 @@ export async function GET() {
   const startTime = Date.now();
   
   try {
-    console.log('🚀 AMD News Refinery starting...');
+    console.log('🚀 AMD News Refinery + AI Graphics Engine starting...');
+    
+    // Cleanup expired image cache
+    cleanupExpiredCache();
     
     // Type cast the imported data
     const posts = postsData as Post[];
@@ -61,7 +65,11 @@ export async function GET() {
       const rawArticles = await ingestExternalNews();
       const freshArticles = filterFreshArticles(rawArticles);
       const filteredArticles = filterArticles(freshArticles);
-      externalArticles = refineArticles(filteredArticles);
+      
+      // Refine articles WITH graphics generation (async)
+      // Note: Graphics generation is rate-limited (5 seconds per image)
+      const enableGraphics = process.env.ENABLE_AI_GRAPHICS !== 'false'; // Default: enabled
+      externalArticles = await refineArticles(filteredArticles, enableGraphics);
       
       // Update cache
       externalNewsCache = {
@@ -90,25 +98,30 @@ export async function GET() {
       );
     }
 
-    // Step 4: Convert mixed content to RSS items
-    const rssItems = mixedContent.map(mixedToRSSItem);
+    // Step 4: Generate RSS items with images
+    const rssItems = mixedContent.map(mixed => ({
+      post: {
+        id: mixed.id,
+        title: mixed.title,
+        content: mixed.content,
+        publishTime: mixed.publishTime,
+        tags: mixed.tags,
+        footerType: 'default' as const,
+      },
+      content: mixed.content,
+      imageUrl: (mixed as any).imageUrl, // Include AI-generated image if available
+    }));
 
-    // Step 5: Generate RSS XML (pass processed content directly, not Post objects)
-    const processedContent = mixedContent.map(m => m.content);
-    const rssXml = generateRSSFeed(
-      mixedContent.map(m => ({
-        id: m.id,
-        title: m.title,
-        content: m.content,
-        publishTime: m.publishTime,
-        tags: m.tags,
-        footerType: 'default' as const, // Required by Post type but not used here
-      })),
-      processedContent
-    );
+    // Step 5: Generate RSS XML with image enclosures
+    const rssXml = generateRSSFeed(rssItems);
 
     const duration = Date.now() - startTime;
+    const cacheStats = getCacheStats();
+    const imagesWithGraphics = rssItems.filter(item => item.imageUrl).length;
+    
     console.log(`✓ RSS generated in ${duration}ms`);
+    console.log(`📊 Image cache: ${cacheStats.active} active, ${cacheStats.expired} expired`);
+    console.log(`🎨 Posts with AI graphics: ${imagesWithGraphics}/${rssItems.length}`);
 
     return new NextResponse(rssXml, {
       status: 200,
@@ -119,6 +132,8 @@ export async function GET() {
         'X-Manual-Posts': stats.manual.toString(),
         'X-External-Posts': stats.external.toString(),
         'X-Mix-Ratio': `${stats.manualPercent}% manual / ${stats.externalPercent}% external`,
+        'X-AI-Graphics': `${imagesWithGraphics}/${rssItems.length}`,
+        'X-Cache-Stats': `${cacheStats.active} active, ${cacheStats.expired} expired`,
         'X-Generated-At': new Date().toISOString(),
         'X-Generation-Time': `${duration}ms`,
       },
