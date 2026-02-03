@@ -5,6 +5,9 @@ import { detectImageCategory, buildImagePrompt, type ImageCategory } from './pro
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const OPENAI_API_URL = 'https://api.openai.com/v1/images/generations';
 
+// Debug logging
+console.log('🔑 OpenAI API Key status:', OPENAI_API_KEY ? `Present (${OPENAI_API_KEY.substring(0, 10)}...)` : 'MISSING');
+
 export interface ImageGenerationResult {
   imageUrl: string;
   category: ImageCategory;
