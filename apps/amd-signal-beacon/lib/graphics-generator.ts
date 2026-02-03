@@ -23,6 +23,9 @@ export async function generateImage(
   stateName?: string
 ): Promise<ImageGenerationResult | null> {
   
+  // Detect category from tags
+  const category = detectImageCategory(tags);
+  
   if (!OPENAI_API_KEY) {
     console.error('⚠️  OpenAI API key not found - using fallback image');
     const fallbackUrl = getFallbackImage(category);
@@ -35,8 +38,6 @@ export async function generateImage(
   }
 
   try {
-    // Detect category from tags
-    const category = detectImageCategory(tags);
     console.log(`🎨 Generating ${category} image for: ${title.substring(0, 50)}...`);
 
     // Build prompt
