@@ -3,11 +3,12 @@
 import { detectImageCategory, buildImagePrompt, type ImageCategory } from './prompt-templates';
 import { getFallbackImage } from './fallback-images';
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const OPENAI_API_URL = 'https://api.openai.com/v1/images/generations';
 
-// Debug logging
-console.log('🔑 OpenAI API Key status:', OPENAI_API_KEY ? `Present (${OPENAI_API_KEY.substring(0, 10)}...)` : 'MISSING');
+// Get API key at runtime (not module load time)
+function getOpenAIKey(): string | undefined {
+  return process.env.OPENAI_API_KEY;
+}
 
 export interface ImageGenerationResult {
   imageUrl: string;
@@ -26,6 +27,9 @@ export async function generateImage(
   // Detect category from tags
   const category = detectImageCategory(tags);
   
+  // Get API key at runtime
+  const OPENAI_API_KEY = getOpenAIKey();
+  
   if (!OPENAI_API_KEY) {
     console.error('⚠️  OpenAI API key not found - using fallback image');
     const fallbackUrl = getFallbackImage(category);
@@ -38,7 +42,7 @@ export async function generateImage(
   }
 
   try {
-    console.log(`🎨 Generating ${category} image for: ${title.substring(0, 50)}...`);
+    console.log(`🔑 API Key found, generating ${category} image for: ${title.substring(0, 50)}...`);
 
     // Build prompt
     const prompt = buildImagePrompt(category, title, stateName);
