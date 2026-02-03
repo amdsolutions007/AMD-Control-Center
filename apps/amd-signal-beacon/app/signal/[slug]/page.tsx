@@ -9,6 +9,7 @@ import RelatedArticles from '@/components/RelatedArticles';
 import NavigationHeader from '@/components/NavigationHeader';
 import SiteFooter from '@/components/SiteFooter';
 import AMDAgent007 from '@/components/AMDAgent007';
+import { LekeLekelCTA } from '@/components/LekeLekelCTA';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Revalidate every hour
@@ -85,6 +86,9 @@ export default async function ArticlePage({ params }: PageProps) {
           title={article.title}
           url={`https://www.amdsolutions007.com/signal/${article.id}`}
         />
+
+        {/* Leke Leke Follow CTA */}
+        <LekeLekelCTA />
 
         {/* AMD CTA - Join War Room */}
         <AMDCTABox />
