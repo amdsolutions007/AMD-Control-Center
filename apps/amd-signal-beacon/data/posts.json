@@ -1,0 +1,1001 @@
+[
+  {
+    "id": "day1-morning",
+    "title": "Tuesday Activation: Ship Code, Not Excuses",
+    "content": "What are you building today?\n\nLast week, 12 African startups raised $47M combined. This week could be YOUR turn.\n\nThe difference between dreamers and builders? Builders ship.\n\nDrop what you're working on this week in the comments. Let's hold each other accountable.\n\n#TuesdayMotivation #AfricanBuilders",
+    "publishTime": "2026-02-03T08:00:00Z",
+    "tags": [],
+    "hook": "🚀 SHIPPING:",
+    "footerType": "default"
+  },
+  {
+    "id": "day1-afternoon",
+    "title": "Lagos State Tech Spotlight: Who's Building in the Megacity?",
+    "content": "LAGOS, NIGERIA 🇳🇬\n\nPopulation: 15M+\nStartups: 400+\nFunding (2025): $280M\nTop Sectors: Fintech, Logistics, EdTech\n\nFrom Yaba to Victoria Island, Lagos is Africa's Silicon Valley.\n\nBut here's the question: WHO ARE YOU?\n\n👇 If you're building in Lagos:\n1. Drop your startup/project name\n2. What problem are you solving?\n3. What's your biggest challenge RIGHT NOW?\n\nLet's connect the Lagos tech ecosystem. Someone in this group has the answer you need.\n\n#LagosStartups #LagosTech",
+    "publishTime": "2026-02-03T13:00:00Z",
+    "tags": ["Lagos"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day1-evening",
+    "title": "End of Day Debrief: What Did You Ship Today?",
+    "content": "It's 8 PM WAT. Time for accountability.\n\nWhat did you accomplish today?\n- Wrote code?\n- Fixed a bug?\n- Launched a feature?\n- Had a tough conversation?\n- Learned something new?\n\nNo win is too small. Progress is progress.\n\nDrop your daily wins below. Let's celebrate each other.\n\nTomorrow we do it again. 💪\n\n#DailyProgress #BuildInPublic",
+    "publishTime": "2026-02-03T20:00:00Z",
+    "tags": [],
+    "hook": "🎯 FOCUS:",
+    "footerType": "default"
+  },
+  {
+    "id": "day2-morning",
+    "title": "Tuesday Reality Check: Are You Solving REAL Problems?",
+    "content": "Hot take: 90% of African tech startups are solving problems that don't exist.\n\nBefore you write another line of code, answer this:\n\n1. Who is your customer?\n2. What problem keeps them awake at night?\n3. How much would they PAY to solve it?\n4. Have you talked to 10 of them?\n\nIf you can't answer all 4, you're building a hobby, not a business.\n\nComment 'REAL' if you're solving an actual problem. Let's separate builders from dreamers.\n\n#StartupReality #ProblemSolution",
+    "publishTime": "2026-02-04T08:00:00Z",
+    "tags": [],
+    "hook": "🔥 HOT TAKE:",
+    "footerType": "urgent"
+  },
+  {
+    "id": "day2-afternoon",
+    "title": "Abuja (FCT) Tech Spotlight: Building in the Capital",
+    "content": "ABUJA, FCT 🇳🇬\n\nPopulation: 3.8M\nStartups: 85+\nFunding (2025): $42M\nTop Sectors: GovTech, AgriTech, HealthTech\n\nAbuja isn't just the political capital—it's becoming a tech hub.\n\nWith proximity to government and focus on national infrastructure, Abuja builders are tackling unique challenges.\n\n👇 If you're in Abuja:\n1. What are you building?\n2. How is being in the capital an advantage?\n3. What resources does Abuja need MORE of?\n\nLet's map the Abuja ecosystem.\n\n#AbujaTech #FCTStartups",
+    "publishTime": "2026-02-04T13:00:00Z",
+    "tags": ["Abuja", "FCT"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day2-evening",
+    "title": "Tuesday Night Question: What's Your Biggest Technical Debt?",
+    "content": "Every codebase has it. That one thing you keep avoiding.\n\nTechnical debt doesn't go away. It compounds.\n\nSo here's the challenge:\n\n1. What's the ONE thing you've been avoiding in your code?\n2. Why haven't you fixed it yet?\n3. What would it take to tackle it THIS WEEK?\n\nDrop it below. Sometimes just naming it is the first step.\n\nWho knows? Someone here might have solved the exact same problem.\n\n#TechnicalDebt #CleanCode",
+    "publishTime": "2026-02-04T20:00:00Z",
+    "tags": [],
+    "hook": "💻 DEV ALERT:",
+    "footerType": "default"
+  },
+  {
+    "id": "day3-morning",
+    "title": "Wednesday Wisdom: The Best Code is No Code",
+    "content": "You don't need to build everything from scratch.\n\nBefore you write custom auth:\n- Check Auth0, Clerk, Supabase\n\nBefore you build a payment system:\n- Paystack, Flutterwave already work\n\nBefore you create a CMS:\n- Contentful, Sanity, Strapi exist\n\nYour competitive advantage isn't your authentication system. It's solving the ACTUAL problem your users have.\n\nUse the tools. Ship faster. Win.\n\nWhat tool saved you the most time? Drop it below.\n\n#DeveloperTools #ShipFast",
+    "publishTime": "2026-02-05T08:00:00Z",
+    "tags": [],
+    "hook": "💡 INSIGHT:",
+    "footerType": "default"
+  },
+  {
+    "id": "day3-afternoon",
+    "title": "Kano State Tech Spotlight: Northern Innovation Hub",
+    "content": "KANO, NIGERIA 🇳🇬\n\nPopulation: 4.1M\nStartups: 45+\nFunding (2025): $18M\nTop Sectors: AgriTech, Commerce, EdTech\n\nKano is Nigeria's 2nd largest city and the commercial heart of Northern Nigeria.\n\nWith a massive agricultural economy and growing tech adoption, Kano's potential is MASSIVE.\n\n👇 If you're building in Kano:\n1. What are you working on?\n2. What makes Kano unique for your solution?\n3. What's the biggest misconception about Northern tech?\n\nLet's put Kano on the map.\n\n#KanoTech #NorthernNigeria",
+    "publishTime": "2026-02-05T13:00:00Z",
+    "tags": ["Kano"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day3-evening",
+    "title": "Wednesday Wind-Down: Share Your Wins This Week",
+    "content": "We're halfway through the week. Time to reflect.\n\nWhat went RIGHT this week?\n\nMaybe you:\n- Closed a deal\n- Fixed that bug\n- Got a user testimonial\n- Learned a new framework\n- Had a breakthrough moment\n\nSuccess isn't just the big launches. It's the daily progress.\n\nDrop your wins below. Let's celebrate together.\n\nAnd if this week was tough? Tomorrow is a new day. We build again.\n\n#WednesdayWins #KeepBuilding",
+    "publishTime": "2026-02-05T20:00:00Z",
+    "tags": [],
+    "hook": "✨ INNOVATION:",
+    "footerType": "default"
+  },
+  {
+    "id": "day4-morning",
+    "title": "Thursday Momentum: Finish What You Started",
+    "content": "How many unfinished projects do you have?\n\nGitHub repos with 3 commits?\nIdeas in your Notes app?\nDomains you bought but never deployed?\n\nHere's the hard truth: Incomplete projects teach you nothing.\n\nThis week, pick ONE unfinished project and SHIP IT.\n\nNot perfect. Not revolutionary. Just DONE.\n\nDone beats perfect every single time.\n\nWhich project are you finishing? Drop it below.\n\n#ShipIt #ThursdayMotivation",
+    "publishTime": "2026-02-06T08:00:00Z",
+    "tags": [],
+    "hook": "⚡ QUICK HIT:",
+    "footerType": "default"
+  },
+  {
+    "id": "day4-afternoon",
+    "title": "Rivers State Tech Spotlight: Port Harcourt Rising 🌊",
+    "content": "RIVERS STATE, NIGERIA 🇳🇬\nCapital: Port Harcourt\n\nPopulation: 5.2M\nStartups: 65+\nFunding (2025): $28M\nTop Sectors: Energy Tech, Logistics, FinTech\n\nPort Harcourt is the energy capital of Nigeria. But beyond oil & gas, a vibrant tech ecosystem is emerging.\n\nFrom PH Startup Week to growing co-working spaces, the Garden City is planting tech seeds.\n\n👇 Calling all developers and founders in Rivers State:\n1. What are you building in Port Harcourt?\n2. How does the energy sector influence your startup?\n3. What does PH need to become Nigeria's #2 tech hub?\n\nLet's put Rivers State on the tech map.\n\n#RiversTech #PortHarcourtStartups #GardenCity",
+    "publishTime": "2026-02-06T13:00:00Z",
+    "tags": ["Rivers", "Port Harcourt"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day4-evening",
+    "title": "Thursday Tech Talk: What's Your Go-To Stack?",
+    "content": "Every developer has their favorite tools.\n\nWhat's YOUR tech stack in 2026?\n\nFrontend:\nBackend:\nDatabase:\nHosting:\nPayments:\n\nDrop your stack below. Let's see what African developers are building with.\n\nBonus: Tag someone whose stack you want to steal 👀\n\n#TechStack #DeveloperTools",
+    "publishTime": "2026-02-06T20:00:00Z",
+    "tags": [],
+    "hook": "💻 DEV ALERT:",
+    "footerType": "default"
+  },
+  {
+    "id": "day5-morning",
+    "title": "Friday Energy: Last Push Before the Weekend",
+    "content": "It's Friday. You're tired. You want to coast.\n\nDON'T.\n\nThe last 10% of effort is what separates good from great.\n\nThat bug you've been avoiding? Fix it.\nThat feature that's 90% done? Ship it.\nThat email you need to send? Send it.\n\nFinish strong. Rest later.\n\nWhat's your ONE goal before 5 PM today?\n\n#FridayFocus #FinishStrong",
+    "publishTime": "2026-02-07T08:00:00Z",
+    "tags": [],
+    "hook": "🎯 FOCUS:",
+    "footerType": "default"
+  },
+  {
+    "id": "day5-afternoon",
+    "title": "Oyo State Tech Spotlight: Ibadan Innovation 📚",
+    "content": "OYO STATE, NIGERIA 🇳🇬\nCapital: Ibadan\n\nPopulation: 6M+\nStartups: 55+\nFunding (2025): $22M\nTop Sectors: EdTech, AgriTech, HealthTech\n\nIbadan is Nigeria's largest city by land area and home to UI, one of Africa's premier universities.\n\nWith a young, educated population and lower costs than Lagos, Ibadan is the smart choice for bootstrapped founders.\n\n👇 Calling all developers and founders in Oyo State:\n1. What are you building in Ibadan?\n2. How does the university ecosystem help your startup?\n3. Why is Ibadan underrated in Nigerian tech?\n\nLet's show the world what Oyo State is building.\n\n#OyoTech #IbadanStartups #AncientCity",
+    "publishTime": "2026-02-07T13:00:00Z",
+    "tags": ["Oyo", "Ibadan"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day5-evening",
+    "title": "Friday Reflection: What Did You Learn This Week?",
+    "content": "The week is almost over. Time to reflect.\n\nWhat's ONE thing you learned this week that made you a better builder?\n\nMaybe it was:\n- A new framework\n- A debugging technique\n- A business lesson\n- A mistake you won't repeat\n- A conversation that shifted your perspective\n\nShare your biggest lesson below. Someone needs to hear it.\n\n#FridayLearning #WeeklyReflection",
+    "publishTime": "2026-02-07T20:00:00Z",
+    "tags": [],
+    "hook": "🧠 THINK TANK:",
+    "footerType": "default"
+  },
+  {
+    "id": "day6-morning",
+    "title": "Saturday Grind: Builders Don't Take Weekends Off",
+    "content": "It's Saturday. Your friends are sleeping in.\n\nBut YOU? You're building.\n\nBecause you know the truth:\nEvery hour you work on your dream while others sleep is an hour you get ahead.\n\nYou're not grinding because you HAVE to.\nYou're grinding because you GET to.\n\nThis is YOUR moment. Don't waste it.\n\nWhat are you building this weekend?\n\n#SaturdayGrind #BuilderLife",
+    "publishTime": "2026-02-08T08:00:00Z",
+    "tags": [],
+    "hook": "🔥 HOT TAKE:",
+    "footerType": "urgent"
+  },
+  {
+    "id": "day6-afternoon",
+    "title": "Kaduna State Tech Spotlight: Northern Silicon Valley 🏙️",
+    "content": "KADUNA STATE, NIGERIA 🇳🇬\nCapital: Kaduna\n\nPopulation: 6.1M\nStartups: 40+\nFunding (2025): $16M\nTop Sectors: AgriTech, EdTech, GovTech\n\nKaduna is Northern Nigeria's tech powerhouse. With ICT Village Kaduna and government support for tech education, the state is building infrastructure for innovation.\n\nFrom ABU graduates to growing developer communities, Kaduna is proving that tech talent exists everywhere.\n\n👇 Calling all developers and founders in Kaduna State:\n1. What are you building in Kaduna?\n2. How is the government supporting your startup?\n3. What's your vision for Kaduna's tech future?\n\nLet's elevate Northern Nigerian tech.\n\n#KadunaTech #NorthernInnovation",
+    "publishTime": "2026-02-08T13:00:00Z",
+    "tags": ["Kaduna"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day6-evening",
+    "title": "Saturday Night Challenge: Build Something Weird",
+    "content": "Tonight's challenge: Build something completely useless.\n\nNo business case.\nNo market research.\nNo roadmap.\n\nJust pure creative chaos.\n\nBecause sometimes the best way to learn is to break the rules.\n\nAnd who knows? Your \"useless\" weekend project might become your next unicorn.\n\nWhat weird thing are you building tonight?\n\n#WeekendProject #CreativeCoding",
+    "publishTime": "2026-02-08T20:00:00Z",
+    "tags": [],
+    "hook": "✨ INNOVATION:",
+    "footerType": "default"
+  },
+  {
+    "id": "day7-morning",
+    "title": "Sunday Reset: Plan Your Week Like a CEO",
+    "content": "It's Sunday. Time to plan like a pro.\n\nSuccessful founders don't just \"see what happens.\"\nThey design their week.\n\nTake 30 minutes right now:\n1. What are your 3 big goals for the week?\n2. What meetings do you need to schedule?\n3. What can you delegate or delete?\n4. When will you do deep work?\n\nMonday morning, you'll thank yourself.\n\nWhat's your #1 goal for next week?\n\n#SundayPlanning #WeeklyGoals",
+    "publishTime": "2026-02-09T08:00:00Z",
+    "tags": [],
+    "hook": "📊 DATA DROP:",
+    "footerType": "default"
+  },
+  {
+    "id": "day7-afternoon",
+    "title": "Enugu State Tech Spotlight: Coal City Innovation ⚡",
+    "content": "ENUGU STATE, NIGERIA 🇳🇬\nCapital: Enugu\n\nPopulation: 3.3M\nStartups: 35+\nFunding (2025): $14M\nTop Sectors: EdTech, HealthTech, E-Commerce\n\nEnugu, the Coal City, is powering Southeast Nigeria's tech revolution.\n\nWith UNN producing top engineering talent and a growing startup ecosystem, Enugu is the gateway to Igbo tech innovation.\n\n👇 Calling all developers and founders in Enugu State:\n1. What are you building in Enugu?\n2. How does Southeast culture influence your approach?\n3. What makes Enugu different from Lagos/Abuja?\n\nLet's showcase Enugu's tech potential.\n\n#EnuguTech #CoalCityStartups #EasternInnovation",
+    "publishTime": "2026-02-09T13:00:00Z",
+    "tags": ["Enugu"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day7-evening",
+    "title": "Sunday Wind-Down: What Are You Grateful For?",
+    "content": "Before the week ends, take a moment.\n\nWhat are you grateful for?\n\nMaybe it's:\n- A bug that finally got fixed\n- A user who sent kind feedback\n- A co-founder who believed in you\n- A laptop that still works\n- The ability to build your dreams\n\nGratitude isn't soft. It's strategic.\n\nIt keeps you going when the grind gets hard.\n\nDrop one thing you're grateful for this week.\n\n#Gratitude #SundayReflection",
+    "publishTime": "2026-02-09T20:00:00Z",
+    "tags": [],
+    "hook": "🎓 LESSON:",
+    "footerType": "default"
+  },
+  {
+    "id": "day8-morning",
+    "title": "Monday Power Move: Start With Your Hardest Task",
+    "content": "Most people start Monday with email, Slack, busy work.\n\nWinners do the HARDEST thing first.\n\nThat feature you've been avoiding?\nThat pitch you need to write?\nThat difficult conversation?\n\nDo it NOW. While your brain is fresh.\n\nBy 10 AM, you'll have done more than most people do all week.\n\nWhat's your hardest task today?\n\n#MondayMindset #EatTheFrog",
+    "publishTime": "2026-02-10T08:00:00Z",
+    "tags": [],
+    "hook": "🚀 SHIPPING:",
+    "footerType": "urgent"
+  },
+  {
+    "id": "day8-afternoon",
+    "title": "Edo State Tech Spotlight: Benin City Builders 👑",
+    "content": "EDO STATE, NIGERIA 🇳🇬\nCapital: Benin City\n\nPopulation: 3.2M\nStartups: 30+\nFunding (2025): $12M\nTop Sectors: E-Commerce, AgriTech, CreativeTech\n\nBenin City, the heart of the ancient Benin Kingdom, is writing a new chapter: TECH.\n\nWith rich cultural heritage and growing digital infrastructure, Edo State is positioning itself as a creative tech hub.\n\n👇 Calling all developers and founders in Edo State:\n1. What are you building in Benin City?\n2. How does Edo's cultural heritage inspire your work?\n3. What opportunities exist in Edo that Lagos doesn't have?\n\nLet's celebrate Edo innovation.\n\n#EdoTech #BeninCityStartups #GreatBenin",
+    "publishTime": "2026-02-10T13:00:00Z",
+    "tags": ["Edo", "Benin City"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day8-evening",
+    "title": "Monday Reality: Most Ideas Fail. Build Anyway.",
+    "content": "Your startup might fail.\nYour product might not find market fit.\nYour first version might be terrible.\n\nSo what?\n\nEvery successful founder has a graveyard of failed projects.\n\nThe difference? They kept building.\n\nFailure isn't the opposite of success.\nIt's the tuition you pay for success.\n\nHave you failed recently? Drop it below. Wear it like a badge.\n\n#FailForward #StartupReality",
+    "publishTime": "2026-02-10T20:00:00Z",
+    "tags": [],
+    "hook": "🔥 HOT TAKE:",
+    "footerType": "default"
+  },
+  {
+    "id": "day9-morning",
+    "title": "Tuesday Tactic: Test Your Assumptions Today",
+    "content": "You THINK you know what users want.\n\nBut do you?\n\nToday's challenge: Talk to 3 users.\n\nNot pitching. LISTENING.\n\nAsk:\n1. What's frustrating about [your product category]?\n2. How are you solving it now?\n3. What would make you switch?\n\nYou'll learn more in 3 conversations than 3 months of building in isolation.\n\nWho are you talking to today?\n\n#CustomerDiscovery #TuesdayTactic",
+    "publishTime": "2026-02-11T08:00:00Z",
+    "tags": [],
+    "hook": "💡 INSIGHT:",
+    "footerType": "default"
+  },
+  {
+    "id": "day9-afternoon",
+    "title": "Ogun State Tech Spotlight: Gateway to Innovation 🌉",
+    "content": "OGUN STATE, NIGERIA 🇳🇬\nCapital: Abeokuta\n\nPopulation: 4M+\nStartups: 40+\nFunding (2025): $15M\nTop Sectors: Manufacturing Tech, Logistics, AgriTech\n\nOgun State is Nigeria's industrial powerhouse AND the gateway between Lagos and the Southwest.\n\nWith FUNAAB, Covenant University, and Bells University producing tech talent, Ogun is building beyond its proximity to Lagos.\n\n👇 Calling all developers and founders in Ogun State:\n1. What are you building in Abeokuta/Ota/Ijebu?\n2. How do you leverage being close to Lagos?\n3. What's Ogun's unique tech advantage?\n\nLet's represent the Gateway State.\n\n#OgunTech #AbeokutaStartups #GatewayState",
+    "publishTime": "2026-02-11T13:00:00Z",
+    "tags": ["Ogun", "Abeokuta"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day9-evening",
+    "title": "Tuesday Evening: What's Your Unfair Advantage?",
+    "content": "Every successful startup has an unfair advantage.\n\nWhat's yours?\n\nMaybe it's:\n- Deep industry knowledge\n- A rare technical skill\n- An existing audience\n- A co-founder relationship\n- Access to distribution\n\nIf you don't know your unfair advantage, you're competing on price.\n\nAnd that's a race to zero.\n\nDrop your unfair advantage below.\n\n#CompetitiveAdvantage #Strategy",
+    "publishTime": "2026-02-11T20:00:00Z",
+    "tags": [],
+    "hook": "🎯 FOCUS:",
+    "footerType": "default"
+  },
+  {
+    "id": "day10-morning",
+    "title": "Wednesday Wake-Up: Speed Beats Perfection",
+    "content": "You've been working on that feature for 3 weeks.\n\nIt's 95% done. But you keep tweaking.\n\nSTOP.\n\nShip it today.\n\nImperfect and live beats perfect and hidden.\n\nYour users will tell you what's wrong.\nThen you fix it.\nThen you ship again.\n\nThat's how winning products get built.\n\nWhat are you shipping TODAY?\n\n#ShipFast #WednesdayWisdom",
+    "publishTime": "2026-02-12T08:00:00Z",
+    "tags": [],
+    "hook": "⚡ QUICK HIT:",
+    "footerType": "urgent"
+  },
+  {
+    "id": "day10-afternoon",
+    "title": "Delta State Tech Spotlight: Oil City Goes Digital 🛢️",
+    "content": "DELTA STATE, NIGERIA 🇳🇬\nCapital: Asaba (Major City: Warri)\n\nPopulation: 4.1M\nStartups: 28+\nFunding (2025): $10M\nTop Sectors: Energy Tech, E-Commerce, FinTech\n\nDelta State is where oil meets innovation. From Warri to Asaba, a new generation is building beyond petroleum.\n\nWith DELSU producing engineering talent and proximity to Port Harcourt's energy ecosystem, Delta is positioned for tech growth.\n\n👇 Calling all developers and founders in Delta State:\n1. What are you building in Warri/Asaba?\n2. How does Delta's energy sector create tech opportunities?\n3. What does Delta need to accelerate its tech ecosystem?\n\nLet's map Delta innovation.\n\n#DeltaTech #WarriStartups #AsabaTech",
+    "publishTime": "2026-02-12T13:00:00Z",
+    "tags": ["Delta", "Warri", "Asaba"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day10-evening",
+    "title": "Wednesday Check-In: Are You Building For Users or Investors?",
+    "content": "Honest question: Who are you REALLY building for?\n\nUsers who will pay you?\nOr investors who MIGHT fund you?\n\nBecause those are different products.\n\nUsers want simple, fast, and useful.\nInvestors want growth, TAM, and buzzwords.\n\nThe best strategy? Build for users first.\n\nHappy users attract investors.\nBut investors without users? That's a house of cards.\n\nWho are you building for?\n\n#ProductStrategy #StartupTruth",
+    "publishTime": "2026-02-12T20:00:00Z",
+    "tags": [],
+    "hook": "🔥 HOT TAKE:",
+    "footerType": "default"
+  },
+  {
+    "id": "day11-morning",
+    "title": "Thursday Throwdown: Compete With Yesterday's You",
+    "content": "Stop comparing yourself to other founders.\n\nThey have different resources.\nDifferent timing.\nDifferent problems.\n\nThe only competition that matters: Yesterday's you.\n\nAre you better today than you were yesterday?\n\nDid you:\n- Ship something?\n- Learn something?\n- Fix something?\n\nIf yes, you're winning.\n\nWhat's ONE way you improved this week?\n\n#PersonalGrowth #ThursdayMotivation",
+    "publishTime": "2026-02-13T08:00:00Z",
+    "tags": [],
+    "hook": "🎯 FOCUS:",
+    "footerType": "default"
+  },
+  {
+    "id": "day11-afternoon",
+    "title": "Anambra State Tech Spotlight: Commerce Meets Code 💰",
+    "content": "ANAMBRA STATE, NIGERIA 🇳🇬\nCapital: Awka (Major City: Onitsha)\n\nPopulation: 4.2M\nStartups: 32+\nFunding (2025): $13M\nTop Sectors: E-Commerce, FinTech, Logistics\n\nAnambra is Nigeria's commerce powerhouse. From Onitsha Main Market (West Africa's largest) to growing tech communities in Awka, Anambra is where business meets innovation.\n\nWith a culture of entrepreneurship and UNIZIK producing talent, Anambra builders think differently.\n\n👇 Calling all developers and founders in Anambra State:\n1. What are you building in Awka/Onitsha/Nnewi?\n2. How does Anambra's commerce culture influence your startup?\n3. What's the next big opportunity in Anambra tech?\n\nLet's showcase Anambra innovation.\n\n#AnambraTech #OnitshaTech #LightOfTheNation",
+    "publishTime": "2026-02-13T13:00:00Z",
+    "tags": ["Anambra", "Onitsha", "Awka"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day11-evening",
+    "title": "Thursday Deep Dive: What's Your Monthly Burn Rate?",
+    "content": "Real talk: How much does it cost to keep your startup alive each month?\n\nHosting: $__\nTools/SaaS: $__\nSalaries: $__\nMarketing: $__\nOther: $__\n\nTotal: $_____\n\nNow divide your savings by that number.\n\nThat's your runway.\n\nIf it's less than 6 months, you need to either:\n1. Cut costs\n2. Raise money\n3. Get revenue\n\nWhat's your runway? Be honest.\n\n#StartupFinance #Runway",
+    "publishTime": "2026-02-13T20:00:00Z",
+    "tags": [],
+    "hook": "💻 DEV ALERT:",
+    "footerType": "default"
+  },
+  {
+    "id": "day12-morning",
+    "title": "Friday Final Push: Close One Deal Today",
+    "content": "It's Friday. The week is almost over.\n\nBut you have time for ONE more win.\n\nToday's challenge: Close something.\n\nMaybe it's:\n- That customer who's been \"thinking about it\"\n- That partnership email you've been drafting\n- That feature you're 90% done with\n- That invoice you need to send\n\nOne closed deal. One shipped feature. One sent invoice.\n\nThat's how you finish strong.\n\nWhat are you closing today?\n\n#FridayClose #FinishStrong",
+    "publishTime": "2026-02-14T08:00:00Z",
+    "tags": [],
+    "hook": "🚀 SHIPPING:",
+    "footerType": "urgent"
+  },
+  {
+    "id": "day12-afternoon",
+    "title": "Plateau State Tech Spotlight: The Silicon Savannah 🏔️",
+    "content": "PLATEAU STATE, NIGERIA 🇳🇬\nCapital: Jos\n\nPopulation: 3.2M\nStartups: 25+\nFunding (2025): $9M\nTop Sectors: AgriTech, Tourism Tech, EdTech\n\nJos, the Home of Peace and Tourism, is carving a unique tech identity.\n\nWith cool climate, peaceful environment, and UNIJOS producing tech talent, Plateau offers what Lagos can't: SPACE to think and build without chaos.\n\n👇 Calling all developers and founders in Plateau State:\n1. What are you building in Jos?\n2. How does Plateau's environment give you an advantage?\n3. What untapped opportunities exist in Plateau?\n\nLet's put Jos on the tech map.\n\n#PlateauTech #JosStartups #HomeOfPeace",
+    "publishTime": "2026-02-14T13:00:00Z",
+    "tags": ["Plateau", "Jos"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day12-evening",
+    "title": "Friday Night Freedom: What Are You Building This Weekend?",
+    "content": "The weekend is here.\n\nSome people will binge Netflix.\nSome will sleep until noon.\n\nBut YOU?\n\nYou're going to build something.\n\nMaybe it's:\n- That side project you've been thinking about\n- A new feature for your main product\n- A weekend hack that might become something\n- Just experimenting with new tech\n\nThe weekend is YOUR time.\n\nWhat are you building?\n\n#WeekendBuilder #FridayNight",
+    "publishTime": "2026-02-14T20:00:00Z",
+    "tags": [],
+    "hook": "✨ INNOVATION:",
+    "footerType": "default"
+  },
+  {
+    "id": "day13-morning",
+    "title": "Saturday Strategy: Audit Your Product",
+    "content": "When was the last time you used your OWN product as a user?\n\nNot as a founder checking analytics.\nAs an actual USER trying to solve a problem.\n\nThis weekend, do a full audit:\n\n1. Sign up as a new user\n2. Go through onboarding\n3. Try to accomplish your main use case\n4. Note every friction point\n\nYou'll be shocked at what you find.\n\nWhat's one thing you fixed after using your own product?\n\n#ProductAudit #SaturdayTask",
+    "publishTime": "2026-02-15T08:00:00Z",
+    "tags": [],
+    "hook": "📊 DATA DROP:",
+    "footerType": "default"
+  },
+  {
+    "id": "day13-afternoon",
+    "title": "Akwa Ibom State Tech Spotlight: The Smart State 🌴",
+    "content": "AKWA IBOM STATE, NIGERIA 🇳🇬\nCapital: Uyo\n\nPopulation: 3.9M\nStartups: 22+\nFunding (2025): $8M\nTop Sectors: E-Government, AgriTech, Tourism Tech\n\nAkwa Ibom, the Land of Promise, is making bold moves in tech infrastructure.\n\nFrom Smart City initiatives in Uyo to UNIUYO producing engineering talent, Akwa Ibom is positioning itself as South-South's digital hub.\n\n👇 Calling all developers and founders in Akwa Ibom State:\n1. What are you building in Uyo/Eket?\n2. How is government supporting tech in Akwa Ibom?\n3. What makes Akwa Ibom unique for startups?\n\nLet's showcase the Land of Promise.\n\n#AkwaIbomTech #UyoStartups #LandOfPromise",
+    "publishTime": "2026-02-15T13:00:00Z",
+    "tags": ["Akwa Ibom", "Uyo"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day13-evening",
+    "title": "Saturday Night Wisdom: Rest is Productive Too",
+    "content": "Hot take: Sometimes the best thing you can do for your startup is REST.\n\nBurnout doesn't make you a better founder.\nIt makes you a worse one.\n\nIf you've been grinding 7 days straight:\n- Your code quality drops\n- Your decision-making suffers\n- Your creativity dies\n\nRest isn't laziness. It's strategy.\n\nTake tonight off. Watch a movie. Call a friend. Sleep.\n\nYou'll build better tomorrow.\n\nWhat are you doing tonight BESIDES work?\n\n#RestDay #SustainableGrowth",
+    "publishTime": "2026-02-15T20:00:00Z",
+    "tags": [],
+    "hook": "🎓 LESSON:",
+    "footerType": "default"
+  },
+  {
+    "id": "day14-morning",
+    "title": "Sunday Vision: Where Will You Be in 6 Months?",
+    "content": "Close your eyes.\n\nIt's August 2026. 6 months from now.\n\nWhat does success look like?\n\nMaybe it's:\n- 1,000 paying customers\n- A funded round\n- A launched product\n- A hired team\n- Freedom to build full-time\n\nNow work backwards.\n\nWhat needs to happen THIS MONTH to get there?\n\nWrite it down. Make it real.\n\nWhat's your 6-month vision?\n\n#SundayVision #GoalSetting",
+    "publishTime": "2026-02-16T08:00:00Z",
+    "tags": [],
+    "hook": "🔮 PREDICTION:",
+    "footerType": "default"
+  },
+  {
+    "id": "day14-afternoon",
+    "title": "Imo State Tech Spotlight: Heartland Innovation ❤️",
+    "content": "IMO STATE, NIGERIA 🇳🇬\nCapital: Owerri\n\nPopulation: 3.9M\nStartups: 30+\nFunding (2025): $11M\nTop Sectors: E-Commerce, FinTech, EdTech\n\nImo State, the Eastern Heartland, pulses with entrepreneurial energy.\n\nFrom FUTO's engineering excellence to Owerri's vibrant business culture, Imo is producing builders who think global while staying rooted.\n\n👇 Calling all developers and founders in Imo State:\n1. What are you building in Owerri/Orlu?\n2. How does FUTO influence the tech ecosystem?\n3. What's Imo's secret advantage in Nigerian tech?\n\nLet's celebrate the Heartland.\n\n#ImoTech #OwerriStartups #EasternHeartland",
+    "publishTime": "2026-02-16T13:00:00Z",
+    "tags": ["Imo", "Owerri"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day14-evening",
+    "title": "Sunday Prep: 3 Things to Do Before Monday",
+    "content": "Don't waste Sunday. Use it to prep for an epic Monday.\n\nThree things to do RIGHT NOW:\n\n1. REVIEW: What worked/didn't work last week?\n2. PLAN: What are your 3 priorities for tomorrow?\n3. PREPARE: What can you batch/automate/delegate?\n\nMonday you will thank Sunday you.\n\nBonus: Go to bed early. Sleep is your competitive advantage.\n\nWhat's your #1 priority for Monday?\n\n#SundayPrep #MondayReady",
+    "publishTime": "2026-02-16T20:00:00Z",
+    "tags": [],
+    "hook": "💡 INSIGHT:",
+    "footerType": "default"
+  },
+  {
+    "id": "day15-morning",
+    "title": "Monday Mantra: Show Up Every Day",
+    "content": "Consistency beats intensity.\n\nYou don't need to work 16-hour days.\nYou don't need to have groundbreaking insights.\nYou don't need to ship huge features.\n\nYou just need to SHOW UP.\n\nEvery. Single. Day.\n\n1% better today than yesterday.\nCompound that over a year.\n\nThat's how empires get built.\n\nWhat's your small win for today?\n\n#MondayMantra #Consistency",
+    "publishTime": "2026-02-17T08:00:00Z",
+    "tags": [],
+    "hook": "🚀 SHIPPING:",
+    "footerType": "default"
+  },
+  {
+    "id": "day15-afternoon",
+    "title": "Abia State Tech Spotlight: God's Own Innovation 🙏",
+    "content": "ABIA STATE, NIGERIA 🇳🇬\nCapital: Umuahia (Commercial Hub: Aba)\n\nPopulation: 2.8M\nStartups: 28+\nFunding (2025): $10M\nTop Sectors: Manufacturing Tech, E-Commerce, FinTech\n\nAbia State is where craftsmanship meets code. Aba, the Japan of Africa for manufacturing, is digitalizing.\n\nFrom ABSU to Michael Okpara University, Abia produces technically skilled builders with business acumen.\n\n👇 Calling all developers and founders in Abia State:\n1. What are you building in Umuahia/Aba?\n2. How can tech elevate Aba's manufacturing ecosystem?\n3. What makes Abia unique in Southeast tech?\n\nLet's represent God's Own State.\n\n#AbiaTech #AbaManufacturing #GodsOwnState",
+    "publishTime": "2026-02-17T13:00:00Z",
+    "tags": ["Abia", "Aba", "Umuahia"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day15-evening",
+    "title": "Monday Night Momentum: Don't Break the Chain",
+    "content": "Jerry Seinfeld's productivity secret: Don't break the chain.\n\nEvery day he wrote jokes, he marked an X on the calendar.\n\nAfter a week, there's a chain of X's.\nAfter a month, breaking it feels WRONG.\n\nWhat's YOUR chain?\n\n- Shipped code every day for __ days\n- Talked to customers every day for __ days\n- Wrote every day for __ days\n\nStart your chain today. Don't break it.\n\nWhat are you doing daily?\n\n#DontBreakTheChain #DailyHabits",
+    "publishTime": "2026-02-17T20:00:00Z",
+    "tags": [],
+    "hook": "🎯 FOCUS:",
+    "footerType": "default"
+  },
+  {
+    "id": "day16-morning",
+    "title": "Tuesday Truth: Your Network is Your Net Worth",
+    "content": "The best opportunities don't come from applications.\n\nThey come from conversations.\n\nThat co-founder? You met them at a meetup.\nThat first customer? A friend's referral.\nThat investor? An intro from your network.\n\nStop building in isolation.\n\nToday's challenge: Reach out to 3 people.\n\nNot asking for anything. Just connecting.\n\nWho are you reaching out to?\n\n#NetworkingTuesday #BuildInPublic",
+    "publishTime": "2026-02-18T08:00:00Z",
+    "tags": [],
+    "hook": "💡 INSIGHT:",
+    "footerType": "default"
+  },
+  {
+    "id": "day16-afternoon",
+    "title": "Bayelsa State Tech Spotlight: Digital Creeks 🌊",
+    "content": "BAYELSA STATE, NIGERIA 🇳🇬\nCapital: Yenagoa\n\nPopulation: 1.7M\nStartups: 18+\nFunding (2025): $6M\nTop Sectors: Energy Tech, AgriTech, Tourism Tech\n\nBayelsa, the glory of all lands, is emerging as South-South's hidden tech gem.\n\nWith oil wealth meeting digital innovation and Niger Delta University producing talent, Bayelsa is ready to surprise Nigeria's tech ecosystem.\n\n👇 Calling all developers and founders in Bayelsa State:\n1. What are you building in Yenagoa?\n2. How can tech transform Bayelsa's economy?\n3. What opportunities exist that outsiders don't see?\n\nLet's put Bayelsa on the map.\n\n#BayelsaTech #YenagoaStartups #GloryOfAllLands",
+    "publishTime": "2026-02-18T13:00:00Z",
+    "tags": ["Bayelsa", "Yenagoa"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day16-evening",
+    "title": "Tuesday Reality Check: Are You Solving Problems or Building Features?",
+    "content": "There's a difference.\n\nFeatures are what you THINK users want.\nSolutions are what users ACTUALLY need.\n\nYou can have 100 features and solve zero problems.\n\nBefore you build your next feature, ask:\n\n1. What problem does this solve?\n2. How do you KNOW it's a problem?\n3. Will users pay for this solution?\n\nIf you can't answer all 3, STOP BUILDING.\n\nWhat problem are you solving?\n\n#ProductThinking #TuesdayTruth",
+    "publishTime": "2026-02-18T20:00:00Z",
+    "tags": [],
+    "hook": "🔥 HOT TAKE:",
+    "footerType": "default"
+  },
+  {
+    "id": "day17-morning",
+    "title": "Wednesday Wisdom: Learn in Public",
+    "content": "Stop hiding your learning journey.\n\nThat bug you fixed? Tweet about it.\nThat new framework? Write about it.\nThat mistake you made? Share it.\n\nLearning in public has superpowers:\n\n- Builds your reputation\n- Attracts opportunities\n- Helps others\n- Compounds your network\n\nYour journey IS valuable.\nDocument it.\n\nWhat did you learn yesterday?\n\n#LearnInPublic #WednesdayWisdom",
+    "publishTime": "2026-02-19T08:00:00Z",
+    "tags": [],
+    "hook": "🧠 THINK TANK:",
+    "footerType": "default"
+  },
+  {
+    "id": "day17-afternoon",
+    "title": "Cross River State Tech Spotlight: Canaan City Code 🏝️",
+    "content": "CROSS RIVER STATE, NIGERIA 🇳🇬\nCapital: Calabar\n\nPopulation: 2.9M\nStartups: 24+\nFunding (2025): $7M\nTop Sectors: Tourism Tech, E-Commerce, Creative Tech\n\nCross River, the People's Paradise and Tourism Capital, is coding its digital future.\n\nFrom Calabar's hospitality industry to UNICAL producing engineers, Cross River blends tourism with technology.\n\n👇 Calling all developers and founders in Cross River State:\n1. What are you building in Calabar?\n2. How can tech boost Cross River's tourism industry?\n3. What's Cross River's unique tech opportunity?\n\nLet's showcase the People's Paradise.\n\n#CrossRiverTech #CalabarStartups #PeoplesParadise",
+    "publishTime": "2026-02-19T13:00:00Z",
+    "tags": ["Cross River", "Calabar"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day17-evening",
+    "title": "Wednesday Wind-Down: What Would You Build if Money Wasn't an Object?",
+    "content": "Forget revenue. Forget funding. Forget market size.\n\nIf money wasn't a constraint, what would you build?\n\nMaybe it's:\n- That crazy ambitious idea you shelved\n- That problem nobody else sees\n- That product for a tiny niche you love\n- That art project disguised as software\n\nSometimes the answer reveals your REAL motivation.\n\nAnd sometimes, that's exactly what you should build.\n\nWhat would you build?\n\n#WednesdayDreaming #Passion",
+    "publishTime": "2026-02-19T20:00:00Z",
+    "tags": [],
+    "hook": "✨ INNOVATION:",
+    "footerType": "default"
+  },
+  {
+    "id": "day18-morning",
+    "title": "Thursday Throwback: Remember Why You Started",
+    "content": "The grind gets hard.\n\nYou're tired.\nProgress feels slow.\nThe to-do list never ends.\n\nSo take a moment.\n\nWhy did you start building?\n\nWas it:\n- Freedom?\n- Impact?\n- Problem you HAD to solve?\n- Proving something to yourself?\n\nReconnect with that reason.\n\nIt's your fuel when motivation runs dry.\n\nWhy did YOU start?\n\n#ThursdayThrowback #RememberWhy",
+    "publishTime": "2026-02-20T08:00:00Z",
+    "tags": [],
+    "hook": "💭 REFLECTION:",
+    "footerType": "default"
+  },
+  {
+    "id": "day18-afternoon",
+    "title": "Ebonyi State Tech Spotlight: Salt of Innovation 🧂",
+    "content": "EBONYI STATE, NIGERIA 🇳🇬\nCapital: Abakaliki\n\nPopulation: 2.2M\nStartups: 20+\nFunding (2025): $5M\nTop Sectors: AgriTech, Mining Tech, EdTech\n\nEbonyi State, the salt of the nation, is seasoning Southeast tech.\n\nFrom EBSU to growing digital communities in Abakaliki, Ebonyi represents untapped potential in Nigeria's tech ecosystem.\n\n👇 Calling all developers and founders in Ebonyi State:\n1. What are you building in Abakaliki?\n2. How can tech transform Ebonyi's agriculture and mining?\n3. What does Ebonyi need to accelerate its tech growth?\n\nLet's represent the Salt of the Nation.\n\n#EbonyiTech #AbakalikiStartups #SaltOfTheNation",
+    "publishTime": "2026-02-20T13:00:00Z",
+    "tags": ["Ebonyi", "Abakaliki"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day18-evening",
+    "title": "Thursday Evening: One Thing You're Procrastinating On",
+    "content": "What's that ONE thing you keep avoiding?\n\nMaybe it's:\n- Reaching out to that investor\n- Refactoring that messy code\n- Having that tough conversation\n- Setting up analytics\n- Writing that blog post\n\nYou know what it is.\n\nHere's the truth: It's probably not as hard as you think.\n\nAnd avoiding it costs MORE energy than doing it.\n\nWhat are you avoiding? Call yourself out.\n\n#StopProcrastinating #ThursdayHonesty",
+    "publishTime": "2026-02-20T20:00:00Z",
+    "tags": [],
+    "hook": "⚠️ CRITICAL:",
+    "footerType": "default"
+  },
+  {
+    "id": "day19-morning",
+    "title": "Friday Finish Line: Document Your Week",
+    "content": "Before the week ends, DOCUMENT it.\n\nWhat did you:\n- Ship?\n- Learn?\n- Struggle with?\n- Celebrate?\n\nMost founders forget their progress.\nThen they feel like they're not moving.\n\nBut documentation proves you ARE.\n\nTake 10 minutes.\nWrite down your week.\n\nYou'll be surprised how much you accomplished.\n\nWhat was your biggest win this week?\n\n#FridayReflection #DocumentProgress",
+    "publishTime": "2026-02-21T08:00:00Z",
+    "tags": [],
+    "hook": "📊 DATA DROP:",
+    "footerType": "default"
+  },
+  {
+    "id": "day19-afternoon",
+    "title": "Kwara State Tech Spotlight: State of Harmony 🎵",
+    "content": "KWARA STATE, NIGERIA 🇳🇬\nCapital: Ilorin\n\nPopulation: 2.4M\nStartups: 26+\nFunding (2025): $8M\nTop Sectors: EdTech, AgriTech, E-Commerce\n\nKwara, the state of harmony, is harmonizing tradition with technology.\n\nFrom University of Ilorin producing top engineering talent to growing startup communities, Kwara is North-Central's tech gateway.\n\n👇 Calling all developers and founders in Kwara State:\n1. What are you building in Ilorin?\n2. How does Kwara's strategic location benefit your startup?\n3. What's the next big opportunity in Kwara tech?\n\nLet's showcase the State of Harmony.\n\n#KwaraTech #IlorinStartups #StateOfHarmony",
+    "publishTime": "2026-02-21T13:00:00Z",
+    "tags": ["Kwara", "Ilorin"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day19-evening",
+    "title": "Friday Night Challenge: Build a 24-Hour Product",
+    "content": "This weekend, ship something in 24 hours.\n\nNot a prototype. A REAL product.\n\nRules:\n- Pick a simple problem\n- Build the MVP\n- Get it in users' hands\n- Get feedback\n\nNo perfect code.\nNo beautiful design.\nNo feature creep.\n\nJust SHIP.\n\nWhat are you building this weekend?\n\n#24HourChallenge #ShipItFriday",
+    "publishTime": "2026-02-21T20:00:00Z",
+    "tags": [],
+    "hook": "🚀 SHIPPING:",
+    "footerType": "urgent"
+  },
+  {
+    "id": "day20-morning",
+    "title": "Saturday Deep Work: No Meetings, No Distractions",
+    "content": "Saturday is for DEEP WORK.\n\nNo meetings.\nNo Slack.\nNo email.\n\nJust you and the code.\n\nPick your HARDEST problem.\nThe one you've been avoiding all week.\n\nBlock 4 hours.\nClose all tabs.\nTurn off notifications.\n\nBuild.\n\nThat's how breakthroughs happen.\n\nWhat's your deep work project today?\n\n#SaturdayDeepWork #FocusTime",
+    "publishTime": "2026-02-22T08:00:00Z",
+    "tags": [],
+    "hook": "🎯 FOCUS:",
+    "footerType": "default"
+  },
+  {
+    "id": "day20-afternoon",
+    "title": "Benue State Tech Spotlight: Food Basket Digitizes 🌾",
+    "content": "BENUE STATE, NIGERIA 🇳🇬\nCapital: Makurdi\n\nPopulation: 4.3M\nStartups: 22+\nFunding (2025): $6M\nTop Sectors: AgriTech, E-Commerce, EdTech\n\nBenue, the Food Basket of the Nation, is feeding innovation.\n\nWith massive agricultural output and Benue State University producing talent, Benue is positioned to lead Nigeria's AgriTech revolution.\n\n👇 Calling all developers and founders in Benue State:\n1. What are you building in Makurdi/Otukpo?\n2. How can tech transform Benue's agriculture?\n3. What makes Benue unique for AgriTech startups?\n\nLet's represent the Food Basket.\n\n#BenueTech #MakurdiStartups #FoodBasket",
+    "publishTime": "2026-02-22T13:00:00Z",
+    "tags": ["Benue", "Makurdi"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day20-evening",
+    "title": "Saturday Night: The Best Advice You Ever Received",
+    "content": "Think back to your journey.\n\nWhat's the BEST advice someone gave you?\n\nMaybe it was:\n- \"Just ship it\"\n- \"Talk to your users\"\n- \"Focus on one thing\"\n- \"Charge more\"\n- \"Build in public\"\n\nThat advice changed your trajectory.\n\nNow share it.\n\nSomeone in this group needs to hear it tonight.\n\nWhat's the best advice you got?\n\n#SaturdayWisdom #PayItForward",
+    "publishTime": "2026-02-22T20:00:00Z",
+    "tags": [],
+    "hook": "🎓 LESSON:",
+    "footerType": "default"
+  },
+  {
+    "id": "day21-morning",
+    "title": "Sunday Systems: Automate, Delegate, or Delete",
+    "content": "You're doing too much.\n\nEvery task in your business falls into 3 categories:\n\n1. AUTOMATE: Can software do this?\n2. DELEGATE: Can someone else do this?\n3. DELETE: Does this even need to happen?\n\nToday's exercise:\n\nList everything you did this week.\n\nFor each task, write: A, D, or X.\n\nNext week, act on it.\n\nWhat are you automating first?\n\n#SundaySystems #Efficiency",
+    "publishTime": "2026-02-23T08:00:00Z",
+    "tags": [],
+    "hook": "💡 INSIGHT:",
+    "footerType": "default"
+  },
+  {
+    "id": "day21-afternoon",
+    "title": "Kogi State Tech Spotlight: Confluence of Innovation 🌊",
+    "content": "KOGI STATE, NIGERIA 🇳🇬\nCapital: Lokoja\n\nPopulation: 3.3M\nStartups: 20+\nFunding (2025): $5M\nTop Sectors: E-Commerce, AgriTech, Tourism Tech\n\nKogi, where River Niger meets River Benue, is the confluence of innovation.\n\nStrategically located at the center of Nigeria with Kogi State University and Federal institutions, Kogi is North-Central's sleeping tech giant.\n\n👇 Calling all developers and founders in Kogi State:\n1. What are you building in Lokoja/Okene?\n2. How does Kogi's central location create opportunities?\n3. What's Kogi's untapped tech potential?\n\nLet's represent the Confluence State.\n\n#KogiTech #LokojaStartups #ConfluenceState",
+    "publishTime": "2026-02-23T13:00:00Z",
+    "tags": ["Kogi", "Lokoja"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day21-evening",
+    "title": "Sunday Evening: Set Your Intention for the Week",
+    "content": "Before Monday hits, set your INTENTION.\n\nNot just goals. INTENTION.\n\nHow do you want to FEEL this week?\n\nMaybe it's:\n- Focused\n- Creative\n- Productive\n- Connected\n- Energized\n\nYour feelings drive your actions.\nYour actions drive your results.\n\nSo set the feeling first.\n\nHow do you want to feel this week?\n\n#SundayIntention #MindsetMatters",
+    "publishTime": "2026-02-23T20:00:00Z",
+    "tags": [],
+    "hook": "🧠 THINK TANK:",
+    "footerType": "default"
+  },
+  {
+    "id": "day22-morning",
+    "title": "Monday Momentum: Start Before You're Ready",
+    "content": "You'll never feel \"ready.\"\n\nReady to launch.\nReady to pitch.\nReady to hire.\nReady to scale.\n\nReady is a myth.\n\nThe only way to GET ready is to START.\n\nImperfect action beats perfect planning.\n\nWhat are you starting TODAY before you're ready?\n\n#MondayMomentum #StartNow",
+    "publishTime": "2026-02-24T08:00:00Z",
+    "tags": [],
+    "hook": "🚀 SHIPPING:",
+    "footerType": "urgent"
+  },
+  {
+    "id": "day22-afternoon",
+    "title": "Nasarawa State Tech Spotlight: Home of Solid Minerals 💎",
+    "content": "NASARAWA STATE, NIGERIA 🇳🇬\nCapital: Lafia\n\nPopulation: 1.9M\nStartups: 18+\nFunding (2025): $4M\nTop Sectors: Mining Tech, AgriTech, E-Commerce\n\nNasarawa, home of solid minerals, is mining digital opportunities.\n\nWith proximity to Abuja and Nasarawa State University, the state is quietly building North-Central's next tech ecosystem.\n\n👇 Calling all developers and founders in Nasarawa State:\n1. What are you building in Lafia/Keffi?\n2. How can tech transform Nasarawa's mining sector?\n3. What advantages does proximity to Abuja give you?\n\nLet's put Nasarawa on the map.\n\n#NasarawaTech #LafiaStartups #HomeOfSolidMinerals",
+    "publishTime": "2026-02-24T13:00:00Z",
+    "tags": ["Nasarawa", "Lafia"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day22-evening",
+    "title": "Monday Night: Your Biggest Competitor is Yesterday's Version of Your Product",
+    "content": "Forget your competitors.\n\nThey're building THEIR product.\nYou're building YOURS.\n\nYour only competition:\n\nYesterday's version of your product.\n\nIs today's version:\n- Faster?\n- Simpler?\n- Better?\n- More valuable?\n\nIf yes, you're winning.\n\nWhat did you improve today?\n\n#ContinuousImprovement #ProductThinking",
+    "publishTime": "2026-02-24T20:00:00Z",
+    "tags": [],
+    "hook": "🔥 HOT TAKE:",
+    "footerType": "default"
+  },
+  {
+    "id": "day23-morning",
+    "title": "Tuesday Tactic: The 80/20 of Startups",
+    "content": "80% of your results come from 20% of your work.\n\nSo what's YOUR 20%?\n\nMaybe it's:\n- That ONE core feature users love\n- That ONE marketing channel that works\n- That ONE customer segment that pays\n\nToday's exercise:\n\nList everything you did last week.\n\nCircle the 20% that drove 80% of results.\n\nDo MORE of that.\n\nWhat's your 20%?\n\n#TuesdayTactic #8020Rule",
+    "publishTime": "2026-02-25T08:00:00Z",
+    "tags": [],
+    "hook": "📊 DATA DROP:",
+    "footerType": "default"
+  },
+  {
+    "id": "day23-afternoon",
+    "title": "Niger State Tech Spotlight: Power State Powers Up ⚡",
+    "content": "NIGER STATE, NIGERIA 🇳🇬\nCapital: Minna\n\nPopulation: 3.9M\nStartups: 22+\nFunding (2025): $6M\nTop Sectors: Energy Tech, AgriTech, EdTech\n\nNiger, the Power State and Nigeria's largest by land area, is powering digital innovation.\n\nFrom Federal University of Technology Minna to Ibrahim Badamasi Babangida University, Niger produces engineering talent at scale.\n\n👇 Calling all developers and founders in Niger State:\n1. What are you building in Minna/Suleja/Bida?\n2. How can tech leverage Niger's massive land resources?\n3. What's Niger's unique advantage in Nigerian tech?\n\nLet's represent the Power State.\n\n#NigerTech #MinnaStartups #PowerState",
+    "publishTime": "2026-02-25T13:00:00Z",
+    "tags": ["Niger", "Minna"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day23-evening",
+    "title": "Tuesday Night: What Would You Do If You Knew You Couldn't Fail?",
+    "content": "Remove the fear.\n\nIf failure wasn't possible, what would you build?\n\nMaybe it's:\n- That audacious feature\n- That bold partnership\n- That scary pivot\n- That big hire\n- That ambitious goal\n\nHere's the truth: Most \"failures\" aren't fatal.\n\nThey're just expensive lessons.\n\nSo what are you afraid to try?\n\n#FearlessBuilding #TuesdayQuestion",
+    "publishTime": "2026-02-25T20:00:00Z",
+    "tags": [],
+    "hook": "🔮 PREDICTION:",
+    "footerType": "default"
+  },
+  {
+    "id": "day24-morning",
+    "title": "Wednesday Wake-Up: Your Product is Your Marketing",
+    "content": "Stop spending on ads.\n\nBuild a product so good, people CAN'T SHUT UP about it.\n\nWord of mouth is free.\nAnd it converts 10x better than any ad.\n\nSo ask yourself:\n\nWould I tell my friend about this product?\n\nIf not, FIX THE PRODUCT.\n\nMarketing can't save a mediocre product.\n\nBut a great product markets itself.\n\nWhat makes YOUR product remarkable?\n\n#WednesdayWisdom #ProductMarketFit",
+    "publishTime": "2026-02-26T08:00:00Z",
+    "tags": [],
+    "hook": "💡 INSIGHT:",
+    "footerType": "urgent"
+  },
+  {
+    "id": "day24-afternoon",
+    "title": "Bauchi State Tech Spotlight: Pearl of Tourism Goes Digital 🏔️",
+    "content": "BAUCHI STATE, NIGERIA 🇳🇬\nCapital: Bauchi\n\nPopulation: 4.6M\nStartups: 24+\nFunding (2025): $7M\nTop Sectors: Tourism Tech, AgriTech, EdTech\n\nBauchi, the Pearl of Tourism, is polishing its tech ecosystem.\n\nFrom Yankari Game Reserve to Abubakar Tafawa Balewa University, Bauchi blends natural beauty with growing tech ambition.\n\n👇 Calling all developers and founders in Bauchi State:\n1. What are you building in Bauchi?\n2. How can tech boost Bauchi's tourism industry?\n3. What's the next big opportunity in Bauchi?\n\nLet's showcase the Pearl of Tourism.\n\n#BauchiTech #BauchiStartups #PearlOfTourism",
+    "publishTime": "2026-02-26T13:00:00Z",
+    "tags": ["Bauchi"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day24-evening",
+    "title": "Wednesday Check-In: Are You Building a Business or a Job?",
+    "content": "Hard question:\n\nIf you stopped working tomorrow, would your startup make money?\n\nIf NO, you don't have a business.\nYou have a JOB.\n\nAnd that's fine—IF it's intentional.\n\nBut if you want a BUSINESS, you need:\n- Systems\n- Automation\n- Team\n- Processes\n\nWhat are you building?\n\nBe honest.\n\n#WednesdayTruth #BusinessVsJob",
+    "publishTime": "2026-02-26T20:00:00Z",
+    "tags": [],
+    "hook": "🔥 HOT TAKE:",
+    "footerType": "default"
+  },
+  {
+    "id": "day25-morning",
+    "title": "Thursday Thought: Ideas are Cheap, Execution is Everything",
+    "content": "Everyone has ideas.\n\n\"Uber for dogs\"\n\"AI for grandmas\"\n\"Blockchain for bananas\"\n\nIdeas are CHEAP.\n\nExecution is EXPENSIVE.\n\nThe difference between a billion-dollar company and a shower thought?\n\nSomeone BUILT IT.\n\nStop protecting your idea.\nStart executing it.\n\nWhat's ONE thing you're executing TODAY?\n\n#ThursdayThought #ExecutionMatters",
+    "publishTime": "2026-02-27T08:00:00Z",
+    "tags": [],
+    "hook": "⚡ QUICK HIT:",
+    "footerType": "default"
+  },
+  {
+    "id": "day25-afternoon",
+    "title": "Gombe State Tech Spotlight: Jewel of Innovation 💎",
+    "content": "GOMBE STATE, NIGERIA 🇳🇬\nCapital: Gombe\n\nPopulation: 2.4M\nStartups: 16+\nFunding (2025): $4M\nTop Sectors: AgriTech, EdTech, E-Commerce\n\nGombe, the Jewel in the Savanna, is shining in North-East tech.\n\nWith Gombe State University and Federal University Kashere, the state produces talent ready to tackle Northern Nigeria's unique challenges.\n\n👇 Calling all developers and founders in Gombe State:\n1. What are you building in Gombe?\n2. What opportunities exist in North-East tech?\n3. How can we support Gombe's growing ecosystem?\n\nLet's celebrate the Jewel in the Savanna.\n\n#GombeTech #GombeStartups #JewelInSavanna",
+    "publishTime": "2026-02-27T13:00:00Z",
+    "tags": ["Gombe"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day25-evening",
+    "title": "Thursday Evening: The Most Underrated Skill in Tech",
+    "content": "It's not coding.\nIt's not design.\nIt's not marketing.\n\nIt's COMMUNICATION.\n\nYour ability to:\n- Explain your vision\n- Write clear docs\n- Present to investors\n- Communicate with users\n- Lead a team\n\nThat's what separates good founders from great ones.\n\nCode is important.\nBut communication is EVERYTHING.\n\nHow are you improving your communication?\n\n#CommunicationSkills #ThursdayWisdom",
+    "publishTime": "2026-02-27T20:00:00Z",
+    "tags": [],
+    "hook": "🎓 LESSON:",
+    "footerType": "default"
+  },
+  {
+    "id": "day26-morning",
+    "title": "Friday Final Sprint: Ship Something, Anything",
+    "content": "It's Friday.\n\nYou made it through the week.\n\nBut don't coast to the finish line.\n\nSHIP SOMETHING.\n\nA bug fix.\nA blog post.\nA feature.\nA refactor.\nA tweet.\n\nSomething VISIBLE.\n\nBecause momentum compounds.\n\nFinish this week with a win.\n\nWhat are you shipping before 5 PM?\n\n#FridayShipping #FinishStrong",
+    "publishTime": "2026-02-28T08:00:00Z",
+    "tags": [],
+    "hook": "🚀 SHIPPING:",
+    "footerType": "urgent"
+  },
+  {
+    "id": "day26-afternoon",
+    "title": "Taraba State Tech Spotlight: Nature's Gift Digital 🌿",
+    "content": "TARABA STATE, NIGERIA 🇳🇬\nCapital: Jalingo\n\nPopulation: 2.3M\nStartups: 14+\nFunding (2025): $3M\nTop Sectors: AgriTech, Tourism Tech, E-Commerce\n\nTaraba, Nature's Gift to the Nation, is unwrapping tech potential.\n\nWith Mambilla Plateau (Nigeria's highest point) and Taraba State University, the state offers unique opportunities in eco-tourism and agriculture tech.\n\n👇 Calling all developers and founders in Taraba State:\n1. What are you building in Jalingo?\n2. How can tech unlock Taraba's natural resources?\n3. What's Taraba's hidden advantage?\n\nLet's showcase Nature's Gift.\n\n#TarabaTech #JalingoStartups #NaturesGift",
+    "publishTime": "2026-02-28T13:00:00Z",
+    "tags": ["Taraba", "Jalingo"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day26-evening",
+    "title": "Friday Celebration: Share Your Week's Biggest Win",
+    "content": "The week is done.\n\nTime to CELEBRATE.\n\nWhat was your BIGGEST win this week?\n\nMaybe you:\n- Shipped a feature\n- Signed a customer\n- Fixed a critical bug\n- Had a breakthrough\n- Made progress on a hard problem\n\nNo matter how small, CELEBRATE IT.\n\nSuccess is a series of small wins.\n\nWhat are you celebrating?\n\n#FridayCelebration #Wins",
+    "publishTime": "2026-02-28T20:00:00Z",
+    "tags": [],
+    "hook": "✨ INNOVATION:",
+    "footerType": "default"
+  },
+  {
+    "id": "day27-morning",
+    "title": "Saturday Study: Learn From Your Competitors",
+    "content": "Your competitors aren't your enemies.\n\nThey're your TEACHERS.\n\nThis weekend, do competitor research:\n\n1. Sign up for their product\n2. Use it like a real user\n3. Note what they do well\n4. Note what they do poorly\n5. Steal the good, fix the bad\n\nYou don't need to reinvent the wheel.\n\nJust build a better one.\n\nWho are you studying this weekend?\n\n#SaturdayStudy #CompetitorResearch",
+    "publishTime": "2026-03-01T08:00:00Z",
+    "tags": [],
+    "hook": "📊 DATA DROP:",
+    "footerType": "default"
+  },
+  {
+    "id": "day27-afternoon",
+    "title": "Adamawa State Tech Spotlight: Land of Beauty Digital 🏞️",
+    "content": "ADAMAWA STATE, NIGERIA 🇳🇬\nCapital: Yola\n\nPopulation: 3.2M\nStartups: 18+\nFunding (2025): $5M\nTop Sectors: AgriTech, EdTech, E-Commerce\n\nAdamawa, Land of Beauty, is beautifying North-East tech.\n\nWith Modibbo Adama University and American University of Nigeria, Yola is emerging as North-East's education and innovation hub.\n\n👇 Calling all developers and founders in Adamawa State:\n1. What are you building in Yola/Mubi?\n2. How can tech transform Adamawa's agriculture?\n3. What's Adamawa's vision for tech growth?\n\nLet's represent the Land of Beauty.\n\n#AdamawaTech #YolaStartups #LandOfBeauty",
+    "publishTime": "2026-03-01T13:00:00Z",
+    "tags": ["Adamawa", "Yola"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day27-evening",
+    "title": "Saturday Night: What's Your Unpopular Opinion About Startups?",
+    "content": "Everyone loves to give startup advice.\n\nBut what's YOUR contrarian take?\n\nMaybe it's:\n- \"Funding is overrated\"\n- \"You should work alone\"\n- \"Market size doesn't matter\"\n- \"Build features slowly\"\n- \"Ignore your competitors\"\n\nContrarian doesn't mean wrong.\n\nSometimes it means RIGHT for your context.\n\nWhat's your unpopular opinion?\n\n#UnpopularOpinion #SaturdayDebate",
+    "publishTime": "2026-03-01T20:00:00Z",
+    "tags": [],
+    "hook": "🔥 HOT TAKE:",
+    "footerType": "default"
+  },
+  {
+    "id": "day28-morning",
+    "title": "Sunday Strategy: The One Metric That Matters",
+    "content": "You can't track everything.\n\nSo what's your ONE metric that matters?\n\nFor a SaaS: MRR\nFor a marketplace: GMV\nFor a consumer app: DAU\nFor a content site: Engagement time\n\nPick ONE.\nTrack it obsessively.\nOptimize for it relentlessly.\n\nEverything else is noise.\n\nWhat's YOUR one metric?\n\n#SundayStrategy #OneMetric",
+    "publishTime": "2026-03-02T08:00:00Z",
+    "tags": [],
+    "hook": "📊 DATA DROP:",
+    "footerType": "default"
+  },
+  {
+    "id": "day28-afternoon",
+    "title": "Borno State Tech Spotlight: Home of Peace Rebuilds 🕊️",
+    "content": "BORNO STATE, NIGERIA 🇳🇬\nCapital: Maiduguri\n\nPopulation: 4.2M\nStartups: 20+\nFunding (2025): $6M\nTop Sectors: AgriTech, EdTech, FinTech\n\nBorno, Home of Peace, is rebuilding with tech at its core.\n\nWith University of Maiduguri and resilient entrepreneurial spirit, Borno represents untapped potential and determination in North-East tech.\n\n👇 Calling all developers and founders in Borno State:\n1. What are you building in Maiduguri?\n2. How is tech helping rebuild Borno?\n3. What opportunities exist for impact-driven tech?\n\nLet's support the Home of Peace.\n\n#BornoTech #MaiduguriStartups #HomeOfPeace",
+    "publishTime": "2026-03-02T13:00:00Z",
+    "tags": ["Borno", "Maiduguri"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day28-evening",
+    "title": "Sunday Evening: What Will You Stop Doing Next Week?",
+    "content": "Productivity isn't about doing MORE.\n\nIt's about doing LESS of what doesn't matter.\n\nNext week, what will you STOP?\n\nMaybe it's:\n- Checking email first thing\n- Unnecessary meetings\n- Building features nobody wants\n- Consuming content instead of creating\n- Saying yes to everything\n\nSubtraction is as powerful as addition.\n\nWhat are you eliminating?\n\n#SundayPlanning #DoLess",
+    "publishTime": "2026-03-02T20:00:00Z",
+    "tags": [],
+    "hook": "💡 INSIGHT:",
+    "footerType": "default"
+  },
+  {
+    "id": "day29-morning",
+    "title": "Monday Mindset: Think in Decades, Act in Days",
+    "content": "Where do you want to be in 10 years?\n\nNow work backwards.\n\nWhat needs to happen in:\n- Year 10?\n- Year 5?\n- Year 1?\n- This month?\n- This week?\n- TODAY?\n\nLong-term vision.\nShort-term execution.\n\nThat's how empires get built.\n\nWhat are you doing TODAY for your 10-year vision?\n\n#MondayMindset #LongTermThinking",
+    "publishTime": "2026-03-03T08:00:00Z",
+    "tags": [],
+    "hook": "🔮 PREDICTION:",
+    "footerType": "default"
+  },
+  {
+    "id": "day29-afternoon",
+    "title": "Yobe State Tech Spotlight: Pride of the Sahel 🌾",
+    "content": "YOBE STATE, NIGERIA 🇳🇬\nCapital: Damaturu\n\nPopulation: 2.3M\nStartups: 12+\nFunding (2025): $3M\nTop Sectors: AgriTech, EdTech, E-Commerce\n\nYobe, Pride of the Sahel, is cultivating tech innovation in North-East.\n\nWith Yobe State University and Federal University Gashua, the state is building resilience through technology and education.\n\n👇 Calling all developers and founders in Yobe State:\n1. What are you building in Damaturu/Gashua?\n2. How can tech address Yobe's unique challenges?\n3. What's your vision for Yobe's tech future?\n\nLet's celebrate the Pride of the Sahel.\n\n#YobeTech #DamaturuStartups #PrideOfSahel",
+    "publishTime": "2026-03-03T13:00:00Z",
+    "tags": ["Yobe", "Damaturu"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day29-evening",
+    "title": "Monday Night: Your 2026 Startup Stack",
+    "content": "2026 is moving fast.\n\nWhat's in your startup stack RIGHT NOW?\n\nCode:\nHosting:\nDatabase:\nPayments:\nAnalytics:\nCommunication:\nProject Management:\n\nDrop your full stack below.\n\nLet's see what African startups are building with.\n\n#StartupStack #2026Tech",
+    "publishTime": "2026-03-03T20:00:00Z",
+    "tags": [],
+    "hook": "💻 DEV ALERT:",
+    "footerType": "default"
+  },
+  {
+    "id": "day30-morning",
+    "title": "Tuesday Tactic: The Power of Constraints",
+    "content": "You think you need more:\n\nMore time.\nMore money.\nMore people.\nMore resources.\n\nBut constraints breed creativity.\n\nTwitter's 140 characters.\nInstagram's square photos.\nTikTok's 15 seconds.\n\nLimitations force innovation.\n\nWhat constraint could make YOUR product better?\n\n#TuesdayTactic #Constraints",
+    "publishTime": "2026-03-04T08:00:00Z",
+    "tags": [],
+    "hook": "💡 INSIGHT:",
+    "footerType": "default"
+  },
+  {
+    "id": "day30-afternoon",
+    "title": "Jigawa State Tech Spotlight: New World Digital 🌏",
+    "content": "JIGAWA STATE, NIGERIA 🇳🇬\nCapital: Dutse\n\nPopulation: 4.4M\nStartups: 16+\nFunding (2025): $4M\nTop Sectors: AgriTech, EdTech, Commerce\n\nJigawa, the New World, is building its digital future.\n\nWith massive agricultural potential and Federal University Dutse, Jigawa represents North-West's untapped tech frontier.\n\n👇 Calling all developers and founders in Jigawa State:\n1. What are you building in Dutse/Hadejia?\n2. How can tech transform Jigawa's agriculture?\n3. What's Jigawa's unique opportunity?\n\nLet's showcase the New World.\n\n#JigawaTech #DutseStartups #NewWorld",
+    "publishTime": "2026-03-04T13:00:00Z",
+    "tags": ["Jigawa", "Dutse"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day30-evening",
+    "title": "Tuesday Evening: The Question That Changed Everything",
+    "content": "Every founder has THAT moment.\n\nThat ONE question that changed their entire trajectory.\n\nMaybe it was:\n- \"Who's actually willing to PAY for this?\"\n- \"What if we did the OPPOSITE?\"\n- \"Why hasn't this been solved yet?\"\n- \"What would I build if I wasn't afraid?\"\n\nWhat question changed YOUR startup?\n\n#TuesdayReflection #PivotMoment",
+    "publishTime": "2026-03-04T20:00:00Z",
+    "tags": [],
+    "hook": "🧠 THINK TANK:",
+    "footerType": "default"
+  },
+  {
+    "id": "day31-morning",
+    "title": "Wednesday Wisdom: Simple > Complex",
+    "content": "Complexity is easy.\nSimplicity is HARD.\n\nAnyone can add features.\nFew can remove them.\n\nAnyone can write complex code.\nFew can make it simple.\n\nAnyone can explain in paragraphs.\nFew can explain in sentences.\n\nYour job as a builder:\n\nMake complexity FEEL simple.\n\nWhat can you simplify today?\n\n#WednesdayWisdom #Simplicity",
+    "publishTime": "2026-03-05T08:00:00Z",
+    "tags": [],
+    "hook": "⚡ QUICK HIT:",
+    "footerType": "default"
+  },
+  {
+    "id": "day31-afternoon",
+    "title": "Katsina State Tech Spotlight: Home of Hospitality Digital 🏡",
+    "content": "KATSINA STATE, NIGERIA 🇳🇬\nCapital: Katsina\n\nPopulation: 5.8M\nStartups: 20+\nFunding (2025): $5M\nTop Sectors: AgriTech, EdTech, E-Commerce\n\nKatsina, Home of Hospitality, is welcoming tech innovation.\n\nWith Federal University Dutsin-Ma and rich agricultural heritage, Katsina is positioning itself as North-West's AgriTech hub.\n\n👇 Calling all developers and founders in Katsina State:\n1. What are you building in Katsina/Daura?\n2. How can tech boost Katsina's agriculture?\n3. What's Katsina's path to tech leadership?\n\nLet's represent Home of Hospitality.\n\n#KatsinaTech #KatsinaStartups #HomeOfHospitality",
+    "publishTime": "2026-03-05T13:00:00Z",
+    "tags": ["Katsina"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day31-evening",
+    "title": "Wednesday Wind-Down: What Would Your Users Say About You?",
+    "content": "If your users described your product in ONE WORD, what would it be?\n\nFast?\nSimple?\nReliable?\nConfusing?\nBuggy?\nAmazing?\n\nBe honest.\n\nBecause THAT'S your brand.\n\nNot what you say in marketing.\nWhat users EXPERIENCE.\n\nSo what's your one word?\n\nAnd is it the word you WANT?\n\n#WednesdayCheck #UserExperience",
+    "publishTime": "2026-03-05T20:00:00Z",
+    "tags": [],
+    "hook": "🎯 FOCUS:",
+    "footerType": "default"
+  },
+  {
+    "id": "day32-morning",
+    "title": "Thursday Throwback: Your First Line of Code",
+    "content": "Remember your first Hello World?\n\nThat feeling when it worked?\n\nPure magic.\n\nSomewhere along the way, we lost that feeling.\n\nCode became work.\nBuilding became stressful.\nShipping became scary.\n\nThis week, reconnect with that feeling.\n\nBuild something just for FUN.\n\nWhat was your first programming language?\n\n#ThursdayThrowback #HelloWorld",
+    "publishTime": "2026-03-06T08:00:00Z",
+    "tags": [],
+    "hook": "🎓 LESSON:",
+    "footerType": "default"
+  },
+  {
+    "id": "day32-afternoon",
+    "title": "Kebbi State Tech Spotlight: Land of Equity Digital ⚖️",
+    "content": "KEBBI STATE, NIGERIA 🇳🇬\nCapital: Birnin Kebbi\n\nPopulation: 3.3M\nStartups: 14+\nFunding (2025): $3M\nTop Sectors: AgriTech, E-Commerce, EdTech\n\nKebbi, Land of Equity, is leveling the digital playing field.\n\nWith massive rice production and Federal University Birnin Kebbi, Kebbi is primed to lead Nigeria's AgriTech transformation.\n\n👇 Calling all developers and founders in Kebbi State:\n1. What are you building in Birnin Kebbi/Argungu?\n2. How can tech revolutionize Kebbi's rice sector?\n3. What's Kebbi's untapped tech opportunity?\n\nLet's showcase the Land of Equity.\n\n#KebbiTech #BirnKebbi Startups #LandOfEquity",
+    "publishTime": "2026-03-06T13:00:00Z",
+    "tags": ["Kebbi", "Birnin Kebbi"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day32-evening",
+    "title": "Thursday Deep Dive: Are You Building a Painkiller or a Vitamin?",
+    "content": "Painkillers solve urgent problems.\nVitamins are nice to have.\n\nPeople BUY painkillers.\nPeople CONSIDER vitamins.\n\nBe honest: Which are you building?\n\nIf it's a vitamin, you need:\n- Lower price\n- Strong habit formation\n- Exceptional marketing\n\nIf it's a painkiller, you need:\n- Fast results\n- Clear value prop\n- Easy onboarding\n\nSo which is it?\n\n#ThursdayThinking #ProductStrategy",
+    "publishTime": "2026-03-06T20:00:00Z",
+    "tags": [],
+    "hook": "🔥 HOT TAKE:",
+    "footerType": "default"
+  },
+  {
+    "id": "day33-morning",
+    "title": "Friday Finale: Finish This Month Strong",
+    "content": "March is almost here.\n\nBefore this month ends, ask yourself:\n\nDid I:\n- Ship what I said I would?\n- Talk to enough users?\n- Make progress on my goals?\n- Learn something valuable?\n\nIf NO, you still have time.\n\nIf YES, celebrate and level up next month.\n\nEither way, finish STRONG.\n\nWhat's your ONE goal before March 1st?\n\n#FridayFinale #MonthEnd",
+    "publishTime": "2026-03-07T08:00:00Z",
+    "tags": [],
+    "hook": "🚀 SHIPPING:",
+    "footerType": "urgent"
+  },
+  {
+    "id": "day33-afternoon",
+    "title": "Sokoto State Tech Spotlight: Seat of the Caliphate Digital 🕌",
+    "content": "SOKOTO STATE, NIGERIA 🇳🇬\nCapital: Sokoto\n\nPopulation: 3.7M\nStartups: 16+\nFunding (2025): $4M\nTop Sectors: AgriTech, EdTech, Commerce\n\nSokoto, Seat of the Caliphate, is building its tech legacy.\n\nWith Usmanu Danfodiyo University and deep cultural heritage, Sokoto is emerging as North-West's intellectual tech hub.\n\n👇 Calling all developers and founders in Sokoto State:\n1. What are you building in Sokoto?\n2. How can tech preserve AND modernize Sokoto's heritage?\n3. What's Sokoto's vision for digital transformation?\n\nLet's represent the Seat of the Caliphate.\n\n#SokotoTech #SokotoStartups #SeatOfCaliphate",
+    "publishTime": "2026-03-07T13:00:00Z",
+    "tags": ["Sokoto"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day33-evening",
+    "title": "Friday Night: What's Your Definition of Success?",
+    "content": "Success looks different for everyone.\n\nFor some: $1M ARR\nFor others: Freedom to work from anywhere\nFor some: Impact on 1M lives\nFor others: Building with their team\n\nThere's no right answer.\n\nBut if you don't define YOUR success, you'll chase someone else's.\n\nSo what does success mean to YOU?\n\n#FridayReflection #DefineSuccess",
+    "publishTime": "2026-03-07T20:00:00Z",
+    "tags": [],
+    "hook": "🧠 THINK TANK:",
+    "footerType": "default"
+  },
+  {
+    "id": "day34-morning",
+    "title": "Saturday Sprint: 10X Your Output",
+    "content": "Want to 10X your output?\n\nDon't work 10X harder.\n\nWork 10X SMARTER.\n\nHow:\n1. Cut meetings by 50%\n2. Automate repetitive tasks\n3. Say NO to distractions\n4. Batch similar work\n5. Focus on HIGH-impact tasks only\n\nYou don't need more hours.\nYou need better systems.\n\nWhat's ONE thing you're automating this weekend?\n\n#SaturdaySprint #10XOutput",
+    "publishTime": "2026-03-08T08:00:00Z",
+    "tags": [],
+    "hook": "📊 DATA DROP:",
+    "footerType": "default"
+  },
+  {
+    "id": "day34-afternoon",
+    "title": "Zamfara State Tech Spotlight: Farming is Our Pride Digital 🌾",
+    "content": "ZAMFARA STATE, NIGERIA 🇳🇬\nCapital: Gusau\n\nPopulation: 3.3M\nStartups: 12+\nFunding (2025): $3M\nTop Sectors: AgriTech, Mining Tech, EdTech\n\nZamfara, where farming is our pride, is sowing seeds of tech innovation.\n\nWith massive gold deposits and Federal University Gusau, Zamfara is positioned to merge agriculture, mining, and technology.\n\n👇 Calling all developers and founders in Zamfara State:\n1. What are you building in Gusau?\n2. How can tech transform Zamfara's agriculture and mining?\n3. What's Zamfara's path to tech growth?\n\nLet's celebrate Farming is Our Pride.\n\n#ZamfaraTech #GusauStartups #FarmingIsOurPride",
+    "publishTime": "2026-03-08T13:00:00Z",
+    "tags": ["Zamfara", "Gusau"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day34-evening",
+    "title": "Saturday Night Celebration: Share Your Biggest Learning",
+    "content": "This month, what's the BIGGEST thing you learned?\n\nMaybe it was:\n- A technical skill\n- A business lesson\n- A mindset shift\n- A mistake you won't repeat\n- A framework that changed everything\n\nShare it below.\n\nYour biggest learning could be someone else's breakthrough.\n\n#SaturdayLearning #KnowledgeSharing",
+    "publishTime": "2026-03-08T20:00:00Z",
+    "tags": [],
+    "hook": "✨ INNOVATION:",
+    "footerType": "default"
+  },
+  {
+    "id": "day35-morning",
+    "title": "Sunday Strategic Planning: Map Your Next 30 Days",
+    "content": "March is here.\n\nNew month = Fresh start.\n\nTake 1 hour today and plan:\n\n1. What are your 3 BIG goals for March?\n2. What do you need to STOP doing?\n3. What do you need to START doing?\n4. Who do you need to connect with?\n5. What do you need to learn?\n\nWrite it down.\n\nPlanning prevents panic.\n\nWhat's your #1 goal for March?\n\n#SundayPlanning #March2026",
+    "publishTime": "2026-03-09T08:00:00Z",
+    "tags": [],
+    "hook": "🎯 FOCUS:",
+    "footerType": "default"
+  },
+  {
+    "id": "day35-afternoon",
+    "title": "Ekiti State Tech Spotlight: Fountain of Knowledge Digital 💧",
+    "content": "EKITI STATE, NIGERIA 🇳🇬\nCapital: Ado-Ekiti\n\nPopulation: 2.4M\nStartups: 22+\nFunding (2025): $6M\nTop Sectors: EdTech, AgriTech, E-Commerce\n\nEkiti, the Fountain of Knowledge, is flowing with tech innovation.\n\nWith EKSU, Federal University Oye-Ekiti, and strong education culture, Ekiti produces intellectually curious builders.\n\n👇 Calling all developers and founders in Ekiti State:\n1. What are you building in Ado-Ekiti?\n2. How does Ekiti's education focus shape your approach?\n3. What's Ekiti's secret advantage?\n\nLet's represent the Fountain of Knowledge.\n\n#EkitiTech #AdoEkitiStartups #FountainOfKnowledge",
+    "publishTime": "2026-03-09T13:00:00Z",
+    "tags": ["Ekiti", "Ado-Ekiti"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day35-evening",
+    "title": "Sunday Reset: Disconnect to Reconnect",
+    "content": "Tonight, put your phone away.\n\nNo code.\nNo Slack.\nNo email.\nNo Twitter.\n\nJust YOU.\n\nBecause the best ideas don't come from screens.\n\nThey come from:\n- Walking\n- Showering\n- Sleeping\n- Thinking\n\nGive your brain space.\n\nYou'll be amazed what shows up.\n\nWhat are you doing tonight WITHOUT your phone?\n\n#SundayReset #Disconnect",
+    "publishTime": "2026-03-09T20:00:00Z",
+    "tags": [],
+    "hook": "🎓 LESSON:",
+    "footerType": "default"
+  },
+  {
+    "id": "day36-morning",
+    "title": "Monday March Momentum: New Month, New Energy",
+    "content": "MARCH 2026.\n\nNew month.\nNew goals.\nNew energy.\n\nFebruary is DONE.\n\nWhatever didn't work: LEARN.\nWhatever worked: DOUBLE DOWN.\n\nYou have 31 fresh days to build something remarkable.\n\nDon't waste them.\n\nWhat's different about March for you?\n\n#MarchMomentum #NewMonth",
+    "publishTime": "2026-03-10T08:00:00Z",
+    "tags": [],
+    "hook": "🚀 SHIPPING:",
+    "footerType": "urgent"
+  },
+  {
+    "id": "day36-afternoon",
+    "title": "Ondo State Tech Spotlight: Sunshine State Shines Digital ☀️",
+    "content": "ONDO STATE, NIGERIA 🇳🇬\nCapital: Akure\n\nPopulation: 3.5M\nStartups: 26+\nFunding (2025): $7M\nTop Sectors: AgriTech, EdTech, Energy Tech\n\nOndo, the Sunshine State, is illuminating Southwest tech.\n\nFrom FUTA's engineering excellence to Ondo's rich cocoa and bitumen resources, the state blends agriculture, energy, and innovation.\n\n👇 Calling all developers and founders in Ondo State:\n1. What are you building in Akure/Ondo?\n2. How can tech unlock Ondo's natural resources?\n3. What makes Ondo unique in Southwest tech?\n\nLet's shine for the Sunshine State.\n\n#OndoTech #AkureStartups #SunshineState",
+    "publishTime": "2026-03-10T13:00:00Z",
+    "tags": ["Ondo", "Akure"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day36-evening",
+    "title": "Monday Night Mission: Who's Your Dream Customer?",
+    "content": "Stop trying to serve everyone.\n\nPick ONE dream customer.\n\nDescribe them:\n- What's their role?\n- What's their problem?\n- What's their budget?\n- Where do they hang out?\n- What do they value?\n\nBuild EVERYTHING for THEM.\n\nNiche wins.\n\nWho's your dream customer?\n\n#MondayMission #DreamCustomer",
+    "publishTime": "2026-03-10T20:00:00Z",
+    "tags": [],
+    "hook": "🎯 FOCUS:",
+    "footerType": "default"
+  },
+  {
+    "id": "day37-morning",
+    "title": "Tuesday Territory: Own Your Niche",
+    "content": "The riches are in the niches.\n\nDon't be:\n\"We build software for everyone\"\n\nBe:\n\"We build inventory management for Nigerian pharmacies\"\n\nSpecific > Generic\nNiche > Broad\nOwned > Rented\n\nFind your niche.\nDominate it.\n\nWhat's YOUR niche?\n\n#TuesdayTerritory #NicheDown",
+    "publishTime": "2026-03-11T08:00:00Z",
+    "tags": [],
+    "hook": "💡 INSIGHT:",
+    "footerType": "default"
+  },
+  {
+    "id": "day37-afternoon",
+    "title": "Osun State Tech Spotlight: State of the Living Spring 💦",
+    "content": "OSUN STATE, NIGERIA 🇳🇬\nCapital: Osogbo\n\nPopulation: 3.4M\nStartups: 24+\nFunding (2025): $6M\nTop Sectors: Tourism Tech, EdTech, AgriTech\n\nOsun, State of the Living Spring and UNESCO World Heritage home, is springing into tech.\n\nWith OAU, Osun State University, and rich cultural heritage, Osun blends tradition with digital innovation.\n\n👇 Calling all developers and founders in Osun State:\n1. What are you building in Osogbo/Ile-Ife?\n2. How can tech elevate Osun's tourism and culture?\n3. What's Osun's path to becoming a Southwest tech hub?\n\nLet's represent the Living Spring.\n\n#OsunTech #OsogboStartups #StateOfLivingSpring",
+    "publishTime": "2026-03-11T13:00:00Z",
+    "tags": ["Osun", "Osogbo", "Ile-Ife"],
+    "hook": "🌍 AFRICA RISING:",
+    "footerType": "state"
+  },
+  {
+    "id": "day37-evening",
+    "title": "Tuesday Night Truth: You're Closer Than You Think",
+    "content": "You're further than you wanted.\n\nBut closer than you realize.\n\nThat feature you're building?\nSomeone needs it.\n\nThat problem you're solving?\nIt's REAL.\n\nThat progress that feels slow?\nIt's COMPOUND.\n\nKeep going.\n\nBreakthroughs happen right after you want to quit.\n\nWhat's keeping you going right now?\n\n#TuesdayTruth #KeepBuilding",
+    "publishTime": "2026-03-11T20:00:00Z",
+    "tags": [],
+    "hook": "🔥 HOT TAKE:",
+    "footerType": "default"
+  }
+]
