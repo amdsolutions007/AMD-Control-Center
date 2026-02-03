@@ -15,9 +15,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold mb-6 text-green-400">📡 RSS Feed URL</h2>
           <div className="bg-gray-900 p-4 rounded border border-gray-700 mb-4">
             <code className="text-green-300 break-all">
-              {typeof window !== 'undefined' 
-                ? `${window.location.origin}/api/feed`
-                : 'https://your-domain.vercel.app/api/feed'}
+              https://amd-signal-beacon.vercel.app/api/feed
             </code>
           </div>
           <a
