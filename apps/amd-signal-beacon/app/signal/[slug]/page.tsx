@@ -8,6 +8,7 @@ import AMDCTABox from '@/components/AMDCTABox';
 import RelatedArticles from '@/components/RelatedArticles';
 import NavigationHeader from '@/components/NavigationHeader';
 import SiteFooter from '@/components/SiteFooter';
+import AMDAgent007 from '@/components/AMDAgent007';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Revalidate every hour
@@ -95,6 +96,9 @@ export default async function ArticlePage({ params }: PageProps) {
       </main>
 
       <SiteFooter />
+      
+      {/* AMD Agent 007 - Context-aware chat */}
+      <AMDAgent007 articleTitle={article.title} />
     </div>
   );
 }
