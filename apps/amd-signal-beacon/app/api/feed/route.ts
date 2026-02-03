@@ -57,7 +57,10 @@ export async function GET() {
     let externalArticles = [];
     const now = Date.now();
     
-    if (externalNewsCache && (now - externalNewsCache.timestamp) < CACHE_TTL) {
+    // TEMPORARY: Force fresh generation for graphics testing
+    const forceFresh = true;
+    
+    if (!forceFresh && externalNewsCache && (now - externalNewsCache.timestamp) < CACHE_TTL) {
       console.log('✓ Using cached external news');
       externalArticles = externalNewsCache.articles;
     } else {
