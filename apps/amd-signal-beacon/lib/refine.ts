@@ -8,10 +8,14 @@ import footers from '../data/footers.json';
 export interface RefinedArticle {
   id: string;
   title: string;
+  description: string; // Short description for previews
   content: string;
   publishTime: string;
+  publishedAt: string; // Human-readable date
   tags: string[];
+  categories: string[]; // For article classification
   source: string;
+  sourceUrl: string; // Original article URL
   link: string;
   type: 'external';
   imageUrl?: string; // AI-generated image URL
@@ -126,10 +130,14 @@ export async function refineArticle(
   return {
     id,
     title: article.title,
+    description: refinedDesc, // Short description for previews
     content,
     publishTime: article.pubDate,
+    publishedAt: new Date(article.pubDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
     tags,
+    categories: tags, // Same as tags for now
     source: article.source,
+    sourceUrl: article.link, // Original article URL
     link: article.link,
     type: 'external',
     imageUrl,
