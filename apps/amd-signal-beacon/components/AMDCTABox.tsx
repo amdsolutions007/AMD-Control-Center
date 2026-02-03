@@ -1,6 +1,6 @@
 export default function AMDCTABox() {
-  // WhatsApp Group Link - Replace with your actual group invite link
-  const whatsappGroupLink = "https://chat.whatsapp.com/YOUR_GROUP_INVITE_CODE"; // TODO: Add real link
+  // WhatsApp Group Link - African Tech Ecosystem War Room
+  const whatsappGroupLink = "https://chat.whatsapp.com/KmTlNs5TTV69xPNzRkcMZc";
 
   return (
     <div className="my-16 p-12 border-2 border-[#facc15] rounded-xl bg-gradient-to-br from-[rgba(250,204,21,0.15)] to-[rgba(250,204,21,0.05)] relative overflow-hidden">
