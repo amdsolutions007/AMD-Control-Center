@@ -35,7 +35,7 @@ export async function getAllArticles(): Promise<ArticleData[]> {
 
   // Fetch fresh articles
   const rawArticles = await ingestExternalNews();
-  const freshArticles = filterFreshArticles(rawArticles, 48);
+  const freshArticles = filterFreshArticles(rawArticles);
   const dedupedArticles = filterArticles(freshArticles);
   const refinedArticles = await refineArticles(dedupedArticles, true); // Generate graphics
 
