@@ -1,6 +1,7 @@
 // DALL-E 3 Graphics Generator - AI-powered image creation
 
 import { detectImageCategory, buildImagePrompt, type ImageCategory } from './prompt-templates';
+import { getFallbackImage } from './fallback-images';
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const OPENAI_API_URL = 'https://api.openai.com/v1/images/generations';
@@ -23,8 +24,14 @@ export async function generateImage(
 ): Promise<ImageGenerationResult | null> {
   
   if (!OPENAI_API_KEY) {
-    console.error('⚠️  OpenAI API key not found in environment variables');
-    return null;
+    console.error('⚠️  OpenAI API key not found - using fallback image');
+    const fallbackUrl = getFallbackImage(category);
+    return {
+      imageUrl: fallbackUrl,
+      category,
+      prompt: 'Fallback image (OpenAI key missing)',
+      timestamp: Date.now(),
+    };
   }
 
   try {
