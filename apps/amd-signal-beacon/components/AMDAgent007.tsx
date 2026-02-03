@@ -14,7 +14,7 @@ export default function AMDAgent007({ articleTitle }: AMDAgent007Props) {
       role: 'agent',
       text: articleTitle 
         ? `👋 Hi! I'm Agent 007. I can help you understand this article: "${articleTitle.substring(0, 60)}..."`
-        : '👋 Hi! I'm AMD Agent 007. Ask me anything about AMD Solutions, African tech, or this article!'
+        : `👋 Hi! I'm AMD Agent 007. Ask me anything about AMD Solutions, African tech, or this article!`
     }
   ]);
 
