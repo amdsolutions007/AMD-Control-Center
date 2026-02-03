@@ -26,7 +26,7 @@ export function generateRSSFeed(items: RSSItem[]): string {
     const itemConfig: any = {
       title: post.title,
       description: content,
-      url: `https://www.amdsolutions007.com/signal/${post.id}`,
+      url: `https://amd-signal-beacon.vercel.app/signal/${post.id}`,
       guid: post.id,
       date: post.publishTime,
       categories: post.tags,
