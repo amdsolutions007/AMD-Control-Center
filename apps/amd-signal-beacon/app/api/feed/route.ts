@@ -21,7 +21,7 @@ let externalNewsCache: {
   timestamp: number;
 } | null = null;
 
-const CACHE_TTL = 60 * 60 * 1000; // 1 hour
+const CACHE_TTL = 0; // TEMPORARILY DISABLED FOR TESTING - will re-enable after graphics confirmed
 
 // Convert MixedPost to RSS-compatible format
 function mixedToRSSItem(mixed: MixedPost) {
