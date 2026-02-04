@@ -6,7 +6,14 @@ module.exports = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'amd-black': '#000000',
+        'amd-gold': '#FFD700',
+        'amd-gold-light': '#FFED4E',
+        'amd-gold-dark': '#DAA520',
+      },
+    },
   },
   plugins: [],
 }
