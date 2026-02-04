@@ -41,7 +41,7 @@ export default async function Home() {
               <div className="text-sm text-gray-400">Intel Briefs</div>
             </div>
             <div className="bg-black border-2 border-[#FFD700] rounded-lg p-6 hover:shadow-xl hover:shadow-[rgba(255,215,0,0.2)] transition-all">
-              <div className="text-5xl font-bold text-[#FFD700] mb-2">37</div>
+              <div className="text-5xl font-bold text-[#FFD700] mb-2">36</div>
               <div className="text-sm text-gray-400">Nigerian States</div>
             </div>
             <div className="bg-black border-2 border-[#FFD700] rounded-lg p-6 hover:shadow-xl hover:shadow-[rgba(255,215,0,0.2)] transition-all">
@@ -94,7 +94,7 @@ export default async function Home() {
           {/* Latest Intel Heading */}
           <div className="mt-16 mb-8">
             <h2 className="text-3xl md:text-4xl font-bold text-[#FFD700] mb-2">
-              LATEST INTEL FROM THE 37 STATES
+              LATEST INTEL FROM THE 36 STATES
             </h2>
             <p className="text-gray-400">Real-time Tech Intelligence • AI-Powered Analysis • Daily Briefs</p>
           </div>
@@ -187,7 +187,7 @@ export default async function Home() {
               ⚡ JOIN THE WAR ROOM
             </h2>
             <p className="text-xl text-gray-300 mb-2">
-              127+ Active Builders Across 37 States
+              127+ Active Builders Across 36 States
             </p>
             <p className="text-sm text-gray-400 mb-8">
               Daily Intel Briefs at 8:00 AM WAT • Real-time Opportunities • Built by Africans, FOR Africans
