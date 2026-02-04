@@ -1,34 +1,57 @@
 export default function SiteFooter() {
   return (
-    <footer className="border-t border-[rgba(250,204,21,0.08)] bg-black py-12">
+    <footer className="border-t border-[rgba(255,215,0,0.2)] bg-black py-12">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Copyright */}
-          <div className="text-center md:text-left">
-            <p className="text-gray-400 text-sm">
-              © 2025 AMD Media Solutions.
-            </p>
+        {/* Main Footer Content */}
+        <div className="flex flex-col items-center justify-center gap-6 mb-8">
+          {/* 007 Branding */}
+          <div className="text-center">
+            <p className="text-[#FFD700] text-lg font-bold mb-2">🎖️ AMD SOLUTIONS 007</p>
+            <p className="text-gray-400 text-sm mb-1">🤖 Intelligence powered by OpenAI GPT-4 + DALL-E 3</p>
+            <p className="text-gray-400 text-sm">🌍 Illuminating the Digital Dark Since 2011</p>
           </div>
 
-          {/* Tagline */}
-          <div className="text-center">
-            <p className="text-gray-400 text-sm">
-              Built with AI. Shipped with Speed. 🚀
-            </p>
+          {/* Quick Links */}
+          <div className="flex items-center gap-6 text-sm">
+            <a href="https://www.amdsolutions007.com#about" className="text-gray-400 hover:text-[#FFD700] transition-colors">About</a>
+            <a href="https://www.amdsolutions007.com#ecosystem" className="text-gray-400 hover:text-[#FFD700] transition-colors">Ecosystem</a>
+            <a href="https://www.amdsolutions007.com#portfolio" className="text-gray-400 hover:text-[#FFD700] transition-colors">Portfolio</a>
+            <a href="https://wa.me/2348180021007" className="text-gray-400 hover:text-[#FFD700] transition-colors">Contact</a>
           </div>
+        </div>
+
+        {/* Divider */}
+        <div className="border-t border-[rgba(255,215,0,0.1)] my-6"></div>
+
+        {/* Bottom Bar */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          {/* Copyright */}
+          <p className="text-gray-400 text-sm">
+            © 2025 AMD Media Solutions.
+          </p>
+
+          {/* Tagline */}
+          <p className="text-gray-400 text-sm">
+            Built with AI. Shipped with Speed. 🚀
+          </p>
 
           {/* Tech Stack */}
           <div className="flex items-center gap-3">
-            <span className="px-3 py-1 text-xs bg-[rgba(250,204,21,0.1)] text-[#facc15] border border-[rgba(250,204,21,0.2)] rounded-full">
+            <span className="px-3 py-1 text-xs bg-transparent text-[#FFD700] border border-[#FFD700] rounded-full hover:bg-[#FFD700] hover:text-black transition-all">
               Python
             </span>
-            <span className="px-3 py-1 text-xs bg-[rgba(250,204,21,0.1)] text-[#facc15] border border-[rgba(250,204,21,0.2)] rounded-full">
+            <span className="px-3 py-1 text-xs bg-transparent text-[#FFD700] border border-[#FFD700] rounded-full hover:bg-[#FFD700] hover:text-black transition-all">
               Next.js
             </span>
-            <span className="px-3 py-1 text-xs bg-[rgba(250,204,21,0.1)] text-[#facc15] border border-[rgba(250,204,21,0.2)] rounded-full">
+            <span className="px-3 py-1 text-xs bg-transparent text-[#FFD700] border border-[#FFD700] rounded-full hover:bg-[#FFD700] hover:text-black transition-all">
               AI/ML
             </span>
           </div>
+        </div>
+
+        {/* License Notice */}
+        <div className="text-center mt-6">
+          <p className="text-gray-500 text-xs">Licensed to Build • 007 Protocol Compliant</p>
         </div>
       </div>
     </footer>
