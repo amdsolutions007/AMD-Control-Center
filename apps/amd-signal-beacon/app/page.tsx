@@ -3,8 +3,10 @@ import NavigationHeader from '@/components/NavigationHeader';
 import SiteFooter from '@/components/SiteFooter';
 import AMDAgent007 from '@/components/AMDAgent007';
 import Agent007Badge from '@/components/Agent007Badge';
+import VideoGrid from '@/components/VideoGrid';
 import Link from 'next/link';
 import Image from 'next/image';
+import videosData from '@/data/videos.json';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Revalidate every hour
@@ -177,6 +179,9 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* Visual Intelligence Section */}
+      <VideoGrid videos={videosData} />
 
       {/* Bottom War Room CTA - Enhanced */}
       <section className="py-16 px-6 border-t border-amd-gold border-opacity-20">

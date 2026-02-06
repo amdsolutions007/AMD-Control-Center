@@ -12,3 +12,22 @@ body {
   color: rgb(var(--foreground-rgb));
   background: #000000;
 }
+
+/* YouTube Embed Custom Styling - Gold Theme */
+.yt-lite {
+  background-color: #000;
+  border-radius: 0;
+}
+
+.yt-lite::before {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.yt-lite > .lty-playbtn {
+  border-color: transparent transparent transparent #FFD700;
+  border-width: 18px 0 18px 26px;
+}
+
+.yt-lite:hover > .lty-playbtn {
+  border-color: transparent transparent transparent #FFED4E;
+}
