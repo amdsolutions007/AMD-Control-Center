@@ -40,7 +40,7 @@ export default function WhatsAppShareButton({ title, url }: WhatsAppShareButtonP
         {/* Copy Link Button */}
         <button
           onClick={handleCopy}
-          className="p-3 bg-[rgba(255,215,0,0.1)] border-2 border-[#FFD700] text-[#FFD700] rounded-full hover:bg-[#FFD700] hover:text-black transition-all shadow-xl"
+          className="p-3 bg-amd-gold/1 border-2 border-amd-gold text-amd-gold rounded-full hover:bg-amd-gold hover:text-black transition-all shadow-xl"
           title="Copy link"
         >
           {copied ? (

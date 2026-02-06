@@ -18,15 +18,15 @@ export default async function Home() {
       <NavigationHeader />
 
       {/* Hero Section - Linktree Style */}
-      <section className="relative py-20 px-6 border-b border-[rgba(255,215,0,0.2)]">
+      <section className="relative py-20 px-6 border-b border-amd-gold/2">
         <div className="max-w-4xl mx-auto text-center">
           {/* Gold Logo Icon */}
-          <div className="w-24 h-24 mx-auto mb-6 rounded-full border-4 border-[#FFD700] flex items-center justify-center bg-black shadow-2xl shadow-[rgba(255,215,0,0.3)]">
+          <div className="w-24 h-24 mx-auto mb-6 rounded-full border-4 border-amd-gold flex items-center justify-center bg-black shadow-2xl shadow-amd-gold/3">
             <span className="text-5xl">📡</span>
           </div>
 
           {/* Main Title */}
-          <h1 className="text-4xl md:text-5xl font-bold mb-3 text-[#FFD700]">
+          <h1 className="text-4xl md:text-5xl font-bold mb-3 text-amd-gold">
             AMD SIGNAL BEACON
           </h1>
           
@@ -36,23 +36,23 @@ export default async function Home() {
 
           {/* Stats Cards - Linktree Style */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div className="bg-black border-2 border-[#FFD700] rounded-lg p-6 hover:shadow-xl hover:shadow-[rgba(255,215,0,0.2)] transition-all">
-              <div className="text-5xl font-bold text-[#FFD700] mb-2">{articles.length}</div>
+            <div className="bg-black border-2 border-amd-gold rounded-lg p-6 hover:shadow-xl hover:shadow-amd-gold/2 transition-all">
+              <div className="text-5xl font-bold text-amd-gold mb-2">{articles.length}</div>
               <div className="text-sm text-gray-400">Intel Briefs</div>
             </div>
-            <div className="bg-black border-2 border-[#FFD700] rounded-lg p-6 hover:shadow-xl hover:shadow-[rgba(255,215,0,0.2)] transition-all">
-              <div className="text-5xl font-bold text-[#FFD700] mb-2">36</div>
+            <div className="bg-black border-2 border-amd-gold rounded-lg p-6 hover:shadow-xl hover:shadow-amd-gold/2 transition-all">
+              <div className="text-5xl font-bold text-amd-gold mb-2">36</div>
               <div className="text-sm text-gray-400">Nigerian States</div>
             </div>
-            <div className="bg-black border-2 border-[#FFD700] rounded-lg p-6 hover:shadow-xl hover:shadow-[rgba(255,215,0,0.2)] transition-all">
-              <div className="text-5xl font-bold text-[#FFD700] mb-2">Daily</div>
+            <div className="bg-black border-2 border-amd-gold rounded-lg p-6 hover:shadow-xl hover:shadow-amd-gold/2 transition-all">
+              <div className="text-5xl font-bold text-amd-gold mb-2">Daily</div>
               <div className="text-sm text-gray-400">Updates</div>
             </div>
           </div>
 
           {/* Contact Email */}
           <div className="mb-8">
-            <a href="mailto:ceo@amdsolutions007.com" className="inline-flex items-center gap-2 text-gray-400 hover:text-[#FFD700] transition-colors">
+            <a href="mailto:ceo@amdsolutions007.com" className="inline-flex items-center gap-2 text-gray-400 hover:text-amd-gold transition-colors">
               <span>📧</span>
               <span className="text-sm">ceo@amdsolutions007.com</span>
             </a>
@@ -67,7 +67,7 @@ export default async function Home() {
               href="https://chat.whatsapp.com/KmTlNs5TTV69xPNzRkcMZc"
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full bg-black border-2 border-[#FFD700] text-white px-8 py-4 rounded-lg hover:bg-[#FFD700] hover:text-black transition-all font-semibold shadow-xl hover:shadow-2xl hover:shadow-[rgba(255,215,0,0.3)]"
+              className="block w-full bg-black border-2 border-amd-gold text-white px-8 py-4 rounded-lg hover:bg-amd-gold hover:text-black transition-all font-semibold shadow-xl hover:shadow-2xl hover:shadow-amd-gold/3"
             >
               <div className="flex items-center justify-center gap-3">
                 <span className="text-2xl">📞</span>
@@ -82,7 +82,7 @@ export default async function Home() {
               href="https://www.lekeelekee.com/@amd"
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full bg-black border-2 border-[#FFD700] text-white px-6 py-3 rounded-lg hover:bg-[#FFD700] hover:text-black transition-all font-semibold"
+              className="block w-full bg-black border-2 border-amd-gold text-white px-6 py-3 rounded-lg hover:bg-amd-gold hover:text-black transition-all font-semibold"
             >
               <div className="flex items-center justify-center gap-3">
                 <span className="text-xl">✈️</span>
@@ -93,7 +93,7 @@ export default async function Home() {
 
           {/* Latest Intel Heading */}
           <div className="mt-16 mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#FFD700] mb-2">
+            <h2 className="text-3xl md:text-4xl font-bold text-amd-gold mb-2">
               LATEST INTEL FROM THE 36 STATES
             </h2>
             <p className="text-gray-400">Real-time Tech Intelligence • AI-Powered Analysis • Daily Briefs</p>
@@ -108,7 +108,7 @@ export default async function Home() {
             {latestArticles.map((article) => (
               <article 
                 key={article.id}
-                className="group relative bg-black border-2 border-[#FFD700] rounded-lg overflow-hidden hover:shadow-2xl hover:shadow-[rgba(255,215,0,0.3)] transition-all duration-300"
+                className="group relative bg-black border-2 border-amd-gold rounded-lg overflow-hidden hover:shadow-2xl hover:shadow-amd-gold/3 transition-all duration-300"
               >
                 {/* Image */}
                 {article.imageUrl && (
@@ -126,7 +126,7 @@ export default async function Home() {
                 <div className="p-6">
                   {/* Source Badge */}
                   <div className="mb-3 flex items-center gap-2 text-xs">
-                    <span className="px-2 py-1 bg-transparent border border-[#FFD700] rounded text-[#FFD700]">
+                    <span className="px-2 py-1 bg-transparent border border-amd-gold rounded text-amd-gold">
                       {article.source}
                     </span>
                     {article.categories.slice(0, 2).map(cat => (
@@ -137,7 +137,7 @@ export default async function Home() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-[#FFD700] transition-colors">
+                  <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-amd-gold transition-colors">
                     {article.title}
                   </h3>
 
@@ -149,7 +149,7 @@ export default async function Home() {
                   {/* Read Button */}
                   <Link
                     href={`/signal/${article.id}`}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-transparent border-2 border-[#FFD700] text-[#FFD700] rounded-lg hover:bg-[#FFD700] hover:text-black transition-all font-semibold text-sm"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-transparent border-2 border-amd-gold text-amd-gold rounded-lg hover:bg-amd-gold hover:text-black transition-all font-semibold text-sm"
                   >
                     <span>Read Brief</span>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -167,7 +167,7 @@ export default async function Home() {
               href="/api/feed"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 border-2 border-[#FFD700] text-[#FFD700] rounded-lg hover:bg-[#FFD700] hover:text-black transition-all font-bold"
+              className="inline-flex items-center gap-2 px-6 py-3 border-2 border-amd-gold text-amd-gold rounded-lg hover:bg-amd-gold hover:text-black transition-all font-bold"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z" />
@@ -179,11 +179,11 @@ export default async function Home() {
       </section>
 
       {/* Bottom War Room CTA - Enhanced */}
-      <section className="py-16 px-6 border-t border-[rgba(255,215,0,0.2)]">
+      <section className="py-16 px-6 border-t border-amd-gold/2">
         <div className="max-w-4xl mx-auto">
           {/* CTA Box - Linktree Style */}
-          <div className="bg-gradient-to-br from-[rgba(218,165,32,0.1)] to-[rgba(0,0,0,0)] border-2 border-[#FFD700] rounded-lg p-8 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#FFD700] mb-4">
+          <div className="bg-gradient-to-br from-[rgba(218,165,32,0.1)] to-[rgba(0,0,0,0)] border-2 border-amd-gold rounded-lg p-8 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-amd-gold mb-4">
               ⚡ JOIN THE WAR ROOM
             </h2>
             <p className="text-xl text-gray-300 mb-2">
@@ -198,7 +198,7 @@ export default async function Home() {
                 href="https://chat.whatsapp.com/KmTlNs5TTV69xPNzRkcMZc"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#FFD700] text-black font-bold text-lg rounded-lg shadow-2xl hover:bg-[#FFED4E] hover:scale-105 transition-all"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-amd-gold text-black font-bold text-lg rounded-lg shadow-2xl hover:bg-amd-gold-light hover:scale-105 transition-all"
               >
                 <span>Join AMD HQ on WhatsApp →</span>
               </a>
@@ -207,7 +207,7 @@ export default async function Home() {
                 href="https://www.lekeelekee.com/@amd"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 border-2 border-[#FFD700] text-[#FFD700] font-bold text-lg rounded-lg hover:bg-[#FFD700] hover:text-black transition-all"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 border-2 border-amd-gold text-amd-gold font-bold text-lg rounded-lg hover:bg-amd-gold hover:text-black transition-all"
               >
                 <span>Follow @amd on Leke Leke →</span>
               </a>
