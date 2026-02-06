@@ -1,6 +1,6 @@
 # 🎯 AMD CONTROL CENTER - COMPLETE SYSTEM ARCHIVE
 
-**Last Updated:** 4 February 2026  
+**Last Updated:** 6 February 2026  
 **CEO:** Olawale Shoyemi  
 **Business Phone:** +234 818 002 1007  
 **Email:** ceo@amdsolutions007.com  
@@ -60,40 +60,85 @@ Next.js 14 App Router website serving as the primary digital presence for AMD So
 
 ---
 
-## 🚀 PROJECT 2: AMD SIGNAL BEACON (RSS/INTELLIGENCE PLATFORM)
-**Status:** ✅ **LIVE**  
+## 🚀 PROJECT 2: AMD SIGNAL BEACON (INTELLIGENCE PLATFORM + REVENUE MACHINE)
+**Status:** ✅ **LIVE + MONETIZATION ACTIVE**  
 **URL:** https://amd-signal-beacon.vercel.app  
+**Analytics Dashboard:** https://amd-signal-beacon.vercel.app/admin-analytics  
 **Location:** `/apps/amd-signal-beacon/`
 
 ### Description
-Next.js-powered RSS content engine and intelligence dashboard for the Leke Leke social platform. Aggregates tech news from TechCabal and TechPoint Africa, generates AI images with DALL-E 3, and creates time-gated branded content feeds.
+Next.js-powered intelligence platform combining RSS content engine, Visual Intelligence video curation, and analytics dashboard. Revenue-generating system with Premium tier, affiliate structure, and sponsorship-ready architecture.
 
 ### Key Features
-- **Triple Engine System:** Custom content + News aggregation + Community amplification
+- **Visual Intelligence Section:** 7 curated videos with 3-layer commentary (take007, why007, actionable)
+- **Analytics Dashboard:** Password-protected admin interface (`/admin-analytics`) with real-time metrics
+- **Premium Tier:** Waitlist funnel with lifetime 50% discount for first 50 members
+- **Revenue Architecture:** 5-stream monetization (Affiliates, Premium, Sponsorships, Course, Data)
+- **Client-Side Analytics:** Video clicks, section views, scroll depth, CTA conversions (privacy-first)
 - **Intelligence Dashboard:** Live article grid with hero section "LATEST INTEL FROM THE 37 STATES"
-- **Time-Gated Publishing:** Posts only appear when `publishTime` has passed
-- **AI Graphics:** DALL-E 3 integration for automatic image generation
-- **Dynamic Branding:** Context-aware footers based on content tags
+- **RSS Engine:** Time-gated publishing + AI-generated graphics (DALL-E 3)
 - **External News:** Real-time aggregation from TechCabal & TechPoint Africa
-- **Deduplication:** Levenshtein distance algorithm (70% threshold)
-- **War Room CTAs:** WhatsApp group integration throughout
-- **Leke Leke Follow CTA:** Conversion component on all pages
-- **RSS Feed:** `/api/feed` endpoint for syndication
+- **War Room Integration:** WhatsApp CTA + Leke Leke social CTAs
+- **Conversion Funnel:** Videos → 007 Takes → Premium Waitlist → Revenue
+
+### Revenue Potential
+- **Month 1:** $245-$890 (affiliate soft launch)
+- **Month 3:** $2,680-$9,820 (Premium + Sponsorships)
+- **Month 12:** $10,000-$25,000 (all 5 streams active)
+
+### Video Intelligence (NEW!)
+**Location:** Homepage - "VISUAL INTEL BRIEFING" section
+- **Featured Video:** 3Blue1Brown "Neural Networks" (19:13) with "🎖️ 007 TOP PICK" badge
+- **Grid Videos (6):**
+  - Matt Wolfe: "100+ AI Tools" (45:38)
+  - Fireship: "DeepSeek Analysis" (6:42)
+  - jawed: "First YouTube Video" (0:19)
+  - DeepMind: "AlphaGo Documentary" (1:30:45)
+  - Dr. Angela Yu: "100 Days of Code Bootcamp" (54:13)
+  - Fireship: "How to Learn Coding" (9:59)
+- **Commentary Structure:**
+  - `take007`: One-line insight
+  - `why007`: Strategic reasoning (why 007 picked it)
+  - `actionable`: Specific next step
+  - `toolsMentioned`: Array for affiliate monetization
+- **Creator Attribution:** "by [Creator] • Curated by AMD Agent 007" (YouTube ToS compliant)
+
+### Analytics Dashboard (NEW!)
+**Route:** `/admin-analytics`  
+**Password:** `amd007` (configurable in `.env.local`)  
+**Features:**
+- Video performance metrics (clicks per video, top performer)
+- Conversion funnel visualization
+- Premium waitlist manual tracker with revenue projection
+- Session info (scroll depth, session start)
+- Export analytics as JSON
+- Real-time refresh capability
+- Black + Gold AMD branding
 
 ### Tech Stack
 - **Framework:** Next.js 14.1.0 (App Router)
+- **Video Embeds:** react-lite-youtube-embed (3KB lazy loading)
+- **Analytics:** Custom localStorage system (privacy-first, GDPR/POPIA compliant)
 - **AI:** OpenAI DALL-E 3 (1792x1024 images, $0.08/image)
 - **Styling:** Tailwind CSS (Black #000000 + Gold #FFD700 theme)
 - **RSS:** Custom XML generation
-- **Caching:** 1-hour TTL, 48-hour freshness filter
 - **Deployment:** Vercel
+- **Performance:** 7.15 KB homepage, 5.99 KB analytics dashboard
 
 ### Content Sources
 - **TechCabal:** https://techcabal.com/feed/
 - **TechPoint Africa:** https://techpoint.africa/feed/
 - **Custom Posts:** 111 posts in `data/posts.json` (37 Nigerian states)
-- **Timeout:** 8 seconds per feed
-- **Max Items:** 15 per source
+- **Videos:** 7 curated in `data/videos.json` (YouTube embeds)
+
+### Analytics Tracking (Client-Side)
+- Video clicks (per video ID)
+- Section views (IntersectionObserver)
+- Scroll depth (window scroll tracking)
+- CTA conversions (WhatsApp, Leke Leke, Premium)
+- **Storage:** localStorage (no external services)
+- **Privacy:** No cookies, no personal data, GDPR compliant
+- **Export:** JSON format for weekly reports
 
 ### Brand Standards
 - **Primary Color:** Pure Black (#000000)
