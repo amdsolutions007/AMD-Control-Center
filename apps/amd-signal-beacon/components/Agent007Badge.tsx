@@ -4,7 +4,7 @@ export default function Agent007Badge() {
   return (
     <div className="fixed bottom-6 right-6 z-50 group">
       {/* 007 Badge */}
-      <div className="w-16 h-16 rounded-full bg-amd-gold flex items-center justify-center shadow-2xl shadow-amd-gold/5 cursor-pointer hover:scale-110 transition-transform duration-300">
+      <div className="w-16 h-16 rounded-full bg-amd-gold flex items-center justify-center shadow-2xl shadow-amd-gold cursor-pointer hover:scale-110 transition-transform duration-300">
         <span className="text-black text-2xl font-bold tracking-tighter">007</span>
       </div>
 

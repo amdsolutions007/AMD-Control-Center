@@ -1,6 +1,6 @@
 export default function SiteFooter() {
   return (
-    <footer className="border-t border-amd-gold/2 bg-black py-12">
+    <footer className="border-t border-amd-gold border-opacity-20 bg-black py-12">
       <div className="max-w-7xl mx-auto px-6">
         {/* Main Footer Content */}
         <div className="flex flex-col items-center justify-center gap-6 mb-8">

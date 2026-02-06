@@ -18,10 +18,10 @@ export default async function Home() {
       <NavigationHeader />
 
       {/* Hero Section - Linktree Style */}
-      <section className="relative py-20 px-6 border-b border-amd-gold/2">
+      <section className="relative py-20 px-6 border-b border-amd-gold border-opacity-20">
         <div className="max-w-4xl mx-auto text-center">
           {/* Gold Logo Icon */}
-          <div className="w-24 h-24 mx-auto mb-6 rounded-full border-4 border-amd-gold flex items-center justify-center bg-black shadow-2xl shadow-amd-gold/3">
+          <div className="w-24 h-24 mx-auto mb-6 rounded-full border-4 border-amd-gold flex items-center justify-center bg-black shadow-2xl shadow-amd-gold">
             <span className="text-5xl">📡</span>
           </div>
 
@@ -36,15 +36,15 @@ export default async function Home() {
 
           {/* Stats Cards - Linktree Style */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div className="bg-black border-2 border-amd-gold rounded-lg p-6 hover:shadow-xl hover:shadow-amd-gold/2 transition-all">
+            <div className="bg-black border-2 border-amd-gold rounded-lg p-6 hover:shadow-xl hover:shadow-amd-gold transition-all">
               <div className="text-5xl font-bold text-amd-gold mb-2">{articles.length}</div>
               <div className="text-sm text-gray-400">Intel Briefs</div>
             </div>
-            <div className="bg-black border-2 border-amd-gold rounded-lg p-6 hover:shadow-xl hover:shadow-amd-gold/2 transition-all">
+            <div className="bg-black border-2 border-amd-gold rounded-lg p-6 hover:shadow-xl hover:shadow-amd-gold transition-all">
               <div className="text-5xl font-bold text-amd-gold mb-2">36</div>
               <div className="text-sm text-gray-400">Nigerian States</div>
             </div>
-            <div className="bg-black border-2 border-amd-gold rounded-lg p-6 hover:shadow-xl hover:shadow-amd-gold/2 transition-all">
+            <div className="bg-black border-2 border-amd-gold rounded-lg p-6 hover:shadow-xl hover:shadow-amd-gold transition-all">
               <div className="text-5xl font-bold text-amd-gold mb-2">Daily</div>
               <div className="text-sm text-gray-400">Updates</div>
             </div>
@@ -67,7 +67,7 @@ export default async function Home() {
               href="https://chat.whatsapp.com/KmTlNs5TTV69xPNzRkcMZc"
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full bg-black border-2 border-amd-gold text-white px-8 py-4 rounded-lg hover:bg-amd-gold hover:text-black transition-all font-semibold shadow-xl hover:shadow-2xl hover:shadow-amd-gold/3"
+              className="block w-full bg-black border-2 border-amd-gold text-white px-8 py-4 rounded-lg hover:bg-amd-gold hover:text-black transition-all font-semibold shadow-xl hover:shadow-2xl hover:shadow-amd-gold"
             >
               <div className="flex items-center justify-center gap-3">
                 <span className="text-2xl">📞</span>
@@ -108,7 +108,7 @@ export default async function Home() {
             {latestArticles.map((article) => (
               <article 
                 key={article.id}
-                className="group relative bg-black border-2 border-amd-gold rounded-lg overflow-hidden hover:shadow-2xl hover:shadow-amd-gold/3 transition-all duration-300"
+                className="group relative bg-black border-2 border-amd-gold rounded-lg overflow-hidden hover:shadow-2xl hover:shadow-amd-gold transition-all duration-300"
               >
                 {/* Image */}
                 {article.imageUrl && (
@@ -179,7 +179,7 @@ export default async function Home() {
       </section>
 
       {/* Bottom War Room CTA - Enhanced */}
-      <section className="py-16 px-6 border-t border-amd-gold/2">
+      <section className="py-16 px-6 border-t border-amd-gold border-opacity-20">
         <div className="max-w-4xl mx-auto">
           {/* CTA Box - Linktree Style */}
           <div className="bg-gradient-to-br from-[rgba(218,165,32,0.1)] to-[rgba(0,0,0,0)] border-2 border-amd-gold rounded-lg p-8 text-center">

@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function NavigationHeader() {
   return (
-    <header className="border-b border-amd-gold/2 bg-black/95 backdrop-blur-sm sticky top-0 z-50">
+    <header className="border-b border-amd-gold border-opacity-20 bg-black/95 backdrop-blur-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo with Icon */}
