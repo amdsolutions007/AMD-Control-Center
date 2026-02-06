@@ -5,7 +5,10 @@
     "creator": "3Blue1Brown",
     "duration": "19:13",
     "category": "AI Education",
-    "take007": "The gold standard for understanding how AI actually works - visual mathematics at its finest."
+    "take007": "The gold standard for understanding how AI actually works - visual mathematics at its finest.",
+    "why007": "Every builder needs to understand neural networks beyond surface level. This video breaks down complex math into intuitive visuals. Required watching before building with AI.",
+    "toolsMentioned": ["TensorFlow", "PyTorch", "Neural Network Fundamentals"],
+    "actionable": "Watch this before your next AI project. Understanding backpropagation will make you 10x more effective with AI tools."
   },
   "grid": [
     {
@@ -14,7 +17,10 @@
       "creator": "Matt Wolfe",
       "duration": "45:38",
       "category": "AI Tools",
-      "take007": "Comprehensive arsenal of AI tools every builder needs - from ChatGPT to specialized generators."
+      "take007": "Comprehensive arsenal of AI tools every builder needs - from ChatGPT to specialized generators.",
+      "why007": "Matt Wolfe tests 100+ AI tools monthly so you don't have to. This roundup covers everything from content creation to code generation. Bookmark this.",
+      "toolsMentioned": ["ChatGPT", "Midjourney", "ElevenLabs", "Runway", "Claude"],
+      "actionable": "Pick 3 tools from this video to test this week. Focus on tools that solve your specific problems, not just trendy ones."
     },
     {
       "id": "OFRjZtYs3wY",
@@ -22,7 +28,10 @@
       "creator": "Fireship",
       "duration": "6:42",
       "category": "AI News",
-      "take007": "Open-source Chinese AI model matching GPT-4 performance - technical breakdown of the disruption."
+      "take007": "Open-source Chinese AI model matching GPT-4 performance - technical breakdown of the disruption.",
+      "why007": "DeepSeek R1 is the first truly open-source model competing with GPT-4. This changes pricing models and accessibility for African developers. Must-understand shift.",
+      "toolsMentioned": ["DeepSeek R1", "OpenAI GPT-4", "Claude Sonnet"],
+      "actionable": "Test DeepSeek for your next coding project. It's free, fast, and rivals paid alternatives. Could save you $20-$200/month."
     },
     {
       "id": "jNQXAC9IVRw",
@@ -30,7 +39,10 @@
       "creator": "jawed",
       "duration": "0:19",
       "category": "Tech History",
-      "take007": "The first YouTube video ever uploaded - reminder of how digital platforms start small and scale big."
+      "take007": "The first YouTube video ever uploaded - reminder of how digital platforms start small and scale big.",
+      "why007": "19 seconds that launched a billion-dollar platform. Your MVP doesn't need to be perfect - it needs to ship. YouTube started with 'Me at the zoo'. What's your version?",
+      "toolsMentioned": ["YouTube", "Video Sharing", "MVP Strategy"],
+      "actionable": "Stop perfecting your idea. Ship something this week, even if it's just 19 seconds of value. Iterate based on feedback."
     },
     {
       "id": "JLf9q36UsBk",
@@ -38,7 +50,10 @@
       "creator": "DeepMind",
       "duration": "1:30:45",
       "category": "AI Documentary",
-      "take007": "When AI conquered humanity's most complex game - the breakthrough that changed everything."
+      "take007": "When AI conquered humanity's most complex game - the breakthrough that changed everything.",
+      "why007": "Before ChatGPT hype, AlphaGo proved AI could master human intuition. This documentary shows how breakthrough innovation happens. Essential for understanding where AI is headed.",
+      "toolsMentioned": ["DeepMind", "AlphaGo", "Reinforcement Learning"],
+      "actionable": "Watch this when building something ambitious. It shows how to tackle 'impossible' problems with systematic innovation."
     },
     {
       "id": "8pTEmbeENF4",
@@ -46,7 +61,10 @@
       "creator": "Dr. Angela Yu",
       "duration": "54:13",
       "category": "Education",
-      "take007": "Comprehensive roadmap for anyone learning to code - from HTML basics to full-stack deployment."
+      "take007": "Comprehensive roadmap for anyone learning to code - from HTML basics to full-stack deployment.",
+      "why007": "Dr. Angela Yu has taught 3M+ students. This bootcamp structure is proven. If you're self-teaching, follow this exact roadmap - no guesswork.",
+      "toolsMentioned": ["HTML/CSS", "JavaScript", "React", "Node.js", "MongoDB"],
+      "actionable": "Commit to 1 hour daily for 100 days. Track progress in AMD War Room for accountability. Graduate as a full-stack developer."
     },
     {
       "id": "uHKfrz65KSU",
@@ -54,7 +72,10 @@
       "creator": "Fireship",
       "duration": "9:59",
       "category": "Career Advice",
-      "take007": "No-nonsense path to becoming a developer in 2025 - skip the tutorial hell, build real projects."
+      "take007": "No-nonsense path to becoming a developer in 2025 - skip the tutorial hell, build real projects.",
+      "why007": "Fireship has 2.8M subscribers because he cuts through BS. This 10-minute video saves you 6 months of wasted time on the wrong learning path.",
+      "toolsMentioned": ["JavaScript", "Git", "React", "TypeScript", "Next.js"],
+      "actionable": "Follow this exact roadmap. Build 3 projects before taking another tutorial. Ship to production, not to localhost."
     }
   ]
 }
