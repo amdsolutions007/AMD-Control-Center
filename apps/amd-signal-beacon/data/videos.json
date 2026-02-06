@@ -1,0 +1,60 @@
+{
+  "featured": {
+    "id": "aircAruvnKk",
+    "title": "But what is a Neural Network? | Deep Learning Chapter 1",
+    "creator": "3Blue1Brown",
+    "duration": "19:13",
+    "category": "AI Education",
+    "take007": "The gold standard for understanding how AI actually works - visual mathematics at its finest."
+  },
+  "grid": [
+    {
+      "id": "kCc8FmEb1nY",
+      "title": "100+ AI Tools for Text, Image, Video and Audio",
+      "creator": "Matt Wolfe",
+      "duration": "45:38",
+      "category": "AI Tools",
+      "take007": "Comprehensive arsenal of AI tools every builder needs - from ChatGPT to specialized generators."
+    },
+    {
+      "id": "OFRjZtYs3wY",
+      "title": "China's DeepSeek is Kinda Terrifying",
+      "creator": "Fireship",
+      "duration": "6:42",
+      "category": "AI News",
+      "take007": "Open-source Chinese AI model matching GPT-4 performance - technical breakdown of the disruption."
+    },
+    {
+      "id": "jNQXAC9IVRw",
+      "title": "Me at the zoo",
+      "creator": "jawed",
+      "duration": "0:19",
+      "category": "Tech History",
+      "take007": "The first YouTube video ever uploaded - reminder of how digital platforms start small and scale big."
+    },
+    {
+      "id": "JLf9q36UsBk",
+      "title": "AlphaGo - The Movie | Full Documentary",
+      "creator": "DeepMind",
+      "duration": "1:30:45",
+      "category": "AI Documentary",
+      "take007": "When AI conquered humanity's most complex game - the breakthrough that changed everything."
+    },
+    {
+      "id": "8pTEmbeENF4",
+      "title": "100 Days of Code: The Complete Web Development Bootcamp",
+      "creator": "Dr. Angela Yu",
+      "duration": "54:13",
+      "category": "Education",
+      "take007": "Comprehensive roadmap for anyone learning to code - from HTML basics to full-stack deployment."
+    },
+    {
+      "id": "uHKfrz65KSU",
+      "title": "How I Would Learn To Code (If I Could Start Over)",
+      "creator": "Fireship",
+      "duration": "9:59",
+      "category": "Career Advice",
+      "take007": "No-nonsense path to becoming a developer in 2025 - skip the tutorial hell, build real projects."
+    }
+  ]
+}
