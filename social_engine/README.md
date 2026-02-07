@@ -10,12 +10,45 @@ Distributes curated content from Signal Beacon and marketing materials to all ac
 
 ---
 
+## ⚠️ CRITICAL WARNING: TELEGRAM AUTOMATION RULES
+
+**🚨 NEVER USE USERBOTS 🚨**  
+**This caused the banning of the previous official number.**
+
+### ✅ CORRECT APPROACH
+- ✅ Use official `python-telegram-bot` library with Bot Token
+- ✅ Create bots via [@BotFather](https://t.me/BotFather)
+- ✅ Use Bot API endpoints only
+- ✅ Add bot as admin to target channel
+
+### ❌ FORBIDDEN ACTIONS
+- ❌ **DO NOT** automate a personal Telegram account via script
+- ❌ **DO NOT** attempt to login as a user programmatically
+- ❌ **DO NOT** use "userbot" libraries (telethon, pyrogram in user mode)
+- ❌ **DO NOT** bypass official Bot API
+
+### 📜 INCIDENT HISTORY
+**Date:** Jan 2026  
+**Event:** Previous Telegram infrastructure (@amdsolutions007 channel) was banned  
+**Cause:** Used "userbots" to automate a personal account instead of official Bot API  
+**Impact:** Lost channel access, had to rebuild entire Telegram infrastructure  
+
+### 🔧 CURRENT INFRASTRUCTURE
+**Bot:** `8250377410` (via official Bot API)  
+**Target Channel:** `@AMD_Intel_Brief`  
+**Library:** `python-telegram-bot` (official wrapper)  
+**Status:** ✅ Compliant with Telegram Terms of Service
+
+**Purpose of This Warning:** Ensure no future Agent or developer repeats this mistake.
+
+---
+
 ## 🎯 Active Platforms & Status
 
 ### ✅ OPERATIONAL (Credentials Configured)
 - **Twitter/X** 🐦 - ✅ Active (Test Mode - Text only, no media uploads)
 - **LinkedIn** 💼 - ✅ Active (Full posting capabilities)
-- **Telegram** ✈️ - ✅ Active (Channel: -1003663009693)
+- **Telegram** ✈️ - ✅ Active (Bot: 8250377410 | Channel: @AMD_Intel_Brief)
 - **YouTube** 📺 - ✅ Active (OAuth authenticated)
 - **Snapchat** 👻 - ✅ Active (Marketing API connected)
 
@@ -42,9 +75,9 @@ TWITTER_ACCESS_SECRET=hB6FSIbfhq96ZQVcq8HpZeP7jxsBE2akwYRZnotIaCTPX
 LINKEDIN_ACCESS_TOKEN=AQWs6B1NrEXel_QD... (280 chars)
 LINKEDIN_PERSON_URN=urn:li:person:5SCsOhPJFZ
 
-# Telegram (Active Channel)
-TELEGRAM_BOT_TOKEN=8599161577:AAFtqnsISrN_3wiRtnpMMdUBwe5QdZoHj54
-TELEGRAM_CHAT_ID=-1003663009693
+# Telegram (New Infrastructure - Feb 2026)
+TELEGRAM_BOT_TOKEN=8250377410:AAEdyNJsRC5HivDx1lH3CP82PD377JCTyeg
+TELEGRAM_CHAT_ID=@AMD_Intel_Brief
 ```
 
 **Additional Keys Available:**
