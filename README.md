@@ -284,27 +284,42 @@ Enterprise-grade AI-powered WhatsApp Business Secretary achieving **95/100 intel
 ---
 
 ## 🎬 PROJECT 6: SOCIAL MEDIA AUTOMATION ENGINE
-**Status:** ✅ **LIVE** (24/7)  
-**Location:** `/social_engine/`
+**Status:** ✅ **LIVE** (Multi-Platform Distribution)  
+**Location:** `/social_engine/` + `/amd_signal_beacon_poster.py`
 
 ### Description
-Automated social media posting system for AMD Solutions 007. Posts marketing content to Twitter, Telegram, YouTube, and Snapchat automatically with smart scheduling and content rotation.
+Multi-platform social media automation system for AMD Solutions 007. Distributes curated content from Signal Beacon and marketing materials across 5 active platforms with smart scheduling and analytics.
 
-### Active Platforms
-- ✅ **Twitter/X:** @amdsolutions007 (20 posts/day)
-- ✅ **Telegram:** @amd_crypto_007_bot (20 posts/day)
-- ✅ **YouTube:** Community posts (20 posts/day)
-- ✅ **Snapchat:** Stories (20 posts/day)
+### Active Platforms (Feb 7, 2026)
+- ✅ **Twitter/X:** @amdsolutions007 (Test Mode - Text only, no media)
+- ✅ **LinkedIn:** AMD Solutions 007 (Full posting capabilities)
+- ✅ **Telegram:** Channel -1003663009693 (Bot API connected)
+- ✅ **YouTube:** AMD Solutions 007 (OAuth authenticated)
+- ✅ **Snapchat:** Marketing API (Active campaigns)
+- ❌ **Facebook/Instagram/TikTok:** Awaiting CAC approval for API access
+
+### Signal Beacon Integration (NEW - Feb 7, 2026)
+**System:** `amd_signal_beacon_poster.py`  
+**Function:** Automatically posts featured video from Signal Beacon to Twitter + LinkedIn
+
+**Latest Post:**
+- Video: "But what is a Neural Network?" (3Blue1Brown)
+- Twitter: ✅ Posted (231 chars with URL)
+- LinkedIn: ✅ Posted (969 chars with full commentary)
+- Traffic: Driving to https://amd-signal-beacon.vercel.app
 
 ### Key Features
-- Content reads from REVENUE_PACKAGE markdown files
-- Smart scheduling (Nigerian peak times - Africa/Lagos timezone)
-- Content rotation (never repeats)
-- Analytics tracking
-- Post history in SQLite database
-- Runs 24/7 in background
+- ✅ Signal Beacon video distribution (automated)
+- ✅ Content from REVENUE_PACKAGE markdown files
+- ✅ Smart scheduling (Nigerian peak times - Africa/Lagos timezone)
+- ✅ Platform-specific formatting (Twitter 280 chars, LinkedIn 3000 chars)
+- ✅ Duplicate post detection
+- ✅ Analytics tracking
+- ✅ Post history in SQLite database
+- ✅ Dry run mode for testing
 
 ### Content Focus
+- Visual Intelligence from Signal Beacon (AI video briefings)
 - CV Analysis services (₦5K-₦15K)
 - Source Code projects (₦15K-₦50K)
 - Custom development offerings
@@ -315,8 +330,24 @@ Automated social media posting system for AMD Solutions 007. Posts marketing con
 - **Language:** Python 3
 - **Database:** SQLite (posted_content.db)
 - **Analytics:** JSON tracking
-- **APIs:** Twitter, Telegram, YouTube, Snapchat (FREE tier)
+- **APIs:** Twitter/X, LinkedIn, Telegram, YouTube, Snapchat (FREE tier)
 - **Cost:** ₦0
+
+### Credentials Location
+**ALL API KEYS:** `/Users/mac/Desktop/AMD_Control_Center/.env`  
+**Additional:** `apps/website/.env.local` (Snapchat), `youtube_token.pickle` (YouTube OAuth)
+
+### Usage
+```bash
+# Post Signal Beacon featured video
+python3 amd_signal_beacon_poster.py
+
+# Test mode (preview only)
+python3 amd_signal_beacon_poster.py --dry-run
+
+# Original social manager (scheduled posts)
+cd social_engine && python3 run_bot.py
+```
 
 ### Run Commands
 ```bash

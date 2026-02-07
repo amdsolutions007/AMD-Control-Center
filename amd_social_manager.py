@@ -11,6 +11,10 @@ import random
 from datetime import datetime, timedelta
 import requests
 from openai import OpenAI
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Import company intelligence
 try:

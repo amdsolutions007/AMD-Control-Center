@@ -1,23 +1,86 @@
-# 🚀 AMD SOCIAL AUTOMATOR
-**Operation: SOCIAL STORM - 24/7 Marketing Engine**
+# 🚀 AMD SOCIAL ENGINE
+**Operation: SIGNAL DISTRIBUTION - Automated Content Amplification**
 
 ## 📋 Overview
-Automated social media posting system for AMD Solutions 007.  
-Posts marketing content to Twitter, Telegram, YouTube, and Snapchat automatically.
+Multi-platform social media automation system for AMD Solutions 007.  
+Distributes curated content from Signal Beacon and marketing materials to all active platforms.
 
-**Status:** FREE Tier APIs Only  
-**Cost:** ₦0
+**Status:** ✅ LIVE - 5 Platforms Connected  
+**Cost:** ₦0 (Free Tier APIs)
 
 ---
 
-## 🎯 What It Does
+## 🎯 Active Platforms & Status
 
-- ✅ Auto-posts to 4 platforms (Twitter, Telegram, YouTube, Snapchat)
-- ✅ Reads content from REVENUE_PACKAGE markdown files
-- ✅ Smart scheduling (Nigerian peak times)
-- ✅ Content rotation (never repeats)
-- ✅ Analytics tracking
-- ✅ Runs 24/7 in background
+### ✅ OPERATIONAL (Credentials Configured)
+- **Twitter/X** 🐦 - ✅ Active (Test Mode - Text only, no media uploads)
+- **LinkedIn** 💼 - ✅ Active (Full posting capabilities)
+- **Telegram** ✈️ - ✅ Active (Channel: -1003663009693)
+- **YouTube** 📺 - ✅ Active (OAuth authenticated)
+- **Snapchat** 👻 - ✅ Active (Marketing API connected)
+
+### ❌ NOT CONFIGURED
+- **Facebook** - Waiting for `pages_manage_posts` API permission (CAC issue)
+- **Instagram** - Waiting for Business API access (CAC issue)
+- **TikTok** - Not configured
+
+---
+
+## 🔑 Credential Storage
+
+**ALL API KEYS ARE STORED IN:** `/Users/mac/Desktop/AMD_Control_Center/.env`
+
+**Current Configuration:**
+```bash
+# Twitter/X (Test Mode - Text Posts Only)
+TWITTER_API_KEY=0FbHk1RWfLPH95HkKrzV4Hnja
+TWITTER_API_SECRET=PqFGTocuLMc43WBD8qZaAYAO6Msxt7kWvS5jLCLeraNOaGFQIy
+TWITTER_ACCESS_TOKEN=1564961774864064513-8arCbbxtoFDCdFiYI56l7IxEzuoJqN
+TWITTER_ACCESS_SECRET=hB6FSIbfhq96ZQVcq8HpZeP7jxsBE2akwYRZnotIaCTPX
+
+# LinkedIn (Full Access)
+LINKEDIN_ACCESS_TOKEN=AQWs6B1NrEXel_QD... (280 chars)
+LINKEDIN_PERSON_URN=urn:li:person:5SCsOhPJFZ
+
+# Telegram (Active Channel)
+TELEGRAM_BOT_TOKEN=8599161577:AAFtqnsISrN_3wiRtnpMMdUBwe5QdZoHj54
+TELEGRAM_CHAT_ID=-1003663009693
+```
+
+**Additional Keys Available:**
+- Snapchat credentials in `apps/website/.env.local`
+- YouTube OAuth tokens in `youtube_token.pickle`
+- Meta/Facebook credentials in root `.env` (limited permissions)
+
+---
+
+## 📡 Signal Beacon Integration
+
+**NEW SYSTEM:** `amd_signal_beacon_poster.py`
+
+**What It Does:**
+1. Reads featured video from Signal Beacon's `videos.json`
+2. Extracts title, commentary (take007, why007, actionable)
+3. Generates platform-specific posts
+4. Posts to Twitter and LinkedIn automatically
+
+**Usage:**
+```bash
+# Test mode (preview posts)
+python3 amd_signal_beacon_poster.py --dry-run
+
+# Live posting
+python3 amd_signal_beacon_poster.py
+```
+
+**Output Format:**
+- **Twitter**: Title + take007 + URL (231/280 chars)
+- **LinkedIn**: Full 3-layer commentary + branding (969/3000 chars)
+
+**Last Posted:** Feb 7, 2026
+- Twitter: ✅ Posted successfully
+- LinkedIn: ✅ Posted successfully
+- Video: "But what is a Neural Network?" (3Blue1Brown)
 
 ---
 
