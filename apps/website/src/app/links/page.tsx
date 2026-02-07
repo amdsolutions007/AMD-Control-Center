@@ -20,6 +20,12 @@ export default function LinksPage() {
       priority: true,
     },
     {
+      icon: '📡',
+      title: 'AMD Signal Beacon (Live Intel)',
+      url: 'https://amd-signal-beacon.vercel.app',
+      badge: 'Featured',
+    },
+    {
       icon: '🎨',
       title: 'Projects Portfolio - 24 Active Projects',
       url: 'https://amdsolutions007.github.io',

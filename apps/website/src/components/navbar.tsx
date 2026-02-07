@@ -9,6 +9,7 @@ const navigationLinks = [
   { href: '/#ecosystem', label: 'Ecosystem' },
   { href: '/intelligence', label: 'Intelligence' },
   { href: '/media', label: 'Media' },
+  { href: 'https://amd-signal-beacon.vercel.app', label: 'Signal', external: true },
   { href: 'https://www.amdsolutions007.com/links', label: 'Socials', external: true },
   { href: 'https://amdsolutions007.github.io/', label: 'Portfolio', external: true },
   { href: '/payment', label: 'Services' },
