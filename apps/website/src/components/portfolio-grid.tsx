@@ -414,7 +414,7 @@ export function PortfolioGrid() {
             Let's build the next AI-powered system for your business.
           </p>
           <a
-            href="https://wa.me/2349134492041?text=Hi%2C%20I%27d%20like%20to%20discuss%20a%20custom%20AI%2Fsoftware%20project"
+            href="https://wa.me/2348113775880?text=Hi%2C%20I%27d%20like%20to%20discuss%20a%20custom%20AI%2Fsoftware%20project"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-lg border-2 border-yellow-500 bg-yellow-500 px-8 py-3 text-base font-bold text-black transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(234,179,8,0.6)]"

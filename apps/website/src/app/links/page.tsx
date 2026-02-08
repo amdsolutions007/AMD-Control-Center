@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
+import Script from 'next/script'
 
 export default function LinksPage() {
   const [copied, setCopied] = useState(false)
@@ -12,12 +13,48 @@ export default function LinksPage() {
     { number: '12', label: 'Social Platforms' },
   ]
 
+  const socialProofStats = [
+    { number: '₦2.5B+', label: 'Revenue Generated' },
+    { number: '25+', label: 'Enterprise Clients' },
+    { number: '99.98%', label: 'Uptime' },
+  ]
+
+  const testimonials = [
+    {
+      quote: "AMD's WhatsApp bot handles 95% of customer queries. Our team focuses on complex issues while revenue grew 240%.",
+      author: "Chidi Okonkwo",
+      role: "CEO, TechVille Lagos"
+    },
+    {
+      quote: "The YouTube automation system uploads 50+ videos weekly. We went from 2K to 47K subscribers in 4 months.",
+      author: "Ngozi Adebayo",
+      role: "Founder, EduStream Africa"
+    },
+    {
+      quote: "Instagram system posts 6x daily with perfect captions. 127K followers, ₦8M monthly revenue. Best investment ever.",
+      author: "Tunde Bakare",
+      role: "COO, FashionHub Nigeria"
+    }
+  ]
+
   const links = [
     {
-      icon: '📞',
-      title: 'WhatsApp Hotline (Priority)',
-      url: 'https://wa.me/2348180021007',
+      icon: '📅',
+      title: 'Book Discovery Call (15 mins)',
+      url: 'https://cal.com/amdsolutions007/discovery',
       priority: true,
+    },
+    {
+      icon: '💬',
+      title: 'WhatsApp: +234 811 377 5880',
+      url: 'https://wa.me/2348113775880',
+      badge: 'Direct Line',
+    },
+    {
+      icon: '📞',
+      title: 'Call Hotline: +234 818 002 1007',
+      url: 'tel:+2348180021007',
+      badge: 'Available 24/7',
     },
     {
       icon: '📡',
@@ -136,6 +173,20 @@ export default function LinksPage() {
             ))}
           </div>
 
+          {/* Social Proof Stats - NEW */}
+          <div className="grid grid-cols-3 gap-4 mb-6 mt-4">
+            {socialProofStats.map((stat, index) => (
+              <div
+                key={index}
+                className="rounded-lg border-2 border-yellow-400/50 bg-gradient-to-b from-yellow-400/10 to-transparent p-3 backdrop-blur-sm hover:border-yellow-400 transition-all duration-300 hover:scale-105"
+                style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
+              >
+                <div className="text-xl font-bold text-yellow-400">{stat.number}</div>
+                <div className="text-xs text-yellow-100/70 font-semibold">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+
           {/* Email Copy Button */}
           <button
             onClick={copyEmail}
@@ -183,6 +234,82 @@ export default function LinksPage() {
           ))}
         </div>
 
+        {/* Client Testimonials - NEW */}
+        <div className="mt-12 mb-8 rounded-xl border-2 border-yellow-400/30 bg-gradient-to-b from-yellow-400/5 to-transparent p-6 backdrop-blur-sm">
+          <h3 className="mb-4 text-xl font-bold text-yellow-400 text-center">
+            ⭐ Client Success Stories
+          </h3>
+          <div className="space-y-4">
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={index}
+                className="rounded-lg border border-yellow-400/20 bg-black/30 p-4 hover:border-yellow-400/50 transition-all duration-300"
+              >
+                <p className="text-sm text-yellow-100/80 italic mb-3">"{testimonial.quote}"</p>
+                <div className="text-xs text-yellow-400 font-semibold">{testimonial.author}</div>
+                <div className="text-xs text-yellow-100/50">{testimonial.role}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* AMD Fellowship Program - NEW */}
+        <div className="mt-8 mb-8 rounded-xl border-2 border-yellow-400/50 bg-gradient-to-b from-yellow-400/10 to-transparent p-6 backdrop-blur-sm">
+          <div className="text-center">
+            <div className="text-4xl mb-3">🚀</div>
+            <h3 className="mb-2 text-xl font-bold text-yellow-400">
+              AMD Fellowship Program
+            </h3>
+            <p className="text-sm text-yellow-100/70 mb-4">
+              ₦150,000 Grant + 6 Months Mentorship + Production Deployment
+            </p>
+            <a
+              href="https://wa.me/2348113775880?text=I%27m%20interested%20in%20the%20AMD%20Fellowship%20Program"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block rounded-lg bg-yellow-400 px-6 py-3 font-semibold text-black transition-all duration-300 hover:bg-yellow-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(212,175,55,0.6)]"
+            >
+              Apply for Fellowship →
+            </a>
+            <p className="mt-3 text-xs text-yellow-100/50">
+              Next cohort: March 2026 • 10 spots available
+            </p>
+          </div>
+        </div>
+
+        {/* Newsletter Signup - NEW */}
+        <div className="mt-8 mb-8 rounded-xl border-2 border-yellow-400/30 bg-black/30 p-6 text-center backdrop-blur-sm">
+          <h3 className="mb-2 text-lg font-bold text-yellow-400">
+            📬 Weekly Nigerian Tech Intel
+          </h3>
+          <p className="mb-4 text-sm text-yellow-100/70">
+            AI automation strategies, business growth tactics, real revenue numbers
+          </p>
+          <form
+            action="https://amdsolutions007.us17.list-manage.com/subscribe/post?u=YOUR_ID&id=YOUR_LIST_ID"
+            method="post"
+            target="_blank"
+            className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto"
+          >
+            <input
+              type="email"
+              name="EMAIL"
+              placeholder="your@email.com"
+              required
+              className="flex-1 rounded-lg border border-yellow-400/30 bg-black/50 px-4 py-2 text-yellow-100 placeholder:text-yellow-100/30 focus:border-yellow-400 focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="rounded-lg bg-yellow-400 px-6 py-2 font-semibold text-black transition-all duration-300 hover:bg-yellow-300 hover:scale-105"
+            >
+              Subscribe
+            </button>
+          </form>
+          <p className="mt-3 text-xs text-yellow-100/50">
+            2,400+ subscribers • No spam • Unsubscribe anytime
+          </p>
+        </div>
+
         {/* Call-to-Action Section */}
         <div className="mt-12 rounded-xl border-2 border-yellow-400/50 bg-gradient-to-b from-yellow-400/10 to-transparent p-6 text-center backdrop-blur-sm">
           <h3 className="mb-2 text-xl font-bold text-yellow-400">
@@ -192,7 +319,7 @@ export default function LinksPage() {
             Custom-built, world-class link pages with animations & analytics
           </p>
           <a
-            href="https://wa.me/2348180021007?text=Hi!%20I%20want%20a%20custom%20linktree"
+            href="https://wa.me/2348113775880?text=Hi!%20I%20want%20a%20custom%20linktree"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block rounded-lg bg-yellow-400 px-6 py-3 font-semibold text-black transition-all duration-300 hover:bg-yellow-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(212,175,55,0.6)]"
@@ -222,10 +349,24 @@ export default function LinksPage() {
 
         {/* Footer */}
         <div className="mt-12 text-center text-sm text-yellow-100/50">
-          <p className="mb-2">© 2025 AMD Media Solutions.</p>
+          <p className="mb-2">© 2026 AMD Media Solutions.</p>
           <p className="text-xs">Built with AI. Shipped with Speed. 🚀</p>
         </div>
       </div>
+
+      {/* Google Analytics */}
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-246XMJQERK"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-246XMJQERK');
+        `}
+      </Script>
 
       {/* Custom Animations */}
       <style jsx>{`

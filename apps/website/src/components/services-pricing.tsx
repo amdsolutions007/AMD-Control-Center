@@ -197,7 +197,7 @@ export function ServicesPricing() {
 
                 {/* CTA Button */}
                 <a
-                  href={`https://wa.me/2349134492041?text=Hi%2C%20I%27m%20interested%20in%20${encodeURIComponent(service.title)}`}
+                  href={`https://wa.me/2348113775880?text=Hi%2C%20I%27m%20interested%20in%20${encodeURIComponent(service.title)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 rounded-lg border border-yellow-500/30 bg-yellow-500/10 px-6 py-3 text-sm font-semibold text-yellow-300 transition-all duration-300 hover:border-yellow-500 hover:bg-yellow-500 hover:text-black hover:shadow-[0_0_20px_rgba(234,179,8,0.4)]"
@@ -288,7 +288,7 @@ export function ServicesPricing() {
 
                 {/* CTA Button */}
                 <a
-                  href={`https://wa.me/2349134492041?text=Hi%2C%20I%27m%20interested%20in%20the%20${encodeURIComponent(pkg.name)}%20package`}
+                  href={`https://wa.me/2348113775880?text=Hi%2C%20I%27m%20interested%20in%20the%20${encodeURIComponent(pkg.name)}%20package`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`flex w-full items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-bold transition-all duration-300 ${
