@@ -27,7 +27,7 @@ export default function SiteFooter() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Copyright */}
           <p className="text-gray-400 text-sm">
-            © 2025 AMD Media Solutions.
+            © 2026 AMD Solutions 007.
           </p>
 
           {/* Tagline */}

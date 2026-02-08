@@ -141,7 +141,7 @@ export default function LinksPage() {
             <div className="relative h-32 w-32 overflow-hidden rounded-full border-4 border-yellow-400 shadow-[0_0_30px_rgba(212,175,55,0.5)] animate-pulse">
               <Image
                 src="/amd_logo.png"
-                alt="AMD Media Solutions"
+                alt="AMD Solutions 007"
                 fill
                 className="object-cover"
                 priority
@@ -151,7 +151,7 @@ export default function LinksPage() {
 
           {/* Title with Gradient Animation */}
           <h1 className="mb-2 text-3xl font-bold text-yellow-400 animate-[fadeIn_0.8s_ease-in]">
-            AMD MEDIA SOLUTIONS
+            AMD SOLUTIONS 007
           </h1>
 
           {/* Bio */}
@@ -349,7 +349,7 @@ export default function LinksPage() {
 
         {/* Footer */}
         <div className="mt-12 text-center text-sm text-yellow-100/50">
-          <p className="mb-2">© 2026 AMD Media Solutions.</p>
+          <p className="mb-2">© 2026 AMD Solutions 007.</p>
           <p className="text-xs">Built with AI. Shipped with Speed. 🚀</p>
         </div>
       </div>

@@ -165,7 +165,7 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-wrap items-center justify-between gap-6 border-t border-yellow-500/20 pt-8 text-xs">
-          <div className="text-yellow-100/50">© {new Date().getFullYear()} AMD Media Solutions. All rights reserved.</div>
+          <div className="text-yellow-100/50">© {new Date().getFullYear()} AMD Solutions 007. All rights reserved.</div>
           <div className="flex items-center gap-6">
             <Link className="text-yellow-200/70 hover:text-yellow-300 transition-colors font-medium" href="/intelligence">
               Intelligence
