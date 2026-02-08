@@ -3,6 +3,8 @@ import './globals.css'
 import { Navbar } from '@/components/navbar'
 import { SnapPixel } from '@/components/SnapPixel'
 import { ChatWidget } from '@/components/ChatWidget'
+import { GoogleAnalytics } from '@/components/GoogleAnalytics'
+import { TawkToChat } from '@/components/TawkToChat'
 
 export const metadata: Metadata = {
   title:
@@ -74,11 +76,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <GoogleAnalytics />
+      </head>
       <body>
         <SnapPixel />
         <Navbar />
         {children}
         <ChatWidget />
+        <TawkToChat />
       </body>
     </html>
   )

@@ -34,8 +34,11 @@ VIDEOS_JSON_PATH = "apps/amd-signal-beacon/data/videos.json"
 
 # ==================== CREDENTIALS (AUTO-LOADED FROM .env) ====================
 
-# OpenAI (DALL-E 3 for image generation)
+# OpenAI (DALL-E 3 for image generation - DEPRECATED)
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '')
+
+# Google Gemini/Imagen (PRIMARY - Nano Banana)
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '')
 
 # Twitter/X (TEST MODE - Text only, no media upload)
 TWITTER_API_KEY = os.getenv('TWITTER_API_KEY', '')
@@ -61,6 +64,7 @@ SNAP_AD_ACCOUNT_ID = os.getenv('SNAP_AD_ACCOUNT_ID', '')
 SNAP_MARKETING_REFRESH_TOKEN = os.getenv('SNAP_MARKETING_REFRESH_TOKEN', '')
 
 # Credential Status
+GEMINI_READY = bool(GEMINI_API_KEY)
 OPENAI_READY = bool(OPENAI_API_KEY)
 TWITTER_READY = bool(TWITTER_API_KEY and TWITTER_ACCESS_TOKEN)
 LINKEDIN_READY = bool(LINKEDIN_ACCESS_TOKEN)
@@ -116,14 +120,65 @@ def load_featured_video():
 # ==================== AI VISUAL GENERATION ====================
 
 def generate_mission_visual(title, category="AI"):
-    """
-    Generate a 16:9 mission visual using DALL-E 3
+    """Google Gemini/Imagen (Nano Banana)
     
     Style: Hyper-realistic, Black and Gold aesthetic, Nigerian Tech City background
+    Fallback: DALL-E 3 if Gemini fails
     """
     
+    # Try Gemini first
+    if GEMINI_READY:
+        try:
+            import google.generativeai as genai
+            
+            genai.configure(api_key=GEMINI_API_KEY)
+            
+            # Craft the prompt
+            prompt = f"""Create a hyper-realistic promotional image for '{title}'.
+
+Style: Cinematic tech briefing aesthetic
+Colors: Black (#000000) and Gold (#FFD700) color scheme
+Setting: Futuristic Nigerian tech city skyline at night
+Elements: 
+- Bold gold text '{category.upper()}' prominently displayed
+- Sleek holographic interface elements
+- Professional, high-tech atmosphere
+- Dramatic lighting with gold accents
+- 16:9 aspect ratio
+
+The image should feel like a premium intelligence briefing from a world-class tech agency."""
+
+            print(f"\n🎨 Generating mission visual with Google Gemini Imagen...")
+            print(f"   Theme: {category.upper()} Intelligence Briefing")
+            
+            # Use Gemini's Imagen model (nano-banana or gemini-2.5-flash-image)
+            model = genai.GenerativeModel('gemini-2.5-flash-image')
+            response = model.generate_content([
+                prompt,
+                "Generate a 16:9 cinematic image"
+            ])
+            
+            # Check if image was generated
+            if response.candidates and response.candidates[0].content.parts:
+                for part in response.candidates[0].content.parts:
+                    if hasattr(part, 'inline_data'):
+                        import base64
+                        image_data = base64.b64decode(part.inline_data.data)
+                        with open(TEMP_IMAGE_PATH, 'wb') as f:
+                            f.write(image_data)
+                        print(f"✅ Gemini Imagen visual generated: {TEMP_IMAGE_PATH}")
+                        return TEMP_IMAGE_PATH
+            
+            print(f"⚠️ Gemini returned text response instead of image")
+            return None
+            
+        except Exception as e:
+            print(f"⚠️ Gemini generation error: {e}")
+            print(f"   Falling back to DALL-E 3...")
+    
+    # Fallback to DALL-E 3
     if not OPENAI_READY:
-        print("⚠️ OpenAI API key not configured - skipping visual generation")
+        print("⚠️ No visual generation APIs configured")
         return None
     
     try:
