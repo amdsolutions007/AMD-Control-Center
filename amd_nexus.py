@@ -257,6 +257,10 @@ REQUIREMENTS:
 - Topic: Same as LinkedIn post
 - Start with emoji hook
 - Include line breaks for readability
+🚨 CRITICAL: If topic involves African Tech Ecosystem, MUST include BEFORE hashtags:
+"👇 Join the Ecosystem HQ:
+🔗 www.amdsolutions007.com/tech 🚀"
+
 - End with CTA: "📞 WhatsApp: +234 818 002 1007" + "🌐 amdsolutions007.com"
 - Add 10-15 hashtags (mix popular + niche)
 
