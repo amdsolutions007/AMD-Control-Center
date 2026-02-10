@@ -144,6 +144,10 @@ REQUIREMENTS:
 - End with: "Need help with [topic]? Let's talk: +234 818 002 1007"
 - Add 3-5 relevant hashtags (#NigerianTech #AIforBusiness #DigitalTransformation #Lagos #SMEs)
 
+🚨 CRITICAL: If topic involves African Tech Ecosystem or community building, MUST end with:
+"👇 Join the Ecosystem HQ:
+🔗 www.amdsolutions007.com/tech 🚀"
+
 Make it VALUABLE (not salesy). Teach something useful."""}
             ],
             temperature=0.8
@@ -165,6 +169,9 @@ REQUIREMENTS:
 - Tweet 3: CTA + Contact (WhatsApp: +234 818 002 1007)
 - Use emojis strategically (max 2 per tweet)
 - Include hashtags in final tweet only
+
+🚨 CRITICAL: If topic involves African Tech Ecosystem, Tweet 3 MUST include:
+"👇 Join: www.amdsolutions007.com/tech 🚀"
 
 Format as:
 [TWEET 1]
@@ -195,6 +202,9 @@ REQUIREMENTS:
 - Include actionable tip
 - End with: "Questions? Hit reply or call: +234 818 002 1007"
 - NO hashtags (Telegram is personal)
+
+🚨 CRITICAL: If topic involves African Tech Ecosystem, MUST include:
+"👇 Join the Ecosystem HQ: www.amdsolutions007.com/tech 🚀"
 
 Make it feel like a message from a trusted friend."""}
             ],
