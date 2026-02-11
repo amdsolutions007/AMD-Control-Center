@@ -46,7 +46,7 @@ export function LekeLekelCTA() {
         </a>
         
         <a 
-          href="https://www.lekeelekee.com/groups/2169d52a-171f-4424-a686-d3eb6fbba94" 
+          href="https://www.lekeelekee.com/groups/4d183887-2d5a-47b0-8226-dd6939d29694" 
           target="_blank"
           rel="noopener noreferrer"
           className="flex-1 bg-gray-800 text-yellow-500 border-2 border-yellow-500 px-6 py-4 rounded-lg font-bold text-center hover:bg-gray-700 transition-all"

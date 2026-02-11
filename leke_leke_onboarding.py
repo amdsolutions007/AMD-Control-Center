@@ -21,7 +21,7 @@ This is UNACCEPTABLE.
 
 ✅ *YOUR ORDERS:*
 1. Follow @amd NOW: https://www.lekeelekee.com/u/amd
-2. Join African Tech Ecosystem: https://www.lekeelekee.com/groups/2169d52a-171f-4424-a686-d3eb6fbba94
+2. Join African Tech Ecosystem: https://www.lekeelekee.com/groups/4d183887-2d5a-47b0-8226-dd6939d29694
 3. Tag 3 developer friends in the comments
 
 🔥 *WHY LEKE LEKE?*
