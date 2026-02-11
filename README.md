@@ -1,6 +1,6 @@
 # 🎯 AMD CONTROL CENTER - COMPLETE SYSTEM ARCHIVE
 
-**Last Updated:** 6 February 2026  
+**Last Updated:** 11 February 2026  
 **CEO:** Olawale Shoyemi  
 **Business Phone:** +234 818 002 1007  
 **Email:** ceo@amdsolutions007.com  
@@ -10,12 +10,84 @@
 
 ## 📋 EXECUTIVE SUMMARY
 
-AMD Control Center is the master repository for **AMD Solutions 007**, housing 24+ AI/automation projects, enterprise web applications, social media engines, WhatsApp automation systems, and revenue-generating tools. This document serves as the complete system memory dump for migration and operational continuity.
+AMD Control Center is the master repository for **AMD Solutions 007**, housing 25+ AI/automation projects, enterprise web applications, social media engines, WhatsApp automation systems, and revenue-generating tools. This document serves as the complete system memory dump for migration and operational continuity.
 
-**Total Projects:** 24+  
-**Active Deployments:** 8  
+**Total Projects:** 25+  
+**Active Deployments:** 9  
 **Combined Revenue Potential:** ₦2.5M+/month  
-**Tech Stack:** Next.js, Python, Node.js, OpenAI GPT-4, Puppeteer  
+**Tech Stack:** Next.js, Python, Node.js, OpenAI GPT-4, Selenium, Telegram Bots
+
+---
+
+## 🆕 PROJECT 0: GHOST WRITER PRO (LEKE LEKE AUTOMATION)
+**Status:** ✅ **READY TO DEPLOY**  
+**Platform:** Leke Leke (www.lekeelekee.com)  
+**Campaign:** 36 States of Tech  
+**System:** Option B - Hybrid (CEO Approval Required)
+
+### Description
+Intelligent social media automation system for Leke Leke platform featuring CEO-controlled posting via Telegram approval bot. Part of viral growth strategy targeting 24 → 10,000+ followers in 5 weeks through state-by-state tech ecosystem spotlights.
+
+### Key Features
+- **Telegram Control Panel** - CEO reviews/approves all posts via mobile
+- **Content Engine** - 36-state Nigerian tech database with automated caption generation
+- **Graphic Generator** - AI-powered 1200x675px AMD-branded graphics (PIL templates)
+- **Ghost Writer** - Selenium browser automation (approval-triggered only)
+- **Queue System** - pending → approved → posted workflow with archival
+- **Safety Mechanisms** - Rate limiting (20 actions/hour), human-like delays, retry logic
+
+### Architecture
+```
+Content Engine → Graphic Generator → Telegram Review → Ghost Writer → Leke Leke
+    ↓               ↓                      ↓                ↓
+36_states_data  PIL Graphics      CEO Approval      Selenium Post
+```
+
+### Tech Stack
+- **Backend:** Python 3.9
+- **Automation:** Selenium + Chrome headless
+- **Bot Framework:** python-telegram-bot (async)
+- **Graphics:** Pillow (PIL) + future Gemini AI
+- **Deployment:** Railway (2 services: Telegram + Ghost Writer)
+- **Queue:** File-based (pending_posts/, approved_posts/, posted_archive/)
+
+### Files
+- `36_states_data.json` - Complete 36-state tech ecosystem database
+- `content_generator.py` - Caption generation with campaign tracking
+- `graphic_generator.py` - Template-based graphics (1200x675px)
+- `telegram_approval_bot.py` - CEO control panel (/generate, /approve, /reject)
+- `leke_leke_browser_automation.py` - Approval-triggered Selenium posting
+- `Dockerfile.telegram` - Telegram bot container
+- `Dockerfile.ghostwriter` - Ghost Writer container
+- `DEPLOYMENT.md` - Complete deployment guide
+- `GHOSTWRITER_CHECKLIST.md` - Production launch checklist
+
+### Campaign Details
+- **Duration:** 36 days (5 weeks)
+- **Content:** Daily state spotlights (tech hubs, startups, developer communities)
+- **Posting:** 1-3 times/day (gradual ramp-up)
+- **Goal:** 24 followers → 10,000+ followers, 64 group members → 5,000+
+- **Constraint:** Leke Leke ONLY (no LinkedIn, Facebook, X, Telegram)
+- **Safety:** CEO approval gate (no autonomous spam)
+
+### Deployment Status
+- ✅ Content engine complete (36 states with metadata)
+- ✅ Telegram bot complete (commands + approval workflow)
+- ✅ Graphic generator complete (PIL template system)
+- ✅ Ghost Writer complete (approval-triggered posting)
+- ✅ Railway deployment files complete (Dockerfiles, requirements.txt)
+- ⏳ Pending: Update Selenium selectors after inspecting Leke Leke HTML
+- ⏳ Pending: Deploy to Railway and test CEO workflow
+
+### CEO Commands
+```bash
+/start     # Bot help and introduction
+/status    # Campaign progress (Day X/36, completion %)
+/queue     # View pending posts
+/generate  # Create new post for review (graphic + caption)
+```
+
+**Authorization:** CEO-approved Option B (Hybrid System) on 2026-02-11
 
 ---
 
@@ -31,7 +103,7 @@ Next.js 14 App Router website serving as the primary digital presence for AMD So
 - 24-project portfolio with GitHub integration
 - Client portal with project intake forms
 - High-ticket service packages (₦800K - ₦5M)
-- Nigeria state landing pages (37 states)
+- Nigeria state landing pages (36 states + FCT)
 - Intelligence hub integration
 - Snap Pixel tracking
 - AI chat widget

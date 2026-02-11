@@ -1,9 +1,14 @@
 """
-Leke Leke Browser Automation (Grey Area Solution)
-Use ONLY if no API access after 30 days
-ETHICAL GUIDELINES: Max 20 actions/hour, thoughtful content only, avoid spam
+Leke Leke Ghost Writer - Browser Automation (PRODUCTION)
+Posts ONLY approved content from Telegram approval queue
+CONSTRAINT: Leke Leke platform ONLY (no LinkedIn, Facebook, X, Telegram)
+ETHICAL GUIDELINES: Max 20 actions/hour, human-like behavior, CEO-approved content only
 """
 
+import os
+import json
+import time
+from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -15,16 +20,25 @@ import os
 
 class LekeLekeeAutomation:
     """
-    Browser automation for Leke Leke platform
-    ⚠️ WARNING: Grey area - use responsibly
+    Ghost Writer - Automated posting to Leke Leke
+    CONSTRAINT: Leke Leke platform ONLY
+    TRIGGER: Posts only CEO-approved content via Telegram bot
     """
     
-    def __init__(self, email: str, password: str, headless: bool = False):
-        """Initialize browser automation"""
+    def __init__(self, email: str, password: str, headless: bool = True):
+        """Initialize Ghost Writer"""
         self.email = email
         self.password = password
         self.driver = None
         self.headless = headless
+        
+        # Directories
+        self.approved_dir = "approved_posts"
+        self.posted_dir = "posted_archive"
+        self.trigger_file = "trigger_post.flag"
+        
+        os.makedirs(self.approved_dir, exist_ok=True)
+        os.makedirs(self.posted_dir, exist_ok=True)
         
         # Rate limiting (ethical usage)
         self.actions_per_hour = 20
@@ -97,52 +111,148 @@ class LekeLekeeAutomation:
             # Submit form
             login_button = self.driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
             login_button.click()
-            
-            self.human_delay(3, 5)
-            print("✅ Logged in successfully")
-            return True
-            
-        except Exception as e:
-            print(f"❌ Login failed: {str(e)}")
-            return False
-            
-    def post_with_image(self, text: str, image_path: str = None):
+            approved_content(self, post_data: dict):
         """
-        Post content with optional image
-        ⚠️ Rate limited to 20 posts/hour (ethical usage)
+        Post CEO-approved content to Leke Leke
+        ONLY posts content from approved queue
         """
         try:
             self.check_rate_limit()
             
-            print(f"📝 Posting to Leke Leke...")
+            caption = post_data['caption']
+            image_path = post_data.get('graphic_path')
+            state_name = post_data['state_name']
+            day = post_data['day']
+            
+            print(f"📝 Posting Day {day}/36: {state_name} to Leke Leke...")
             self.driver.get('https://www.lekeelekee.com/home')
             self.human_delay()
             
             # TODO: Update selectors after inspecting actual Leke Leke post composer
             wait = WebDriverWait(self.driver, 10)
             
-            # Click post composer (adjust selector)
+            # Click post composer (adjust selector based on actual page)
             composer = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='post-composer']")))
             composer.click()
             self.human_delay(1, 2)
             
-            # Type post text with human-like delays
+            # Type caption with human-like delays
             text_area = self.driver.find_element(By.CSS_SELECTOR, "textarea[placeholder*='What']")
-            for char in text:
+            for char in caption:
                 text_area.send_keys(char)
                 time.sleep(random.uniform(0.05, 0.15))
                 
             self.human_delay(2, 3)
             
-            # Upload image if provided
+            # Upload graphic if provided
             if image_path and os.path.exists(image_path):
                 file_input = self.driver.find_element(By.CSS_SELECTOR, "input[type='file']")
                 file_input.send_keys(os.path.abspath(image_path))
                 self.human_delay(3, 5)  # Wait for upload
-                print(f"✅ Image uploaded: {image_path}")
+                print(f"✅ Graphic uploaded: {image_path}")
                 
             # Submit post
             post_button = self.driver.find_element(By.CSS_SELECTOR, "button[data-testid='post-submit']")
+            post_button.click()
+            
+            self.human_delay(3, 5)
+            print(f"✅ Day {day}/36: {state_name} posted successfully to Leke Leke")
+            return True
+            
+        except Exception as e:
+            print(f"❌ Post failed: {str(e)}")
+            return False
+            
+    def check_for_trigger(self):
+        """Check if CEO approved a post (via Telegram bot trigger)"""
+        if os.path.exists(self.trigger_file):
+            with open(self.trigger_file, 'r') as f:
+                post_id = f.read().strip()
+            # Remove trigger
+            os.remove(self.trigger_file)
+            return post_id
+        return None
+        
+    def get_approved_post(self, post_id: str):
+        """Get approved post data"""
+        post_file = os.path.join(self.approved_dir, f"{post_id}.json")
+        if os.path.exists(post_file):
+            with open(post_file, 'r') as f:
+                return json.load(f)
+        return None
+        
+    def archive_posted(self, post_id: str, post_data: dict):
+        """Move posted content to archive"""
+        # Save to archive
+        archive_file = os.path.join(self.posted_dir, f"{post_id}_posted.json")
+        post_data['posted_at'] = time.strftime('%Y-%m-%d %H:%M:%S')
+        with open(archive_file, 'w') as f:
+            json.dump(post_data, f, indent=2)
+            
+        # Remove from approved queue
+        approved_file = os.path.join(self.approved_dir, f"{post_id}.json")
+        if os.path.exists(approved_file):
+            os.remove(approved_file)
+            
+        print(f"📦 Post archived: {archive_file}")
+        
+    def run_ghost_writer_loop(self):
+        """
+        Main Ghost Writer loop
+        Watches for CEO approvals and posts to Leke Leke
+        """
+        print("👻 GHOST WRITER ACTIVE - Leke Leke ONLY")
+        print("📡 Watching for CEO approvals via Telegram bot...")
+        print()
+        
+        if not self.start_browser():
+            print("❌ Failed to start browser")
+            return
+            
+        if not self.login():
+            print("❌ Login failed")
+            self.close()
+            return
+            
+        print("✅ Logged in to Leke Leke")
+        print("⏳ Standing by for approved posts...")
+        print()
+        
+        while True:
+            try:
+                # Check for trigger from Telegram bot
+                post_id = self.check_for_trigger()
+                
+                if post_id:
+                    print(f"🎯 CEO APPROVED: {post_id}")
+                    
+                    # Get post data
+                    post_data = self.get_approved_post(post_id)
+                    
+                    if post_data:
+                        # Post to Leke Leke
+                        success = self.post_approved_content(post_data)
+                        
+                        if success:
+                            # Archive
+                            self.archive_posted(post_id, post_data)
+                            print(f"✅ Posted: Day {post_data['day']}/36 - {post_data['state_name']}")
+                        else:
+                            print(f"❌ Failed to post: {post_id}")
+                    else:
+                        print(f"❌ Post data not found: {post_id}")
+                        
+                # Sleep before next check (check every 10 seconds)
+                time.sleep(10)
+                
+            except KeyboardInterrupt:
+                print("\n🛑 Ghost Writer stopped by user")
+                break
+            except Exception as e:
+                print(f"❌ Error in Ghost Writer loop: {str(e)}")
+                time.sleep(30)  # Wait before retrying
+                
+        self.close()= self.driver.find_element(By.CSS_SELECTOR, "button[data-testid='post-submit']")
             post_button.click()
             
             self.human_delay(3, 5)
@@ -218,66 +328,33 @@ class LekeLekeeAutomation:
 
 def demo_usage():
     """
-    Demo usage (DO NOT RUN without updating selectors)
+    Production usage for Railway deployment
     """
     print("=" * 80)
-    print("LEKE LEKE BROWSER AUTOMATION")
+    print("GHOST WRITER - LEKE LEKE AUTOMATION")
     print("=" * 80)
     print()
-    print("⚠️  WARNING: This is a GREY AREA solution")
-    print("⚠️  Use ONLY if no API access after 30 days")
-    print("⚠️  Risk: Platform may detect and ban automation")
-    print()
-    print("📋 ETHICAL GUIDELINES:")
-    print("- Max 20 actions per hour (rate limited)")
-    print("- Thoughtful comments only (no spam)")
-    print("- Human-like delays (2-5 seconds)")
-    print("- Rotate IPs if possible (use VPN)")
-    print("- Monitor for ban warnings")
-    print()
-    print("🔧 SETUP REQUIRED:")
-    print("1. Inspect Leke Leke website HTML")
-    print("2. Update CSS selectors in code (marked with TODO)")
-    print("3. Test on dev account first (not @amd)")
-    print("4. Store credentials in .env file (never hardcode)")
-    print()
-    print("📊 USE CASES:")
-    print("- Auto-post RSS feed items (1-3 times/day)")
-    print("- Comment on trending posts (thoughtful engagement)")
-    print("- Track analytics (follower growth)")
-    print("- Schedule posts (off-peak hours)")
+    print("🎯 TARGET: https://www.lekeelekee.com")
+    print("🤖 MODE: CEO-Approved Posts Only")
+    print("📱 TRIGGER: Telegram Bot Approval")
     print()
     print("=" * 80)
     print()
-    print("EXAMPLE (after updating selectors):")
-    print()
-    print("```python")
-    print("# Load credentials from .env")
-    print("from dotenv import load_dotenv")
-    print("load_dotenv()")
-    print()
-    print("email = os.getenv('LEKE_LEKE_EMAIL')")
-    print("password = os.getenv('LEKE_LEKE_PASSWORD')")
-    print()
-    print("# Initialize bot")
-    print("bot = LekeLekeeAutomation(email, password)")
-    print("bot.start_browser()")
-    print()
-    print("# Login")
-    print("if bot.login():")
-    print("    # Post with AI-generated image")
-    print("    bot.post_with_image(")
-    print("        text='🎯 DAY 1/37: LAGOS STATE TECH ECOSYSTEM...\\n\\nFull analysis: https://...',")
-    print("        image_path='/tmp/lagos-tech-map.png'")
-    print("    )")
-    print("    ")
-    print("    # Get analytics")
-    print("    followers = bot.get_follower_count()")
-    print("    ")
-    print("bot.close()")
-    print("```")
-    print()
-    print("=" * 80)
+    
+    # Load credentials from env
+    email = os.getenv('LEKE_LEKE_EMAIL')
+    password = os.getenv('LEKE_LEKE_PASSWORD')
+    
+    if not email or not password:
+        print("❌ Missing credentials:")
+        print("   LEKE_LEKE_EMAIL and LEKE_LEKE_PASSWORD must be set in environment")
+        return
+        
+    # Initialize Ghost Writer
+    bot = LekeLekeeAutomation(email, password, headless=True)
+    
+    # Run main loop (watches for CEO approvals)
+    bot.run_ghost_writer_loop()
 
 
 if __name__ == "__main__":

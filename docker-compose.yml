@@ -1,0 +1,50 @@
+# Ghost Writer Pro - Local Testing
+# Run both services locally with: docker-compose up
+
+version: '3.8'
+
+services:
+  # Telegram Approval Bot (CEO Control Panel)
+  telegram-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile.telegram
+    container_name: ghostwriter-telegram
+    env_file:
+      - .env
+    volumes:
+      # Shared volumes for queue management
+      - ./pending_posts:/app/pending_posts
+      - ./approved_posts:/app/approved_posts
+      - ./rejected_posts:/app/rejected_posts
+      - ./generated_graphics:/app/generated_graphics
+      - ./trigger_post.flag:/app/trigger_post.flag
+    restart: unless-stopped
+    networks:
+      - ghostwriter-network
+
+  # Ghost Writer (Selenium Poster)
+  ghost-writer:
+    build:
+      context: .
+      dockerfile: Dockerfile.ghostwriter
+    container_name: ghostwriter-poster
+    env_file:
+      - .env
+    volumes:
+      # Shared volumes for queue management
+      - ./approved_posts:/app/approved_posts
+      - ./posted_archive:/app/posted_archive
+      - ./generated_graphics:/app/generated_graphics
+      - ./trigger_post.flag:/app/trigger_post.flag
+    restart: unless-stopped
+    depends_on:
+      - telegram-bot
+    networks:
+      - ghostwriter-network
+    # Chrome needs more shared memory for headless mode
+    shm_size: '2gb'
+
+networks:
+  ghostwriter-network:
+    driver: bridge

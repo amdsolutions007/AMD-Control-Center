@@ -1,0 +1,25 @@
+# Telegram Approval Bot - Railway Deployment
+# CEO control panel for post review and approval
+
+FROM python:3.9-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy requirements
+COPY requirements-telegram.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements-telegram.txt
+
+# Copy application files
+COPY 36_states_data.json .
+COPY content_generator.py .
+COPY graphic_generator.py .
+COPY telegram_approval_bot.py .
+
+# Create necessary directories
+RUN mkdir -p pending_posts approved_posts rejected_posts generated_graphics
+
+# Run Telegram Bot
+CMD ["python", "telegram_approval_bot.py"]

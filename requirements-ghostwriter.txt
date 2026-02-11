@@ -1,0 +1,18 @@
+# Ghost Writer Dependencies
+# Browser automation + content generation
+
+# Selenium for browser automation
+selenium==4.16.0
+webdriver-manager==4.0.1
+
+# Image processing
+Pillow==10.1.0
+
+# Google Generative AI (for future image generation)
+google-generativeai==0.3.2
+
+# Environment variables
+python-dotenv==1.0.0
+
+# HTTP requests
+requests==2.31.0
