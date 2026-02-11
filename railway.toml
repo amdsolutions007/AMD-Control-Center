@@ -1,0 +1,12 @@
+# Ghost Writer Pro - Railway Configuration
+# Auto-deployment configuration for Telegram Bot + Ghost Writer services
+
+# Service 1: Telegram Approval Bot
+[[services]]
+name = "ghostwriter-telegram-bot"
+dockerfile = "Dockerfile.telegram"
+
+# Service 2: Ghost Writer Poster
+[[services]]
+name = "ghostwriter-poster"
+dockerfile = "Dockerfile.ghostwriter"
