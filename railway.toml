@@ -1,12 +1,14 @@
 # Ghost Writer Pro - Railway Configuration
-# Auto-deployment configuration for Telegram Bot + Ghost Writer services
+# IMPORTANT: Railway doesn't support multiple services in one repo via railway.toml
+# Services must be created separately via Railway Dashboard
 
-# Service 1: Telegram Approval Bot
-[[services]]
-name = "ghostwriter-telegram-bot"
-dockerfile = "Dockerfile.telegram"
-
-# Service 2: Ghost Writer Poster
-[[services]]
-name = "ghostwriter-poster"
-dockerfile = "Dockerfile.ghostwriter"
+# Instructions:
+# 1. Go to Railway Dashboard
+# 2. Click "New Service" → "Deploy from GitHub repo"
+# 3. Select AMD-Control-Center
+# 4. Create Service 1:
+#    - Name: ghostwriter-telegram-bot
+#    - Dockerfile: Dockerfile.telegram
+# 5. Create Service 2:
+#    - Name: ghostwriter-poster  
+#    - Dockerfile: Dockerfile.ghostwriter
