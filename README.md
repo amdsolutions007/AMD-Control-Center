@@ -20,7 +20,7 @@ AMD Control Center is the master repository for **AMD Solutions 007**, housing 2
 ---
 
 ## 🆕 PROJECT 0: GHOST WRITER PRO (LEKE LEKE AUTOMATION)
-**Status:** ✅ **READY TO DEPLOY**  
+**Status:** 🚀 **DEPLOYED ON RAILWAY** (Feb 13, 2026)  
 **Platform:** Leke Leke (www.lekeelekee.com)  
 **Campaign:** 36 States of Tech  
 **System:** Option B - Hybrid (CEO Approval Required)
@@ -28,26 +28,75 @@ AMD Control Center is the master repository for **AMD Solutions 007**, housing 2
 ### Description
 Intelligent social media automation system for Leke Leke platform featuring CEO-controlled posting via Telegram approval bot. Part of viral growth strategy targeting 24 → 10,000+ followers in 5 weeks through state-by-state tech ecosystem spotlights.
 
+### Railway Deployment
+**Project:** confident-presence (04114a84-a0a4-463f-ae22-94c442e4c36b)  
+**Environment:** production
+
+**Services:**
+1. **telegram-approval-bot** (e8b78196-e8bc-4f85-969e-6e853090ba73)
+   - Dockerfile: `Dockerfile.telegram`
+   - Purpose: CEO control panel via Telegram
+   - Bot: @AMDSolutions007_bot
+   
+2. **ghost-writer-poster** (d55b15f8-d1b0-47d5-828a-1ff55fc815ab)
+   - Dockerfile: `Dockerfile.ghostwriter`
+   - Purpose: Automated Leke Leke posting
+   - Technology: Selenium + Chromium headless
+
+**Environment Variables (All Services Auto-Inherit):**
+- CEO_TELEGRAM_ID = 8013249849
+- TELEGRAM_BOT_TOKEN = 8250377410:AAEdyNJsRC5HivDx1lH3CP82PD377JCTyeg
+- LEKE_LEKE_EMAIL = ceo@amdsolutions007.com
+- LEKE_LEKE_PASSWORD = #@Amdmail@007
+- GEMINI_API_KEY = AIzaSyDlsrzao8JEYP4siBqjv6sMSazhBr5xcDc
+- OPENAI_API_KEY = (inherited from project)
+
 ### Key Features
 - **Telegram Control Panel** - CEO reviews/approves all posts via mobile
 - **Content Engine** - 36-state Nigerian tech database with automated caption generation
-- **Graphic Generator** - AI-powered 1200x675px AMD-branded graphics (PIL templates)
+- **Graphic Generator** - AI-powered 1200x675px AMD-branded graphics (Gemini AI)
 - **Ghost Writer** - Selenium browser automation (approval-triggered only)
 - **Queue System** - pending → approved → posted workflow with archival
 - **Safety Mechanisms** - Rate limiting (20 actions/hour), human-like delays, retry logic
+
+### How to Use
+1. Message @AMDSolutions007_bot on Telegram
+2. Send `/generate` to create new post
+3. Review preview + graphic bot sends you
+4. Tap ✅ to approve → Post goes live on Leke Leke in 10 seconds
+5. Tap ❌ to reject → Post archived
 
 ### Architecture
 ```
 Content Engine → Graphic Generator → Telegram Review → Ghost Writer → Leke Leke
     ↓               ↓                      ↓                ↓
-36_states_data  PIL Graphics      CEO Approval      Selenium Post
+36_states_data  Gemini AI Graphics   CEO Approval      Selenium Post
+```
+
+### Railway Management
+```bash
+# View Telegram Bot logs
+npx -y @railway/cli link --service telegram-approval-bot
+npx -y @railway/cli logs
+
+# View Ghost Writer logs
+npx -y @railway/cli link --service ghost-writer-poster
+npx -y @railway/cli logs
+
+# Update environment variable
+npx -y @railway/cli variables set VARIABLE_NAME=value
+
+# Restart service (auto-restarts on variable changes)
+npx -y @railway/cli service restart
 ```
 
 ### Tech Stack
 - **Backend:** Python 3.9
 - **Automation:** Selenium + Chrome headless
-- **Bot Framework:** python-telegram-bot (async)
-- **Graphics:** Pillow (PIL) + future Gemini AI
+- **Bot Framework:** python-telegram-bot==20.7 (async)
+- **Graphics:** Pillow (PIL) + Google Gemini AI
+- **Deployment:** Railway (Docker containers)
+- **CI/CD:** GitHub auto-deploy on push to main
 - **Deployment:** Railway (2 services: Telegram + Ghost Writer)
 - **Queue:** File-based (pending_posts/, approved_posts/, posted_archive/)
 
