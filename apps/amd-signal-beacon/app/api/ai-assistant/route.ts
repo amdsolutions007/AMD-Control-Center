@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 
     // Call OpenAI with AMD knowledge base
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4',
+      model: 'gpt-4o-mini', // More reliable and faster
       messages: [
         {
           role: 'system',
