@@ -30,6 +30,7 @@ export default function RelatedArticles({ articles }: RelatedArticlesProps) {
                   src={article.imageUrl}
                   alt={article.title}
                   fill
+                  loading="lazy"
                   className="object-cover group-hover:scale-110 transition-transform duration-300"
                 />
               </div>
