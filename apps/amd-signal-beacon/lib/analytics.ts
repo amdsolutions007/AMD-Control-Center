@@ -21,6 +21,7 @@ export interface PageAnalytics {
     whatsapp: number;
     lekeLeke: number;
     premium: number;
+    ai_assistant: number;
   };
   sessionStart: string;
 }
@@ -76,7 +77,7 @@ export function trackSectionView(): void {
 /**
  * Track CTA button clicks
  */
-export function trackCTAClick(ctaType: 'whatsapp' | 'lekeLeke' | 'premium'): void {
+export function trackCTAClick(ctaType: 'whatsapp' | 'lekeLeke' | 'premium' | 'ai_assistant'): void {
   try {
     const session = getSessionAnalytics();
     session.ctaClicked[ctaType] += 1;
@@ -136,6 +137,7 @@ export function getSessionAnalytics(): PageAnalytics {
         whatsapp: 0,
         lekeLeke: 0,
         premium: 0,
+        ai_assistant: 0,
       },
       sessionStart: new Date().toISOString(),
     };
@@ -147,7 +149,7 @@ export function getSessionAnalytics(): PageAnalytics {
     return {
       videosSectionViewed: false,
       scrollDepth: 0,
-      ctaClicked: { whatsapp: 0, lekeLeke: 0, premium: 0 },
+      ctaClicked: { whatsapp: 0, lekeLeke: 0, premium: 0, ai_assistant: 0 },
       sessionStart: new Date().toISOString(),
     };
   }
