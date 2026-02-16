@@ -1,7 +1,7 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "services": {
-    "telegram-bot": {
+    "telegram-approval-bot": {
       "build": {
         "builder": "DOCKERFILE",
         "dockerfilePath": "Dockerfile.telegram"
@@ -11,10 +11,19 @@
         "restartPolicyMaxRetries": 10
       }
     },
-    "ghost-writer": {
+    "ghost-writer-poster": {
       "build": {
         "builder": "DOCKERFILE",
         "dockerfilePath": "Dockerfile.ghostwriter"
+      },
+      "deploy": {
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      }
+    },
+    "AMD-Control-Center": {
+      "build": {
+        "builder": "NIXPACKS"
       },
       "deploy": {
         "restartPolicyType": "ON_FAILURE",
