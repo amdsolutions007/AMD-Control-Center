@@ -70,3 +70,6 @@ amdsolutions007.github.io/
 # - Procfile
 # - requirements.txt
 # - ecosystem.config.js
+Procfile
+Procfile.backup
+nixpacks.toml.backup
