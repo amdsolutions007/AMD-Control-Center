@@ -175,7 +175,12 @@ class LekeLekeeAutomation:
             print("✅ Login submitted")
             return True
         except Exception as e:
-            print(f"❌ Login failed: {e}")
+            print(f"❌ Login failed: {e!r}")
+            try:
+                print(f"🔎 Login debug - URL: {self.driver.current_url}")
+                print(f"🔎 Login debug - Title: {self.driver.title}")
+            except Exception:
+                pass
             return False
 
     def post_approved_content(self, post_data: dict) -> bool:
@@ -254,21 +259,25 @@ class LekeLekeeAutomation:
         print("📡 Watching for CEO approvals via Telegram bot...")
         print()
 
-        if not self.start_browser():
-            print("❌ Failed to start browser")
-            return
-
-        if not self.login():
-            print("❌ Login failed")
-            self.close()
-            return
-
-        print("✅ Logged in to Leke Leke")
-        print("⏳ Standing by for approved posts...")
-        print()
-
         while True:
             try:
+                if not self.driver:
+                    if not self.start_browser():
+                        print("❌ Failed to start browser. Retrying in 60 seconds...")
+                        time.sleep(60)
+                        continue
+
+                if not self.login():
+                    print("❌ Login failed. Retrying in 60 seconds...")
+                    self.close()
+                    self.driver = None
+                    time.sleep(60)
+                    continue
+
+                print("✅ Logged in to Leke Leke")
+                print("⏳ Standing by for approved posts...")
+                print()
+
                 post_id = self.check_for_trigger()
 
                 if post_id:
@@ -292,6 +301,8 @@ class LekeLekeeAutomation:
                 break
             except Exception as e:
                 print(f"❌ Error in Ghost Writer loop: {e}")
+                self.close()
+                self.driver = None
                 time.sleep(30)
 
         self.close()
