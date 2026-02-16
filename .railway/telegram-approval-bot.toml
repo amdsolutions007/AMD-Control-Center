@@ -1,0 +1,8 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile.telegram"
+
+[deploy]
+startCommand = "python telegram_approval_bot.py"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
