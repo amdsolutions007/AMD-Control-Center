@@ -8,6 +8,91 @@ import os
 from datetime import datetime
 from typing import Dict, Optional
 
+
+def _default_states_data() -> Dict:
+    """Fallback dataset used when 36_states_data.json is unavailable."""
+    state_seed = [
+        ("Abia", "Umuahia", "South East"),
+        ("Adamawa", "Yola", "North East"),
+        ("Akwa Ibom", "Uyo", "South South"),
+        ("Anambra", "Awka", "South East"),
+        ("Bauchi", "Bauchi", "North East"),
+        ("Bayelsa", "Yenagoa", "South South"),
+        ("Benue", "Makurdi", "North Central"),
+        ("Borno", "Maiduguri", "North East"),
+        ("Cross River", "Calabar", "South South"),
+        ("Delta", "Asaba", "South South"),
+        ("Ebonyi", "Abakaliki", "South East"),
+        ("Edo", "Benin City", "South South"),
+        ("Ekiti", "Ado-Ekiti", "South West"),
+        ("Enugu", "Enugu", "South East"),
+        ("Gombe", "Gombe", "North East"),
+        ("Imo", "Owerri", "South East"),
+        ("Jigawa", "Dutse", "North West"),
+        ("Kaduna", "Kaduna", "North West"),
+        ("Kano", "Kano", "North West"),
+        ("Katsina", "Katsina", "North West"),
+        ("Kebbi", "Birnin Kebbi", "North West"),
+        ("Kogi", "Lokoja", "North Central"),
+        ("Kwara", "Ilorin", "North Central"),
+        ("Lagos", "Ikeja", "South West"),
+        ("Nasarawa", "Lafia", "North Central"),
+        ("Niger", "Minna", "North Central"),
+        ("Ogun", "Abeokuta", "South West"),
+        ("Ondo", "Akure", "South West"),
+        ("Osun", "Osogbo", "South West"),
+        ("Oyo", "Ibadan", "South West"),
+        ("Plateau", "Jos", "North Central"),
+        ("Rivers", "Port Harcourt", "South South"),
+        ("Sokoto", "Sokoto", "North West"),
+        ("Taraba", "Jalingo", "North East"),
+        ("Yobe", "Damaturu", "North East"),
+        ("Zamfara", "Gusau", "North West"),
+    ]
+
+    states = []
+    for index, (name, capital, zone) in enumerate(state_seed, start=1):
+        slug = name.lower().replace(" ", "-")
+        states.append(
+            {
+                "id": index,
+                "name": name,
+                "capital": capital,
+                "zone": zone,
+                "tech_hubs": [
+                    f"{capital} Innovation Hub",
+                    f"{name} Digital Hub",
+                    f"{name} Startup Ecosystem",
+                ],
+                "notable_startups": [
+                    f"{name}Tech Labs",
+                    f"Build{name.replace(' ', '')}",
+                    f"{capital} Ventures",
+                ],
+                "did_you_know": (
+                    f"{name} is part of Nigeria's growing digital economy, with builders and creators "
+                    "driving innovation across fintech, edtech, agritech, and creator-tech."
+                ),
+                "landing_page": f"https://amdsolutions007.github.io/36states/{slug}",
+                "hashtags": [
+                    f"#{name.replace(' ', '')}",
+                    "#NaijaTech",
+                    "#TechEcosystem",
+                    "#BuildInPublic",
+                ],
+            }
+        )
+
+    return {
+        "metadata": {
+            "country": "Nigeria",
+            "total_states": 36,
+            "last_updated": datetime.now().date().isoformat(),
+            "source": "fallback",
+        },
+        "states": states,
+    }
+
 class ContentGenerator:
     """Generates captions for Nigerian state tech spotlights"""
     
@@ -21,8 +106,12 @@ class ContentGenerator:
         
     def _load_data(self) -> Dict:
         """Load 36 states data from JSON"""
-        with open(self.data_file, 'r') as f:
-            return json.load(f)
+        try:
+            with open(self.data_file, 'r') as f:
+                return json.load(f)
+        except FileNotFoundError:
+            print(f"⚠️ {self.data_file} not found. Using built-in fallback dataset.")
+            return _default_states_data()
             
     def _load_progress(self):
         """Load campaign progress (which day we're on)"""

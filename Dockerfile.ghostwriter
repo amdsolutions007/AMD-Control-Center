@@ -41,7 +41,6 @@ COPY requirements-ghostwriter.txt .
 RUN pip install --no-cache-dir -r requirements-ghostwriter.txt
 
 # Copy application files
-COPY 36_states_data.json .
 COPY content_generator.py .
 COPY graphic_generator.py .
 COPY leke_leke_browser_automation.py .

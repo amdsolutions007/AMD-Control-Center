@@ -13,7 +13,6 @@ COPY requirements-telegram.txt .
 RUN pip install --no-cache-dir -r requirements-telegram.txt
 
 # Copy application files
-COPY 36_states_data.json .
 COPY content_generator.py .
 COPY graphic_generator.py .
 COPY telegram_approval_bot.py .
