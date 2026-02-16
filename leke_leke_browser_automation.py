@@ -59,6 +59,68 @@ class LekeLekeeAutomation:
             print(f"❌ Failed to start browser: {e}")
             return False
 
+    def _dismiss_overlays(self):
+        """Best-effort dismissal for cookie banners/modals that block clicks."""
+        if not self.driver:
+            return
+
+        selectors = [
+            "button[aria-label*='Accept']",
+            "button[aria-label*='accept']",
+            "button[id*='accept']",
+            "button[class*='accept']",
+            "button[class*='cookie']",
+            "button[id*='cookie']",
+            "button[class*='close']",
+            "button[aria-label*='Close']",
+            "button[aria-label*='Dismiss']",
+            "[data-testid='cookie-accept']",
+            "[data-testid='close']",
+            "[role='dialog'] button",
+        ]
+
+        for selector in selectors:
+            try:
+                elements = self.driver.find_elements(By.CSS_SELECTOR, selector)
+                for element in elements[:3]:
+                    if element.is_displayed() and element.is_enabled():
+                        try:
+                            element.click()
+                        except Exception:
+                            self.driver.execute_script("arguments[0].click();", element)
+                        time.sleep(0.3)
+            except Exception:
+                continue
+
+        try:
+            self.driver.execute_script(
+                """
+                const blockers = Array.from(document.querySelectorAll('div,section,aside'))
+                  .filter(el => getComputedStyle(el).position === 'fixed' && el.offsetHeight > 120 && el.offsetWidth > 200)
+                  .filter(el => (el.className || '').toString().toLowerCase().includes('cookie') ||
+                                (el.id || '').toString().toLowerCase().includes('cookie') ||
+                                (el.textContent || '').toLowerCase().includes('cookie'));
+                blockers.forEach(el => el.style.display = 'none');
+                """
+            )
+        except Exception:
+            pass
+
+    def _safe_click(self, element):
+        """Attempt native click first, then JS click fallback."""
+        try:
+            element.click()
+            return
+        except Exception:
+            pass
+
+        try:
+            self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+            time.sleep(0.2)
+            self.driver.execute_script("arguments[0].click();", element)
+        except Exception as e:
+            raise RuntimeError(f"Unable to click element: {e}")
+
     def human_delay(self, min_seconds: float = 2, max_seconds: float = 5):
         time.sleep(random.uniform(min_seconds, max_seconds))
 
@@ -84,6 +146,9 @@ class LekeLekeeAutomation:
             self.driver.get("https://www.lekeelekee.com/login")
             self.human_delay()
 
+            # Handle overlays/cookie banners early
+            self._dismiss_overlays()
+
             wait = WebDriverWait(self.driver, 20)
             email_field = wait.until(EC.presence_of_element_located((By.NAME, "email")))
             password_field = self.driver.find_element(By.NAME, "password")
@@ -100,8 +165,12 @@ class LekeLekeeAutomation:
 
             self.human_delay(0.5, 1.0)
 
+            # Re-check overlays that may appear after form interaction
+            self._dismiss_overlays()
+
             login_button = self.driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
-            login_button.click()
+            wait.until(lambda d: login_button.is_enabled())
+            self._safe_click(login_button)
             self.human_delay(3, 5)
             print("✅ Login submitted")
             return True
