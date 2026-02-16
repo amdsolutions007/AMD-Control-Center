@@ -64,3 +64,5 @@ whatsapp_empire/.whatsapp-session-status/
 .vercel
 .env*.local
 _A_TO_Z_GEMINI_MEMORY_LOGS/
+SENSITIVE_CREDENTIALS
+API_INVENTORY.md
