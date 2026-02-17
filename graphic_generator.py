@@ -81,49 +81,56 @@ class GraphicGenerator:
         img = Image.new('RGB', (width, height), color='#000000')
         draw = ImageDraw.Draw(img)
         
-        # Draw gradient background
+        # Draw strong high-contrast gradient background
         for i in range(height):
-            brightness = int(18 + (i / height) * 34)
-            color = (brightness, brightness, brightness + 4)
+            top = int(10 + (i / height) * 22)
+            color = (top, top + 2, top + 6)
             draw.line([(0, i), (width, i)], fill=color)
             
         # AMD branding color (yellow)
         brand_color = '#FFD700'
         
-        # Draw brand accents
-        draw.rectangle([(0, 0), (width, 12)], fill=brand_color)
-        draw.rectangle([(0, height - 12), (width, height)], fill=brand_color)
-        draw.rounded_rectangle([(35, 35), (355, 125)], radius=18, outline=brand_color, width=3)
-        draw.rounded_rectangle([(35, height - 120), (width - 35, height - 35)], radius=16, outline="#333333", width=2)
+        # Draw brand accents and cards
+        draw.rectangle([(0, 0), (width, 14)], fill=brand_color)
+        draw.rectangle([(0, height - 14), (width, height)], fill=brand_color)
+
+        # Day badge
+        draw.rounded_rectangle([(40, 34), (340, 122)], radius=18, fill="#121212", outline=brand_color, width=4)
+
+        # Main content panel for readability
+        draw.rounded_rectangle([(70, 155), (width - 70, 485)], radius=24, fill="#101010", outline="#2D2D2D", width=2)
+
+        # Footer card
+        draw.rounded_rectangle([(70, 520), (width - 70, 620)], radius=18, fill="#111111", outline="#2D2D2D", width=2)
 
         # Cross-platform fonts
-        title_font = self._load_font(96, bold=True)
-        subtitle_font = self._load_font(46, bold=True)
-        day_font = self._load_font(44, bold=True)
-        footer_font = self._load_font(28, bold=False)
+        title_font = self._load_font(128, bold=True)
+        subtitle_font = self._load_font(54, bold=True)
+        day_font = self._load_font(48, bold=True)
+        footer_font = self._load_font(34, bold=True)
             
         # Normalize state text for clean rendering
         state_text = " ".join(part for part in state_name.upper().split())
 
         # Day number (top left)
         day_text = f"DAY {day_number}/36"
-        draw.text((55, 54), day_text, fill=brand_color, font=day_font)
+        draw.text((62, 54), day_text, fill=brand_color, font=day_font)
 
         # State name + subtitle
-        self._centered_text(draw, state_text, 228, title_font, "#FFFFFF", width, stroke_width=2, stroke_fill="#000000")
+        self._centered_text(draw, state_text, 220, title_font, "#FFFFFF", width, stroke_width=3, stroke_fill="#000000")
 
         subtitle = "TECH ECOSYSTEM"
-        self._centered_text(draw, subtitle, 352, subtitle_font, brand_color, width)
+        self._centered_text(draw, subtitle, 368, subtitle_font, brand_color, width)
 
         # Footer branding
         footer = "AMD SOLUTIONS 007 | 36 STATES OF TECH"
-        self._centered_text(draw, footer, height - 85, footer_font, "#FFFFFF", width)
+        self._centered_text(draw, footer, 552, footer_font, "#FFFFFF", width)
 
-        # Subtle decorative grid lines
-        for x in range(120, width, 180):
-            draw.line([(x, 140), (x, height - 150)], fill="#2A2A2A", width=1)
-        for y in range(170, height - 130, 85):
-            draw.line([(70, y), (width - 70, y)], fill="#242424", width=1)
+        # Minimal decorative corner marks
+        draw.line([(75, 170), (145, 170)], fill=brand_color, width=3)
+        draw.line([(75, 170), (75, 240)], fill=brand_color, width=3)
+        draw.line([(width - 75, 170), (width - 145, 170)], fill=brand_color, width=3)
+        draw.line([(width - 75, 170), (width - 75, 240)], fill=brand_color, width=3)
         
         # Save
         filename = f"state_{day_number:02d}_{state_name.lower().replace(' ', '_')}_{datetime.now().strftime('%Y%m%d')}.png"
