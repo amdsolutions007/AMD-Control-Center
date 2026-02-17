@@ -175,6 +175,8 @@ Drop your projects below 👇
             'day': self.current_day + 1,
             'state_name': state['name'],
             'state_id': state['id'],
+            'capital': state.get('capital', ''),
+            'zone': state.get('zone', ''),
             'caption': caption,
             'hashtags': state['hashtags'],
             'landing_page': state['landing_page'],

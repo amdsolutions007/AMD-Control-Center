@@ -104,7 +104,10 @@ Use /generate to create next post"""
             # Generate graphic
             graphic_path = await self.graphic_gen.generate_state_graphic(
                 state_name=post['state_name'],
-                day_number=post['day']
+                day_number=post['day'],
+                caption=post['caption'],
+                zone=post.get('zone', ''),
+                capital=post.get('capital', '')
             )
             
             post['graphic_path'] = graphic_path
