@@ -1,32 +1,34 @@
 """
 Graphic Generator for 36 States of Tech Campaign
-Story-first visuals aligned to caption narrative.
+Hero Poster Mode: cinematic, caption-synced, thumbnail-legible.
 """
 
 import os
 import asyncio
 import textwrap
 from datetime import datetime
-from PIL import Image, ImageDraw, ImageFont
-import google.generativeai as genai
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
-# Configuration
+try:
+    import google.generativeai as genai
+except ImportError:
+    genai = None
+
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-genai.configure(api_key=GEMINI_API_KEY)
+if genai and GEMINI_API_KEY:
+    genai.configure(api_key=GEMINI_API_KEY)
 
-# Output directory
 GRAPHICS_DIR = "generated_graphics"
 os.makedirs(GRAPHICS_DIR, exist_ok=True)
 
 
 class GraphicGenerator:
-    """Generates story-synced graphics for state spotlights."""
+    """Generates high-impact story posters for state spotlights."""
 
     def __init__(self):
-        self.model = genai.GenerativeModel("gemini-1.5-flash")
+        self.model = genai.GenerativeModel("gemini-1.5-flash") if genai else None
 
     def _load_font(self, size: int, bold: bool = False):
-        """Load cross-platform fonts with graceful fallback."""
         if bold:
             candidates = [
                 "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
@@ -40,41 +42,16 @@ class GraphicGenerator:
                 "/System/Library/Fonts/Helvetica.ttc",
             ]
 
-        for font_path in candidates:
+        for path in candidates:
             try:
-                return ImageFont.truetype(font_path, size)
+                return ImageFont.truetype(path, size)
             except Exception:
                 continue
-
         return ImageFont.load_default()
 
-    def _centered_text(
-        self,
-        draw: ImageDraw.ImageDraw,
-        text: str,
-        y: int,
-        font,
-        fill: str,
-        width: int,
-        stroke_width: int = 0,
-        stroke_fill: str = "#000000",
-    ):
-        bbox = draw.textbbox((0, 0), text, font=font)
-        text_width = bbox[2] - bbox[0]
-        x = (width - text_width) // 2
-        draw.text(
-            (x, y),
-            text,
-            fill=fill,
-            font=font,
-            stroke_width=stroke_width,
-            stroke_fill=stroke_fill,
-        )
-
     def _extract_story_line(self, caption: str, state_name: str) -> str:
-        """Extract one short insight line from caption for visual sync."""
         if not caption:
-            return f"{state_name} creators are building bold digital solutions."
+            return f"{state_name} creators are building momentum across Nigeria."
 
         lines = [line.strip() for line in caption.splitlines() if line.strip()]
         filtered = []
@@ -84,27 +61,55 @@ class GraphicGenerator:
                 continue
             if upper.startswith("📍") or upper.startswith("🌐") or upper.startswith("💼") or upper.startswith("🚀"):
                 continue
-            if "http" in line.lower() or "#" in line:
+            if line.startswith("http") or "#" in line:
                 continue
             filtered.append(line)
 
-        sentence = filtered[0] if filtered else f"{state_name} builders are driving innovation across Nigeria."
-        return sentence[:110].rstrip(" .") + "."
+        if not filtered:
+            return f"{state_name} builders are driving innovation across fintech, edtech, and creator-tech."
+
+        return filtered[0][:120].rstrip(" .") + "."
 
     def _headline_for_state(self, state_name: str) -> str:
         return f"{state_name.upper()} BUILDS NIGERIA'S NEXT TECH WAVE"
 
-    def _hero_palette(self):
+    def _theme_palette(self, caption: str):
+        text = (caption or "").lower()
+        if any(word in text for word in ["power", "electric", "grid", "energy"]):
+            return {
+                "bg_top": (7, 16, 30),
+                "bg_bottom": (20, 38, 70),
+                "accent": (44, 209, 255),
+                "accent2": (255, 215, 0),
+                "text": (245, 247, 252),
+                "muted": (186, 202, 221),
+            }
+        if any(word in text for word in ["build", "creator", "startup", "innovation"]):
+            return {
+                "bg_top": (8, 11, 23),
+                "bg_bottom": (22, 34, 57),
+                "accent": (255, 215, 0),
+                "accent2": (88, 214, 196),
+                "text": (247, 249, 252),
+                "muted": (192, 200, 215),
+            }
         return {
-            "bg_top": (6, 10, 24),
-            "bg_bottom": (16, 22, 38),
-            "gold": (255, 215, 0),
-            "gold_soft": (220, 180, 32),
-            "white": (245, 247, 252),
-            "muted": (182, 191, 207),
-            "panel": (10, 14, 24),
-            "teal": (74, 201, 196),
+            "bg_top": (10, 12, 20),
+            "bg_bottom": (28, 35, 52),
+            "accent": (255, 215, 0),
+            "accent2": (124, 157, 255),
+            "text": (247, 249, 252),
+            "muted": (192, 200, 215),
         }
+
+    def _draw_text_with_wrap(self, draw: ImageDraw.ImageDraw, text: str, x: int, y: int, max_width: int, font, fill, line_gap: int = 8):
+        wrapped = textwrap.wrap(text, width=max_width)
+        cy = y
+        for line in wrapped:
+            draw.text((x, cy), line, fill=fill, font=font)
+            bbox = draw.textbbox((x, cy), line, font=font)
+            cy += (bbox[3] - bbox[1]) + line_gap
+        return cy
 
     async def generate_state_graphic(
         self,
@@ -114,123 +119,107 @@ class GraphicGenerator:
         zone: str = "",
         capital: str = "",
     ) -> str:
-        """Generate story-aligned social graphic."""
-        print(f"🎨 Generating graphic for {state_name} (Day {day_number}/36)...")
-        graphic_path = self._create_template_graphic(
+        print(f"🎨 Generating HERO poster for {state_name} (Day {day_number}/36)...")
+        path = self._create_hero_poster(
             state_name=state_name,
             day_number=day_number,
             caption=caption,
             zone=zone,
             capital=capital,
         )
-        print(f"✅ Graphic saved: {graphic_path}")
-        return graphic_path
+        print(f"✅ Graphic saved: {path}")
+        return path
 
-    def _create_template_graphic(
-        self,
-        state_name: str,
-        day_number: int,
-        caption: str = "",
-        zone: str = "",
-        capital: str = "",
-    ) -> str:
+    def _create_hero_poster(self, state_name: str, day_number: int, caption: str = "", zone: str = "", capital: str = "") -> str:
         width, height = 1200, 675
-        img = Image.new("RGB", (width, height), color="#000000")
+        colors = self._theme_palette(caption)
+
+        img = Image.new("RGB", (width, height), color=(0, 0, 0))
         draw = ImageDraw.Draw(img)
 
-        colors = self._hero_palette()
-
         # Cinematic gradient background
-        for row in range(height):
-            ratio = row / max(height - 1, 1)
+        for y in range(height):
+            ratio = y / max(height - 1, 1)
             r = int(colors["bg_top"][0] * (1 - ratio) + colors["bg_bottom"][0] * ratio)
             g = int(colors["bg_top"][1] * (1 - ratio) + colors["bg_bottom"][1] * ratio)
             b = int(colors["bg_top"][2] * (1 - ratio) + colors["bg_bottom"][2] * ratio)
-            draw.line([(0, row), (width, row)], fill=(r, g, b))
+            draw.line([(0, y), (width, y)], fill=(r, g, b))
 
-        # Subtle city-light glow
-        draw.ellipse([(-180, 420), (420, 940)], fill=(34, 46, 78))
-        draw.ellipse([(730, 340), (1320, 910)], fill=(22, 54, 66))
+        # Soft light beams
+        draw.polygon([(0, height), (430, 210), (530, 260), (120, height)], fill=(24, 45, 76))
+        draw.polygon([(width, height), (760, 220), (680, 290), (1040, height)], fill=(14, 60, 70))
 
-        brand = colors["gold"]
+        # Add subtle blur glow layer
+        glow = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        glow_draw = ImageDraw.Draw(glow)
+        glow_draw.ellipse((740, 120, 1210, 560), fill=(colors["accent2"][0], colors["accent2"][1], colors["accent2"][2], 58))
+        glow_draw.ellipse((-120, 160, 480, 760), fill=(colors["accent"][0], colors["accent"][1], colors["accent"][2], 36))
+        glow = glow.filter(ImageFilter.GaussianBlur(radius=48))
+        img = Image.alpha_composite(img.convert("RGBA"), glow).convert("RGB")
+        draw = ImageDraw.Draw(img)
 
-        # Brand bars
-        draw.rectangle([(0, 0), (width, 10)], fill=brand)
-        draw.rectangle([(0, height - 10), (width, height)], fill=brand)
+        # Top and bottom brand bars
+        draw.rectangle([(0, 0), (width, 10)], fill=colors["accent"])
+        draw.rectangle([(0, height - 10), (width, height)], fill=colors["accent"])
 
-        # Hero cards
-        draw.rounded_rectangle([(42, 28), (286, 94)], radius=14, fill=colors["panel"], outline=brand, width=2)
-        draw.rounded_rectangle([(48, 108), (812, 548)], radius=28, fill=(7, 11, 19), outline=(38, 44, 62), width=2)
-        draw.rounded_rectangle([(838, 108), (1152, 548)], radius=22, fill=(8, 14, 24), outline=(34, 50, 76), width=2)
-        draw.rounded_rectangle([(48, 566), (1152, 638)], radius=16, fill=(9, 13, 21), outline=(35, 45, 68), width=1)
+        # DAY badge
+        draw.rounded_rectangle([(42, 30), (300, 90)], radius=14, fill=(9, 12, 20), outline=colors["accent"], width=2)
+        day_font = self._load_font(28, bold=True)
+        draw.text((62, 46), f"DAY {day_number}/36", fill=colors["accent"], font=day_font)
 
-        # Fonts
-        day_font = self._load_font(30, bold=True)
-        title_font = self._load_font(64, bold=True)
-        subtitle_font = self._load_font(34, bold=True)
-        story_font = self._load_font(26, bold=False)
-        chip_font = self._load_font(22, bold=True)
-        footer_font = self._load_font(24, bold=True)
-        state_font = self._load_font(86, bold=True)
-
-        # Core text
+        # Hero headline and subheadline
         state = " ".join(state_name.upper().split())
         headline = self._headline_for_state(state_name)
         insight = self._extract_story_line(caption, state_name)
 
-        draw.text((60, 46), f"DAY {day_number}/36", fill=brand, font=day_font)
+        title_font = self._load_font(74, bold=True)
+        sub_font = self._load_font(38, bold=True)
+        insight_font = self._load_font(28, bold=False)
 
-        # Builder silhouette + desk motif (story visual)
-        # Head
-        draw.ellipse([(170, 250), (245, 325)], fill=(55, 73, 109))
-        # Body
-        draw.rounded_rectangle([(140, 320), (282, 510)], radius=26, fill=(40, 56, 92))
-        # Laptop
-        draw.rounded_rectangle([(250, 395), (530, 500)], radius=10, fill=(18, 33, 62), outline=colors["teal"], width=2)
-        draw.rectangle([(274, 420), (506, 478)], fill=(12, 22, 40))
-        # Holographic lines
-        for offset in range(0, 210, 24):
-            draw.line([(286, 428 + offset // 4), (496, 428 + offset // 4)], fill=(45, 160, 170), width=1)
+        # Left hero panel
+        draw.rounded_rectangle([(48, 120), (880, 560)], radius=30, fill=(7, 11, 18), outline=(36, 45, 62), width=2)
 
-        # State hero word
-        draw.text((540, 176), state, fill=colors["white"], font=state_font, stroke_width=2, stroke_fill="#000000")
+        # Hero title block
+        y_start = 170
+        for line in textwrap.wrap(headline, width=23)[:2]:
+            draw.text((92, y_start), line, fill=colors["text"], font=title_font, stroke_width=2, stroke_fill="#000000")
+            y_start += 82
 
-        wrapped_headline = textwrap.wrap(headline, width=30)[:2]
-        start_y = 286
-        for idx, line in enumerate(wrapped_headline):
-            draw.text((540, start_y + (idx * 66)), line, fill=colors["white"], font=title_font, stroke_width=1, stroke_fill="#000000")
+        draw.text((92, y_start + 8), f"{state} TECH ECOSYSTEM", fill=colors["accent"], font=sub_font)
 
-        subtitle = f"{state} TECH ECOSYSTEM"
-        draw.text((540, 430), subtitle, fill=brand, font=subtitle_font)
+        # Insight sentence (caption sync)
+        self._draw_text_with_wrap(draw, insight, 92, y_start + 72, 56, insight_font, colors["muted"], line_gap=6)
 
-        wrapped_insight = textwrap.wrap(insight, width=58)[:2]
-        for idx, line in enumerate(wrapped_insight):
-            draw.text((540, 470 + (idx * 30)), line, fill=colors["muted"], font=story_font)
+        # Right signal panel
+        draw.rounded_rectangle([(910, 120), (1150, 560)], radius=24, fill=(8, 14, 24), outline=(34, 58, 88), width=2)
+        chip_font = self._load_font(22, bold=True)
+        draw.text((940, 145), "LIVE SIGNAL", fill=colors["accent"], font=chip_font)
+        draw.text((940, 198), "Builders", fill=colors["text"], font=chip_font)
+        draw.text((940, 236), "Creators", fill=colors["text"], font=chip_font)
+        draw.text((940, 274), "Innovation", fill=colors["text"], font=chip_font)
 
-        # Right-side insight panel
-        draw.text((866, 140), "LIVE SIGNAL", fill=brand, font=chip_font)
-        draw.text((866, 182), "Builders", fill=colors["white"], font=chip_font)
-        draw.text((866, 214), "Creators", fill=colors["white"], font=chip_font)
-        draw.text((866, 246), "Innovation", fill=colors["white"], font=chip_font)
+        # Simple chart motif
+        pts = [(954, 350), (1018, 308), (1078, 372), (1132, 326)]
+        for i in range(len(pts) - 1):
+            draw.line([pts[i], pts[i + 1]], fill=colors["accent2"], width=3)
+        for x, y in pts:
+            draw.ellipse([(x - 7, y - 7), (x + 7, y + 7)], fill=colors["accent"])
 
         # Metadata chips
         chip_y = 578
-        chip_1 = f"CAPITAL: {capital.upper()}" if capital else "CAPITAL: N/A"
-        chip_2 = f"ZONE: {zone.upper()}" if zone else "ZONE: N/A"
-        draw.rounded_rectangle([(74, chip_y), (426, chip_y + 44)], radius=12, fill=(16, 20, 31), outline=brand, width=2)
-        draw.rounded_rectangle([(774, chip_y), (1126, chip_y + 44)], radius=12, fill=(16, 20, 31), outline=brand, width=2)
-        draw.text((95, chip_y + 10), chip_1, fill=colors["white"], font=chip_font)
-        draw.text((800, chip_y + 10), chip_2, fill=colors["white"], font=chip_font)
+        chip_fill = (14, 20, 31)
+        draw.rounded_rectangle([(74, chip_y), (432, chip_y + 44)], radius=12, fill=chip_fill, outline=colors["accent"], width=2)
+        draw.rounded_rectangle([(768, chip_y), (1126, chip_y + 44)], radius=12, fill=chip_fill, outline=colors["accent"], width=2)
+        chip_text_font = self._load_font(21, bold=True)
+        draw.text((95, chip_y + 10), f"CAPITAL: {(capital or 'N/A').upper()}", fill=colors["text"], font=chip_text_font)
+        draw.text((794, chip_y + 10), f"ZONE: {(zone or 'N/A').upper()}", fill=colors["text"], font=chip_text_font)
 
-        # Footer
-        self._centered_text(draw, "AMD SOLUTIONS 007  |  BUILD IN NAIJA", 610, footer_font, "#FFFFFF", width)
-
-        # Ecosystem signal motif
-        nodes = [(878, 314), (942, 274), (1006, 334), (1070, 286)]
-        for idx in range(len(nodes) - 1):
-            draw.line([nodes[idx], nodes[idx + 1]], fill=(72, 150, 160), width=2)
-        for x, y in nodes:
-            draw.ellipse([(x - 5, y - 5), (x + 5, y + 5)], fill=brand)
+        # Footer brand
+        footer_font = self._load_font(23, bold=True)
+        footer = "AMD SOLUTIONS 007  |  BUILD IN NAIJA"
+        bbox = draw.textbbox((0, 0), footer, font=footer_font)
+        fx = (width - (bbox[2] - bbox[0])) // 2
+        draw.text((fx, 620), footer, fill=colors["text"], font=footer_font)
 
         filename = f"state_{day_number:02d}_{state_name.lower().replace(' ', '_')}_{datetime.now().strftime('%Y%m%d')}.png"
         filepath = os.path.join(GRAPHICS_DIR, filename)
@@ -240,12 +229,11 @@ class GraphicGenerator:
 
 async def demo():
     generator = GraphicGenerator()
-    test_states = ["Lagos", "Abia", "Kano"]
-    for index, state in enumerate(test_states, 1):
+    for idx, state in enumerate(["Abia", "Lagos", "Kano"], 1):
         path = await generator.generate_state_graphic(
             state_name=state,
-            day_number=index,
-            caption=f"{state} is part of Nigeria's growing digital ecosystem.",
+            day_number=idx,
+            caption=f"{state} is part of Nigeria's growing digital economy, with builders and creators driving innovation.",
             zone="South East" if state == "Abia" else "Nigeria",
             capital="Umuahia" if state == "Abia" else "N/A",
         )
