@@ -1,32 +1,37 @@
 """
 Graphic Generator for 36 States of Tech Campaign
-Hero Poster Mode: cinematic, caption-synced, thumbnail-legible.
+Generation-first pipeline: OpenAI image variants + quality scoring + readable overlays.
 """
 
-import os
 import asyncio
+import base64
+import io
+import os
+import random
 import textwrap
 from datetime import datetime
-from PIL import Image, ImageDraw, ImageFont, ImageFilter
+from typing import Dict, List, Optional, Tuple
+
+from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageStat
 
 try:
-    import google.generativeai as genai
+    from openai import OpenAI
 except ImportError:
-    genai = None
+    OpenAI = None
 
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-if genai and GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
 
 GRAPHICS_DIR = "generated_graphics"
 os.makedirs(GRAPHICS_DIR, exist_ok=True)
 
 
 class GraphicGenerator:
-    """Generates high-impact story posters for state spotlights."""
+    """Generates campaign-grade state posters for Telegram review."""
 
     def __init__(self):
-        self.model = genai.GenerativeModel("gemini-1.5-flash") if genai else None
+        self.openai_api_key = os.getenv("OPENAI_API_KEY", "").strip()
+        self.openai_model = os.getenv("OPENAI_IMAGE_MODEL", "gpt-image-1").strip()
+        self.openai_size = os.getenv("OPENAI_IMAGE_SIZE", "1536x1024").strip()
+        self.client = OpenAI(api_key=self.openai_api_key) if (OpenAI and self.openai_api_key) else None
 
     def _load_font(self, size: int, bold: bool = False):
         if bold:
@@ -68,48 +73,259 @@ class GraphicGenerator:
         if not filtered:
             return f"{state_name} builders are driving innovation across fintech, edtech, and creator-tech."
 
-        return filtered[0][:120].rstrip(" .") + "."
+        return filtered[0][:140].rstrip(" .") + "."
 
     def _headline_for_state(self, state_name: str) -> str:
         return f"{state_name.upper()} BUILDS NIGERIA'S NEXT TECH WAVE"
 
-    def _theme_palette(self, caption: str):
+    def _style_tracks(self, caption: str) -> List[str]:
         text = (caption or "").lower()
-        if any(word in text for word in ["power", "electric", "grid", "energy"]):
-            return {
-                "bg_top": (7, 16, 30),
-                "bg_bottom": (20, 38, 70),
-                "accent": (44, 209, 255),
-                "accent2": (255, 215, 0),
-                "text": (245, 247, 252),
-                "muted": (186, 202, 221),
-            }
+        if any(word in text for word in ["power", "electric", "energy", "grid"]):
+            return [
+                "cinematic documentary photo, clean modern city infrastructure, dramatic sunlight",
+                "high-end editorial campaign visual, innovation and energy systems, realistic texture",
+                "premium tech brand key visual, electrical innovation, high contrast composition",
+            ]
         if any(word in text for word in ["build", "creator", "startup", "innovation"]):
-            return {
-                "bg_top": (8, 11, 23),
-                "bg_bottom": (22, 34, 57),
-                "accent": (255, 215, 0),
-                "accent2": (88, 214, 196),
-                "text": (247, 249, 252),
-                "muted": (192, 200, 215),
-            }
-        return {
-            "bg_top": (10, 12, 20),
-            "bg_bottom": (28, 35, 52),
-            "accent": (255, 215, 0),
-            "accent2": (124, 157, 255),
-            "text": (247, 249, 252),
-            "muted": (192, 200, 215),
-        }
+            return [
+                "cinematic portrait photo of builders in modern African tech environment, premium campaign style",
+                "global ad-quality visual, Nigeria innovation narrative, dynamic depth and lighting",
+                "high-end commercial photography look, startup ecosystem momentum, realistic details",
+            ]
+        return [
+            "cinematic campaign key visual, African tech ecosystem, premium editorial quality",
+            "global brand advertisement style, realistic textures, dramatic composition, no text",
+            "high-end documentary-meets-commercial visual, innovation and ambition, no typography",
+        ]
 
-    def _draw_text_with_wrap(self, draw: ImageDraw.ImageDraw, text: str, x: int, y: int, max_width: int, font, fill, line_gap: int = 8):
-        wrapped = textwrap.wrap(text, width=max_width)
-        cy = y
-        for line in wrapped:
-            draw.text((x, cy), line, fill=fill, font=font)
-            bbox = draw.textbbox((x, cy), line, font=font)
-            cy += (bbox[3] - bbox[1]) + line_gap
-        return cy
+    def _build_prompt(self, state_name: str, day_number: int, caption: str, style_track: str) -> str:
+        insight = self._extract_story_line(caption, state_name)
+        return (
+            "Create a world-class social campaign background image for a technology spotlight. "
+            f"Location context: {state_name}, Nigeria. "
+            f"Narrative: {insight} "
+            f"Art direction: {style_track}. "
+            "MANDATORY COMPOSITION: reserve clear negative space on left-center and lower area for text overlays, "
+            "avoid clutter in those zones, keep subject and storytelling elements on right/upper regions. "
+            "Visual quality must be premium, realistic, high detail, cinematic, and emotionally confident. "
+            "No text, no logos, no watermark, no UI, no infographics, no charts. "
+            "16:9 composition suitable for high-performing social media post thumbnail. "
+            f"Campaign sequence day {day_number}/36 should feel unique and not repetitive."
+        )
+
+    def _score_image_quality(self, image: Image.Image) -> float:
+        rgb = image.convert("RGB")
+        lum = rgb.convert("L")
+        lum_stats = ImageStat.Stat(lum)
+        contrast = lum_stats.stddev[0]
+
+        edges = lum.filter(ImageFilter.FIND_EDGES)
+        edge_stats = ImageStat.Stat(edges)
+        edge_energy = edge_stats.mean[0]
+
+        hsv = rgb.convert("HSV")
+        sat = hsv.split()[1]
+        sat_stats = ImageStat.Stat(sat)
+        saturation = sat_stats.mean[0]
+
+        return (contrast * 0.5) + (edge_energy * 0.3) + (saturation * 0.2)
+
+    def _decode_generated_image(self, b64_data: str) -> Optional[Image.Image]:
+        try:
+            raw = base64.b64decode(b64_data)
+            return Image.open(io.BytesIO(raw)).convert("RGB")
+        except Exception:
+            return None
+
+    def _generate_background_candidates(
+        self, state_name: str, day_number: int, caption: str
+    ) -> List[Image.Image]:
+        if not self.client:
+            return []
+
+        candidates: List[Image.Image] = []
+        for style_track in self._style_tracks(caption):
+            prompt = self._build_prompt(state_name, day_number, caption, style_track)
+            try:
+                response = self.client.images.generate(
+                    model=self.openai_model,
+                    prompt=prompt,
+                    size=self.openai_size,
+                )
+            except Exception as exc:
+                print(f"⚠️ OpenAI generation failed for one variant: {exc}")
+                continue
+
+            if not getattr(response, "data", None):
+                continue
+
+            first = response.data[0]
+            b64_data = getattr(first, "b64_json", None)
+            if not b64_data:
+                continue
+
+            image = self._decode_generated_image(b64_data)
+            if image:
+                candidates.append(image)
+
+        return candidates
+
+    def _select_best_candidate(self, candidates: List[Image.Image]) -> Optional[Image.Image]:
+        if not candidates:
+            return None
+        scored = [(self._score_image_quality(img), img) for img in candidates]
+        scored.sort(key=lambda pair: pair[0], reverse=True)
+        return scored[0][1]
+
+    def _create_pro_fallback_background(self, caption: str, width: int, height: int) -> Image.Image:
+        print("⚠️ Using fallback background generator (OpenAI unavailable).")
+        seed = abs(hash((caption or "", datetime.now().date().isoformat()))) % (10**6)
+        rng = random.Random(seed)
+
+        img = Image.new("RGB", (width, height), (8, 11, 22))
+        draw = ImageDraw.Draw(img)
+
+        top = (8, 14, 32)
+        bottom = (24, 40, 70)
+        for y in range(height):
+            ratio = y / max(1, (height - 1))
+            r = int(top[0] * (1 - ratio) + bottom[0] * ratio)
+            g = int(top[1] * (1 - ratio) + bottom[1] * ratio)
+            b = int(top[2] * (1 - ratio) + bottom[2] * ratio)
+            draw.line([(0, y), (width, y)], fill=(r, g, b))
+
+        for _ in range(14):
+            x1 = rng.randint(-200, width)
+            y1 = rng.randint(-100, height)
+            x2 = x1 + rng.randint(180, 480)
+            y2 = y1 + rng.randint(90, 320)
+            color = (rng.randint(30, 90), rng.randint(60, 140), rng.randint(100, 180), rng.randint(35, 85))
+            layer = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+            layer_draw = ImageDraw.Draw(layer)
+            layer_draw.rounded_rectangle([(x1, y1), (x2, y2)], radius=rng.randint(16, 42), fill=color)
+            layer = layer.filter(ImageFilter.GaussianBlur(radius=rng.randint(8, 20)))
+            img = Image.alpha_composite(img.convert("RGBA"), layer).convert("RGB")
+
+        return img
+
+    def _fit_to_canvas(self, image: Image.Image, target_size: Tuple[int, int]) -> Image.Image:
+        target_w, target_h = target_size
+        src_w, src_h = image.size
+        src_ratio = src_w / max(1, src_h)
+        target_ratio = target_w / max(1, target_h)
+
+        if src_ratio > target_ratio:
+            new_h = target_h
+            new_w = int(new_h * src_ratio)
+        else:
+            new_w = target_w
+            new_h = int(new_w / src_ratio)
+
+        resized = image.resize((new_w, new_h), Image.Resampling.LANCZOS)
+        left = (new_w - target_w) // 2
+        top = (new_h - target_h) // 2
+        return resized.crop((left, top, left + target_w, top + target_h))
+
+    def _wrap_by_pixel_width(self, draw: ImageDraw.ImageDraw, text: str, font, max_width: int) -> List[str]:
+        words = text.split()
+        lines: List[str] = []
+        current = ""
+        for word in words:
+            test = word if not current else f"{current} {word}"
+            bbox = draw.textbbox((0, 0), test, font=font)
+            if (bbox[2] - bbox[0]) <= max_width:
+                current = test
+            else:
+                if current:
+                    lines.append(current)
+                current = word
+        if current:
+            lines.append(current)
+        return lines
+
+    def _choose_layout(self, state_name: str, day_number: int) -> str:
+        layouts = ["left_stack", "center_band", "bottom_story"]
+        return layouts[abs(hash(f"{state_name}_{day_number}")) % len(layouts)]
+
+    def _apply_text_overlays(
+        self,
+        image: Image.Image,
+        state_name: str,
+        day_number: int,
+        caption: str,
+        zone: str,
+        capital: str,
+    ) -> Image.Image:
+        width, height = image.size
+        img = image.convert("RGB")
+        layout = self._choose_layout(state_name, day_number)
+
+        shade = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        shade_draw = ImageDraw.Draw(shade)
+        if layout == "left_stack":
+            shade_draw.rounded_rectangle([(42, 105), (760, 560)], radius=28, fill=(4, 8, 16, 172))
+        elif layout == "center_band":
+            shade_draw.rounded_rectangle([(90, 160), (1110, 520)], radius=28, fill=(4, 8, 16, 165))
+        else:
+            shade_draw.rounded_rectangle([(56, 300), (1140, 596)], radius=28, fill=(4, 8, 16, 175))
+        img = Image.alpha_composite(img.convert("RGBA"), shade).convert("RGB")
+
+        draw = ImageDraw.Draw(img)
+        accent = (255, 215, 0)
+        white = (246, 249, 255)
+        muted = (197, 210, 232)
+
+        draw.rectangle([(0, 0), (width, 9)], fill=accent)
+        draw.rectangle([(0, height - 9), (width, height)], fill=accent)
+
+        day_font = self._load_font(28, bold=True)
+        draw.rounded_rectangle([(38, 24), (290, 86)], radius=14, fill=(7, 12, 24), outline=accent, width=2)
+        draw.text((58, 42), f"DAY {day_number}/36", fill=accent, font=day_font)
+
+        headline = self._headline_for_state(state_name)
+        story = self._extract_story_line(caption, state_name)
+
+        title_font = self._load_font(66, bold=True)
+        subtitle_font = self._load_font(36, bold=True)
+        story_font = self._load_font(29, bold=False)
+
+        if layout == "left_stack":
+            tx, ty, max_width = 86, 150, 620
+        elif layout == "center_band":
+            tx, ty, max_width = 120, 200, 960
+        else:
+            tx, ty, max_width = 92, 336, 1020
+
+        title_lines = self._wrap_by_pixel_width(draw, headline, title_font, max_width)
+        cy = ty
+        for line in title_lines[:2]:
+            draw.text((tx, cy), line, fill=white, font=title_font, stroke_width=2, stroke_fill="#000000")
+            cy += 76
+
+        sub = f"{state_name.upper()} TECH ECOSYSTEM"
+        draw.text((tx, cy + 4), sub, fill=accent, font=subtitle_font)
+        cy += 62
+
+        story_lines = self._wrap_by_pixel_width(draw, story, story_font, max_width)
+        for line in story_lines[:3]:
+            draw.text((tx, cy), line, fill=muted, font=story_font)
+            cy += 38
+
+        chip_font = self._load_font(22, bold=True)
+        chip_fill = (10, 16, 28)
+        chip_y = 578
+        draw.rounded_rectangle([(74, chip_y), (432, chip_y + 44)], radius=12, fill=chip_fill, outline=accent, width=2)
+        draw.rounded_rectangle([(768, chip_y), (1126, chip_y + 44)], radius=12, fill=chip_fill, outline=accent, width=2)
+        draw.text((95, chip_y + 10), f"CAPITAL: {(capital or 'N/A').upper()}", fill=white, font=chip_font)
+        draw.text((794, chip_y + 10), f"ZONE: {(zone or 'N/A').upper()}", fill=white, font=chip_font)
+
+        footer_font = self._load_font(23, bold=True)
+        footer = "AMD SOLUTIONS 007  |  BUILD IN NAIJA"
+        bbox = draw.textbbox((0, 0), footer, font=footer_font)
+        fx = (width - (bbox[2] - bbox[0])) // 2
+        draw.text((fx, 620), footer, fill=white, font=footer_font)
+
+        return img
 
     async def generate_state_graphic(
         self,
@@ -119,111 +335,30 @@ class GraphicGenerator:
         zone: str = "",
         capital: str = "",
     ) -> str:
-        print(f"🎨 Generating HERO poster for {state_name} (Day {day_number}/36)...")
-        path = self._create_hero_poster(
+        print(f"🎨 Generating state poster for {state_name} (Day {day_number}/36)...")
+
+        candidates = self._generate_background_candidates(state_name, day_number, caption)
+        best = self._select_best_candidate(candidates)
+
+        width, height = 1200, 675
+        if best is None:
+            best = self._create_pro_fallback_background(caption, width, height)
+        else:
+            best = self._fit_to_canvas(best, (width, height))
+
+        final = self._apply_text_overlays(
+            image=best,
             state_name=state_name,
             day_number=day_number,
             caption=caption,
             zone=zone,
             capital=capital,
         )
-        print(f"✅ Graphic saved: {path}")
-        return path
-
-    def _create_hero_poster(self, state_name: str, day_number: int, caption: str = "", zone: str = "", capital: str = "") -> str:
-        width, height = 1200, 675
-        colors = self._theme_palette(caption)
-
-        img = Image.new("RGB", (width, height), color=(0, 0, 0))
-        draw = ImageDraw.Draw(img)
-
-        # Cinematic gradient background
-        for y in range(height):
-            ratio = y / max(height - 1, 1)
-            r = int(colors["bg_top"][0] * (1 - ratio) + colors["bg_bottom"][0] * ratio)
-            g = int(colors["bg_top"][1] * (1 - ratio) + colors["bg_bottom"][1] * ratio)
-            b = int(colors["bg_top"][2] * (1 - ratio) + colors["bg_bottom"][2] * ratio)
-            draw.line([(0, y), (width, y)], fill=(r, g, b))
-
-        # Soft light beams
-        draw.polygon([(0, height), (430, 210), (530, 260), (120, height)], fill=(24, 45, 76))
-        draw.polygon([(width, height), (760, 220), (680, 290), (1040, height)], fill=(14, 60, 70))
-
-        # Add subtle blur glow layer
-        glow = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-        glow_draw = ImageDraw.Draw(glow)
-        glow_draw.ellipse((740, 120, 1210, 560), fill=(colors["accent2"][0], colors["accent2"][1], colors["accent2"][2], 58))
-        glow_draw.ellipse((-120, 160, 480, 760), fill=(colors["accent"][0], colors["accent"][1], colors["accent"][2], 36))
-        glow = glow.filter(ImageFilter.GaussianBlur(radius=48))
-        img = Image.alpha_composite(img.convert("RGBA"), glow).convert("RGB")
-        draw = ImageDraw.Draw(img)
-
-        # Top and bottom brand bars
-        draw.rectangle([(0, 0), (width, 10)], fill=colors["accent"])
-        draw.rectangle([(0, height - 10), (width, height)], fill=colors["accent"])
-
-        # DAY badge
-        draw.rounded_rectangle([(42, 30), (300, 90)], radius=14, fill=(9, 12, 20), outline=colors["accent"], width=2)
-        day_font = self._load_font(28, bold=True)
-        draw.text((62, 46), f"DAY {day_number}/36", fill=colors["accent"], font=day_font)
-
-        # Hero headline and subheadline
-        state = " ".join(state_name.upper().split())
-        headline = self._headline_for_state(state_name)
-        insight = self._extract_story_line(caption, state_name)
-
-        title_font = self._load_font(74, bold=True)
-        sub_font = self._load_font(38, bold=True)
-        insight_font = self._load_font(28, bold=False)
-
-        # Left hero panel
-        draw.rounded_rectangle([(48, 120), (880, 560)], radius=30, fill=(7, 11, 18), outline=(36, 45, 62), width=2)
-
-        # Hero title block
-        y_start = 170
-        for line in textwrap.wrap(headline, width=23)[:2]:
-            draw.text((92, y_start), line, fill=colors["text"], font=title_font, stroke_width=2, stroke_fill="#000000")
-            y_start += 82
-
-        draw.text((92, y_start + 8), f"{state} TECH ECOSYSTEM", fill=colors["accent"], font=sub_font)
-
-        # Insight sentence (caption sync)
-        self._draw_text_with_wrap(draw, insight, 92, y_start + 72, 56, insight_font, colors["muted"], line_gap=6)
-
-        # Right signal panel
-        draw.rounded_rectangle([(910, 120), (1150, 560)], radius=24, fill=(8, 14, 24), outline=(34, 58, 88), width=2)
-        chip_font = self._load_font(22, bold=True)
-        draw.text((940, 145), "LIVE SIGNAL", fill=colors["accent"], font=chip_font)
-        draw.text((940, 198), "Builders", fill=colors["text"], font=chip_font)
-        draw.text((940, 236), "Creators", fill=colors["text"], font=chip_font)
-        draw.text((940, 274), "Innovation", fill=colors["text"], font=chip_font)
-
-        # Simple chart motif
-        pts = [(954, 350), (1018, 308), (1078, 372), (1132, 326)]
-        for i in range(len(pts) - 1):
-            draw.line([pts[i], pts[i + 1]], fill=colors["accent2"], width=3)
-        for x, y in pts:
-            draw.ellipse([(x - 7, y - 7), (x + 7, y + 7)], fill=colors["accent"])
-
-        # Metadata chips
-        chip_y = 578
-        chip_fill = (14, 20, 31)
-        draw.rounded_rectangle([(74, chip_y), (432, chip_y + 44)], radius=12, fill=chip_fill, outline=colors["accent"], width=2)
-        draw.rounded_rectangle([(768, chip_y), (1126, chip_y + 44)], radius=12, fill=chip_fill, outline=colors["accent"], width=2)
-        chip_text_font = self._load_font(21, bold=True)
-        draw.text((95, chip_y + 10), f"CAPITAL: {(capital or 'N/A').upper()}", fill=colors["text"], font=chip_text_font)
-        draw.text((794, chip_y + 10), f"ZONE: {(zone or 'N/A').upper()}", fill=colors["text"], font=chip_text_font)
-
-        # Footer brand
-        footer_font = self._load_font(23, bold=True)
-        footer = "AMD SOLUTIONS 007  |  BUILD IN NAIJA"
-        bbox = draw.textbbox((0, 0), footer, font=footer_font)
-        fx = (width - (bbox[2] - bbox[0])) // 2
-        draw.text((fx, 620), footer, fill=colors["text"], font=footer_font)
 
         filename = f"state_{day_number:02d}_{state_name.lower().replace(' ', '_')}_{datetime.now().strftime('%Y%m%d')}.png"
         filepath = os.path.join(GRAPHICS_DIR, filename)
-        img.save(filepath, format="PNG", optimize=True)
+        final.save(filepath, format="PNG", optimize=True)
+        print(f"✅ Graphic saved: {filepath}")
         return filepath
 
 
