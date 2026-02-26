@@ -6,6 +6,7 @@ Human-in-the-Loop: CEO reviews and approves posts before they go live
 import os
 import json
 import asyncio
+import time
 from datetime import datetime
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
@@ -220,8 +221,18 @@ Use /generate to create next post"""
         print("🤖 Telegram Approval Bot starting...")
         print(f"📱 CEO Telegram ID: {CEO_TELEGRAM_ID}")
         print("✅ Ready to receive commands")
-        
-        self.app.run_polling()
+
+        # Retry loop — survives 409 Conflict during Railway deployment switchover
+        while True:
+            try:
+                self.app.run_polling(drop_pending_updates=True)
+                break  # clean exit
+            except Exception as e:
+                if "Conflict" in str(e) or "409" in str(e):
+                    print(f"⚠️  409 Conflict detected — another instance still shutting down. Retrying in 30s... ({e})")
+                    time.sleep(30)
+                else:
+                    raise
 
 
 def main():
