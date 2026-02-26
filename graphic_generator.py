@@ -29,8 +29,8 @@ class GraphicGenerator:
 
     def __init__(self):
         self.openai_api_key = os.getenv("OPENAI_API_KEY", "").strip()
-        self.openai_model = os.getenv("OPENAI_IMAGE_MODEL", "gpt-image-1").strip()
-        self.openai_size = os.getenv("OPENAI_IMAGE_SIZE", "1536x1024").strip()
+        self.openai_model = "dall-e-3"
+        self.openai_size = "1024x1024"
         self.client = OpenAI(api_key=self.openai_api_key) if (OpenAI and self.openai_api_key) else None
 
     def _load_font(self, size: int, bold: bool = False):
@@ -81,36 +81,26 @@ class GraphicGenerator:
     def _style_tracks(self, caption: str) -> List[str]:
         text = (caption or "").lower()
         if any(word in text for word in ["power", "electric", "energy", "grid"]):
-            return [
-                "cinematic documentary photo, clean modern city infrastructure, dramatic sunlight",
-                "high-end editorial campaign visual, innovation and energy systems, realistic texture",
-                "premium tech brand key visual, electrical innovation, high contrast composition",
-            ]
+            return ["cinematic documentary photo, modern African energy infrastructure, dramatic sunlight, deep blacks and glowing gold light"]
         if any(word in text for word in ["build", "creator", "startup", "innovation"]):
-            return [
-                "cinematic portrait photo of builders in modern African tech environment, premium campaign style",
-                "global ad-quality visual, Nigeria innovation narrative, dynamic depth and lighting",
-                "high-end commercial photography look, startup ecosystem momentum, realistic details",
-            ]
-        return [
-            "cinematic campaign key visual, African tech ecosystem, premium editorial quality",
-            "global brand advertisement style, realistic textures, dramatic composition, no text",
-            "high-end documentary-meets-commercial visual, innovation and ambition, no typography",
-        ]
+            return ["cinematic portrait of builders in a premium African tech environment, high-tech atmosphere, deep black tones and vibrant gold accents"]
+        return ["premium cinematic campaign visual, futuristic African tech ecosystem, deep cinematic blacks, vibrant glowing gold highlights, world-class editorial quality"]
 
     def _build_prompt(self, state_name: str, day_number: int, caption: str, style_track: str) -> str:
         insight = self._extract_story_line(caption, state_name)
         return (
-            "Create a world-class social campaign background image for a technology spotlight. "
-            f"Location context: {state_name}, Nigeria. "
-            f"Narrative: {insight} "
+            "Create a world-class social media campaign background image for an African technology spotlight series. "
+            f"Location: {state_name}, Nigeria. "
+            f"Visual narrative: {insight} "
             f"Art direction: {style_track}. "
-            "MANDATORY COMPOSITION: reserve clear negative space on left-center and lower area for text overlays, "
-            "avoid clutter in those zones, keep subject and storytelling elements on right/upper regions. "
-            "Visual quality must be premium, realistic, high detail, cinematic, and emotionally confident. "
-            "No text, no logos, no watermark, no UI, no infographics, no charts. "
-            "16:9 composition suitable for high-performing social media post thumbnail. "
-            f"Campaign sequence day {day_number}/36 should feel unique and not repetitive."
+            "AMD AESTHETIC — COLOR PALETTE: deep cinematic blacks as the dominant background tone, "
+            "vibrant glowing gold accents as the primary highlight color, subtle dark navy and charcoal mid-tones. "
+            "The mood must be high-tech, premium, futuristic, and aspirational — representing a world-class African tech ecosystem. "
+            "COMPOSITION: leave clear open negative space in the lower-left and center-left zones for text overlays. "
+            "Place cinematic subject matter in the right half or upper regions. Depth, bokeh, dramatic lighting preferred. "
+            "No embedded text, no logos, no watermarks, no UI elements, no charts, no infographics. "
+            "Aspect ratio: 1:1 square, suitable for Instagram and high-performing social media. "
+            f"This is Day {day_number} of a 36-state series — the visual must feel unique and distinct from generic stock imagery."
         )
 
     def _score_image_quality(self, image: Image.Image) -> float:
@@ -151,6 +141,7 @@ class GraphicGenerator:
                     model=self.openai_model,
                     prompt=prompt,
                     size=self.openai_size,
+                    response_format="b64_json",
                 )
             except Exception as exc:
                 print(f"⚠️ OpenAI generation failed for one variant: {exc}")
@@ -362,18 +353,4 @@ class GraphicGenerator:
         return filepath
 
 
-async def demo():
-    generator = GraphicGenerator()
-    for idx, state in enumerate(["Abia", "Lagos", "Kano"], 1):
-        path = await generator.generate_state_graphic(
-            state_name=state,
-            day_number=idx,
-            caption=f"{state} is part of Nigeria's growing digital economy, with builders and creators driving innovation.",
-            zone="South East" if state == "Abia" else "Nigeria",
-            capital="Umuahia" if state == "Abia" else "N/A",
-        )
-        print(f"✅ Generated: {path}")
 
-
-if __name__ == "__main__":
-    asyncio.run(demo())
