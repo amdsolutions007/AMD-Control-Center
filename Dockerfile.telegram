@@ -3,6 +3,10 @@
 
 FROM python:3.9-slim
 
+# Unbuffer Python output so logs are visible in Railway
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+
 # Set working directory
 WORKDIR /app
 
