@@ -7,6 +7,8 @@ import os
 import json
 import asyncio
 import time
+import urllib.request
+import urllib.parse
 from datetime import datetime
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
@@ -222,17 +224,28 @@ Use /generate to create next post"""
         print(f"📱 CEO Telegram ID: {CEO_TELEGRAM_ID}")
         print("✅ Ready to receive commands")
 
-        # Retry loop — survives 409 Conflict during Railway deployment switchover
-        while True:
+        # ── NUCLEAR 409 FIX ──────────────────────────────────────────────────
+        # call deleteWebhook BEFORE run_polling — this forces Telegram to
+        # immediately terminate any live getUpdates connection from the old
+        # container, no matter how long Railway takes to kill it.
+        token = os.getenv("TELEGRAM_BOT_TOKEN", "")
+        if token:
             try:
-                self.app.run_polling(drop_pending_updates=True)
-                break  # clean exit
+                payload = urllib.parse.urlencode({"drop_pending_updates": "true"}).encode()
+                req = urllib.request.Request(
+                    f"https://api.telegram.org/bot{token}/deleteWebhook",
+                    data=payload
+                )
+                with urllib.request.urlopen(req, timeout=10) as r:
+                    result = json.loads(r.read())
+                print(f"🔌 deleteWebhook: {result}")
             except Exception as e:
-                if "Conflict" in str(e) or "409" in str(e):
-                    print(f"⚠️  409 Conflict detected — another instance still shutting down. Retrying in 30s... ({e})")
-                    time.sleep(30)
-                else:
-                    raise
+                print(f"⚠️  deleteWebhook failed (non-fatal): {e}")
+            print("⏳ Sleeping 8s to let old getUpdates connections die...")
+            time.sleep(8)
+        # ─────────────────────────────────────────────────────────────────────
+
+        self.app.run_polling(drop_pending_updates=True)
 
 
 def main():
