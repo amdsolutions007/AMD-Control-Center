@@ -20,7 +20,7 @@ RUN pip install --no-cache-dir -r requirements-telegram.txt
 COPY content_generator.py .
 COPY graphic_generator.py .
 COPY telegram_approval_bot.py .
-COPY amd_badge.jpg .
+COPY amd_badge.png .
 
 # Create necessary directories
 RUN mkdir -p pending_posts approved_posts rejected_posts generated_graphics

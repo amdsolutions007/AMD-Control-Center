@@ -369,10 +369,10 @@ class GraphicGenerator:
         """Stamp amd_badge.jpg onto the bottom-right corner.
         The badge has a solid black background — we mask those pixels out
         so only the logo art appears as a transparent overlay."""
-        badge_path = os.path.join(os.path.dirname(__file__), "amd_badge.jpg")
+        badge_path = os.path.join(os.path.dirname(__file__), "amd_badge.png")
         if not os.path.exists(badge_path):
             # Try current working directory (Railway mounts at /app)
-            badge_path = "amd_badge.jpg"
+            badge_path = "amd_badge.png"
         if not os.path.exists(badge_path):
             print("⚠️ amd_badge.jpg not found — skipping watermark")
             return image
