@@ -81,10 +81,10 @@ class GraphicGenerator:
     def _style_tracks(self, caption: str) -> List[str]:
         text = (caption or "").lower()
         if any(word in text for word in ["power", "electric", "energy", "grid"]):
-            return ["cinematic documentary photo, modern African energy infrastructure, dramatic sunlight, deep blacks and glowing gold light"]
+            return ["cinematic documentary photograph of modern African energy infrastructure, dramatic neon-green ambient lighting, deep black skies, crisp white highlights, vivid tech-green glows"]
         if any(word in text for word in ["build", "creator", "startup", "innovation"]):
-            return ["cinematic portrait of builders in a premium African tech environment, high-tech atmosphere, deep black tones and vibrant gold accents"]
-        return ["premium cinematic campaign visual, futuristic African tech ecosystem, deep cinematic blacks, vibrant glowing gold highlights, world-class editorial quality"]
+            return ["cinematic close-up portrait of African tech builders in a premium high-tech lab, deep black tones, vivid green neon highlights, white fill lighting, editorial quality"]
+        return ["premium cinematic campaign visual, futuristic African tech ecosystem, deep cinematic black background, vibrant neon green (#00C853) accent lighting, crisp white highlights, world-class editorial quality, zero gold or yellow"]
 
     # Hyper-local landmark cues per Nigerian state
     _STATE_LOCAL_CUES = {
@@ -138,16 +138,21 @@ class GraphicGenerator:
             f"Visual narrative: {insight} "
             f"Art direction: {style_track}. "
             f"HYPER-LOCAL REQUIREMENT: Subtly incorporate {local_cue} as recognisable background elements "
-            "or environmental silhouettes — this must look and feel specifically like {state_name}, Nigeria, "
+            f"or environmental silhouettes — this must look and feel specifically like {state_name}, Nigeria, "
             "NOT a generic futuristic city or Dubai skyline. The location identity must be unmistakable. "
-            "AMD AESTHETIC — COLOR PALETTE: deep cinematic blacks as the dominant background tone, "
-            "vibrant glowing gold accents as the primary highlight color, subtle dark navy and charcoal mid-tones. "
-            "The mood must be high-tech, premium, futuristic, and aspirational — representing a world-class African tech ecosystem. "
-            "COMPOSITION: leave clear open negative space in the lower-left and center-left zones for text overlays. "
-            "Place cinematic subject matter in the right half or upper regions. Depth, bokeh, dramatic lighting preferred. "
+            "COLOR PALETTE — MANDATORY: The dominant background must be deep black or very dark charcoal. "
+            "The only accent colors allowed are crisp white highlights and vibrant tech green (#00C853 — a vivid neon green). "
+            "Think green neon glow, green ambient rim lighting, green edge highlights against near-black backgrounds. "
+            "ABSOLUTELY NO GOLD, NO YELLOW, NO WARM TONES. Black, white, and Nigerian Tech Green ONLY. "
+            "The mood: elite African tech ecosystem, world-class editorial, cinematic, futuristic, high-contrast, aspirational. "
+            "COMPOSITION — CRITICAL REQUIREMENT: The ENTIRE LEFT ONE-THIRD of the image (from x=0 to x=33%) "
+            "MUST be clean, very dark, nearly empty negative space with minimal detail or subject matter. "
+            "This left zone will have text overlaid on it and must remain uncluttered and dark. "
+            "Place ALL visual subjects, architecture, people, cityscapes, and dramatic lighting in the RIGHT TWO-THIRDS only. "
+            "Use depth-of-field and bokeh blur to naturally feather the left one-third into darkness. "
             "No embedded text, no logos, no watermarks, no UI elements, no charts, no infographics. "
-            "Aspect ratio: 1:1 square, suitable for Instagram and high-performing social media. "
-            f"This is Day {day_number} of a 36-state series — the visual must feel unique and hyper-local to {state_name}."
+            "Aspect ratio: 1:1 square format. "
+            f"Day {day_number} of 36 — the visual must look and feel uniquely like {state_name}, Nigeria."
         )
 
     def _score_image_quality(self, image: Image.Image) -> float:
@@ -294,76 +299,95 @@ class GraphicGenerator:
         zone: str,
         capital: str,
     ) -> Image.Image:
+        GREEN = (0, 200, 83)       # #00C853 — Nigerian Tech Green
+        WHITE = (255, 255, 255)
+        BLACK = (0, 0, 0)
+        LIGHT_GREY = (210, 210, 210)
+
+        FOOTER_H = 48              # footer strip height in px
+        ACCENT_X = 52              # left edge of the green accent stripe
+        STRIPE_W = 6               # width of the green vertical stripe
+        TEXT_X = ACCENT_X + STRIPE_W + 16  # text starts right of stripe
+        TEXT_MAX_W = 440           # max pixel width before wrapping
+
         width, height = image.size
-        img = image.convert("RGB")
-        layout = self._choose_layout(state_name, day_number)
 
-        shade = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-        shade_draw = ImageDraw.Draw(shade)
-        if layout == "left_stack":
-            shade_draw.rounded_rectangle([(42, 105), (760, 560)], radius=28, fill=(4, 8, 16, 172))
-        elif layout == "center_band":
-            shade_draw.rounded_rectangle([(90, 160), (1110, 520)], radius=28, fill=(4, 8, 16, 165))
-        else:
-            shade_draw.rounded_rectangle([(56, 300), (1140, 596)], radius=28, fill=(4, 8, 16, 175))
-        img = Image.alpha_composite(img.convert("RGBA"), shade).convert("RGB")
+        # --- Build transparent overlay for structural elements ---
+        canvas = image.convert("RGBA")
+        overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        ov_draw = ImageDraw.Draw(overlay)
 
-        draw = ImageDraw.Draw(img)
-        accent = (255, 215, 0)
-        white = (246, 249, 255)
-        muted = (197, 210, 232)
+        # Full-width footer strip at bottom — 75% opacity black
+        ov_draw.rectangle([(0, height - FOOTER_H), (width, height)], fill=(0, 0, 0, 191))
 
-        draw.rectangle([(0, 0), (width, 9)], fill=accent)
-        draw.rectangle([(0, height - 9), (width, height)], fill=accent)
+        # Thin green vertical left-border accent stripe
+        ov_draw.rectangle(
+            [(ACCENT_X, 90), (ACCENT_X + STRIPE_W, height - FOOTER_H - 12)],
+            fill=(0, 200, 83, 255)
+        )
 
-        day_font = self._load_font(28, bold=True)
-        draw.rounded_rectangle([(38, 24), (290, 86)], radius=14, fill=(7, 12, 24), outline=accent, width=2)
-        draw.text((58, 42), f"DAY {day_number}/36", fill=accent, font=day_font)
+        canvas = Image.alpha_composite(canvas, overlay)
+        draw = ImageDraw.Draw(canvas)
 
-        headline = self._headline_for_state(state_name)
+        # ----- DAY pill badge -----
+        pill_font = self._load_font(26, bold=True)
+        day_text = f"DAY {day_number:02d}/36"
+        day_bbox = draw.textbbox((0, 0), day_text, font=pill_font)
+        pill_w = (day_bbox[2] - day_bbox[0]) + 28
+        pill_h = (day_bbox[3] - day_bbox[1]) + 16
+        pill_x, pill_y = TEXT_X, 90
+        draw.rounded_rectangle(
+            [(pill_x, pill_y), (pill_x + pill_w, pill_y + pill_h)],
+            radius=8,
+            fill=(0, 200, 83, 255),
+        )
+        draw.text((pill_x + 14, pill_y + 8), day_text, fill=BLACK, font=pill_font)
+
+        # ----- State name — 64px bold white + drop shadow -----
+        state_font = self._load_font(64, bold=True)
+        state_y = pill_y + pill_h + 18
+        state_text = state_name.upper()
+        draw.text((TEXT_X + 3, state_y + 3), state_text, fill=(0, 0, 0, 200), font=state_font)  # shadow
+        draw.text((TEXT_X, state_y), state_text, fill=(255, 255, 255, 255), font=state_font)   # main
+
+        # ----- "TECH ECOSYSTEM" subtitle — green, drop shadow -----
+        sub_font = self._load_font(21, bold=False)
+        sub_y = state_y + 72
+        sub_text = "TECH ECOSYSTEM"
+        draw.text((TEXT_X + 1, sub_y + 1), sub_text, fill=(0, 0, 0, 180), font=sub_font)  # shadow
+        draw.text((TEXT_X, sub_y), sub_text, fill=(0, 200, 83, 255), font=sub_font)        # main
+
+        # ----- Capital / Zone info lines — 18px white, drop shadow -----
+        info_font = self._load_font(18, bold=False)
+        info_y = sub_y + 34
+        for label, value in [("Capital", capital), ("Zone", zone)]:
+            if value:
+                line_text = f"{label}: {value}"
+                draw.text((TEXT_X + 1, info_y + 1), line_text, fill=(0, 0, 0, 180), font=info_font)
+                draw.text((TEXT_X, info_y), line_text, fill=(255, 255, 255, 240), font=info_font)
+                info_y += 26
+
+        # ----- Story line — 17px light grey, wrapped, drop shadow -----
+        story_font = self._load_font(17, bold=False)
         story = self._extract_story_line(caption, state_name)
-
-        title_font = self._load_font(66, bold=True)
-        subtitle_font = self._load_font(36, bold=True)
-        story_font = self._load_font(29, bold=False)
-
-        if layout == "left_stack":
-            tx, ty, max_width = 86, 150, 620
-        elif layout == "center_band":
-            tx, ty, max_width = 120, 200, 960
-        else:
-            tx, ty, max_width = 92, 336, 1020
-
-        title_lines = self._wrap_by_pixel_width(draw, headline, title_font, max_width)
-        cy = ty
-        for line in title_lines[:2]:
-            draw.text((tx, cy), line, fill=white, font=title_font, stroke_width=2, stroke_fill="#000000")
-            cy += 76
-
-        sub = f"{state_name.upper()} TECH ECOSYSTEM"
-        draw.text((tx, cy + 4), sub, fill=accent, font=subtitle_font)
-        cy += 62
-
-        story_lines = self._wrap_by_pixel_width(draw, story, story_font, max_width)
+        story_y = info_y + 14
+        story_lines = self._wrap_by_pixel_width(draw, story, story_font, TEXT_MAX_W)
         for line in story_lines[:3]:
-            draw.text((tx, cy), line, fill=muted, font=story_font)
-            cy += 38
+            draw.text((TEXT_X + 1, story_y + 1), line, fill=(0, 0, 0, 160), font=story_font)
+            draw.text((TEXT_X, story_y), line, fill=(210, 210, 210, 240), font=story_font)
+            story_y += 24
 
-        chip_font = self._load_font(22, bold=True)
-        chip_fill = (10, 16, 28)
-        chip_y = 578
-        draw.rounded_rectangle([(74, chip_y), (432, chip_y + 44)], radius=12, fill=chip_fill, outline=accent, width=2)
-        draw.rounded_rectangle([(768, chip_y), (1126, chip_y + 44)], radius=12, fill=chip_fill, outline=accent, width=2)
-        draw.text((95, chip_y + 10), f"CAPITAL: {(capital or 'N/A').upper()}", fill=white, font=chip_font)
-        draw.text((794, chip_y + 10), f"ZONE: {(zone or 'N/A').upper()}", fill=white, font=chip_font)
+        # ----- Footer strip branding text -----
+        footer_font = self._load_font(20, bold=True)
+        footer_text = "AMD SOLUTIONS 007  |  BUILD IN NAIJA  |  www.amdsolutions007.com"
+        f_bbox = draw.textbbox((0, 0), footer_text, font=footer_font)
+        # Centre the text in the footer strip, leaving right side clear for badge
+        footer_text_x = TEXT_X
+        footer_text_y = height - FOOTER_H + (FOOTER_H - (f_bbox[3] - f_bbox[1])) // 2
+        draw.text((footer_text_x + 1, footer_text_y + 1), footer_text, fill=(0, 0, 0, 160), font=footer_font)
+        draw.text((footer_text_x, footer_text_y), footer_text, fill=(255, 255, 255, 220), font=footer_font)
 
-        footer_font = self._load_font(23, bold=True)
-        footer = "AMD SOLUTIONS 007  |  BUILD IN NAIJA"
-        bbox = draw.textbbox((0, 0), footer, font=footer_font)
-        fx = (width - (bbox[2] - bbox[0])) // 2
-        draw.text((fx, 620), footer, fill=white, font=footer_font)
-
-        return img
+        return canvas.convert("RGB")
 
     def _apply_badge_watermark(self, image: Image.Image) -> Image.Image:
         """Stamp amd_badge.jpg onto the bottom-right corner.
@@ -394,12 +418,12 @@ class GraphicGenerator:
                     else:
                         pixels[x, y] = (r, g, b, 230)  # slight alpha so it blends
 
-            # Resize to watermark size
-            badge_size = 200
+            # Resize to 100x100 — compact watermark anchor
+            badge_size = 100
             badge_rgba = badge_rgba.resize((badge_size, badge_size), Image.Resampling.LANCZOS)
 
-            # Paste into bottom-right with 30px margin
-            margin = 30
+            # Anchor inside footer strip — 20px from right/bottom edges
+            margin = 20
             canvas = image.convert("RGBA")
             paste_x = canvas.width - badge_size - margin
             paste_y = canvas.height - badge_size - margin
