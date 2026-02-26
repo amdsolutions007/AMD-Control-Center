@@ -86,13 +86,60 @@ class GraphicGenerator:
             return ["cinematic portrait of builders in a premium African tech environment, high-tech atmosphere, deep black tones and vibrant gold accents"]
         return ["premium cinematic campaign visual, futuristic African tech ecosystem, deep cinematic blacks, vibrant glowing gold highlights, world-class editorial quality"]
 
+    # Hyper-local landmark cues per Nigerian state
+    _STATE_LOCAL_CUES = {
+        "Abia": "Umuahia city market architecture and Ariaria trade hub",
+        "Adamawa": "Mandara Mountains dramatic ridgelines and Yola riverfront",
+        "Akwa Ibom": "coastal mangrove waterways, Ibom plaza skyline, Uyo boulevards",
+        "Anambra": "Onitsha Niger Bridge and bustling riverside commerce",
+        "Bauchi": "Yankari savannah landscape and ancient Bauchi emirate walls",
+        "Bayelsa": "Niger Delta creek channels, stilted riverside communities",
+        "Benue": "Benue River valley farmlands, the Tiv homeland rolling hills",
+        "Borno": "Lake Chad basin landscape, ancient Kanuri architecture",
+        "Cross River": "Calabar waterfront, lush rainforest canopy, colonial-era buildings",
+        "Delta": "Warri oil infrastructure, Asaba Niger bridge approach",
+        "Ebonyi": "Abakaliki rice plains, salt lake landscape",
+        "Edo": "ancient Benin Kingdom bronze-era walls and Oba palace silhouette",
+        "Ekiti": "Ekiti plateau rocky outcrops and Ado-Ekiti hillside cityscape",
+        "Enugu": "Enugu coal hill escarpment, Milliken Hill winding roads",
+        "Gombe": "Gombe Abuja road savannah, Tangale rock formations",
+        "Imo": "Owerri modern boulevard, Mbari art motifs",
+        "Jigawa": "Hadejia wetlands bird sanctuary, ancient Kazaure walls",
+        "Kaduna": "Lugard Hall colonial landmark, Kaduna River bridge",
+        "Kano": "ancient Kano city walls, central mosque minaret skyline",
+        "Katsina": "Katsina emirate palace walls, old trans-Saharan trade city architecture",
+        "Kebbi": "Argungu fishing festival riverbanks, Birnin Kebbi ancient fort",
+        "Kogi": "Niger-Benue river confluence, Lokoja hillside landscape",
+        "Kwara": "Ilorin modern mosque skyline, Asa River valley",
+        "Lagos": "Lagos Island highrise skyline, Third Mainland Bridge over lagoon",
+        "Nasarawa": "Farin Ruwa waterfall landscape, Nasarawa plateau terrain",
+        "Niger": "Zuma Rock monolith, Gurara Falls backdrop",
+        "Ogun": "Olumo Rock Abeokuta granite outcrops, Gateway arch infrastructure",
+        "Ondo": "Idanre Hills dramatic terraced slopes",
+        "Osun": "Osun-Osogbo sacred grove, ancient Yoruba shrines",
+        "Oyo": "Ibadan city of hills, University of Ibadan colonial tower",
+        "Plateau": "Jos plateau cool misty highlands, tin mine remnant landscape",
+        "Rivers": "Port Harcourt Garden City skyline, Bonny River oil platform silhouette",
+        "Sokoto": "Sokoto Caliphate historic buildings, Sahel semi-arid landscape",
+        "Taraba": "Mambilla Plateau dramatic highland cliffs, Taraba River valley",
+        "Yobe": "Damaturu savannah flatlands, Lake Chad region dunes",
+        "Zamfara": "ancient Birnin Zamfara ruins, Sahel scrubland panorama",
+    }
+
     def _build_prompt(self, state_name: str, day_number: int, caption: str, style_track: str) -> str:
         insight = self._extract_story_line(caption, state_name)
+        local_cue = self._STATE_LOCAL_CUES.get(
+            state_name,
+            f"recognizable {state_name} landscape, architecture, or cultural infrastructure"
+        )
         return (
             "Create a world-class social media campaign background image for an African technology spotlight series. "
             f"Location: {state_name}, Nigeria. "
             f"Visual narrative: {insight} "
             f"Art direction: {style_track}. "
+            f"HYPER-LOCAL REQUIREMENT: Subtly incorporate {local_cue} as recognisable background elements "
+            "or environmental silhouettes — this must look and feel specifically like {state_name}, Nigeria, "
+            "NOT a generic futuristic city or Dubai skyline. The location identity must be unmistakable. "
             "AMD AESTHETIC — COLOR PALETTE: deep cinematic blacks as the dominant background tone, "
             "vibrant glowing gold accents as the primary highlight color, subtle dark navy and charcoal mid-tones. "
             "The mood must be high-tech, premium, futuristic, and aspirational — representing a world-class African tech ecosystem. "
@@ -100,7 +147,7 @@ class GraphicGenerator:
             "Place cinematic subject matter in the right half or upper regions. Depth, bokeh, dramatic lighting preferred. "
             "No embedded text, no logos, no watermarks, no UI elements, no charts, no infographics. "
             "Aspect ratio: 1:1 square, suitable for Instagram and high-performing social media. "
-            f"This is Day {day_number} of a 36-state series — the visual must feel unique and distinct from generic stock imagery."
+            f"This is Day {day_number} of a 36-state series — the visual must feel unique and hyper-local to {state_name}."
         )
 
     def _score_image_quality(self, image: Image.Image) -> float:
@@ -318,6 +365,51 @@ class GraphicGenerator:
 
         return img
 
+    def _apply_badge_watermark(self, image: Image.Image) -> Image.Image:
+        """Stamp amd_badge.jpg onto the bottom-right corner.
+        The badge has a solid black background — we mask those pixels out
+        so only the logo art appears as a transparent overlay."""
+        badge_path = os.path.join(os.path.dirname(__file__), "amd_badge.jpg")
+        if not os.path.exists(badge_path):
+            # Try current working directory (Railway mounts at /app)
+            badge_path = "amd_badge.jpg"
+        if not os.path.exists(badge_path):
+            print("⚠️ amd_badge.jpg not found — skipping watermark")
+            return image
+
+        try:
+            badge_src = Image.open(badge_path).convert("RGB")
+
+            # --- Dynamic black-pixel mask ---
+            badge_rgba = badge_src.convert("RGBA")
+            pixels = badge_rgba.load()
+            width_b, height_b = badge_rgba.size
+            # Threshold: pixels darker than (35, 35, 35) are treated as background
+            BLACK_THRESH = 35
+            for y in range(height_b):
+                for x in range(width_b):
+                    r, g, b, a = pixels[x, y]
+                    if r < BLACK_THRESH and g < BLACK_THRESH and b < BLACK_THRESH:
+                        pixels[x, y] = (r, g, b, 0)   # fully transparent
+                    else:
+                        pixels[x, y] = (r, g, b, 230)  # slight alpha so it blends
+
+            # Resize to watermark size
+            badge_size = 200
+            badge_rgba = badge_rgba.resize((badge_size, badge_size), Image.Resampling.LANCZOS)
+
+            # Paste into bottom-right with 30px margin
+            margin = 30
+            canvas = image.convert("RGBA")
+            paste_x = canvas.width - badge_size - margin
+            paste_y = canvas.height - badge_size - margin
+            canvas.paste(badge_rgba, (paste_x, paste_y), badge_rgba)
+            return canvas.convert("RGB")
+
+        except Exception as e:
+            print(f"⚠️ Watermark failed (non-fatal): {e}")
+            return image
+
     async def generate_state_graphic(
         self,
         state_name: str,
@@ -345,6 +437,9 @@ class GraphicGenerator:
             zone=zone,
             capital=capital,
         )
+
+        # PART 3: Stamp AMD badge watermark
+        final = self._apply_badge_watermark(final)
 
         filename = f"state_{day_number:02d}_{state_name.lower().replace(' ', '_')}_{datetime.now().strftime('%Y%m%d')}.png"
         filepath = os.path.join(GRAPHICS_DIR, filename)

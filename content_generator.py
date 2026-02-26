@@ -158,10 +158,10 @@ INTEL BRIEF:
 👥 WHO'S BUILDING IN {state['name'].upper()}?
 Drop your projects below 👇
 
-📖 Full Intel Brief:
-{state['landing_page']}
+Join the Builders 👇
+www.amdsolutions007.com/tech
 
-{' '.join(state['hashtags'])} #AMD36States #BuildInNaija"""
+#{state['name'].replace(' ', '')} #Africantech #007system #AMD007 #Solutions007 #AMDsolutions #NigeriaTech #BuildDontBeg #LekeeLekee"""
 
         return caption
         
