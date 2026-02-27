@@ -237,7 +237,10 @@ Use /generate to create next post"""
             await query.edit_message_text(
                 f"🚀 *PUBLISHING TO LEKEELEKEE...*\n\n"
                 f"Day {post['day']}/36: {post['state_name']}\n\n"
-                f"⏳ Browser automation running — please wait (30-60s)...",
+                f"📤 Step 1 — Group: African Tech Ecosystem (full caption)\n"
+                f"⏳ Step 2 — 5-minute safety delay\n"
+                f"📤 Step 3 — General Feed (slim caption <490 chars)\n\n"
+                f"🕐 Total time: ~7 minutes — sit tight!",
                 parse_mode='Markdown'
             )
 
@@ -318,7 +321,7 @@ Use /generate to create next post"""
                     ss = screenshot_out if os.path.exists(screenshot_out) else None
                     return False, "Leke Leke login failed", ss
 
-                success = browser.post_approved_content(post_data)
+                success = browser.post_dual_destination(post_data)
                 if success:
                     browser.archive_posted(post_id, post_data)
                     self._remove_from_registry(post_id)
@@ -337,7 +340,9 @@ Use /generate to create next post"""
             await query.edit_message_text(
                 f"✅ *SUCCESSFULLY PUBLISHED!*\n\n"
                 f"Day {post['day']}/36: {post['state_name']}\n\n"
-                f"🟢 Live on LekeeLekee now.",
+                f"🏘️ African Tech Ecosystem group — LIVE\n"
+                f"📰 General Feed (slim caption) — LIVE\n\n"
+                f"🟢 Both destinations confirmed.",
                 parse_mode='Markdown'
             )
             print(f"🟢 Post {post_id} published to LekeeLekee")

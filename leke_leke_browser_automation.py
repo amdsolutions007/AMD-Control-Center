@@ -310,6 +310,109 @@ class LekeLekeeAutomation:
             print(f"❌ Post failed: {e}")
             return False
 
+    # ─────────────────────────────────────────────────────────────────
+    # DUAL-DESTINATION POSTING  (Group → 5-min delay → General Feed)
+    # ─────────────────────────────────────────────────────────────────
+
+    HASHTAG_POOL = ['#AMD007', '#Solutions007', '#AMDSolutions', '#007system']
+    ANCHOR_LINK  = 'www.amdsolutions007.com/tech'
+    SLIM_MAX     = 489   # strict <490 chars
+
+    def slim_caption(self, full_caption: str) -> str:
+        """Return a platform-safe slim caption: ≤489 chars with 2 random hashtags + anchor."""
+        tags   = ' '.join(random.sample(self.HASHTAG_POOL, 2))
+        suffix = f"\n\n{tags}\n{self.ANCHOR_LINK}"
+        budget = self.SLIM_MAX - len(suffix)
+        body   = full_caption[:budget].rstrip()
+        return body + suffix
+
+    def _post_to_url(self, caption: str, image_path: str, dest_url: str, label: str) -> bool:
+        """Navigate to *dest_url*, open composer, type caption, attach image, submit."""
+        try:
+            self.driver.get(dest_url)
+            wait = WebDriverWait(self.driver, 45)
+
+            composer = wait.until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='post-composer']"))
+            )
+            composer.click()
+            self.human_delay(1, 2)
+
+            textarea = wait.until(
+                EC.presence_of_element_located(
+                    (By.CSS_SELECTOR, "textarea[placeholder*='What']")
+                )
+            )
+            for ch in caption:
+                textarea.send_keys(ch)
+                time.sleep(random.uniform(0.02, 0.07))
+
+            self.human_delay(1, 2)
+
+            if image_path and os.path.exists(image_path):
+                file_input = self.driver.find_element(By.CSS_SELECTOR, "input[type='file']")
+                file_input.send_keys(os.path.abspath(image_path))
+                self.human_delay(3, 5)
+                print(f"✅ Graphic uploaded: {image_path}")
+
+            post_button = self.driver.find_element(
+                By.CSS_SELECTOR, "button[data-testid='post-submit']"
+            )
+            post_button.click()
+            self.human_delay(3, 5)
+
+            print(f"✅ [{label}] Posted successfully")
+            return True
+
+        except Exception as e:
+            print(f"❌ [{label}] Post failed: {e}")
+            return False
+
+    def post_dual_destination(self, post_data: dict) -> bool:
+        """
+        1. Post FULL caption to African Tech Ecosystem group.
+        2. Wait 5 minutes (rate-limit-friendly).
+        3. Post SLIM caption (<490 chars, 2 shuffled hashtags, anchor) to General Feed.
+        Returns True only when BOTH posts succeed.
+        """
+        full_caption = post_data.get('caption', '')
+        image_path   = post_data.get('image_path', '')
+
+        # ── Group URL from env, fallback to known slug ──────────────
+        group_url = os.getenv(
+            'LEKE_LEKE_GROUP_URL',
+            'https://www.lekeelekee.com/groups/african-tech-ecosystem'
+        )
+        feed_url = 'https://www.lekeelekee.com/home'
+
+        # ── Step 1: Group post (full caption) ───────────────────────
+        print("📤 [DUAL-POST] Step 1/3 — Posting to African Tech Ecosystem group…")
+        group_ok = self._post_to_url(full_caption, image_path, group_url, 'Group')
+        if not group_ok:
+            print("⚠️ Group post failed — aborting dual-post sequence.")
+            return False
+
+        # ── Step 2: 5-minute safety delay ───────────────────────────
+        delay_secs = 300
+        print(f"⏳ [DUAL-POST] Step 2/3 — Waiting {delay_secs // 60} minutes before feed post…")
+        for elapsed in range(0, delay_secs, 60):
+            remaining = delay_secs - elapsed
+            print(f"   … {remaining}s remaining")
+            time.sleep(60)
+        print("   … 0s remaining — proceeding to feed post")
+
+        # ── Step 3: Feed post (slim caption) ────────────────────────
+        slim = self.slim_caption(full_caption)
+        print(f"📤 [DUAL-POST] Step 3/3 — Posting slim caption ({len(slim)} chars) to General Feed…")
+        feed_ok = self._post_to_url(slim, image_path, feed_url, 'Feed')
+
+        if feed_ok:
+            print("🎉 [DUAL-POST] Both posts succeeded — Group ✅  Feed ✅")
+        else:
+            print("⚠️ [DUAL-POST] Feed post failed (group already published).")
+
+        return group_ok and feed_ok
+
     def check_for_trigger(self):
         if os.path.exists(self.trigger_file):
             with open(self.trigger_file, "r") as f:
