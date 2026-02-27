@@ -54,3 +54,7 @@ system_audit.txt
 # IDE
 .vscode/
 .idea/
+
+# Explicitly INCLUDE critical data files (override any *.json rules)
+!36_states_data.json
+!amd_badge.png

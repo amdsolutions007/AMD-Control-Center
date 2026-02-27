@@ -46,6 +46,7 @@ social_engine/social_engine.out
 !config/*.json
 !whatsapp_empire/package.json
 !whatsapp_empire/package-lock.json
+!36_states_data.json
 client_secret.json
 token.json
 
