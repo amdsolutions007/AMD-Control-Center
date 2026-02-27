@@ -444,15 +444,15 @@ class GraphicGenerator:
                     else:
                         pixels[x, y] = (r, g, b, 230)  # slight alpha so it blends
 
-            # Resize to 100x100 — compact watermark anchor
-            badge_size = 100
+            # Resize to 60x60 — tight footer badge
+            badge_size = 60
             badge_rgba = badge_rgba.resize((badge_size, badge_size), Image.Resampling.LANCZOS)
 
-            # Anchor inside footer strip — 20px from right/bottom edges
-            margin = 20
+            # Anchor flush inside the 56px footer strip (bottom-right corner)
+            # 8px right margin, 2px bottom margin — badge sits tight, not floating
             canvas = image.convert("RGBA")
-            paste_x = canvas.width - badge_size - margin
-            paste_y = canvas.height - badge_size - margin
+            paste_x = canvas.width - badge_size - 8
+            paste_y = canvas.height - badge_size - 2
             canvas.paste(badge_rgba, (paste_x, paste_y), badge_rgba)
             return canvas.convert("RGB")
 
