@@ -23,11 +23,12 @@ class LekeLekeeAutomation:
     TRIGGER: Posts only CEO-approved content via Telegram bot
     """
 
-    def __init__(self, email: str, password: str, headless: bool = True):
+    def __init__(self, email: str, password: str, headless: bool = True, two_factor_callback=None):
         self.email = email
         self.password = password
         self.driver = None
         self.headless = headless
+        self.two_factor_callback = two_factor_callback
 
         self.approved_dir = "approved_posts"
         self.posted_dir = "posted_archive"
@@ -41,19 +42,45 @@ class LekeLekeeAutomation:
         self.action_count = 0
 
     def start_browser(self) -> bool:
-        """Start Chrome browser"""
+        """Start Chrome browser with stealth mode to bypass anti-bot detection"""
         try:
             options = Options()
             if self.headless:
-                options.add_argument("--headless")
+                options.add_argument("--headless=new")
             options.add_argument("--no-sandbox")
             options.add_argument("--disable-dev-shm-usage")
             options.add_argument("--disable-blink-features=AutomationControlled")
+            options.add_argument("--disable-infobars")
+            options.add_argument("--disable-extensions")
+            options.add_argument("--disable-gpu")
+            options.add_argument("--window-size=1920,1080")
+            options.add_argument(
+                "--user-agent=Mozilla/5.0 (X11; Linux x86_64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/122.0.0.0 Safari/537.36"
+            )
             options.add_experimental_option("excludeSwitches", ["enable-automation"])
             options.add_experimental_option("useAutomationExtension", False)
 
             self.driver = webdriver.Chrome(options=options)
-            print("✅ Browser started")
+
+            # ── Stealth: spoof navigator.webdriver on every new page ──
+            self.driver.execute_cdp_cmd(
+                "Page.addScriptToEvaluateOnNewDocument",
+                {
+                    "source": """
+                        Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
+                        Object.defineProperty(navigator, 'plugins', {get: () => [1,2,3,4,5]});
+                        Object.defineProperty(navigator, 'languages', {get: () => ['en-US','en']});
+                        window.chrome = {runtime: {}};
+                        delete window.cdc_adoQpoasnfa76pfcZLmcfl_Array;
+                        delete window.cdc_adoQpoasnfa76pfcZLmcfl_Promise;
+                        delete window.cdc_adoQpoasnfa76pfcZLmcfl_Symbol;
+                    """
+                },
+            )
+
+            print("✅ Browser started (stealth mode)")
             return True
         except Exception as e:
             print(f"❌ Failed to start browser: {e}")
@@ -139,8 +166,8 @@ class LekeLekeeAutomation:
 
         self.action_count += 1
 
-    def login(self) -> bool:
-        """Login to Leke Leke"""
+    def login(self, screenshot_path: str = None) -> bool:
+        """Login to Leke Leke with 2FA intercept and screenshot diagnostic"""
         try:
             print("🔐 Logging in to Leke Leke...")
             self.driver.get("https://www.lekeelekee.com/login")
@@ -172,8 +199,55 @@ class LekeLekeeAutomation:
             wait.until(lambda d: login_button.is_enabled())
             self._safe_click(login_button)
             self.human_delay(3, 5)
+
+            # ── 2FA / OTP screen detection ────────────────────────────────────
+            otp_selectors = [
+                "input[name='otp']",
+                "input[name='code']",
+                "input[name='verification_code']",
+                "input[placeholder*='code' i]",
+                "input[placeholder*='verification' i]",
+                "input[type='text'][maxlength='6']",
+                "input[autocomplete='one-time-code']",
+            ]
+            otp_field = None
+            for sel in otp_selectors:
+                try:
+                    els = self.driver.find_elements(By.CSS_SELECTOR, sel)
+                    if els and els[0].is_displayed():
+                        otp_field = els[0]
+                        break
+                except Exception:
+                    continue
+
+            if otp_field:
+                print("🔐 2FA screen detected!")
+                if self.two_factor_callback:
+                    code = self.two_factor_callback(
+                        "🔐 *LekeeLekee 2FA Required*\n\n"
+                        "A verification code was sent to your email/phone.\n\n"
+                        "Reply with: `/otp 123456`"
+                    )
+                    if code and code.strip():
+                        otp_field.clear()
+                        for char in code.strip():
+                            otp_field.send_keys(char)
+                            time.sleep(0.1)
+                        try:
+                            submit = self.driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
+                            self._safe_click(submit)
+                            self.human_delay(2, 4)
+                            print(f"✅ 2FA code {code.strip()} submitted")
+                        except Exception as submit_err:
+                            print(f"⚠️  2FA submit click failed: {submit_err!r}")
+                    else:
+                        print("⚠️  No OTP code received — continuing anyway")
+                else:
+                    print("⚠️  2FA screen present but no callback registered")
+
             print("✅ Login submitted")
             return True
+
         except Exception as e:
             print(f"❌ Login failed: {e!r}")
             try:
@@ -181,6 +255,15 @@ class LekeLekeeAutomation:
                 print(f"🔎 Login debug - Title: {self.driver.title}")
             except Exception:
                 pass
+
+            # ── Screenshot diagnostic ─────────────────────────────────────────
+            if screenshot_path:
+                try:
+                    self.driver.save_screenshot(screenshot_path)
+                    print(f"📸 Failure screenshot saved: {screenshot_path}")
+                except Exception as ss_err:
+                    print(f"ℹ️  Screenshot capture failed: {ss_err!r}")
+
             return False
 
     def post_approved_content(self, post_data: dict) -> bool:

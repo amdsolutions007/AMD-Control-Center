@@ -6,6 +6,7 @@ Human-in-the-Loop: CEO reviews and approves posts before they go live
 import os
 import json
 import asyncio
+import threading
 import time
 import urllib.request
 import urllib.parse
@@ -39,6 +40,8 @@ class TelegramApprovalBot:
         self.content_gen = ContentGenerator()
         self.graphic_gen = GraphicGenerator()
         self.app = None
+        self._2fa_event: threading.Event = None
+        self._2fa_code: str = None
         
     async def start_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle /start command"""
@@ -155,7 +158,23 @@ Use /generate to create next post"""
         except Exception as e:
             await update.message.reply_text(f"❌ Error generating post: {str(e)}")
             print(f"❌ Generation error: {str(e)}")
-            
+
+    async def otp_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Handle /otp XXXXXX — CEO provides 2FA code during LekeeLekee login"""
+        if str(update.effective_user.id) != str(CEO_TELEGRAM_ID):
+            return
+        args = context.args
+        if not args:
+            await update.message.reply_text("Usage: /otp 123456")
+            return
+        code = args[0].strip()
+        if self._2fa_event and not self._2fa_event.is_set():
+            self._2fa_code = code
+            self._2fa_event.set()
+            await update.message.reply_text(f"✅ OTP received — submitting to LekeeLekee...")
+        else:
+            await update.message.reply_text("ℹ️ No active 2FA session. Code not needed right now.")
+
     async def button_callback(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle approval/rejection button clicks"""
         query = update.callback_query
@@ -220,31 +239,58 @@ Use /generate to create next post"""
             )
             return
 
-        def _run_selenium(post_data: dict) -> tuple:
-            """Synchronous Selenium block — runs inside ThreadPoolExecutor."""
-            bot = LekeLekeeAutomation(email, password, headless=True)
-            try:
-                if not bot.start_browser():
-                    return False, "Browser failed to start"
-
-                if not bot.login():
-                    return False, "Leke Leke login failed"
-
-                success = bot.post_approved_content(post_data)
-                if success:
-                    bot.archive_posted(
-                        post_id,
-                        post_data,
-                    )
-                return success, None
-            except Exception as exc:
-                return False, str(exc)
-            finally:
-                bot.close()
-
         loop = asyncio.get_event_loop()
+        bot_instance = query.message.bot
+
+        def _run_selenium(post_data: dict) -> tuple:
+            """Synchronous Selenium block — runs inside ThreadPoolExecutor.
+            Returns (ok: bool, err: str|None, screenshot_path: str|None)"""
+
+            # ── 2FA plumbing: threading.Event bridges Selenium thread → asyncio ──
+            ev = threading.Event()
+            self._2fa_event = ev
+            self._2fa_code = None
+
+            def two_factor_callback(prompt_msg: str) -> str:
+                """Called by Selenium when 2FA screen detected.
+                Notifies CEO via Telegram, blocks until /otp code received (max 2 min)."""
+                asyncio.run_coroutine_threadsafe(
+                    bot_instance.send_message(
+                        chat_id=int(CEO_TELEGRAM_ID),
+                        text=prompt_msg,
+                        parse_mode='Markdown',
+                    ),
+                    loop,
+                )
+                ev.wait(timeout=120)
+                return self._2fa_code or ""
+
+            screenshot_out = "failed_login.png"
+            browser = LekeLekeeAutomation(
+                email, password, headless=True,
+                two_factor_callback=two_factor_callback,
+            )
+            try:
+                if not browser.start_browser():
+                    return False, "Browser failed to start", None
+
+                if not browser.login(screenshot_path=screenshot_out):
+                    ss = screenshot_out if os.path.exists(screenshot_out) else None
+                    return False, "Leke Leke login failed", ss
+
+                success = browser.post_approved_content(post_data)
+                if success:
+                    browser.archive_posted(post_id, post_data)
+                return success, None, None
+            except Exception as exc:
+                return False, str(exc), None
+            finally:
+                browser.close()
+                self._2fa_event = None
+                self._2fa_code = None
+
         with ThreadPoolExecutor(max_workers=1) as pool:
-            ok, err = await loop.run_in_executor(pool, _run_selenium, post)
+            ok, err, screenshot = await loop.run_in_executor(pool, _run_selenium, post)
 
         if ok:
             await query.edit_message_text(
@@ -255,8 +301,7 @@ Use /generate to create next post"""
             )
             print(f"🟢 Post {post_id} published to LekeeLekee")
         else:
-            # No parse_mode — err and post_id may contain underscores/parens
-            # that break Markdown entity parsing
+            # No parse_mode — err and post_id may contain underscores that break Markdown
             safe_err = (err or 'Unknown').replace('<', '').replace('>', '')
             await query.edit_message_text(
                 f"❌ PUBLISH FAILED\n\n"
@@ -264,6 +309,18 @@ Use /generate to create next post"""
                 f"Error: {safe_err}\n"
                 f"Post saved in approved_posts/ — retry with /publish_{post_id}"
             )
+            # ── Send screenshot to CEO if login failed ────────────────────────
+            if screenshot and os.path.exists(screenshot):
+                try:
+                    with open(screenshot, 'rb') as photo_f:
+                        await bot_instance.send_photo(
+                            chat_id=int(CEO_TELEGRAM_ID),
+                            photo=photo_f,
+                            caption="📸 Login failure screenshot — this is exactly what the browser saw on LekeeLekee",
+                        )
+                    print("📸 Failure screenshot sent to CEO")
+                except Exception as ss_err:
+                    print(f"ℹ️  Could not send screenshot: {ss_err!r}")
             print(f"❌ Publish failed for {post_id}: {err}")
             
     def run(self):
@@ -279,6 +336,7 @@ Use /generate to create next post"""
         self.app.add_handler(CommandHandler("status", self.status_command))
         self.app.add_handler(CommandHandler("queue", self.queue_command))
         self.app.add_handler(CommandHandler("generate", self.generate_command))
+        self.app.add_handler(CommandHandler("otp", self.otp_command))
         
         # Buttons
         self.app.add_handler(CallbackQueryHandler(self.button_callback))
