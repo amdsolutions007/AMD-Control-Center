@@ -19,6 +19,13 @@ try:
 except ImportError:
     OpenAI = None
 
+try:
+    import google.generativeai as _genai_module
+    _GENAI_AVAILABLE = True
+except ImportError:
+    _genai_module = None  # type: ignore
+    _GENAI_AVAILABLE = False
+
 
 GRAPHICS_DIR = "generated_graphics"
 os.makedirs(GRAPHICS_DIR, exist_ok=True)
@@ -29,6 +36,7 @@ class GraphicGenerator:
 
     def __init__(self):
         self.openai_api_key = os.getenv("OPENAI_API_KEY", "").strip()
+        self.gemini_api_key = os.getenv("GEMINI_API_KEY", "").strip()
         self.openai_model = "dall-e-3"
         self.openai_size = "1024x1024"
         self.client = OpenAI(api_key=self.openai_api_key) if (OpenAI and self.openai_api_key) else None
@@ -185,8 +193,10 @@ class GraphicGenerator:
     def _generate_background_candidates(
         self, state_name: str, day_number: int, caption: str
     ) -> List[Image.Image]:
+        # ── Primary engine: OpenAI DALL-E 3 ──────────────────────────────
         if not self.client:
-            return []
+            print("⚠️ OpenAI client unavailable — engaging Gemini Imagen 3 failover immediately...")
+            return self._generate_gemini_background(state_name, day_number, caption)
 
         candidates: List[Image.Image] = []
         for style_track in self._style_tracks(caption):
@@ -216,7 +226,54 @@ class GraphicGenerator:
             if image:
                 candidates.append(image)
 
+        # ── Failover: Gemini Imagen 3 (if DALL-E produced nothing) ───────
+        if not candidates:
+            print("🔄 DALL-E returned no candidates — engaging Gemini Imagen 3 failover...")
+            candidates = self._generate_gemini_background(state_name, day_number, caption)
+
         return candidates
+
+    def _generate_gemini_background(
+        self, state_name: str, day_number: int, caption: str
+    ) -> List[Image.Image]:
+        """Gemini Imagen 3 secondary engine — same prompt, zero extra cost gate."""
+        if not self.gemini_api_key:
+            print("⚠️ Gemini Imagen 3 skipped — GEMINI_API_KEY not set.")
+            return []
+
+        if not _GENAI_AVAILABLE:
+            print("⚠️ google-generativeai not installed — Gemini failover unavailable.")
+            return []
+
+        style_track = self._style_tracks(caption)[0]
+        prompt = self._build_prompt(state_name, day_number, caption, style_track)
+
+        try:
+            _genai_module.configure(api_key=self.gemini_api_key)
+            model = _genai_module.ImageGenerationModel("imagen-3.0-generate-001")
+            result = model.generate_images(
+                prompt=prompt,
+                number_of_images=1,
+                safety_filter_level="block_few",
+                person_generation="allow_adult",
+            )
+        except Exception as exc:
+            print(f"⚠️ Gemini Imagen 3 failover failed: {exc}")
+            return []
+
+        if not result.images:
+            print("⚠️ Gemini Imagen 3 returned empty image list.")
+            return []
+
+        try:
+            pil_image = result.images[0]._pil_image
+            if pil_image is None:
+                raise ValueError("_pil_image is None")
+            print(f"✅ Gemini Imagen 3 produced background for {state_name}.")
+            return [pil_image.convert("RGB")]
+        except Exception as exc:
+            print(f"⚠️ Gemini image extraction failed: {exc}")
+            return []
 
     def _select_best_candidate(self, candidates: List[Image.Image]) -> Optional[Image.Image]:
         if not candidates:

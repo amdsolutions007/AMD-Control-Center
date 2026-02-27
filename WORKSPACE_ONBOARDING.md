@@ -100,7 +100,7 @@ OPENAI_API_KEY=sk-proj-CWOqewjJJ...
 # Docs: https://platform.openai.com/api-keys
 
 # Google Gemini (Graphics + content generation)
-GEMINI_API_KEY=AIzaSyDlsrzao8JEYP4siBqjv6sMSazhBr5xcDc
+GEMINI_API_KEY=AIzaSyDEsAEZPEW0rV0W0HX7WSRnhWaz_TpPs7c
 # Status: ✅ ACTIVE
 # Usage: Ghost Writer graphic generation, transcription
 # Docs: https://ai.google.dev/

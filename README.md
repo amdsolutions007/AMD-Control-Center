@@ -48,7 +48,7 @@ Intelligent social media automation system for Leke Leke platform featuring CEO-
 - TELEGRAM_BOT_TOKEN = 8250377410:AAEdyNJsRC5HivDx1lH3CP82PD377JCTyeg
 - LEKE_LEKE_EMAIL = ceo@amdsolutions007.com
 - LEKE_LEKE_PASSWORD = #@Amdmail@007
-- GEMINI_API_KEY = AIzaSyDlsrzao8JEYP4siBqjv6sMSazhBr5xcDc
+- GEMINI_API_KEY = AIzaSyDEsAEZPEW0rV0W0HX7WSRnhWaz_TpPs7c
 - OPENAI_API_KEY = (inherited from project)
 
 ### Key Features
