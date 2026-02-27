@@ -7,10 +7,11 @@ FROM python:3.9-slim
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 
-# Install Chromium + WebDriver system dependencies (merged from Dockerfile.ghostwriter)
+# Install Chromium + WebDriver + Xvfb (virtual display to bypass Cloudflare Turnstile)
 RUN apt-get update && apt-get install -y \
     chromium \
     chromium-driver \
+    xvfb \
     wget \
     curl \
     fonts-liberation \
@@ -37,6 +38,8 @@ RUN apt-get update && apt-get install -y \
 # Chrome binary paths for Selenium
 ENV CHROME_BIN=/usr/bin/chromium
 ENV CHROME_DRIVER=/usr/bin/chromedriver
+# Virtual display — Chrome runs non-headless on :99 to pass Cloudflare Turnstile
+ENV DISPLAY=:99
 
 # Set working directory
 WORKDIR /app

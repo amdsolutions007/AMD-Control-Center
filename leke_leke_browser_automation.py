@@ -42,11 +42,32 @@ class LekeLekeeAutomation:
         self.action_count = 0
 
     def start_browser(self) -> bool:
-        """Start Chrome browser with stealth mode to bypass anti-bot detection"""
+        """Start Chrome browser with Xvfb virtual display to bypass Cloudflare Turnstile.
+        Runs non-headless on DISPLAY=:99 so Turnstile sees a real browser environment."""
         try:
+            import subprocess as _sp
+            import os as _os
+
+            # ── Launch Xvfb virtual display on :99 if not already running ─────
+            display = _os.environ.get("DISPLAY", ":99")
+            try:
+                _sp.Popen(
+                    ["Xvfb", display, "-screen", "0", "1920x1080x24", "-ac"],
+                    stdout=_sp.DEVNULL, stderr=_sp.DEVNULL
+                )
+                import time as _t; _t.sleep(1)  # let Xvfb initialise
+                print(f"✅ Xvfb started on {display}")
+            except FileNotFoundError:
+                print("⚠️  Xvfb not found — falling back to --headless=new")
+                self.headless = True  # ensure headless flag stays consistent
+            except Exception as xvfb_err:
+                print(f"⚠️  Xvfb launch error (non-fatal): {xvfb_err!r}")
+
             options = Options()
-            if self.headless:
+            if self.headless and not _os.environ.get("DISPLAY"):
+                # Only use headless if there's no virtual display available
                 options.add_argument("--headless=new")
+            # When DISPLAY is set (Xvfb), run without --headless so Turnstile passes
             options.add_argument("--no-sandbox")
             options.add_argument("--disable-dev-shm-usage")
             options.add_argument("--disable-blink-features=AutomationControlled")
@@ -253,12 +274,11 @@ class LekeLekeeAutomation:
             # Re-check overlays that may appear after form interaction
             self._dismiss_overlays()
 
-            # ── Cloudflare Turnstile: wait up to 45s for auto-solve ───────────
-            # Turnstile populates a hidden 'cf-turnstile-response' input when solved.
-            # In headless=new with stealth fingerprinting it usually auto-solves in 5-20s.
-            print("⏳ Waiting for Cloudflare Turnstile to auto-solve (up to 45s)...")
+            # ── Cloudflare Turnstile: wait up to 20s for auto-solve ───────────
+            # With Xvfb (non-headless), Turnstile auto-solves in ~3-8s.
+            print("⏳ Waiting for Cloudflare Turnstile to auto-solve (up to 20s)...")
             turnstile_solved = False
-            turnstile_deadline = time.time() + 45
+            turnstile_deadline = time.time() + 20
             while time.time() < turnstile_deadline:
                 try:
                     token = self.driver.execute_script(
@@ -274,7 +294,7 @@ class LekeLekeeAutomation:
                 time.sleep(1)
 
             if not turnstile_solved:
-                print("⚠️  Turnstile did not auto-solve — attempting JS form submit bypass")
+                print("⚠️  Turnstile did not solve — proceeding anyway (may fail)")
 
             # ── Submit button — try multiple selectors ────────────────────────
             submit_selectors = [
