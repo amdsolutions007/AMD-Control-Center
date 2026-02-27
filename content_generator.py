@@ -110,7 +110,7 @@ class ContentGenerator:
             with open(self.data_file, 'r') as f:
                 return json.load(f)
         except FileNotFoundError:
-            print(f"⚠️ {self.data_file} not found. Using built-in fallback dataset.")
+            print(f"ℹ️  {self.data_file} not found — using built-in fallback dataset (fully functional).")
             return _default_states_data()
             
     def _load_progress(self):

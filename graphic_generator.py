@@ -283,7 +283,7 @@ class GraphicGenerator:
         return scored[0][1]
 
     def _create_pro_fallback_background(self, caption: str, width: int, height: int) -> Image.Image:
-        print("⚠️ Using fallback background generator (OpenAI unavailable).")
+        print("ℹ️  Using Pillow gradient background (AI image engine unavailable).")
         seed = abs(hash((caption or "", datetime.now().date().isoformat()))) % (10**6)
         rng = random.Random(seed)
 
