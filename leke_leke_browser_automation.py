@@ -253,6 +253,29 @@ class LekeLekeeAutomation:
             # Re-check overlays that may appear after form interaction
             self._dismiss_overlays()
 
+            # ── Cloudflare Turnstile: wait up to 45s for auto-solve ───────────
+            # Turnstile populates a hidden 'cf-turnstile-response' input when solved.
+            # In headless=new with stealth fingerprinting it usually auto-solves in 5-20s.
+            print("⏳ Waiting for Cloudflare Turnstile to auto-solve (up to 45s)...")
+            turnstile_solved = False
+            turnstile_deadline = time.time() + 45
+            while time.time() < turnstile_deadline:
+                try:
+                    token = self.driver.execute_script(
+                        "var el = document.querySelector('input[name=\"cf-turnstile-response\"]');"
+                        "return el ? el.value : '';"
+                    )
+                    if token and token.strip():
+                        print(f"✅ Turnstile solved — token present ({len(token)} chars)")
+                        turnstile_solved = True
+                        break
+                except Exception:
+                    pass
+                time.sleep(1)
+
+            if not turnstile_solved:
+                print("⚠️  Turnstile did not auto-solve — attempting JS form submit bypass")
+
             # ── Submit button — try multiple selectors ────────────────────────
             submit_selectors = [
                 "button[type='submit']",
@@ -272,9 +295,54 @@ class LekeLekeeAutomation:
                     continue
             if login_button is None:
                 raise TimeoutError("Login submit button not found with any selector")
-            WebDriverWait(self.driver, 10).until(lambda d: login_button.is_enabled())
-            self._safe_click(login_button)
-            self.human_delay(3, 5)
+
+            if turnstile_solved:
+                # Normal path: button should be enabled now
+                try:
+                    WebDriverWait(self.driver, 5).until(lambda d: login_button.is_enabled())
+                    self._safe_click(login_button)
+                    print("✅ Submit button clicked (Turnstile passed)")
+                except Exception:
+                    # Button still disabled — force JS click anyway
+                    self.driver.execute_script("arguments[0].removeAttribute('disabled'); arguments[0].click();", login_button)
+                    print("✅ Submit button JS-forced (Turnstile passed but button still disabled)")
+            else:
+                # Turnstile bypass: remove disabled attr and submit via JS
+                try:
+                    self.driver.execute_script(
+                        "arguments[0].removeAttribute('disabled'); arguments[0].click();",
+                        login_button
+                    )
+                    print("✅ Submit button JS-forced (Turnstile bypass)")
+                except Exception:
+                    # Last resort: submit the form directly
+                    self.driver.execute_script(
+                        "var form = document.querySelector('form'); if(form) form.submit();"
+                    )
+                    print("✅ Form submitted via JS (last resort)")
+
+            # ── Wait for redirect away from /login (success indicator) ────────
+            print("⏳ Waiting for post-login redirect...")
+            try:
+                WebDriverWait(self.driver, 15).until(
+                    lambda d: "/login" not in d.current_url
+                )
+                print(f"✅ Redirected to: {self.driver.current_url}")
+            except Exception:
+                # May still be on /login due to wrong credentials or CAPTCHA block
+                current_url = self.driver.current_url
+                page_text = ""
+                try:
+                    page_text = self.driver.find_element(By.TAG_NAME, "body").text[:200]
+                except Exception:
+                    pass
+                print(f"⚠️  Still on login page after submit. URL: {current_url!r}")
+                print(f"⚠️  Page text: {page_text!r}")
+                # Check if there's an error message (wrong password etc)
+                if any(w in page_text.lower() for w in ["invalid", "incorrect", "wrong", "error", "failed"]):
+                    raise RuntimeError(f"Login credentials rejected: {page_text[:100]}")
+                # Otherwise Turnstile is blocking — raise for screenshot
+                raise RuntimeError("Stuck on login page — Turnstile or server block")
 
             # ── 2FA / OTP screen detection ────────────────────────────────────
             otp_selectors = [
