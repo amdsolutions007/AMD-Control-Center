@@ -145,12 +145,15 @@ class GraphicGenerator:
             "Think green neon glow, green ambient rim lighting, green edge highlights against near-black backgrounds. "
             "ABSOLUTELY NO GOLD, NO YELLOW, NO WARM TONES. Black, white, and Nigerian Tech Green ONLY. "
             "The mood: elite African tech ecosystem, world-class editorial, cinematic, futuristic, high-contrast, aspirational. "
-            "COMPOSITION — CRITICAL REQUIREMENT: The ENTIRE LEFT ONE-THIRD of the image (from x=0 to x=33%) "
-            "MUST be clean, very dark, nearly empty negative space with minimal detail or subject matter. "
-            "This left zone will have text overlaid on it and must remain uncluttered and dark. "
-            "Place ALL visual subjects, architecture, people, cityscapes, and dramatic lighting in the RIGHT TWO-THIRDS only. "
-            "Use depth-of-field and bokeh blur to naturally feather the left one-third into darkness. "
-            "No embedded text, no logos, no watermarks, no UI elements, no charts, no infographics. "
+            "TYPOGRAPHY / TEXT RULE — ABSOLUTE ZERO TOLERANCE: Do NOT include ANY text, letters, words, numbers, "
+            "characters, glyphs, signage, labels, captions, watermarks, or typography of any kind anywhere in the image. "
+            "The image must be 100% pure visual art with zero readable or decorative text elements. "
+            "COMPOSITION — CRITICAL REQUIREMENT: The ENTIRE LEFT HALF of the image (from x=0 to x=50%) "
+            "MUST be completely dark, empty, uncluttered negative space — deep black with no subjects, faces, "
+            "architecture, or objects. This zone is reserved for text that will be added programmatically. "
+            "Depth-of-field bokeh must feather the left half into pure darkness. "
+            "Place ALL cinematic subjects — people, buildings, landscapes — in the RIGHT HALF only. "
+            "No embedded text, no logos, no watermarks, no UI elements, no charts, no infographics, no lettering. "
             "Aspect ratio: 1:1 square format. "
             f"Day {day_number} of 36 — the visual must look and feel uniquely like {state_name}, Nigeria."
         )
@@ -299,95 +302,116 @@ class GraphicGenerator:
         zone: str,
         capital: str,
     ) -> Image.Image:
-        GREEN = (0, 200, 83)       # #00C853 — Nigerian Tech Green
-        WHITE = (255, 255, 255)
-        BLACK = (0, 0, 0)
+        # ── Palette (plain RGB 3-tuples — no alpha in fill colours) ──
+        GREEN      = (0, 200, 83)    # #00C853 Nigerian Tech Green
+        WHITE      = (255, 255, 255)
+        BLACK      = (0, 0, 0)
+        DARK_GREY  = (20, 20, 20)    # pill shadow / stripe shadow
         LIGHT_GREY = (210, 210, 210)
 
-        FOOTER_H = 48              # footer strip height in px
-        ACCENT_X = 52              # left edge of the green accent stripe
-        STRIPE_W = 6               # width of the green vertical stripe
-        TEXT_X = ACCENT_X + STRIPE_W + 16  # text starts right of stripe
-        TEXT_MAX_W = 440           # max pixel width before wrapping
+        FOOTER_H = 56               # footer strip height in px
+        STRIPE_X  = 50              # x-start of green accent stripe
+        STRIPE_W  = 6               # width of green accent stripe
+        TEXT_X    = STRIPE_X + STRIPE_W + 18   # all text left-aligned here
+        TEXT_MAX_W = 460             # max wrap width for body text
+        STRIPE_TOP = 80             # stripe starts at y=80
 
         width, height = image.size
+        print(f"🖼️ Canvas: {width}x{height} | TextX={TEXT_X} | Footer strip y={height - FOOTER_H}")
 
-        # --- Build transparent overlay for structural elements ---
-        canvas = image.convert("RGBA")
-        overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-        ov_draw = ImageDraw.Draw(overlay)
+        # ── STEP 1: Alpha-composite the footer strip + accent stripe ──
+        # Work in RGBA only for this step, then convert to RGB before drawing.
+        base_rgba = image.convert("RGBA")
+        overlay   = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        ov        = ImageDraw.Draw(overlay)
 
-        # Full-width footer strip at bottom — 75% opacity black
-        ov_draw.rectangle([(0, height - FOOTER_H), (width, height)], fill=(0, 0, 0, 191))
+        # Footer strip — solid near-black, 85% opacity
+        ov.rectangle([(0, height - FOOTER_H), (width, height)], fill=(0, 0, 0, 217))
 
-        # Thin green vertical left-border accent stripe
-        ov_draw.rectangle(
-            [(ACCENT_X, 90), (ACCENT_X + STRIPE_W, height - FOOTER_H - 12)],
-            fill=(0, 200, 83, 255)
-        )
-
-        canvas = Image.alpha_composite(canvas, overlay)
-        draw = ImageDraw.Draw(canvas)
-
-        # ----- DAY pill badge -----
-        pill_font = self._load_font(26, bold=True)
-        day_text = f"DAY {day_number:02d}/36"
-        day_bbox = draw.textbbox((0, 0), day_text, font=pill_font)
-        pill_w = (day_bbox[2] - day_bbox[0]) + 28
-        pill_h = (day_bbox[3] - day_bbox[1]) + 16
-        pill_x, pill_y = TEXT_X, 90
-        draw.rounded_rectangle(
-            [(pill_x, pill_y), (pill_x + pill_w, pill_y + pill_h)],
-            radius=8,
+        # Green vertical accent stripe (left side, full content height)
+        ov.rectangle(
+            [(STRIPE_X, STRIPE_TOP), (STRIPE_X + STRIPE_W, height - FOOTER_H - 8)],
             fill=(0, 200, 83, 255),
         )
-        draw.text((pill_x + 14, pill_y + 8), day_text, fill=BLACK, font=pill_font)
 
-        # ----- State name — 64px bold white + drop shadow -----
-        state_font = self._load_font(64, bold=True)
-        state_y = pill_y + pill_h + 18
+        composited = Image.alpha_composite(base_rgba, overlay)
+
+        # ► Convert to plain RGB NOW — all subsequent drawing uses 3-tuple fills
+        img = composited.convert("RGB")
+        draw = ImageDraw.Draw(img)
+
+        # ── STEP 2: DAY XX/36 pill badge ──
+        pill_font = self._load_font(24, bold=True)
+        day_text  = f"DAY {day_number:02d} / 36"
+        try:
+            tb = draw.textbbox((0, 0), day_text, font=pill_font)
+            pill_w = (tb[2] - tb[0]) + 32
+            pill_h = (tb[3] - tb[1]) + 18
+        except AttributeError:
+            pill_w, pill_h = 180, 42
+
+        pill_x, pill_y = TEXT_X, STRIPE_TOP
+        # Shadow rectangle
+        draw.rectangle(
+            [(pill_x + 3, pill_y + 3), (pill_x + pill_w + 3, pill_y + pill_h + 3)],
+            fill=DARK_GREY,
+        )
+        # Green pill body
+        draw.rectangle(
+            [(pill_x, pill_y), (pill_x + pill_w, pill_y + pill_h)],
+            fill=GREEN,
+        )
+        # Pill text — black on green
+        draw.text((pill_x + 14, pill_y + 9), day_text, fill=BLACK, font=pill_font)
+        print(f"✅ DAY pill drawn at ({pill_x},{pill_y}) size {pill_w}x{pill_h}")
+
+        # ── STEP 3: State name — 62px bold white ──
+        state_font = self._load_font(62, bold=True)
+        state_y    = pill_y + pill_h + 20
         state_text = state_name.upper()
-        draw.text((TEXT_X + 3, state_y + 3), state_text, fill=(0, 0, 0, 200), font=state_font)  # shadow
-        draw.text((TEXT_X, state_y), state_text, fill=(255, 255, 255, 255), font=state_font)   # main
+        # Drop shadow (+3/+3 offset, dark grey)
+        draw.text((TEXT_X + 3, state_y + 3), state_text, fill=DARK_GREY, font=state_font)
+        # Main white text
+        draw.text((TEXT_X, state_y), state_text, fill=WHITE, font=state_font)
+        print(f"✅ State name '{state_text}' drawn at ({TEXT_X},{state_y})")
 
-        # ----- "TECH ECOSYSTEM" subtitle — green, drop shadow -----
-        sub_font = self._load_font(21, bold=False)
-        sub_y = state_y + 72
-        sub_text = "TECH ECOSYSTEM"
-        draw.text((TEXT_X + 1, sub_y + 1), sub_text, fill=(0, 0, 0, 180), font=sub_font)  # shadow
-        draw.text((TEXT_X, sub_y), sub_text, fill=(0, 200, 83, 255), font=sub_font)        # main
+        # ── STEP 4: "TECH ECOSYSTEM" subtitle — green ──
+        sub_font = self._load_font(20, bold=False)
+        sub_y    = state_y + 70
+        draw.text((TEXT_X + 1, sub_y + 1), "TECH ECOSYSTEM", fill=DARK_GREY, font=sub_font)
+        draw.text((TEXT_X, sub_y), "TECH ECOSYSTEM", fill=GREEN, font=sub_font)
+        print(f"✅ TECH ECOSYSTEM drawn at ({TEXT_X},{sub_y})")
 
-        # ----- Capital / Zone info lines — 18px white, drop shadow -----
+        # ── STEP 5: Capital / Zone lines — 18px white ──
         info_font = self._load_font(18, bold=False)
-        info_y = sub_y + 34
+        info_y    = sub_y + 32
         for label, value in [("Capital", capital), ("Zone", zone)]:
             if value:
-                line_text = f"{label}: {value}"
-                draw.text((TEXT_X + 1, info_y + 1), line_text, fill=(0, 0, 0, 180), font=info_font)
-                draw.text((TEXT_X, info_y), line_text, fill=(255, 255, 255, 240), font=info_font)
-                info_y += 26
+                line = f"{label}: {value}"
+                draw.text((TEXT_X + 1, info_y + 1), line, fill=DARK_GREY, font=info_font)
+                draw.text((TEXT_X, info_y), line, fill=WHITE, font=info_font)
+                info_y += 28
 
-        # ----- Story line — 17px light grey, wrapped, drop shadow -----
-        story_font = self._load_font(17, bold=False)
-        story = self._extract_story_line(caption, state_name)
-        story_y = info_y + 14
+        # ── STEP 6: Story line — 16px light grey, word-wrapped ──
+        story_font  = self._load_font(16, bold=False)
+        story       = self._extract_story_line(caption, state_name)
+        story_y     = info_y + 16
         story_lines = self._wrap_by_pixel_width(draw, story, story_font, TEXT_MAX_W)
         for line in story_lines[:3]:
-            draw.text((TEXT_X + 1, story_y + 1), line, fill=(0, 0, 0, 160), font=story_font)
-            draw.text((TEXT_X, story_y), line, fill=(210, 210, 210, 240), font=story_font)
+            draw.text((TEXT_X + 1, story_y + 1), line, fill=DARK_GREY, font=story_font)
+            draw.text((TEXT_X, story_y), line, fill=LIGHT_GREY, font=story_font)
             story_y += 24
+        print(f"✅ Story block drawn ({len(story_lines)} lines)")
 
-        # ----- Footer strip branding text -----
-        footer_font = self._load_font(20, bold=True)
-        footer_text = "AMD SOLUTIONS 007  |  BUILD IN NAIJA  |  www.amdsolutions007.com"
-        f_bbox = draw.textbbox((0, 0), footer_text, font=footer_font)
-        # Centre the text in the footer strip, leaving right side clear for badge
-        footer_text_x = TEXT_X
-        footer_text_y = height - FOOTER_H + (FOOTER_H - (f_bbox[3] - f_bbox[1])) // 2
-        draw.text((footer_text_x + 1, footer_text_y + 1), footer_text, fill=(0, 0, 0, 160), font=footer_font)
-        draw.text((footer_text_x, footer_text_y), footer_text, fill=(255, 255, 255, 220), font=footer_font)
+        # ── STEP 7: Footer branding text ──
+        footer_font = self._load_font(18, bold=True)
+        footer_text = "AMD SOLUTIONS 007  |  BUILD IN NAIJA  |  amdsolutions007.com"
+        footer_y    = height - FOOTER_H + 10
+        draw.text((TEXT_X + 1, footer_y + 1), footer_text, fill=DARK_GREY, font=footer_font)
+        draw.text((TEXT_X, footer_y), footer_text, fill=WHITE, font=footer_font)
+        print(f"✅ Footer text drawn at y={footer_y}")
 
-        return canvas.convert("RGB")
+        return img
 
     def _apply_badge_watermark(self, image: Image.Image) -> Image.Image:
         """Stamp amd_badge.jpg onto the bottom-right corner.
