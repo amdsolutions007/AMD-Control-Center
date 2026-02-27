@@ -167,20 +167,27 @@ class LekeLekeeAutomation:
         self.action_count += 1
 
     def _find_input(self, selectors: list, wait_for_first: bool = True, timeout: int = 45):
-        """Try a list of (By, value) selector tuples and return the first match."""
-        wait = WebDriverWait(self.driver, timeout)
-        if wait_for_first:
-            # Wait up to timeout for ANY of the selectors to appear
-            by, val = selectors[0]
-            try:
-                return wait.until(EC.presence_of_element_located((by, val)))
-            except Exception:
-                pass
-        # Fallback: try remaining selectors instantly
+        """Race ALL selectors simultaneously — return whichever renders first.
+        Polls every 500ms for `timeout` seconds. `wait_for_first` kept for compat.
+        """
+        import time as _time
+        deadline = _time.time() + timeout
+        while _time.time() < deadline:
+            for by, val in selectors:
+                try:
+                    els = self.driver.find_elements(by, val)
+                    if els and els[0].is_displayed():
+                        print(f"✅ Input found via selector: {by}={val!r}")
+                        return els[0]
+                except Exception:
+                    continue
+            _time.sleep(0.5)
+        # Last-chance sweep (element may exist but not visible)
         for by, val in selectors:
             try:
                 els = self.driver.find_elements(by, val)
-                if els and els[0].is_displayed():
+                if els:
+                    print(f"✅ Input found (not-visible) via: {by}={val!r}")
                     return els[0]
             except Exception:
                 continue
@@ -204,15 +211,16 @@ class LekeLekeeAutomation:
             # Handle overlays/cookie banners early
             self._dismiss_overlays()
 
-            # ── Email field — multiple selector fallbacks ─────────────────────
+            # ── Email field — PRIORITY: type='email' → id='email' → then fallbacks
             email_selectors = [
-                (By.NAME,         "email"),
-                (By.CSS_SELECTOR, "input[type='email']"),
-                (By.CSS_SELECTOR, "input[id*='email' i]"),
+                (By.CSS_SELECTOR, "input[type='email']"),          # Super App primary
+                (By.CSS_SELECTOR, "input[id='email']"),            # Super App fallback
+                (By.CSS_SELECTOR, "input[id*='email' i]"),         # id contains 'email'
+                (By.CSS_SELECTOR, "input[autocomplete='email']"),  # autocomplete hint
+                (By.NAME,         "email"),                        # legacy name attr
                 (By.CSS_SELECTOR, "input[placeholder*='email' i]"),
-                (By.CSS_SELECTOR, "input[autocomplete='email']"),
                 (By.CSS_SELECTOR, "input[autocomplete='username']"),
-                (By.XPATH,        "//input[contains(@name,'email') or contains(@id,'email') or @type='email']"),
+                (By.XPATH,        "//input[@type='email' or @id='email' or contains(@name,'email')]"),
             ]
             email_field = self._find_input(email_selectors, wait_for_first=True, timeout=45)
             if email_field is None:
