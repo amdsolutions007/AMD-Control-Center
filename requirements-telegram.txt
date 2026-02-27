@@ -6,8 +6,8 @@ python-telegram-bot==20.7
 # Image processing
 Pillow==10.1.0
 
-# Google Generative AI — Imagen 3 failover engine
-google-generativeai>=0.8.0
+# Google GenAI SDK — Imagen 3 failover engine (replaces deprecated google-generativeai)
+google-genai>=1.0.0
 
 # OpenAI image generation
 openai>=1.12.0

@@ -20,10 +20,12 @@ except ImportError:
     OpenAI = None
 
 try:
-    import google.generativeai as _genai_module
+    from google import genai as _google_genai
+    from google.genai import types as _google_genai_types
     _GENAI_AVAILABLE = True
 except ImportError:
-    _genai_module = None  # type: ignore
+    _google_genai = None  # type: ignore
+    _google_genai_types = None  # type: ignore
     _GENAI_AVAILABLE = False
 
 
@@ -195,7 +197,7 @@ class GraphicGenerator:
     ) -> List[Image.Image]:
         # ── Primary engine: OpenAI DALL-E 3 ──────────────────────────────
         if not self.client:
-            print("⚠️ OpenAI client unavailable — engaging Gemini Imagen 3 failover immediately...")
+            print("🔄 OpenAI client unavailable — engaging Gemini Imagen 3 failover immediately...")
             return self._generate_gemini_background(state_name, day_number, caption)
 
         candidates: List[Image.Image] = []
@@ -211,8 +213,8 @@ class GraphicGenerator:
                     response_format="b64_json",
                 )
             except Exception as exc:
-                print(f"⚠️ OpenAI generation failed for one variant: {exc}")
-                continue
+                print(f"🔄 OpenAI generation failed — {type(exc).__name__}: switching to Gemini failover...")
+                break  # stop DALL-E loop, go straight to Gemini
 
             if not getattr(response, "data", None):
                 continue
@@ -226,9 +228,9 @@ class GraphicGenerator:
             if image:
                 candidates.append(image)
 
-        # ── Failover: Gemini Imagen 3 (if DALL-E produced nothing) ───────
+        # ── Failover: Gemini (if DALL-E produced nothing) ───────────────
         if not candidates:
-            print("🔄 DALL-E returned no candidates — engaging Gemini Imagen 3 failover...")
+            print("🔄 DALL-E returned no candidates — engaging Gemini failover...")
             candidates = self._generate_gemini_background(state_name, day_number, caption)
 
         return candidates
@@ -236,44 +238,75 @@ class GraphicGenerator:
     def _generate_gemini_background(
         self, state_name: str, day_number: int, caption: str
     ) -> List[Image.Image]:
-        """Gemini Imagen 3 secondary engine — same prompt, zero extra cost gate."""
+        """Gemini image engine — google-genai 2026 SDK.
+        Strategy A: Imagen 4 via generate_images (paid tier).
+        Strategy B: Gemini 3.1-flash-image-preview via generateContent (free tier). ✅ confirmed live.
+        """
         if not self.gemini_api_key:
-            print("⚠️ Gemini Imagen 3 skipped — GEMINI_API_KEY not set.")
+            print("🔄 Gemini skipped — GEMINI_API_KEY not set in environment.")
             return []
 
         if not _GENAI_AVAILABLE:
-            print("⚠️ google-generativeai not installed — Gemini failover unavailable.")
+            print("🔄 google-genai not installed — Gemini failover unavailable.")
             return []
 
         style_track = self._style_tracks(caption)[0]
         prompt = self._build_prompt(state_name, day_number, caption, style_track)
 
         try:
-            _genai_module.configure(api_key=self.gemini_api_key)
-            model = _genai_module.ImageGenerationModel("imagen-3.0-generate-001")
-            result = model.generate_images(
-                prompt=prompt,
-                number_of_images=1,
-                safety_filter_level="block_few",
-                person_generation="allow_adult",
-            )
+            client = _google_genai.Client(api_key=self.gemini_api_key)
         except Exception as exc:
-            print(f"⚠️ Gemini Imagen 3 failover failed: {exc}")
+            print(f"🔄 Gemini client init failed: {exc}")
             return []
 
-        if not result.images:
-            print("⚠️ Gemini Imagen 3 returned empty image list.")
-            return []
+        # ── Strategy A: Imagen 4 via generate_images ───────────────────────
+        for _model_id in ["imagen-4.0-generate-001", "imagen-4.0-fast-generate-001"]:
+            try:
+                response = client.models.generate_images(
+                    model=_model_id,
+                    prompt=prompt,
+                    config=_google_genai_types.GenerateImagesConfig(
+                        number_of_images=1,
+                        safety_filter_level="BLOCK_LOW_AND_ABOVE",
+                        person_generation="ALLOW_ADULT",
+                    ),
+                )
+                if getattr(response, "generated_images", None):
+                    raw_bytes = response.generated_images[0].image.image_bytes
+                    pil_image = Image.open(io.BytesIO(raw_bytes)).convert("RGB")
+                    print(f"✅ Gemini {_model_id} produced background for {state_name}.")
+                    return [pil_image]
+            except Exception as _exc:
+                print(f"🔄 {_model_id}: {type(_exc).__name__} — trying next strategy...")
 
-        try:
-            pil_image = result.images[0]._pil_image
-            if pil_image is None:
-                raise ValueError("_pil_image is None")
-            print(f"✅ Gemini Imagen 3 produced background for {state_name}.")
-            return [pil_image.convert("RGB")]
-        except Exception as exc:
-            print(f"⚠️ Gemini image extraction failed: {exc}")
-            return []
+        # ── Strategy B: Gemini generateContent image models (free-tier) ────
+        _GEMINI_IMAGE_MODELS = [
+            "gemini-3.1-flash-image-preview",
+            "gemini-2.5-flash-image",
+            "gemini-2.0-flash-exp-image-generation",
+        ]
+        for _model_id in _GEMINI_IMAGE_MODELS:
+            try:
+                gc_response = client.models.generate_content(
+                    model=_model_id,
+                    contents=prompt,
+                    config=_google_genai_types.GenerateContentConfig(
+                        response_modalities=["IMAGE", "TEXT"],
+                    ),
+                )
+                for part in gc_response.candidates[0].content.parts:
+                    inline = getattr(part, "inline_data", None)
+                    if inline and getattr(inline, "data", None):
+                        raw_bytes = inline.data
+                        pil_image = Image.open(io.BytesIO(raw_bytes)).convert("RGB")
+                        print(f"✅ Gemini {_model_id} produced background for {state_name}.")
+                        return [pil_image]
+                print(f"🔄 {_model_id}: response had no image parts.")
+            except Exception as _exc:
+                print(f"🔄 {_model_id}: {type(_exc).__name__} — trying next...")
+
+        print("🔄 All Gemini engines exhausted.")
+        return []
 
     def _select_best_candidate(self, candidates: List[Image.Image]) -> Optional[Image.Image]:
         if not candidates:
