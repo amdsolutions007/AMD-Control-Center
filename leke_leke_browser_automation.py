@@ -166,6 +166,26 @@ class LekeLekeeAutomation:
 
         self.action_count += 1
 
+    def _find_input(self, selectors: list, wait_for_first: bool = True, timeout: int = 45):
+        """Try a list of (By, value) selector tuples and return the first match."""
+        wait = WebDriverWait(self.driver, timeout)
+        if wait_for_first:
+            # Wait up to timeout for ANY of the selectors to appear
+            by, val = selectors[0]
+            try:
+                return wait.until(EC.presence_of_element_located((by, val)))
+            except Exception:
+                pass
+        # Fallback: try remaining selectors instantly
+        for by, val in selectors:
+            try:
+                els = self.driver.find_elements(by, val)
+                if els and els[0].is_displayed():
+                    return els[0]
+            except Exception:
+                continue
+        return None
+
     def login(self, screenshot_path: str = None) -> bool:
         """Login to Leke Leke with 2FA intercept and screenshot diagnostic"""
         try:
@@ -173,12 +193,42 @@ class LekeLekeeAutomation:
             self.driver.get("https://www.lekeelekee.com/login")
             self.human_delay()
 
+            # ── Diagnostic: log title + first 500 chars of HTML body ──────────
+            try:
+                print(f"🔎 Page title: {self.driver.title!r}")
+                body_text = self.driver.find_element(By.TAG_NAME, "body").text[:300]
+                print(f"🔎 Body preview: {body_text!r}")
+            except Exception:
+                pass
+
             # Handle overlays/cookie banners early
             self._dismiss_overlays()
 
-            wait = WebDriverWait(self.driver, 45)
-            email_field = wait.until(EC.presence_of_element_located((By.NAME, "email")))
-            password_field = self.driver.find_element(By.NAME, "password")
+            # ── Email field — multiple selector fallbacks ─────────────────────
+            email_selectors = [
+                (By.NAME,         "email"),
+                (By.CSS_SELECTOR, "input[type='email']"),
+                (By.CSS_SELECTOR, "input[id*='email' i]"),
+                (By.CSS_SELECTOR, "input[placeholder*='email' i]"),
+                (By.CSS_SELECTOR, "input[autocomplete='email']"),
+                (By.CSS_SELECTOR, "input[autocomplete='username']"),
+                (By.XPATH,        "//input[contains(@name,'email') or contains(@id,'email') or @type='email']"),
+            ]
+            email_field = self._find_input(email_selectors, wait_for_first=True, timeout=45)
+            if email_field is None:
+                raise TimeoutError("Email input not found with any selector")
+
+            # ── Password field — multiple selector fallbacks ──────────────────
+            password_selectors = [
+                (By.NAME,         "password"),
+                (By.CSS_SELECTOR, "input[type='password']"),
+                (By.CSS_SELECTOR, "input[id*='password' i]"),
+                (By.CSS_SELECTOR, "input[placeholder*='password' i]"),
+                (By.XPATH,        "//input[@type='password']"),
+            ]
+            password_field = self._find_input(password_selectors, wait_for_first=False)
+            if password_field is None:
+                raise TimeoutError("Password input not found with any selector")
 
             for char in self.email:
                 email_field.send_keys(char)
@@ -195,8 +245,26 @@ class LekeLekeeAutomation:
             # Re-check overlays that may appear after form interaction
             self._dismiss_overlays()
 
-            login_button = self.driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
-            wait.until(lambda d: login_button.is_enabled())
+            # ── Submit button — try multiple selectors ────────────────────────
+            submit_selectors = [
+                "button[type='submit']",
+                "input[type='submit']",
+                "button[class*='login' i]",
+                "button[class*='signin' i]",
+                "button[class*='submit' i]",
+            ]
+            login_button = None
+            for sel in submit_selectors:
+                try:
+                    els = self.driver.find_elements(By.CSS_SELECTOR, sel)
+                    if els:
+                        login_button = els[0]
+                        break
+                except Exception:
+                    continue
+            if login_button is None:
+                raise TimeoutError("Login submit button not found with any selector")
+            WebDriverWait(self.driver, 10).until(lambda d: login_button.is_enabled())
             self._safe_click(login_button)
             self.human_delay(3, 5)
 
@@ -252,7 +320,20 @@ class LekeLekeeAutomation:
             print(f"❌ Login failed: {e!r}")
             try:
                 print(f"🔎 Login debug - URL: {self.driver.current_url}")
-                print(f"🔎 Login debug - Title: {self.driver.title}")
+                print(f"🔎 Login debug - Title: {self.driver.title!r}")
+                # Dump truncated page source so we can diagnose selector issues
+                src = self.driver.page_source or ""
+                print(f"🔎 Page source (first 800 chars): {src[:800]!r}")
+                # Also list all input fields present
+                inputs = self.driver.find_elements(By.TAG_NAME, "input")
+                for inp in inputs[:10]:
+                    try:
+                        print(f"🔎 Input: type={inp.get_attribute('type')!r} "
+                              f"name={inp.get_attribute('name')!r} "
+                              f"id={inp.get_attribute('id')!r} "
+                              f"placeholder={inp.get_attribute('placeholder')!r}")
+                    except Exception:
+                        pass
             except Exception:
                 pass
 
