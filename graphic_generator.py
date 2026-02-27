@@ -473,7 +473,7 @@ class GraphicGenerator:
         return img
 
     def _apply_badge_watermark(self, image: Image.Image) -> Image.Image:
-        """Stamp amd_badge.jpg onto the bottom-right corner.
+        """Stamp amd_badge.png onto the bottom-right corner.
         The badge has a solid black background — we mask those pixels out
         so only the logo art appears as a transparent overlay."""
         badge_path = os.path.join(os.path.dirname(__file__), "amd_badge.png")
@@ -481,7 +481,7 @@ class GraphicGenerator:
             # Try current working directory (Railway mounts at /app)
             badge_path = "amd_badge.png"
         if not os.path.exists(badge_path):
-            print("⚠️ amd_badge.jpg not found — skipping watermark")
+            print("⚠️ amd_badge.png not found — skipping watermark")
             return image
 
         try:
