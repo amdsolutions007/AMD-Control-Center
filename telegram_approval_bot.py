@@ -26,6 +26,7 @@ CEO_TELEGRAM_ID = os.getenv('CEO_TELEGRAM_ID')  # Your Telegram user ID
 PENDING_DIR = "pending_posts"
 APPROVED_DIR = "approved_posts"
 REJECTED_DIR = "rejected_posts"
+PENDING_REGISTRY = "pending_posts.json"  # survives redeploys
 
 # Ensure directories exist
 os.makedirs(PENDING_DIR, exist_ok=True)
@@ -42,6 +43,32 @@ class TelegramApprovalBot:
         self.app = None
         self._2fa_event: threading.Event = None
         self._2fa_code: str = None
+        self._pending_registry: dict = self._load_registry()
+
+    def _load_registry(self) -> dict:
+        """Load persistent pending_posts.json from disk (survives redeploys)."""
+        if os.path.exists(PENDING_REGISTRY):
+            try:
+                with open(PENDING_REGISTRY, 'r') as f:
+                    data = json.load(f)
+                print(f"📂 Loaded {len(data)} pending posts from registry")
+                return data
+            except Exception as e:
+                print(f"⚠️ Could not load registry: {e} — starting fresh")
+        return {}
+
+    def _save_registry(self):
+        """Persist current pending registry to disk."""
+        try:
+            with open(PENDING_REGISTRY, 'w') as f:
+                json.dump(self._pending_registry, f, indent=2)
+        except Exception as e:
+            print(f"⚠️ Could not save registry: {e}")
+
+    def _remove_from_registry(self, post_id: str):
+        """Remove a post from the registry and save."""
+        self._pending_registry.pop(post_id, None)
+        self._save_registry()
         
     async def start_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle /start command"""
@@ -126,6 +153,10 @@ Use /generate to create next post"""
             
             with open(post_file, 'w') as f:
                 json.dump(post, f, indent=2)
+
+            # Also persist to registry (survives redeploys)
+            self._pending_registry[post_id] = post
+            self._save_registry()
                 
             # Send to CEO for review
             keyboard = [
@@ -182,20 +213,27 @@ Use /generate to create next post"""
         
         action, post_id = query.data.split('_', 1)
         post_file = os.path.join(PENDING_DIR, f"{post_id}.json")
-        
-        if not os.path.exists(post_file):
-            await query.edit_message_text("❌ Post not found. It may have been processed already.")
+
+        # Load from disk file, or fall back to registry (survives redeploys)
+        if os.path.exists(post_file):
+            with open(post_file, 'r') as f:
+                post = json.load(f)
+        elif post_id in self._pending_registry:
+            post = self._pending_registry[post_id]
+            print(f"📂 Loaded post {post_id} from registry (file was missing)")
+        else:
+            await query.edit_message_text("❌ Post not found (already processed or bot was redeployed before it was saved).")
             return
             
-        with open(post_file, 'r') as f:
-            post = json.load(f)
-            
         if action == "approve":
-            # Move to approved archive immediately
+            # Move to approved archive immediately (guard: file may only be in registry)
             approved_file = os.path.join(APPROVED_DIR, f"{post_id}.json")
-            os.rename(post_file, approved_file)
-
-            # Acknowledge CEO instantly, then publish in-process
+            if os.path.exists(post_file):
+                os.rename(post_file, approved_file)
+            else:
+                with open(approved_file, 'w') as f:
+                    json.dump(post, f, indent=2)
+            self._remove_from_registry(post_id)
             await query.edit_message_text(
                 f"🚀 *PUBLISHING TO LEKEELEKEE...*\n\n"
                 f"Day {post['day']}/36: {post['state_name']}\n\n"
@@ -204,12 +242,13 @@ Use /generate to create next post"""
             )
 
             print(f"✅ Post {post_id} approved by CEO — starting inline publish")
-            await self._publish_to_leke_leke(query, post_id, post)
+            await self._publish_to_leke_leke(query, post_id, post, context)
                 
         elif action == "reject":
             # Move to rejected
             rejected_file = os.path.join(REJECTED_DIR, f"{post_id}.json")
-            os.rename(post_file, rejected_file)
+            os.rename(post_file, rejected_file) if os.path.exists(post_file) else None
+            self._remove_from_registry(post_id)
             
             await query.edit_message_text(
                 f"❌ *REJECTED*\n\n"
@@ -225,6 +264,7 @@ Use /generate to create next post"""
         query,
         post_id: str,
         post: dict,
+        context,
     ):
         """Run Selenium posting in a thread executor so it doesn't block the bot."""
         email    = os.getenv("LEKE_LEKE_EMAIL", "")
@@ -240,7 +280,7 @@ Use /generate to create next post"""
             return
 
         loop = asyncio.get_event_loop()
-        bot_instance = query.message.bot
+        bot_instance = context.bot  # ✅ correct in python-telegram-bot v20
 
         def _run_selenium(post_data: dict) -> tuple:
             """Synchronous Selenium block — runs inside ThreadPoolExecutor.
@@ -281,6 +321,7 @@ Use /generate to create next post"""
                 success = browser.post_approved_content(post_data)
                 if success:
                     browser.archive_posted(post_id, post_data)
+                    self._remove_from_registry(post_id)
                 return success, None, None
             except Exception as exc:
                 return False, str(exc), None
