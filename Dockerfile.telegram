@@ -53,6 +53,7 @@ COPY graphic_generator.py .
 COPY leke_leke_browser_automation.py .
 COPY telegram_approval_bot.py .
 COPY amd_badge.png .
+COPY 36_states_data.json .
 
 # Create necessary directories
 RUN mkdir -p pending_posts approved_posts rejected_posts generated_graphics
