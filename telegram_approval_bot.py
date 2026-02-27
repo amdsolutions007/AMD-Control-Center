@@ -206,6 +206,76 @@ Use /generate to create next post"""
         else:
             await update.message.reply_text("ℹ️ No active 2FA session. Code not needed right now.")
 
+    async def publish_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Handle /publish_<post_id> — retry a failed publish without regenerating.
+
+        Usage: /publish_post_1_20260227_204917
+        The post must exist in approved_posts/ or pending_posts/.
+        """
+        if str(update.effective_user.id) != str(CEO_TELEGRAM_ID):
+            return
+
+        # Extract post_id from command text: /publish_post_1_20260227_204917
+        full_text = update.message.text.strip()  # e.g. "/publish_post_1_20260227_204917"
+        # Strip leading slash then 'publish_'
+        remainder = full_text.lstrip("/")          # publish_post_1_20260227_204917
+        if not remainder.startswith("publish_"):
+            await update.message.reply_text("❌ Usage: /publish_<post_id>")
+            return
+        post_id = remainder[len("publish_"):]      # post_1_20260227_204917
+
+        # Search approved_posts/ first, then pending_posts/, then registry
+        approved_file = os.path.join(APPROVED_DIR, f"{post_id}.json")
+        pending_file  = os.path.join(PENDING_DIR,  f"{post_id}.json")
+
+        post = None
+        if os.path.exists(approved_file):
+            with open(approved_file, 'r') as f:
+                post = json.load(f)
+            print(f"📂 Retry: loaded {post_id} from approved_posts/")
+        elif os.path.exists(pending_file):
+            with open(pending_file, 'r') as f:
+                post = json.load(f)
+            # Move to approved so post_dual_destination archives it correctly
+            os.rename(pending_file, approved_file)
+            print(f"📂 Retry: loaded {post_id} from pending_posts/ → moved to approved_posts/")
+        elif post_id in self._pending_registry:
+            post = self._pending_registry[post_id]
+            with open(approved_file, 'w') as f:
+                json.dump(post, f, indent=2)
+            print(f"📂 Retry: loaded {post_id} from registry → written to approved_posts/")
+        else:
+            await update.message.reply_text(
+                f"❌ Post not found: {post_id}\n\n"
+                f"It may have already been published or was never saved.\n"
+                f"Use /generate to create a new post."
+            )
+            return
+
+        # Confirm to CEO and kick off publish
+        msg = await update.message.reply_text(
+            f"🔄 *RETRYING PUBLISH...*\n\n"
+            f"Day {post['day']}/36: {post['state_name']}\n\n"
+            f"📤 Group → General Feed (with 5-min delay)\n"
+            f"🕐 ~7 minutes total — please wait...",
+            parse_mode='Markdown'
+        )
+
+        # Reuse the inline publish path via a mock query-like object
+        class _FakeQuery:
+            """Minimal duck-type of CallbackQuery for reuse of _publish_to_leke_leke."""
+            def __init__(self, message):
+                self._message = message
+            async def edit_message_text(self, text, parse_mode=None):
+                try:
+                    await self._message.edit_text(text, parse_mode=parse_mode)
+                except Exception:
+                    await self._message.reply_text(text, parse_mode=parse_mode)
+
+        fake_query = _FakeQuery(msg)
+        print(f"🔄 Retry publish requested by CEO for {post_id}")
+        await self._publish_to_leke_leke(fake_query, post_id, post, context)
+
     async def button_callback(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle approval/rejection button clicks"""
         query = update.callback_query
@@ -383,7 +453,16 @@ Use /generate to create next post"""
         self.app.add_handler(CommandHandler("queue", self.queue_command))
         self.app.add_handler(CommandHandler("generate", self.generate_command))
         self.app.add_handler(CommandHandler("otp", self.otp_command))
-        
+
+        # Retry handler: /publish_<post_id>  (dynamic command — uses regex message handler)
+        from telegram.ext import MessageHandler, filters as tg_filters
+        self.app.add_handler(
+            MessageHandler(
+                tg_filters.TEXT & tg_filters.Regex(r"^/publish_"),
+                self.publish_command,
+            )
+        )
+
         # Buttons
         self.app.add_handler(CallbackQueryHandler(self.button_callback))
         
