@@ -1,0 +1,56 @@
+# Python virtual environment – never needed in Docker (pip installs from requirements.txt)
+.venv/
+venv/
+env/
+
+# Local WhatsApp bot deploy clone
+.tmp_amd_whatsapp_bot_deploy/
+
+# Large media / test assets
+*.dmg
+*.mp4
+*.mov
+*.avi
+*.wav
+*.mp3
+test_green_square_*.png
+test_*.png
+test_*.jpg
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Git internals
+.git/
+.gitignore
+.github/
+
+# Environment secrets (injected by Railway)
+.env
+.env.*
+
+# macOS metadata
+.DS_Store
+**/.DS_Store
+
+# Generated output directories (created at runtime in container)
+generated_graphics/
+pending_posts/
+approved_posts/
+rejected_posts/
+
+# Node modules (if any)
+node_modules/
+
+# Logs
+*.log
+activity_log.md
+system_audit.txt
+
+# IDE
+.vscode/
+.idea/
