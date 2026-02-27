@@ -1,5 +1,4 @@
-# Telegram Approval Bot Dependencies
-# CEO control panel + content generation
+# Telegram Approval Bot + Leke Leke Publisher — UNIFIED SERVICE DEPENDENCIES
 
 # Telegram bot framework
 python-telegram-bot==20.7
@@ -12,6 +11,10 @@ google-generativeai==0.3.2
 
 # OpenAI image generation
 openai>=1.12.0
+
+# Selenium browser automation (merged from ghostwriter — inline publishing)
+selenium==4.16.0
+webdriver-manager==4.0.1
 
 # Environment variables
 python-dotenv==1.0.0

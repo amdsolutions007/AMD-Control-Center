@@ -9,11 +9,13 @@ import asyncio
 import time
 import urllib.request
 import urllib.parse
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
 from content_generator import ContentGenerator
 from graphic_generator import GraphicGenerator
+from leke_leke_browser_automation import LekeLekeeAutomation
 
 # Configuration
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
@@ -170,24 +172,20 @@ Use /generate to create next post"""
             post = json.load(f)
             
         if action == "approve":
-            # Move to approved queue
+            # Move to approved archive immediately
             approved_file = os.path.join(APPROVED_DIR, f"{post_id}.json")
             os.rename(post_file, approved_file)
-            
+
+            # Acknowledge CEO instantly, then publish in-process
             await query.edit_message_text(
-                f"✅ *APPROVED*\n\n"
+                f"🚀 *PUBLISHING TO LEKEELEKEE...*\n\n"
                 f"Day {post['day']}/36: {post['state_name']}\n\n"
-                f"Ghost Writer will post this to Leke Leke shortly.\n"
-                f"You'll receive a confirmation when it's live.",
+                f"⏳ Browser automation running — please wait (30-60s)...",
                 parse_mode='Markdown'
             )
-            
-            print(f"✅ Post {post_id} approved by CEO")
-            
-            # Trigger Ghost Writer to post (via file flag)
-            trigger_file = "trigger_post.flag"
-            with open(trigger_file, 'w') as f:
-                f.write(post_id)
+
+            print(f"✅ Post {post_id} approved by CEO — starting inline publish")
+            await self._publish_to_leke_leke(query, post_id, post)
                 
         elif action == "reject":
             # Move to rejected
@@ -200,8 +198,71 @@ Use /generate to create next post"""
                 f"Post discarded. Use /generate to create a new one.",
                 parse_mode='Markdown'
             )
-            
+
             print(f"❌ Post {post_id} rejected by CEO")
+
+    async def _publish_to_leke_leke(
+        self,
+        query,
+        post_id: str,
+        post: dict,
+    ):
+        """Run Selenium posting in a thread executor so it doesn't block the bot."""
+        email    = os.getenv("LEKE_LEKE_EMAIL", "")
+        password = os.getenv("LEKE_LEKE_PASSWORD", "")
+
+        if not email or not password:
+            await query.edit_message_text(
+                f"⚠️ *PUBLISH SKIPPED*\n\n"
+                f"LEKE_LEKE_EMAIL or LEKE_LEKE_PASSWORD not set in environment.\n"
+                f"Post saved to approved_posts/ — set credentials and redeploy.",
+                parse_mode='Markdown'
+            )
+            return
+
+        def _run_selenium(post_data: dict) -> tuple:
+            """Synchronous Selenium block — runs inside ThreadPoolExecutor."""
+            bot = LekeLekeeAutomation(email, password, headless=True)
+            try:
+                if not bot.start_browser():
+                    return False, "Browser failed to start"
+
+                if not bot.login():
+                    return False, "Leke Leke login failed"
+
+                success = bot.post_approved_content(post_data)
+                if success:
+                    bot.archive_posted(
+                        post_id,
+                        post_data,
+                    )
+                return success, None
+            except Exception as exc:
+                return False, str(exc)
+            finally:
+                bot.close()
+
+        loop = asyncio.get_event_loop()
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            ok, err = await loop.run_in_executor(pool, _run_selenium, post)
+
+        if ok:
+            await query.edit_message_text(
+                f"✅ *SUCCESSFULLY PUBLISHED!*\n\n"
+                f"Day {post['day']}/36: {post['state_name']}\n\n"
+                f"🟢 Live on LekeeLekee now.",
+                parse_mode='Markdown'
+            )
+            print(f"🟢 Post {post_id} published to LekeeLekee")
+        else:
+            await query.edit_message_text(
+                f"❌ *PUBLISH FAILED*\n\n"
+                f"Day {post['day']}/36: {post['state_name']}\n\n"
+                f"Error: {err or 'Unknown'}\n"
+                f"Post is saved in approved_posts/ — retry with /publish_{post_id}",
+                parse_mode='Markdown'
+            )
+            print(f"❌ Publish failed for {post_id}: {err}")
             
     def run(self):
         """Start the Telegram bot"""
