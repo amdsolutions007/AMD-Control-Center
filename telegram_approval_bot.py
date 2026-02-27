@@ -224,23 +224,44 @@ Use /generate to create next post"""
         print(f"📱 CEO Telegram ID: {CEO_TELEGRAM_ID}")
         print("✅ Ready to receive commands")
 
-        # ── NUCLEAR 409 FIX ──────────────────────────────────────────────────
-        # call deleteWebhook BEFORE run_polling — this forces Telegram to
-        # immediately terminate any live getUpdates connection from the old
-        # container, no matter how long Railway takes to kill it.
+        # ── NUCLEAR 409 FIX + QUEUE DRAIN ──────────────────────────────────
+        # STEP A: deleteWebhook (clears any webhook queue, kills stale connections)
+        # STEP B: getUpdates offset=-1 (fast-forwards the getUpdates queue pointer
+        #          so ALL historical pending /generate commands are silently discarded)
+        # STEP C: sleep 8s so Railway can fully kill the old container
+        # STEP D: run_polling(drop_pending_updates=True) as a final safety net
         token = os.getenv("TELEGRAM_BOT_TOKEN", "")
         if token:
+            base = f"https://api.telegram.org/bot{token}"
+
+            # STEP A — deleteWebhook
             try:
                 payload = urllib.parse.urlencode({"drop_pending_updates": "true"}).encode()
-                req = urllib.request.Request(
-                    f"https://api.telegram.org/bot{token}/deleteWebhook",
-                    data=payload
-                )
+                req = urllib.request.Request(f"{base}/deleteWebhook", data=payload)
                 with urllib.request.urlopen(req, timeout=10) as r:
                     result = json.loads(r.read())
                 print(f"🔌 deleteWebhook: {result}")
             except Exception as e:
                 print(f"⚠️  deleteWebhook failed (non-fatal): {e}")
+
+            # STEP B — getUpdates offset=-1 to hard-drain the long-poll queue
+            try:
+                flush_url = f"{base}/getUpdates?offset=-1&limit=1&timeout=0"
+                req2 = urllib.request.Request(flush_url)
+                with urllib.request.urlopen(req2, timeout=10) as r2:
+                    flush_resp = json.loads(r2.read())
+                queued = flush_resp.get("result", [])
+                if queued:
+                    last_id = queued[-1]["update_id"]
+                    # Acknowledge past that ID so Telegram drops everything before it
+                    ack_url = f"{base}/getUpdates?offset={last_id + 1}&limit=1&timeout=0"
+                    urllib.request.urlopen(ack_url, timeout=10).close()
+                    print(f"🗑️  Queue flushed: discarded all updates up to ID {last_id}")
+                else:
+                    print("🗑️  Queue already empty — nothing to drain")
+            except Exception as e:
+                print(f"⚠️  Queue drain failed (non-fatal): {e}")
+
             print("⏳ Sleeping 8s to let old getUpdates connections die...")
             time.sleep(8)
         # ─────────────────────────────────────────────────────────────────────

@@ -193,9 +193,11 @@ class GraphicGenerator:
             prompt = self._build_prompt(state_name, day_number, caption, style_track)
             try:
                 response = self.client.images.generate(
-                    model=self.openai_model,
+                    model="dall-e-3",
                     prompt=prompt,
-                    size=self.openai_size,
+                    size="1024x1024",    # LOCKED — never change, $0.04/image
+                    quality="standard",
+                    n=1,
                     response_format="b64_json",
                 )
             except Exception as exc:
