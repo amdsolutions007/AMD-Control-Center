@@ -255,12 +255,14 @@ Use /generate to create next post"""
             )
             print(f"🟢 Post {post_id} published to LekeeLekee")
         else:
+            # No parse_mode — err and post_id may contain underscores/parens
+            # that break Markdown entity parsing
+            safe_err = (err or 'Unknown').replace('<', '').replace('>', '')
             await query.edit_message_text(
-                f"❌ *PUBLISH FAILED*\n\n"
+                f"❌ PUBLISH FAILED\n\n"
                 f"Day {post['day']}/36: {post['state_name']}\n\n"
-                f"Error: {err or 'Unknown'}\n"
-                f"Post is saved in approved_posts/ — retry with /publish_{post_id}",
-                parse_mode='Markdown'
+                f"Error: {safe_err}\n"
+                f"Post saved in approved_posts/ — retry with /publish_{post_id}"
             )
             print(f"❌ Publish failed for {post_id}: {err}")
             

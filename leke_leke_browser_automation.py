@@ -149,7 +149,7 @@ class LekeLekeeAutomation:
             # Handle overlays/cookie banners early
             self._dismiss_overlays()
 
-            wait = WebDriverWait(self.driver, 20)
+            wait = WebDriverWait(self.driver, 45)
             email_field = wait.until(EC.presence_of_element_located((By.NAME, "email")))
             password_field = self.driver.find_element(By.NAME, "password")
 
@@ -197,7 +197,7 @@ class LekeLekeeAutomation:
             self.driver.get("https://www.lekeelekee.com/home")
             self.human_delay()
 
-            wait = WebDriverWait(self.driver, 20)
+            wait = WebDriverWait(self.driver, 45)
             composer = wait.until(
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='post-composer']"))
             )
