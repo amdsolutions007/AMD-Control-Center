@@ -629,18 +629,19 @@ class LekeLekeeAutomation:
             print(f"🌐 Form action: {form_action}")
 
             # Build BrightData HTTP proxy from the WebSocket endpoint
+            # Note: Scraping Browser zones don't support HTTP CONNECT proxy mode.
+            # We'll try direct first, then BrightData Datacenter proxy if available.
             bd_proxy = None
             try:
                 import re as _re
+                # Try BrightData datacenter proxy (different port/zone from scraping browser)
                 bd_ep = os.environ.get('BRIGHTDATA_WS_ENDPOINT', '')
                 m = _re.match(r'https?://([^:]+):([^@]+)@([^:/]+)', bd_ep)
                 if m:
                     _u, _p, _h = m.group(1), m.group(2), m.group(3)
-                    bd_proxy = {
-                        'http':  f'http://{_u}:{_p}@{_h}:22225',
-                        'https': f'http://{_u}:{_p}@{_h}:22225',
-                    }
-                    print(f"🌐 BrightData HTTP proxy configured: {_h}:22225")
+                    # Port 22225 = datacenter proxy — only works if zone supports it
+                    # We'll try WITHOUT proxy first (direct), then as fallback with proxy
+                    print(f"🌐 BD credentials available: {_u!r}")
             except Exception as pe:
                 print(f"⚠️  Proxy setup: {pe!r}")
 
@@ -667,14 +668,14 @@ class LekeLekeeAutomation:
                 'User-Agent':   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0 Safari/537.36',
                 'Accept':       'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             }
-            print(f"📤 POSTing login form via {'BD proxy' if bd_proxy else 'direct'}...")
+            print(f"📤 POSTing login form (direct, no proxy)...")
             try:
                 resp = _req.post(
                     form_action,
                     data=form_data,
                     headers=req_headers,
                     cookies=browser_cookies,
-                    proxies=bd_proxy,
+                    proxies=None,
                     allow_redirects=True,
                     timeout=30,
                     verify=False,
