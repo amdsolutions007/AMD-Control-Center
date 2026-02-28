@@ -9,11 +9,16 @@ import json
 import os
 import random
 import time
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.options import Options
+try:
+    import undetected_chromedriver as uc
+    _UC_AVAILABLE = True
+except ImportError:
+    _UC_AVAILABLE = False
+    from selenium import webdriver
+    from selenium.webdriver.chrome.options import Options
 
 
 class LekeLekeeAutomation:
@@ -42,66 +47,82 @@ class LekeLekeeAutomation:
         self.action_count = 0
 
     def start_browser(self) -> bool:
-        """Start Chrome browser with Xvfb virtual display to bypass Cloudflare Turnstile.
-        Runs non-headless on DISPLAY=:99 so Turnstile sees a real browser environment."""
+        """Start Chrome via undetected-chromedriver + Xvfb to defeat Cloudflare Turnstile.
+        uc patches the ChromeDriver binary to remove all automation fingerprints."""
         try:
             import subprocess as _sp
             import os as _os
 
-            # ── Launch Xvfb virtual display on :99 if not already running ─────
+            # ── Launch Xvfb virtual display on :99 ───────────────────────────
             display = _os.environ.get("DISPLAY", ":99")
             try:
                 _sp.Popen(
                     ["Xvfb", display, "-screen", "0", "1920x1080x24", "-ac"],
                     stdout=_sp.DEVNULL, stderr=_sp.DEVNULL
                 )
-                import time as _t; _t.sleep(1)  # let Xvfb initialise
+                time.sleep(1)
                 print(f"✅ Xvfb started on {display}")
             except FileNotFoundError:
-                print("⚠️  Xvfb not found — falling back to --headless=new")
-                self.headless = True  # ensure headless flag stays consistent
+                print("⚠️  Xvfb not found — display may not be available")
             except Exception as xvfb_err:
                 print(f"⚠️  Xvfb launch error (non-fatal): {xvfb_err!r}")
 
-            options = Options()
-            if self.headless and not _os.environ.get("DISPLAY"):
-                # Only use headless if there's no virtual display available
+            if _UC_AVAILABLE:
+                # ── undetected-chromedriver: patches ChromeDriver at binary level
+                #    so Cloudflare Turnstile cannot detect automation
+                options = uc.ChromeOptions()
+                options.add_argument("--no-sandbox")
+                options.add_argument("--disable-dev-shm-usage")
+                options.add_argument("--disable-gpu")
+                options.add_argument("--window-size=1920,1080")
+                options.add_argument(
+                    "--user-agent=Mozilla/5.0 (X11; Linux x86_64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/122.0.0.0 Safari/537.36"
+                )
+                self.driver = uc.Chrome(
+                    options=options,
+                    driver_executable_path="/usr/bin/chromedriver",
+                    browser_executable_path="/usr/bin/chromium",
+                    use_subprocess=False,
+                    headless=False,  # Xvfb on :99 provides the virtual display
+                )
+                print("✅ Browser started (undetected-chromedriver + Xvfb)")
+            else:
+                # Fallback: plain Selenium (Turnstile may still block)
+                from selenium import webdriver as _wd
+                from selenium.webdriver.chrome.options import Options as _Opts
+                options = _Opts()
                 options.add_argument("--headless=new")
-            # When DISPLAY is set (Xvfb), run without --headless so Turnstile passes
-            options.add_argument("--no-sandbox")
-            options.add_argument("--disable-dev-shm-usage")
-            options.add_argument("--disable-blink-features=AutomationControlled")
-            options.add_argument("--disable-infobars")
-            options.add_argument("--disable-extensions")
-            options.add_argument("--disable-gpu")
-            options.add_argument("--window-size=1920,1080")
-            options.add_argument(
-                "--user-agent=Mozilla/5.0 (X11; Linux x86_64) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) "
-                "Chrome/122.0.0.0 Safari/537.36"
-            )
-            options.add_experimental_option("excludeSwitches", ["enable-automation"])
-            options.add_experimental_option("useAutomationExtension", False)
+                options.add_argument("--no-sandbox")
+                options.add_argument("--disable-dev-shm-usage")
+                options.add_argument("--disable-blink-features=AutomationControlled")
+                options.add_argument("--disable-gpu")
+                options.add_argument("--window-size=1920,1080")
+                options.add_experimental_option("excludeSwitches", ["enable-automation"])
+                options.add_experimental_option("useAutomationExtension", False)
+                self.driver = _wd.Chrome(options=options)
+                print("✅ Browser started (selenium fallback — Turnstile may block)")
 
-            self.driver = webdriver.Chrome(options=options)
+            # ── Stealth CDP overrides (belt-and-suspenders) ──────────────────
+            try:
+                self.driver.execute_cdp_cmd(
+                    "Page.addScriptToEvaluateOnNewDocument",
+                    {
+                        "source": """
+                            Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
+                            Object.defineProperty(navigator, 'plugins', {get: () => [1,2,3,4,5]});
+                            Object.defineProperty(navigator, 'languages', {get: () => ['en-US','en']});
+                            window.chrome = {runtime: {}};
+                            delete window.cdc_adoQpoasnfa76pfcZLmcfl_Array;
+                            delete window.cdc_adoQpoasnfa76pfcZLmcfl_Promise;
+                            delete window.cdc_adoQpoasnfa76pfcZLmcfl_Symbol;
+                        """
+                    },
+                )
+            except Exception:
+                pass  # uc already handles these; non-fatal if CDP call fails
 
-            # ── Stealth: spoof navigator.webdriver on every new page ──
-            self.driver.execute_cdp_cmd(
-                "Page.addScriptToEvaluateOnNewDocument",
-                {
-                    "source": """
-                        Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
-                        Object.defineProperty(navigator, 'plugins', {get: () => [1,2,3,4,5]});
-                        Object.defineProperty(navigator, 'languages', {get: () => ['en-US','en']});
-                        window.chrome = {runtime: {}};
-                        delete window.cdc_adoQpoasnfa76pfcZLmcfl_Array;
-                        delete window.cdc_adoQpoasnfa76pfcZLmcfl_Promise;
-                        delete window.cdc_adoQpoasnfa76pfcZLmcfl_Symbol;
-                    """
-                },
-            )
-
-            print("✅ Browser started (stealth mode)")
             return True
         except Exception as e:
             print(f"❌ Failed to start browser: {e}")
