@@ -608,154 +608,130 @@ class LekeLekeeAutomation:
             if password_field is None:
                 raise TimeoutError("Password input not found")
 
-            # ── STEP 3: Fill form immediately before submit ───────────────────
-            # BrightData Scraping Browser blocks all interaction with
-            # type='password' inputs as an anti-abuse measure.
-            # FIX: temporarily change input type to 'text' so it's writable,
-            # fill it, then submit (the server doesn't care about the DOM type).
+            # ── STEP 3: Hybrid login — HTTP POST via BrightData proxy ────────
+            # BrightData Scraping Browser explicitly blocks all writes to
+            # type='password' inputs (anti-abuse feature, confirmed via probe).
+            # Workaround: POST the form data via requests through BrightData's
+            # HTTP proxy with the Turnstile token, inject resulting session
+            # cookies back into the browser session.
+
+            # Get form action URL
             try:
-                self.driver.execute_script(
-                    "var pw = document.querySelector('#password, input[type=\"password\"]');"
-                    "if (pw) pw.type = 'text';"
+                form_info = self.driver.execute_script(
+                    "var f=document.querySelector('form');"
+                    "return {action:f&&f.action?f.action:null, method:f?f.method:'POST'};"
                 )
-                print("✅ Password field type→text (BrightData restriction bypass)")
-            except Exception as e:
-                print(f"⚠️  Could not change password field type: {e!r}")
-
-            # Re-find both fields after type change
-            email_field = self._find_input(email_selectors, wait_for_first=False, timeout=5) or email_field
-            password_field = self._find_input([
-                (By.CSS_SELECTOR, "input[id='password']"),
-                (By.CSS_SELECTOR, "input[name='password']"),
-                (By.NAME,         "password"),
-                (By.CSS_SELECTOR, "input[type='text']"),   # after type change
-            ], wait_for_first=False, timeout=10) or password_field
-
-            print("📝 Filling form (email + password-as-text)...")
-            self._fill_field(email_field,    self.email)
-            # Re-find password after email fill (React re-renders invalidate ref)
-            password_field = self._find_input([
-                (By.CSS_SELECTOR, "input[id='password']"),
-                (By.NAME,         "password"),
-                (By.CSS_SELECTOR, "input[type='text']"),
-            ], wait_for_first=False, timeout=10) or password_field
-            self._fill_field(password_field, self.password)
-
-            # Diagnostic (fast readback — use WebDriver get_attribute + JS)
-            try:
-                # get_attribute uses WebDriver protocol (not JS — avoids password read restriction)
-                ev_attr = email_field.get_attribute('value')    or ""
-                pv_attr = password_field.get_attribute('value') or ""
-                # JS querySelector readback for comparative check
-                check = self.driver.execute_script(
-                    "return {"
-                    "  email: (document.querySelector('#email,[name=\"email\"]')||{}).value,"
-                    "  password: (document.querySelector('#password,[name=\"password\"]')||{}).value"
-                    "};"
-                )
-                ej = len(check.get("email") or "")
-                pj = len(check.get("password") or "")
-                print(f"🔎 Field readback — email: attr={len(ev_attr)}/JS={ej}  password: attr={len(pv_attr)}/JS={pj}")
-                if len(pv_attr) == 0 and pj == 0:
-                    print("⚠️  Password appears empty — will submit anyway (server may see it differently)")
+                form_action = (form_info or {}).get('action') or 'https://www.lekeelekee.com/login'
+                if form_action and not form_action.startswith('http'):
+                    form_action = 'https://www.lekeelekee.com' + form_action
             except Exception:
-                pass
+                form_action = 'https://www.lekeelekee.com/login'
+            print(f"🌐 Form action: {form_action}")
 
-            # ── STEP 4: Submit ────────────────────────────────────────────────
-            # Intercept fetch so we can log what credentials are sent to the server
+            # Build BrightData HTTP proxy from the WebSocket endpoint
+            bd_proxy = None
             try:
-                self.driver.execute_script(
-                    "window._reqs=[];"
-                    "var _f=window.fetch;"
-                    "window.fetch=function(u,o){"
-                    "  window._reqs.push({url:String(u),method:((o||{}).method||'GET').toUpperCase(),body:(o||{}).body||null});"
-                    "  return _f.apply(window,arguments);"
-                    "};"
-                )
+                import re as _re
+                bd_ep = os.environ.get('BRIGHTDATA_WS_ENDPOINT', '')
+                m = _re.match(r'https?://([^:]+):([^@]+)@([^:/]+)', bd_ep)
+                if m:
+                    _u, _p, _h = m.group(1), m.group(2), m.group(3)
+                    bd_proxy = {
+                        'http':  f'http://{_u}:{_p}@{_h}:22225',
+                        'https': f'http://{_u}:{_p}@{_h}:22225',
+                    }
+                    print(f"🌐 BrightData HTTP proxy configured: {_h}:22225")
+            except Exception as pe:
+                print(f"⚠️  Proxy setup: {pe!r}")
+
+            # Gather current browser cookies for session context
+            try:
+                browser_cookies = {c['name']: c['value'] for c in self.driver.get_cookies()}
             except Exception:
-                pass
+                browser_cookies = {}
 
-            submit_selectors = [
-                "button[type='submit']",
-                "input[type='submit']",
-                "button[class*='login' i]",
-                "button[class*='signin' i]",
-                "button[class*='submit' i]",
-            ]
-            login_button = None
-            for sel in submit_selectors:
-                try:
-                    els = self.driver.find_elements(By.CSS_SELECTOR, sel)
-                    if els:
-                        login_button = els[0]
-                        break
-                except Exception:
-                    continue
-            if login_button is None:
-                raise TimeoutError("Login submit button not found")
+            # POST the login form data
+            import requests as _req
+            import urllib3
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-            if turnstile_solved:
-                try:
-                    WebDriverWait(self.driver, 5).until(lambda d: login_button.is_enabled())
-                    self._safe_click(login_button)
-                    print("✅ Submit button clicked (Turnstile passed)")
-                except Exception:
-                    self.driver.execute_script(
-                        "arguments[0].removeAttribute('disabled'); arguments[0].click();",
-                        login_button
-                    )
-                    print("✅ Submit button JS-forced (Turnstile passed, button was disabled)")
-            else:
-                try:
-                    self.driver.execute_script(
-                        "arguments[0].removeAttribute('disabled'); arguments[0].click();",
-                        login_button
-                    )
-                    print("✅ Submit button JS-forced (no Turnstile token)")
-                except Exception:
-                    self.driver.execute_script(
-                        "var form = document.querySelector('form'); if(form) form.submit();"
-                    )
-                    print("✅ Form submitted via JS (last resort)")
-
-            # ── Log captured network requests (shows what credentials were sent) ──
+            form_data = {
+                'email':                  self.email,
+                'password':               self.password,
+                'cf-turnstile-response':  turnstile_token,
+            }
+            req_headers = {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Origin':       'https://www.lekeelekee.com',
+                'Referer':      'https://www.lekeelekee.com/login',
+                'User-Agent':   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0 Safari/537.36',
+                'Accept':       'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            }
+            print(f"📤 POSTing login form via {'BD proxy' if bd_proxy else 'direct'}...")
             try:
-                time.sleep(1.5)   # give the fetch a moment to complete
-                reqs = self.driver.execute_script("return window._reqs || [];")
-                if reqs:
-                    print(f"🌐 Captured {len(reqs)} request(s) after submit:")
-                    for r in reqs[:5]:
-                        body_preview = str(r.get('body') or '')[:200]
-                        print(f"  → {r.get('method')} {r.get('url')} | body: {body_preview!r}")
+                resp = _req.post(
+                    form_action,
+                    data=form_data,
+                    headers=req_headers,
+                    cookies=browser_cookies,
+                    proxies=bd_proxy,
+                    allow_redirects=True,
+                    timeout=30,
+                    verify=False,
+                )
+                final_url = resp.url
+                status    = resp.status_code
+                print(f"  HTTP {status} → {final_url}")
+
+                if '/login' not in final_url:
+                    # ── Inject session cookies into browser ───────────────────
+                    print("✅ HTTP POST login succeeded — injecting cookies into browser...")
+                    cookie_domain = 'www.lekeelekee.com'
+                    try:
+                        self.driver.get(f'https://{cookie_domain}')
+                    except Exception:
+                        pass
+                    injected = 0
+                    for ck_name, ck_value in resp.cookies.items():
+                        try:
+                            self.driver.add_cookie({
+                                'name':   ck_name,
+                                'value':  ck_value,
+                                'domain': cookie_domain,
+                                'path':   '/',
+                            })
+                            injected += 1
+                        except Exception:
+                            pass
+                    print(f"✅ {injected} cookie(s) injected")
+                    # Reload to apply cookies
+                    self.driver.get('https://www.lekeelekee.com')
+                    time.sleep(2)
+                    # Success check
+                    if '/login' not in self.driver.current_url:
+                        print(f"✅ Browser now at: {self.driver.current_url}")
+                        return True
+                    # May need another navigation
+                    self.driver.get('https://www.lekeelekee.com/feed')
+                    time.sleep(2)
+                    if '/login' not in self.driver.current_url:
+                        print(f"✅ Logged in via HTTP POST + cookie injection → {self.driver.current_url}")
+                        return True
+                    raise RuntimeError("Cookies injected but browser still on login page")
                 else:
-                    print("🌐 No fetch requests captured (form may use XMLHttpRequest or page navigate)")
-            except Exception:
-                pass
+                    # Diagnose why it failed
+                    err_snippet = resp.text[max(0, resp.text.lower().find('error')-20):resp.text.lower().find('error')+80] if 'error' in resp.text.lower() else ""
+                    print(f"⚠️  HTTP POST returned /login URL — server rejected. Extract: {err_snippet!r}")
+                    raise RuntimeError("HTTP POST login failed — server redirected back to /login")
 
-            # ── Wait for redirect away from /login (success indicator) ────────
-            print("⏳ Waiting for post-login redirect...")
-            try:
-                WebDriverWait(self.driver, 15).until(
-                    lambda d: "/login" not in d.current_url
-                )
-                print(f"✅ Redirected to: {self.driver.current_url}")
-            except Exception:
-                # May still be on /login due to wrong credentials or CAPTCHA block
-                current_url = self.driver.current_url
-                page_text = ""
-                try:
-                    page_text = self.driver.find_element(By.TAG_NAME, "body").text[:200]
-                except Exception:
-                    pass
-                print(f"⚠️  Still on login page after submit. URL: {current_url!r}")
-                print(f"⚠️  Page text: {page_text!r}")
-                # Check if there's an error message (wrong password etc)
-                if any(w in page_text.lower() for w in ["invalid", "incorrect", "wrong", "error", "failed"]):
-                    raise RuntimeError(f"Login credentials rejected: {page_text[:100]}")
-                # Otherwise Turnstile is blocking — raise for screenshot
-                raise RuntimeError("Stuck on login page — Turnstile or server block")
+            except RuntimeError:
+                raise
+            except Exception as http_err:
+                print(f"❌ HTTP POST exception: {http_err!r}")
+                raise RuntimeError(f"HTTP hybrid login failed: {http_err!r}")
 
             # ── 2FA / OTP screen detection ────────────────────────────────────
+            # Reached only if HTTP POST failed to return early above
             otp_selectors = [
                 "input[name='otp']",
                 "input[name='code']",
