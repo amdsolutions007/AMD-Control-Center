@@ -233,13 +233,8 @@ class LekeLekeeAutomation:
         """Fill an input field reliably on both local and remote (BrightData) WebDrivers.
 
         LekeeLekee uses React controlled components — we must update React state.
-        Attempts in order:
-          0. W3C ActionChains (click-to-focus + send_keys via Actions API — best for CDP)
-          1. Element-level send_keys with select-all prefix
-          2. CDP Input.insertText (bypasses all JS/element abstraction layers)
-          3. React-native-setter JS (ALWAYS runs to ensure React state sync)
-
-        Each attempt prints its result for debugging.
+        BrightData allows ActionChains for email fields but blocks type=password.
+        We stop after the FIRST successful fill to avoid duplicating text.
         """
         from selenium.webdriver.common.action_chains import ActionChains
         from selenium.webdriver.common.keys import Keys as _Keys
@@ -249,49 +244,15 @@ class LekeLekeeAutomation:
         except Exception:
             pass
 
-        # Attempt 0 — W3C Actions API
-        try:
-            ActionChains(self.driver)\
-                .click(element)\
-                .key_down(_Keys.CONTROL).send_keys('a').key_up(_Keys.CONTROL)\
-                .send_keys(value)\
-                .perform()
-            # Quick check after ActionChains
+        # Helper: verify fill actually worked
+        def _check_value(el, expected):
             try:
-                av = element.get_attribute('value') or ""
-                print(f"  [fill{field_tag}] ActionChains ok, attr={len(av)} chars")
+                v = el.get_attribute('value') or ""
+                return expected in v or len(v) >= len(expected)
             except Exception:
-                print(f"  [fill{field_tag}] ActionChains ok (readback failed)")
-        except Exception as e0:
-            print(f"  [fill{field_tag}] ActionChains ❌ {e0!r}")
+                return False
 
-        # Attempt 1 — element-level send_keys fallback
-        try:
-            element.click()
-            element.send_keys(_Keys.CONTROL + 'a')
-            element.send_keys(value)
-            try:
-                av = element.get_attribute('value') or ""
-                print(f"  [fill{field_tag}] send_keys ok, attr={len(av)} chars")
-            except Exception:
-                print(f"  [fill{field_tag}] send_keys ok (readback failed)")
-        except Exception as e1:
-            print(f"  [fill{field_tag}] send_keys ❌ {e1!r}")
-
-        # Attempt 2 — CDP Input.insertText (direct kernel-level input)
-        try:
-            element.click()
-            time.sleep(0.1)
-            self.driver.execute_cdp_cmd('Input.insertText', {'text': value})
-            try:
-                av = element.get_attribute('value') or ""
-                print(f"  [fill{field_tag}] CDP insertText ok, attr={len(av)} chars")
-            except Exception:
-                print(f"  [fill{field_tag}] CDP insertText ok (readback failed)")
-        except Exception as e2:
-            print(f"  [fill{field_tag}] CDP insertText ❌ {e2!r}")
-
-        # Attempt 3 — React native setter (ALWAYS run)
+        # Attempt 0 — JS React-native-setter FIRST (most complete — sets DOM + triggers React)
         try:
             self.driver.execute_script(
                 """
@@ -305,19 +266,48 @@ class LekeLekeeAutomation:
                 """,
                 element, value
             )
-            print(f"  [fill{field_tag}] JS nativeSetter ok")
+            if _check_value(element, value):
+                print(f"  [fill{field_tag}] JS nativeSetter ok, val={len(value)}")
+                return
+        except Exception as e0:
+            print(f"  [fill{field_tag}] JS nativeSetter: {e0!r}")
+
+        # Attempt 1 — W3C Actions API (select-all then type)
+        try:
+            ActionChains(self.driver)\
+                .click(element)\
+                .key_down(_Keys.CONTROL).send_keys('a').key_up(_Keys.CONTROL)\
+                .key_down(_Keys.DELETE).key_up(_Keys.DELETE)\
+                .send_keys(value)\
+                .perform()
+            if _check_value(element, value):
+                print(f"  [fill{field_tag}] ActionChains ok, val={len(value)}")
+                return
+        except Exception as e1:
+            print(f"  [fill{field_tag}] ActionChains: {e1!r}")
+
+        # Attempt 2 — CDP Input.insertText (focus via click first)
+        try:
+            element.click()
+            # select-all + delete via CDP dispatch
+            self.driver.execute_cdp_cmd('Input.dispatchKeyEvent', {'type':'keyDown','key':'a','modifiers':2})
+            self.driver.execute_cdp_cmd('Input.dispatchKeyEvent', {'type':'keyDown','key':'Delete'})
+            time.sleep(0.05)
+            self.driver.execute_cdp_cmd('Input.insertText', {'text': value})
+            if _check_value(element, value):
+                print(f"  [fill{field_tag}] CDP insertText ok, val={len(value)}")
+                return
+        except Exception as e2:
+            print(f"  [fill{field_tag}] CDP insertText: {e2!r}")
+
+        # Attempt 3 — last resort element send_keys
+        try:
+            element.click()
+            element.send_keys(_Keys.CONTROL + 'a')
+            element.send_keys(value)
+            print(f"  [fill{field_tag}] send_keys ok (no readback check)")
         except Exception as e3:
-            print(f"  [fill{field_tag}] JS nativeSetter ❌ {e3!r}")
-            try:
-                self.driver.execute_script(
-                    "arguments[0].value = arguments[1];"
-                    "arguments[0].dispatchEvent(new Event('input',{bubbles:true}));"
-                    "arguments[0].dispatchEvent(new Event('change',{bubbles:true}));",
-                    element, value
-                )
-                print(f"  [fill{field_tag}] JS plainSetter ok")
-            except Exception as e3b:
-                print(f"  [fill{field_tag}] JS plainSetter ❌ {e3b!r}")
+            print(f"  [fill{field_tag}] send_keys: {e3!r}")
 
     def _dismiss_overlays(self):
         """Best-effort dismissal for cookie banners/modals that block clicks."""
@@ -722,12 +712,17 @@ class LekeLekeeAutomation:
                         api_method = 'POST'
                         break
 
-            print(f"🎯 Login API URL: {api_url}")
+            print(f"🎯 Intercepted API URL: {api_url}")
 
+            # Known endpoint from discovery — use it directly with real credentials
+            KNOWN_LOGIN_API = 'https://www.lekeelekee.com/api/v1/auth/login'
             if not api_url:
-                raise RuntimeError("Could not intercept login API endpoint")
+                print(f"⚠️  No intercepted URL — falling back to known endpoint {KNOWN_LOGIN_API}")
+                api_url    = KNOWN_LOGIN_API
+                api_method = 'POST'
+                is_json_api = True
 
-            # Now call the API directly with proper credentials
+            # Direct API call with real credentials + Turnstile token
             import requests as _req
             import json as _json
             import urllib3
@@ -738,6 +733,9 @@ class LekeLekeeAutomation:
                 browser_cookies = {c['name']: c['value'] for c in self.driver.get_cookies()}
             except Exception:
                 browser_cookies = {}
+
+            # Always use JSON (probe confirmed endpoint accepts JSON)
+            is_json_api = True
 
             # Check if it's JSON or form-encoded from captured body
             first_body = ""
@@ -807,27 +805,80 @@ class LekeLekeeAutomation:
             print(f"  HTTP {status2} → {final_url2}")
             print(f"  Response: {snippet2!r}")
 
-            if status2 in (200, 201) and '/login' not in final_url2:
-                # Inject cookies from response into browser
-                print("✅ API login succeeded — injecting cookies...")
+            if status2 in (200, 201):
+                # Check for success indicators in JSON response
+                resp_data = {}
+                try:
+                    resp_data = _json.loads(resp2.text)
+                except Exception:
+                    pass
+
+                is_success = (
+                    resp_data.get('status') == 'success'
+                    or resp_data.get('token')
+                    or resp_data.get('access_token')
+                    or resp_data.get('user')
+                    or resp_data.get('data')
+                    and '/login' not in final_url2
+                )
+                if not is_success and resp_data.get('status') == 'error':
+                    raise RuntimeError(f"API rejected credentials: {resp_data.get('message', snippet2[:80])}")
+                if not is_success:
+                    raise RuntimeError(f"API login ambiguous: {snippet2[:100]}")
+
+                # Inject token as Authorization header AND cookies
+                print("✅ API login succeeded — injecting session...")
+                token = resp_data.get('token') or resp_data.get('access_token') or ""
+                if token:
+                    print(f"✅ JWT token obtained ({len(token)} chars) — will inject as cookie + localStorage")
+
                 try:
                     self.driver.get('https://www.lekeelekee.com')
+                    time.sleep(1)
                 except Exception:
                     pass
                 injected = 0
+                # Inject cookies from response
                 for ck_name, ck_value in resp2.cookies.items():
                     try:
                         self.driver.add_cookie({'name': ck_name, 'value': ck_value, 'domain': 'www.lekeelekee.com', 'path': '/'})
                         injected += 1
                     except Exception:
                         pass
-                print(f"✅ {injected} cookie(s) injected")
+                # Set JWT token in localStorage if present
+                if token:
+                    try:
+                        self.driver.execute_script(
+                            "localStorage.setItem('token', arguments[0]);"
+                            "localStorage.setItem('authToken', arguments[0]);"
+                            "localStorage.setItem('access_token', arguments[0]);",
+                            token
+                        )
+                        injected += 1
+                        print("✅ Token injected into localStorage")
+                    except Exception as lse:
+                        print(f"⚠️  localStorage injection: {lse!r}")
+                # Also inject all response data keys that look like user data
+                try:
+                    resp_user = resp_data.get('user') or resp_data.get('data', {})
+                    if resp_user and isinstance(resp_user, dict):
+                        self.driver.execute_script("localStorage.setItem('user', JSON.stringify(arguments[0]));", resp_user)
+                except Exception:
+                    pass
+
+                print(f"✅ {injected} item(s) injected")
                 self.driver.get('https://www.lekeelekee.com/feed')
                 time.sleep(2)
                 if '/login' not in self.driver.current_url:
-                    print(f"✅ Logged in via API intercept → {self.driver.current_url}")
+                    print(f"✅ Logged in via API → {self.driver.current_url}")
                     return True
-                raise RuntimeError("Cookies injected but still on /login")
+                # Try home as fallback
+                self.driver.get('https://www.lekeelekee.com/home')
+                time.sleep(2)
+                if '/login' not in self.driver.current_url:
+                    print(f"✅ Logged in via API (home) → {self.driver.current_url}")
+                    return True
+                raise RuntimeError("Cookies/token injected but browser still on /login")
             else:
                 raise RuntimeError(f"API login failed — HTTP {status2}: {snippet2[:100]}")
 
