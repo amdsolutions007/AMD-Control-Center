@@ -279,6 +279,10 @@ class LekeLekeeAutomation:
                 except Exception:
                     pass  # skip malformed cookie entries
 
+            # Log which cookie names were injected (not values — no secrets in logs)
+            injected_names = [c.get("name", "?") for c in cookies]
+            print(f"🍪 Injected cookie names: {injected_names}")
+
             # Navigate to home — if cookies are valid we'll land there
             self.driver.get("https://www.lekeelekee.com/home")
             self.human_delay(2, 3)

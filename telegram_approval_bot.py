@@ -227,11 +227,13 @@ Use /generate to create next post"""
             await update.message.reply_text(
                 "📋 *How to set cookies (one-time setup):*\n\n"
                 "1. Open Chrome on your phone/computer\n"
-                "2. Log in to lekeelekee.com normally\n"
-                "3. Install *Cookie-Editor* extension\n"
-                "4. Click the extension → *Export* → *Export as JSON* → Copy\n"
-                "5. Send: `/cookies [paste JSON here]`\n\n"
-                "After this, the bot bypasses Turnstile permanently until the session expires.",
+                "2. Go to lekeelekee.com → *Log in* manually (solve Turnstile yourself)\n"
+                "3. ✅ Confirm you're on your *home feed* (not the login page!)\n"
+                "4. Install *Cookie-Editor* extension (Chrome Web Store)\n"
+                "5. Click the extension → *Export* → *Export as JSON* → Copy all\n"
+                "6. Send: `/cookies [paste JSON here]`\n\n"
+                "⚠️ *You MUST be logged in before exporting.* A valid export has 15-50+ cookies.\n"
+                "After this, the bot bypasses Turnstile permanently until the session expires (~30 days).",
                 parse_mode='Markdown'
             )
             return
@@ -239,20 +241,44 @@ Use /generate to create next post"""
         cookies_json = full_text[len(prefix):]
         # Save via automation class helper
         from leke_leke_browser_automation import LekeLekeeAutomation
+        import json as _json
         dummy = LekeLekeeAutomation.__new__(LekeLekeeAutomation)
         dummy.COOKIE_FILE = LekeLekeeAutomation.COOKIE_FILE
         ok = dummy.save_cookies(cookies_json)
 
         if ok:
-            import json as _json
             count = len(_json.loads(cookies_json))
-            await update.message.reply_text(
-                f"✅ *{count} cookies saved successfully!*\n\n"
-                f"Next /generate → APPROVE will use cookie login — no Turnstile.\n"
-                f"Session typically lasts 30 days.",
-                parse_mode='Markdown'
-            )
-            print(f"✅ CEO saved {count} cookies via /cookies command")
+            # Check whether any auth-looking cookies are present
+            names = [c.get("name", "").lower() for c in _json.loads(cookies_json)]
+            AUTH_SIGNALS = ("session", "auth", "token", "connect.sid", "access",
+                            "refresh", "user", "account", "logged", "remember",
+                            "jwt", "sid", "lekee", "uid")
+            has_auth = any(sig in n for n in names for sig in AUTH_SIGNALS)
+
+            if count < 5 or not has_auth:
+                await update.message.reply_text(
+                    f"⚠️ *Only {count} cookies saved — these look like consent/CF cookies, NOT a logged-in session.*\n\n"
+                    "🚨 *You must be ALREADY LOGGED IN to lekeelekee.com before exporting!*\n\n"
+                    "Correct steps:\n"
+                    "1. Open Chrome → go to lekeelekee.com\n"
+                    "2. *Log in* with your email & password (solve Turnstile manually)\n"
+                    "3. Confirm you see your *home feed* (not the login page!)\n"
+                    "4. Open Cookie-Editor extension → *Export* → *Export as JSON* → Copy\n"
+                    "5. Send `/cookies [paste JSON here]`\n\n"
+                    f"A valid export should have *15-50+ cookies* including session/auth cookies.\n"
+                    f"Names found: `{', '.join(names[:10])}`",
+                    parse_mode='Markdown'
+                )
+                print(f"⚠️  CEO sent {count} weak cookies (no auth signal) — prompted to re-export")
+            else:
+                await update.message.reply_text(
+                    f"✅ *{count} cookies saved successfully!*\n\n"
+                    f"Auth cookies detected: `{', '.join(n for n in names if any(s in n for s in AUTH_SIGNALS))}`\n\n"
+                    f"Next /generate → APPROVE will use cookie login — no Turnstile.\n"
+                    f"Session typically lasts 30 days.",
+                    parse_mode='Markdown'
+                )
+                print(f"✅ CEO saved {count} cookies via /cookies command (auth signal confirmed)")
         else:
             await update.message.reply_text(
                 "❌ Invalid cookie JSON. Make sure you copied the full JSON array from Cookie-Editor.",
@@ -476,11 +502,14 @@ Use /generate to create next post"""
                 f"Day {post['day']}/36: {post['state_name']}\n\n"
                 f"Error: {safe_err}\n\n"
                 f"━━━━━━━━━━━━━━━━\n"
-                f"🔑 FIX: Set session cookies to bypass Turnstile:\n"
-                f"1. Log in to lekeelekee.com on Chrome\n"
-                f"2. Install Cookie-Editor extension\n"
-                f"3. Export as JSON → Copy\n"
-                f"4. Send: /cookies [paste JSON]\n\n"
+                f"🔑 FIX — Cookie session (one-time, 30-day):\n"
+                f"1. Open Chrome → go to lekeelekee.com\n"
+                f"2. LOG IN manually (you solve Turnstile)\n"
+                f"3. ✅ Verify you see your HOME FEED (not login page!)\n"
+                f"4. Install 'Cookie-Editor' extension\n"
+                f"5. Click extension → Export → Export as JSON → Copy\n"
+                f"6. Send here: /cookies [paste JSON]\n"
+                f"   (Valid export = 15-50+ cookies, NOT 2-3)\n\n"
                 f"Then retry with: /publish_{post_id}"
             )
             # ── Send screenshot to CEO if login failed ────────────────────────
