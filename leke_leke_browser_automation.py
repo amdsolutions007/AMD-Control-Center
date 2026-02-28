@@ -1053,10 +1053,21 @@ class LekeLekeeAutomation:
         body   = full_caption[:budget].rstrip()
         return body + suffix
 
+    def _navigate(self, url: str):
+        """Navigate to *url* using JS to avoid BrightData navigate_limit errors."""
+        try:
+            self.driver.execute_script(f"window.location.href = '{url}';")
+        except Exception:
+            # Falls through — driver.get is last resort
+            try:
+                self.driver.get(url)
+            except Exception:
+                pass
+
     def _post_to_url(self, caption: str, image_path: str, dest_url: str, label: str) -> bool:
         """Navigate to *dest_url*, open composer, type caption, attach image, submit."""
         try:
-            self.driver.get(dest_url)
+            self._navigate(dest_url)
             wait = WebDriverWait(self.driver, 45)
 
             composer = wait.until(
