@@ -236,7 +236,8 @@ class LekeLekeeAutomation:
         Attempts in order:
           0. W3C ActionChains (click-to-focus + send_keys via Actions API — best for CDP)
           1. Element-level send_keys with select-all prefix
-          2. React-native-setter JS (ALWAYS runs to ensure React state sync)
+          2. CDP Input.insertText (bypasses all JS/element abstraction layers)
+          3. React-native-setter JS (ALWAYS runs to ensure React state sync)
         """
         from selenium.webdriver.common.action_chains import ActionChains
         from selenium.webdriver.common.keys import Keys as _Keys
@@ -259,7 +260,16 @@ class LekeLekeeAutomation:
         except Exception:
             pass
 
-        # Attempt 2 — React native setter (ALWAYS run to guarantee React state sync)
+        # Attempt 2 — CDP Input.insertText (direct kernel-level input, bypasses everything)
+        try:
+            element.click()   # focus the field first
+            time.sleep(0.1)
+            self.driver.execute_cdp_cmd('Input.insertText', {'text': value})
+        except Exception:
+            pass
+
+        # Attempt 3 — React native setter (ALWAYS run to guarantee React state sync)
+        # Also fire InputEvent (more accurate than generic Event for React hooks)
         try:
             self.driver.execute_script(
                 """
@@ -268,13 +278,12 @@ class LekeLekeeAutomation:
                 var nativeSetter = Object.getOwnPropertyDescriptor(
                     window.HTMLInputElement.prototype, 'value').set;
                 nativeSetter.call(el, val);
-                el.dispatchEvent(new Event('input',  {bubbles:true}));
+                el.dispatchEvent(new InputEvent('input',  {bubbles:true, inputType:'insertText', data:val}));
                 el.dispatchEvent(new Event('change', {bubbles:true}));
                 """,
                 element, value
             )
         except Exception:
-            # Fallback — plain assignment + synthetic events
             try:
                 self.driver.execute_script(
                     "arguments[0].value = arguments[1];"
@@ -583,17 +592,23 @@ class LekeLekeeAutomation:
             password_field = self._find_input(password_selectors, wait_for_first=False, timeout=10) or password_field
             self._fill_field(password_field, self.password)
 
-            # Diagnostic (fast readback)
+            # Diagnostic (fast readback — use WebDriver get_attribute + JS)
             try:
+                # get_attribute uses WebDriver protocol (not JS — avoids password read restriction)
+                ev_attr = email_field.get_attribute('value')    or ""
+                pv_attr = password_field.get_attribute('value') or ""
+                # JS querySelector readback for comparative check
                 check = self.driver.execute_script(
                     "return {"
-                    "  email: (document.querySelector('#email, input[type=\"email\"]') || {}).value,"
-                    "  password: (document.querySelector('#password, input[type=\"password\"]') || {}).value"
+                    "  email: (document.querySelector('#email,input[type=\"email\"]')||{}).value,"
+                    "  password: (document.querySelector('#password,input[type=\"password\"]')||{}).value"
                     "};"
                 )
-                el = len(check.get("email") or "")
-                pl = len(check.get("password") or "")
-                print(f"🔎 Field readback — email: {el} chars, password: {pl} chars")
+                ej = len(check.get("email") or "")
+                pj = len(check.get("password") or "")
+                print(f"🔎 Field readback — email: attr={len(ev_attr)}/JS={ej}  password: attr={len(pv_attr)}/JS={pj}")
+                if len(pv_attr) == 0 and pj == 0:
+                    print("⚠️  Password appears empty — will submit anyway (server may see it differently)")
             except Exception:
                 pass
 
