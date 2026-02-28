@@ -163,13 +163,25 @@ def lekee_post_group(session: requests.Session, caption: str) -> dict:
 
 # ── Four-Pack Graphic Fallback ──────────────────────────────────────────────────
 def _build_prompt(state: dict, day: int) -> str:
+    name    = state.get("name", "Nigeria")
+    capital = state.get("capital", name)
+    zone    = state.get("zone", "")
+    hubs_raw = state.get("tech_hubs", [])
+    hubs    = hubs_raw[:3] if hubs_raw else []
+    hub_str = " and ".join(hubs) if hubs else f"{capital} Technology Village"
+
     return (
-        f"Professional technology ecosystem infographic for {state['name']}, Nigeria. "
-        f"Day {day} of 36 — '36 Nigerian States Tech Ecosystem' series. "
-        f"Dark navy blue background (#0F1722), bright orange accent (#FF6B00). "
-        f"Show tech hub imagery, African innovation, modern digital city theme. "
-        f"Include subtle map of Nigeria highlighting {state['name']}. "
-        f"Clean, minimalist, corporate style. No text overlays."
+        f"Cinematic, ultra-high-definition technology ecosystem poster for {name}, Nigeria. "
+        f"Day {day} of 36 in the '36 Nigerian States — Tech Ecosystem' series. "
+        f"Scene: A breathtaking aerial dusk view of {capital}'s skyline blended with a "
+        f"futuristic digital overlay — glowing circuit paths, data nodes, and holographic "
+        f"panels representing {hub_str}. "
+        f"Color palette: Deep navy blue (#0F1722) fading to charcoal, bold orange (#FF6B00) "
+        f"neon accents, gold highlights, soft purple atmospheric haze. "
+        f"Style: premium tech brand campaign, African futurism, Afropunk meets Silicon Valley, "
+        f"photorealistic with subtle geometric tech overlays. "
+        f"Mood: powerful, aspirational, innovative, African excellence. "
+        f"No text, no watermarks, no logos. Pure imagery only."
     )
 
 
@@ -197,52 +209,76 @@ def _dalle3(prompt: str) -> bytes | None:
         return None
 
 
-def _gemini_image(prompt: str) -> bytes | None:
-    """Pack 2: Google Gemini Flash Image Generation."""
+def _imagen4(prompt: str, model: str = "imagen-4.0-fast-generate-001") -> bytes | None:
+    """
+    Pack 2 / 3: Google Imagen 4 via generate_images() API.
+    Confirmed working: imagen-4.0-fast-generate-001 → ~900KB images.
+    """
     if not GEMINI_API_KEY:
-        log.info("Gemini image: skipped (no API key)")
+        log.info(f"Imagen 4 ({model}): skipped (no GEMINI_API_KEY)")
         return None
     try:
-        from google import genai
-        from google.genai import types
-        client = genai.Client(api_key=GEMINI_API_KEY)
-        # Try flash image-gen models (name varies by region/tier)
+        from google import genai as _genai
+        from google.genai import types as _gtypes
+        _client = _genai.Client(api_key=GEMINI_API_KEY)
+        result  = _client.models.generate_images(
+            model=model,
+            prompt=prompt,
+            config=_gtypes.GenerateImagesConfig(number_of_images=1, aspect_ratio="1:1"),
+        )
+        raw = result.generated_images[0].image.image_bytes
+        if isinstance(raw, str):
+            import base64 as _b64
+            raw = _b64.b64decode(raw)
+        log.info(f"✅ Imagen 4 ({model}): {len(raw):,} bytes")
+        return raw
+    except Exception as e:
+        log.warning(f"Imagen 4 ({model}) failed: {e}")
+        return None
+
+
+def _gemini_flash_image(prompt: str) -> bytes | None:
+    """
+    Pack 4: Gemini Flash experimental image generation (generate_content path).
+    Fallback when Imagen 4 is unavailable.
+    """
+    if not GEMINI_API_KEY:
+        return None
+    try:
+        from google import genai as _genai
+        from google.genai import types as _gtypes
+        _client = _genai.Client(api_key=GEMINI_API_KEY)
+
         for model_name in [
             "gemini-2.0-flash-exp-image-generation",
-            "imagen-3.0-generate-002",
-            "gemini-2.0-flash-preview-image-generation",
+            "gemini-2.5-flash-image",
+            "gemini-3.1-flash-image-preview",
         ]:
             try:
-                response = client.models.generate_content(
+                resp = _client.models.generate_content(
                     model=model_name,
                     contents=prompt,
-                    config=types.GenerateContentConfig(
+                    config=_gtypes.GenerateContentConfig(
                         response_modalities=["IMAGE", "TEXT"]
                     ),
                 )
-                break
-            except Exception as model_err:
-                if "NOT_FOUND" in str(model_err) or "404" in str(model_err):
-                    log.info(f"  Model {model_name} not found, trying next...")
-                    response = None
+                for part in resp.candidates[0].content.parts:
+                    if hasattr(part, "inline_data") and part.inline_data:
+                        raw = part.inline_data.data
+                        if isinstance(raw, str):
+                            import base64 as _b64
+                            raw = _b64.b64decode(raw)
+                        log.info(f"✅ Gemini Flash ({model_name}): {len(raw):,} bytes")
+                        return raw
+            except Exception as m_err:
+                msg = str(m_err)
+                if "NOT_FOUND" in msg or "404" in msg or "not supported" in msg:
+                    log.info(f"  {model_name} not available, trying next...")
                     continue
                 raise
-        if response is None:
-            log.warning("Gemini image: all model variants returned 404")
-            return None
-        for part in response.candidates[0].content.parts:
-            if hasattr(part, "inline_data") and part.inline_data:
-                raw = part.inline_data.data
-                # May be base64 or raw bytes
-                if isinstance(raw, str):
-                    import base64
-                    raw = base64.b64decode(raw)
-                log.info(f"✅ Pack 2 Gemini: {len(raw):,} bytes")
-                return raw
-        log.warning("Gemini image: response had no inline image data")
         return None
     except Exception as e:
-        log.warning(f"Pack 2 Gemini image failed: {e}")
+        log.warning(f"Pack 4 Gemini Flash failed: {e}")
         return None
 
 
@@ -327,8 +363,12 @@ def _pillow_graphic(state: dict, day: int) -> bytes | None:
 
 def generate_graphic(state: dict, day: int) -> bytes | None:
     """
-    Four-Pack Fallback:
-      1. DALL-E 3  →  2. Gemini Flash  →  3. Pillow  →  4. None (text-only)
+    Four-Pack AI Fallback (no local templates):
+      Pack 1 — OpenAI DALL-E 3
+      Pack 2 — Google Imagen 4 Fast   (confirmed working ~900KB)
+      Pack 3 — Google Imagen 4 Standard
+      Pack 4 — Gemini Flash experimental
+      Pack 5 — None → text-only post (NO Pillow templates)
     """
     prompt = _build_prompt(state, day)
 
@@ -337,17 +377,22 @@ def generate_graphic(state: dict, day: int) -> bytes | None:
     if img:
         return img
 
-    log.info("🎨 Pack 2: Trying Gemini Flash image gen...")
-    img = _gemini_image(prompt)
+    log.info("🎨 Pack 2: Trying Imagen 4 Fast...")
+    img = _imagen4(prompt, model="imagen-4.0-fast-generate-001")
     if img:
         return img
 
-    log.info("🎨 Pack 3: Falling back to Pillow graphic...")
-    img = _pillow_graphic(state, day)
+    log.info("🎨 Pack 3: Trying Imagen 4 Standard...")
+    img = _imagen4(prompt, model="imagen-4.0-generate-001")
     if img:
         return img
 
-    log.warning("🎨 Pack 4: All image methods failed — text-only post")
+    log.info("🎨 Pack 4: Trying Gemini Flash experimental image gen...")
+    img = _gemini_flash_image(prompt)
+    if img:
+        return img
+
+    log.warning("🎨 Pack 5: All AI image packs failed — text-only post (no local templates)")
     return None
 
 
