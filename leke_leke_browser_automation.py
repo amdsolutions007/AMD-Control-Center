@@ -608,128 +608,228 @@ class LekeLekeeAutomation:
             if password_field is None:
                 raise TimeoutError("Password input not found")
 
-            # ── STEP 3: Hybrid login — HTTP POST via BrightData proxy ────────
-            # BrightData Scraping Browser explicitly blocks all writes to
-            # type='password' inputs (anti-abuse feature, confirmed via probe).
-            # Workaround: POST the form data via requests through BrightData's
-            # HTTP proxy with the Turnstile token, inject resulting session
-            # cookies back into the browser session.
+            # ── STEP 3: Hybrid login — intercept login API via XHR monkey-patch ─
+            # LekeeLekee is a React SPA — no traditional form POST.
+            # Strategy: inject XHR/fetch interceptor BEFORE any button click,
+            # trigger login via the browser (email fill + button click),
+            # capture the actual API endpoint + payload, then resend with password.
+            # BrightData blocks password field writes but NOT JS execution or button clicks.
 
-            # Get form action URL
+            # First, inject request interceptor
             try:
-                form_info = self.driver.execute_script(
-                    "var f=document.querySelector('form');"
-                    "return {action:f&&f.action?f.action:null, method:f?f.method:'POST'};"
+                self.driver.execute_script(
+                    """
+                    window._capturedReqs = [];
+                    // Fetch interceptor
+                    var _origFetch = window.fetch;
+                    window.fetch = function(url, opts) {
+                        window._capturedReqs.push({
+                            type: 'fetch',
+                            url: String(url),
+                            method: ((opts||{}).method||'GET').toUpperCase(),
+                            body: (opts||{}).body || null,
+                            headers: (opts||{}).headers || null,
+                        });
+                        return _origFetch.apply(this, arguments);
+                    };
+                    // XHR interceptor
+                    var _origOpen = XMLHttpRequest.prototype.open;
+                    var _origSend = XMLHttpRequest.prototype.send;
+                    XMLHttpRequest.prototype.open = function(m,u) {
+                        this._captureMethod = m;
+                        this._captureUrl = u;
+                        return _origOpen.apply(this, arguments);
+                    };
+                    XMLHttpRequest.prototype.send = function(body) {
+                        window._capturedReqs.push({
+                            type: 'xhr',
+                            url: String(this._captureUrl||''),
+                            method: (this._captureMethod||'GET').toUpperCase(),
+                            body: body || null,
+                        });
+                        return _origSend.apply(this, arguments);
+                    };
+                    """
                 )
-                form_action = (form_info or {}).get('action') or 'https://www.lekeelekee.com/login'
-                if form_action and not form_action.startswith('http'):
-                    form_action = 'https://www.lekeelekee.com' + form_action
-            except Exception:
-                form_action = 'https://www.lekeelekee.com/login'
-            print(f"🌐 Form action: {form_action}")
+                print("✅ Request interceptor installed")
+            except Exception as e:
+                print(f"⚠️  Interceptor install: {e!r}")
 
-            # Build BrightData HTTP proxy from the WebSocket endpoint
-            # Note: Scraping Browser zones don't support HTTP CONNECT proxy mode.
-            # We'll try direct first, then BrightData Datacenter proxy if available.
-            bd_proxy = None
+            # Find email field and fill it (that part works)
+            email_selectors2 = [
+                (By.CSS_SELECTOR, "input[type='email']"),
+                (By.CSS_SELECTOR, "input[id='email']"),
+                (By.NAME,         "email"),
+            ]
+            email_field2 = self._find_input(email_selectors2, wait_for_first=False, timeout=10)
+            if email_field2:
+                self._fill_field(email_field2, self.email)
+                print("✅ Email filled (pre-intercept)")
+
+            # Click the submit button — this will trigger a fetch/XHR with email
+            # but empty password (still useful to capture endpoint URL and headers)
+            submit_selectors2 = [
+                "button[type='submit']",
+                "button[class*='login' i]",
+                "button[class*='signin' i]",
+            ]
+            for sel in submit_selectors2:
+                try:
+                    els = self.driver.find_elements(By.CSS_SELECTOR, sel)
+                    if els:
+                        self.driver.execute_script(
+                            "arguments[0].removeAttribute('disabled'); arguments[0].click();",
+                            els[0]
+                        )
+                        print(f"✅ Submit clicked via {sel!r}")
+                        break
+                except Exception:
+                    pass
+
+            # Wait briefly for the API request to fire
+            time.sleep(2)
+
+            # Read captured requests
+            captured = []
             try:
-                import re as _re
-                # Try BrightData datacenter proxy (different port/zone from scraping browser)
-                bd_ep = os.environ.get('BRIGHTDATA_WS_ENDPOINT', '')
-                m = _re.match(r'https?://([^:]+):([^@]+)@([^:/]+)', bd_ep)
-                if m:
-                    _u, _p, _h = m.group(1), m.group(2), m.group(3)
-                    # Port 22225 = datacenter proxy — only works if zone supports it
-                    # We'll try WITHOUT proxy first (direct), then as fallback with proxy
-                    print(f"🌐 BD credentials available: {_u!r}")
-            except Exception as pe:
-                print(f"⚠️  Proxy setup: {pe!r}")
+                captured = self.driver.execute_script("return window._capturedReqs || [];")
+            except Exception:
+                pass
 
-            # Gather current browser cookies for session context
+            print(f"🌐 Intercepted {len(captured)} request(s):")
+            api_url     = None
+            api_method  = None
+            api_headers = {}
+            for r in captured:
+                body_str = str(r.get('body') or '')
+                print(f"  → {r.get('type','?').upper()} {r.get('method','?')} {r.get('url','')} | body: {body_str[:120]!r}")
+                if 'login' in (r.get('url') or '').lower() or 'auth' in (r.get('url') or '').lower() or 'session' in (r.get('url') or '').lower():
+                    api_url    = r.get('url')
+                    api_method = r.get('method', 'POST')
+                    if r.get('headers'):
+                        try:
+                            h = r['headers']
+                            if isinstance(h, dict):
+                                api_headers = h
+                        except Exception:
+                            pass
+
+            if not api_url:
+                # Use first POST as fallback
+                for r in captured:
+                    if r.get('method') == 'POST':
+                        api_url    = r.get('url')
+                        api_method = 'POST'
+                        break
+
+            print(f"🎯 Login API URL: {api_url}")
+
+            if not api_url:
+                raise RuntimeError("Could not intercept login API endpoint")
+
+            # Now call the API directly with proper credentials
+            import requests as _req
+            import json as _json
+            import urllib3
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+            # Collect current cookies from browser
             try:
                 browser_cookies = {c['name']: c['value'] for c in self.driver.get_cookies()}
             except Exception:
                 browser_cookies = {}
 
-            # POST the login form data
-            import requests as _req
-            import urllib3
-            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+            # Check if it's JSON or form-encoded from captured body
+            first_body = ""
+            for r in captured:
+                if r.get('url') == api_url and r.get('body'):
+                    first_body = str(r['body'])
+                    break
 
-            form_data = {
-                'email':                  self.email,
-                'password':               self.password,
-                'cf-turnstile-response':  turnstile_token,
+            is_json_api = first_body.startswith('{') or 'application/json' in str(api_headers).lower()
+
+            req_headers2 = {
+                'Origin':  'https://www.lekeelekee.com',
+                'Referer': 'https://www.lekeelekee.com/login',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0 Safari/537.36',
             }
-            req_headers = {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Origin':       'https://www.lekeelekee.com',
-                'Referer':      'https://www.lekeelekee.com/login',
-                'User-Agent':   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0 Safari/537.36',
-                'Accept':       'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            }
-            print(f"📤 POSTing login form (direct, no proxy)...")
-            try:
-                resp = _req.post(
-                    form_action,
-                    data=form_data,
-                    headers=req_headers,
+            if api_headers:
+                for k, v in api_headers.items():
+                    if str(k).lower() not in ('cookie', 'content-length'):
+                        req_headers2[k] = v
+
+            if is_json_api:
+                payload_base = {}
+                try:
+                    payload_base = _json.loads(first_body)
+                except Exception:
+                    pass
+                payload_base.update({
+                    'email':    self.email,
+                    'password': self.password,
+                })
+                if turnstile_token:
+                    payload_base['cf-turnstile-response'] = turnstile_token
+                req_headers2['Content-Type'] = 'application/json'
+                print(f"📤 POST {api_url} (JSON) | payload keys: {list(payload_base.keys())}")
+                resp2 = _req.request(
+                    api_method, api_url,
+                    json=payload_base,
+                    headers=req_headers2,
                     cookies=browser_cookies,
-                    proxies=None,
                     allow_redirects=True,
                     timeout=30,
                     verify=False,
                 )
-                final_url = resp.url
-                status    = resp.status_code
-                print(f"  HTTP {status} → {final_url}")
+            else:
+                # Form-encoded
+                payload_form = {
+                    'email':    self.email,
+                    'password': self.password,
+                }
+                if turnstile_token:
+                    payload_form['cf-turnstile-response'] = turnstile_token
+                req_headers2['Content-Type'] = 'application/x-www-form-urlencoded'
+                print(f"📤 POST {api_url} (form) | payload keys: {list(payload_form.keys())}")
+                resp2 = _req.request(
+                    api_method, api_url,
+                    data=payload_form,
+                    headers=req_headers2,
+                    cookies=browser_cookies,
+                    allow_redirects=True,
+                    timeout=30,
+                    verify=False,
+                )
 
-                if '/login' not in final_url:
-                    # ── Inject session cookies into browser ───────────────────
-                    print("✅ HTTP POST login succeeded — injecting cookies into browser...")
-                    cookie_domain = 'www.lekeelekee.com'
+            status2    = resp2.status_code
+            final_url2 = resp2.url
+            snippet2   = resp2.text[:300]
+            print(f"  HTTP {status2} → {final_url2}")
+            print(f"  Response: {snippet2!r}")
+
+            if status2 in (200, 201) and '/login' not in final_url2:
+                # Inject cookies from response into browser
+                print("✅ API login succeeded — injecting cookies...")
+                try:
+                    self.driver.get('https://www.lekeelekee.com')
+                except Exception:
+                    pass
+                injected = 0
+                for ck_name, ck_value in resp2.cookies.items():
                     try:
-                        self.driver.get(f'https://{cookie_domain}')
+                        self.driver.add_cookie({'name': ck_name, 'value': ck_value, 'domain': 'www.lekeelekee.com', 'path': '/'})
+                        injected += 1
                     except Exception:
                         pass
-                    injected = 0
-                    for ck_name, ck_value in resp.cookies.items():
-                        try:
-                            self.driver.add_cookie({
-                                'name':   ck_name,
-                                'value':  ck_value,
-                                'domain': cookie_domain,
-                                'path':   '/',
-                            })
-                            injected += 1
-                        except Exception:
-                            pass
-                    print(f"✅ {injected} cookie(s) injected")
-                    # Reload to apply cookies
-                    self.driver.get('https://www.lekeelekee.com')
-                    time.sleep(2)
-                    # Success check
-                    if '/login' not in self.driver.current_url:
-                        print(f"✅ Browser now at: {self.driver.current_url}")
-                        return True
-                    # May need another navigation
-                    self.driver.get('https://www.lekeelekee.com/feed')
-                    time.sleep(2)
-                    if '/login' not in self.driver.current_url:
-                        print(f"✅ Logged in via HTTP POST + cookie injection → {self.driver.current_url}")
-                        return True
-                    raise RuntimeError("Cookies injected but browser still on login page")
-                else:
-                    # Diagnose why it failed
-                    err_snippet = resp.text[max(0, resp.text.lower().find('error')-20):resp.text.lower().find('error')+80] if 'error' in resp.text.lower() else ""
-                    print(f"⚠️  HTTP POST returned /login URL — server rejected. Extract: {err_snippet!r}")
-                    raise RuntimeError("HTTP POST login failed — server redirected back to /login")
-
-            except RuntimeError:
-                raise
-            except Exception as http_err:
-                print(f"❌ HTTP POST exception: {http_err!r}")
-                raise RuntimeError(f"HTTP hybrid login failed: {http_err!r}")
+                print(f"✅ {injected} cookie(s) injected")
+                self.driver.get('https://www.lekeelekee.com/feed')
+                time.sleep(2)
+                if '/login' not in self.driver.current_url:
+                    print(f"✅ Logged in via API intercept → {self.driver.current_url}")
+                    return True
+                raise RuntimeError("Cookies injected but still on /login")
+            else:
+                raise RuntimeError(f"API login failed — HTTP {status2}: {snippet2[:100]}")
 
             # ── 2FA / OTP screen detection ────────────────────────────────────
             # Reached only if HTTP POST failed to return early above
