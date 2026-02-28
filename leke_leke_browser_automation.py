@@ -547,33 +547,63 @@ class LekeLekeeAutomation:
             if password_field is None:
                 raise TimeoutError("Password input not found with any selector")
 
-            self._fill_field(email_field, self.email)
-            self.human_delay(0.5, 1.0)
-
-            # Re-find password field AFTER filling email — React re-renders the
-            # component on email input which stales the earlier reference.
-            password_field = self._find_input(password_selectors, wait_for_first=False, timeout=15)
-            if password_field is None:
-                raise TimeoutError("Password input not found after email fill")
-
-            self._fill_field(password_field, self.password)
-            self.human_delay(0.3, 0.5)
-
-            # ── Diagnostic: confirm fields have values ────────────────────────
+            # ── Fill both fields with pure JS (avoids stale-element issues) ──
+            # React controlled components need the native value setter + bubbling
+            # events — simple DOM .value assignment is ignored by React state.
+            print("📝 Filling form via JS native-setter (React-safe)...")
             try:
-                ev = self.driver.execute_script("return arguments[0].value;", email_field)
-                pv = self.driver.execute_script("return arguments[0].value;", password_field)
-                print(f"🔎 Field check — email filled: {bool(ev)} ({len(ev or '')} chars), "
-                      f"password filled: {bool(pv)} ({len(pv or '')} chars)")
+                self.driver.execute_script(
+                    """
+                    var nSetter = Object.getOwnPropertyDescriptor(
+                        window.HTMLInputElement.prototype, 'value').set;
+                    var emailEl  = document.querySelector('#email, input[type="email"]');
+                    var pwEl     = document.querySelector('#password, input[type="password"]');
+                    if (emailEl) {
+                        nSetter.call(emailEl, arguments[0]);
+                        emailEl.dispatchEvent(new Event('input',  {bubbles:true}));
+                        emailEl.dispatchEvent(new Event('change', {bubbles:true}));
+                    }
+                    if (pwEl) {
+                        nSetter.call(pwEl, arguments[1]);
+                        pwEl.dispatchEvent(new Event('input',  {bubbles:true}));
+                        pwEl.dispatchEvent(new Event('change', {bubbles:true}));
+                    }
+                    """,
+                    self.email, self.password
+                )
+            except Exception as e:
+                print(f"⚠️  JS fill error: {e!r} — falling back to element send_keys")
+                self._fill_field(email_field, self.email)
+                self.human_delay(0.5, 1.0)
+                password_field2 = self._find_input(password_selectors, wait_for_first=False, timeout=15)
+                if password_field2:
+                    self._fill_field(password_field2, self.password)
+
+            # ── Diagnostic: read values back by ID (more reliable than element ref) ──
+            try:
+                check = self.driver.execute_script(
+                    """
+                    return {
+                        email: (document.querySelector('#email, input[type="email"]') || {}).value,
+                        password: (document.querySelector('#password, input[type="password"]') || {}).value
+                    };
+                    """
+                )
+                email_len = len(check.get("email") or "")
+                pw_len    = len(check.get("password") or "")
+                print(f"🔎 Form state — email: {email_len} chars, password: {pw_len} chars")
+                if pw_len == 0:
+                    print("⚠️  Password field still empty — React may block JS setter for password inputs")
             except Exception:
                 pass
 
+            self.human_delay(0.5, 1.0)
 
             # Re-check overlays that may appear after form interaction
             self._dismiss_overlays()
 
-            # ── Cloudflare Turnstile: wait up to 20s for auto-solve ───────────
-            # With Xvfb (non-headless), Turnstile auto-solves in ~3-8s.
+            # ── Cloudflare Turnstile: wait up to 40s for auto-solve ───────────
+            # BrightData Scraping Browser auto-solves Turnstile in ~3-8s.
             print("⏳ Waiting for Cloudflare Turnstile to auto-solve (up to 40s)...")
             turnstile_solved = False
             turnstile_deadline = time.time() + 40
