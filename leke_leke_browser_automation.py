@@ -238,38 +238,60 @@ class LekeLekeeAutomation:
           1. Element-level send_keys with select-all prefix
           2. CDP Input.insertText (bypasses all JS/element abstraction layers)
           3. React-native-setter JS (ALWAYS runs to ensure React state sync)
+
+        Each attempt prints its result for debugging.
         """
         from selenium.webdriver.common.action_chains import ActionChains
         from selenium.webdriver.common.keys import Keys as _Keys
+        field_tag = ""
+        try:
+            field_tag = f"({element.get_attribute('type') or element.tag_name})"
+        except Exception:
+            pass
 
-        # Attempt 0 — W3C Actions API (most reliable for remote CDP WebDrivers)
+        # Attempt 0 — W3C Actions API
         try:
             ActionChains(self.driver)\
                 .click(element)\
                 .key_down(_Keys.CONTROL).send_keys('a').key_up(_Keys.CONTROL)\
                 .send_keys(value)\
                 .perform()
-        except Exception:
-            pass
+            # Quick check after ActionChains
+            try:
+                av = element.get_attribute('value') or ""
+                print(f"  [fill{field_tag}] ActionChains ok, attr={len(av)} chars")
+            except Exception:
+                print(f"  [fill{field_tag}] ActionChains ok (readback failed)")
+        except Exception as e0:
+            print(f"  [fill{field_tag}] ActionChains ❌ {e0!r}")
 
         # Attempt 1 — element-level send_keys fallback
         try:
             element.click()
             element.send_keys(_Keys.CONTROL + 'a')
             element.send_keys(value)
-        except Exception:
-            pass
+            try:
+                av = element.get_attribute('value') or ""
+                print(f"  [fill{field_tag}] send_keys ok, attr={len(av)} chars")
+            except Exception:
+                print(f"  [fill{field_tag}] send_keys ok (readback failed)")
+        except Exception as e1:
+            print(f"  [fill{field_tag}] send_keys ❌ {e1!r}")
 
-        # Attempt 2 — CDP Input.insertText (direct kernel-level input, bypasses everything)
+        # Attempt 2 — CDP Input.insertText (direct kernel-level input)
         try:
-            element.click()   # focus the field first
+            element.click()
             time.sleep(0.1)
             self.driver.execute_cdp_cmd('Input.insertText', {'text': value})
-        except Exception:
-            pass
+            try:
+                av = element.get_attribute('value') or ""
+                print(f"  [fill{field_tag}] CDP insertText ok, attr={len(av)} chars")
+            except Exception:
+                print(f"  [fill{field_tag}] CDP insertText ok (readback failed)")
+        except Exception as e2:
+            print(f"  [fill{field_tag}] CDP insertText ❌ {e2!r}")
 
-        # Attempt 3 — React native setter (ALWAYS run to guarantee React state sync)
-        # Also fire InputEvent (more accurate than generic Event for React hooks)
+        # Attempt 3 — React native setter (ALWAYS run)
         try:
             self.driver.execute_script(
                 """
@@ -283,7 +305,9 @@ class LekeLekeeAutomation:
                 """,
                 element, value
             )
-        except Exception:
+            print(f"  [fill{field_tag}] JS nativeSetter ok")
+        except Exception as e3:
+            print(f"  [fill{field_tag}] JS nativeSetter ❌ {e3!r}")
             try:
                 self.driver.execute_script(
                     "arguments[0].value = arguments[1];"
@@ -291,8 +315,9 @@ class LekeLekeeAutomation:
                     "arguments[0].dispatchEvent(new Event('change',{bubbles:true}));",
                     element, value
                 )
-            except Exception:
-                pass
+                print(f"  [fill{field_tag}] JS plainSetter ok")
+            except Exception as e3b:
+                print(f"  [fill{field_tag}] JS plainSetter ❌ {e3b!r}")
 
     def _dismiss_overlays(self):
         """Best-effort dismissal for cookie banners/modals that block clicks."""
@@ -613,6 +638,19 @@ class LekeLekeeAutomation:
                 pass
 
             # ── STEP 4: Submit ────────────────────────────────────────────────
+            # Intercept fetch so we can log what credentials are sent to the server
+            try:
+                self.driver.execute_script(
+                    "window._reqs=[];"
+                    "var _f=window.fetch;"
+                    "window.fetch=function(u,o){"
+                    "  window._reqs.push({url:String(u),method:((o||{}).method||'GET').toUpperCase(),body:(o||{}).body||null});"
+                    "  return _f.apply(window,arguments);"
+                    "};"
+                )
+            except Exception:
+                pass
+
             submit_selectors = [
                 "button[type='submit']",
                 "input[type='submit']",
@@ -655,6 +693,20 @@ class LekeLekeeAutomation:
                         "var form = document.querySelector('form'); if(form) form.submit();"
                     )
                     print("✅ Form submitted via JS (last resort)")
+
+            # ── Log captured network requests (shows what credentials were sent) ──
+            try:
+                time.sleep(1.5)   # give the fetch a moment to complete
+                reqs = self.driver.execute_script("return window._reqs || [];")
+                if reqs:
+                    print(f"🌐 Captured {len(reqs)} request(s) after submit:")
+                    for r in reqs[:5]:
+                        body_preview = str(r.get('body') or '')[:200]
+                        print(f"  → {r.get('method')} {r.get('url')} | body: {body_preview!r}")
+                else:
+                    print("🌐 No fetch requests captured (form may use XMLHttpRequest or page navigate)")
+            except Exception:
+                pass
 
             # ── Wait for redirect away from /login (success indicator) ────────
             print("⏳ Waiting for post-login redirect...")
