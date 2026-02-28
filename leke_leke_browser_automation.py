@@ -828,57 +828,88 @@ class LekeLekeeAutomation:
 
                 # Inject token as Authorization header AND cookies
                 print("✅ API login succeeded — injecting session...")
-                token = resp_data.get('token') or resp_data.get('access_token') or ""
+                # Dig token out of nested data
+                resp_inner = resp_data.get('data') or {}
+                if isinstance(resp_inner, dict):
+                    token = (resp_inner.get('token')
+                             or resp_inner.get('access_token')
+                             or resp_data.get('token')
+                             or resp_data.get('access_token')
+                             or "")
+                    resp_user = resp_inner.get('user') or resp_inner
+                else:
+                    token = resp_data.get('token') or resp_data.get('access_token') or ""
+                    resp_user = resp_data.get('user') or {}
                 if token:
-                    print(f"✅ JWT token obtained ({len(token)} chars) — will inject as cookie + localStorage")
+                    print(f"✅ JWT token obtained ({len(token)} chars)")
+                else:
+                    print(f"⚠️  No token in response — will rely on cookies. resp keys: {list(resp_data.keys())}, data keys: {list(resp_inner.keys()) if isinstance(resp_inner, dict) else 'n/a'}")
 
-                try:
-                    self.driver.get('https://www.lekeelekee.com')
-                    time.sleep(1)
-                except Exception:
-                    pass
+                # We are currently on the /login page — inject into the live page
+                # WITHOUT calling driver.get() which throws WebDriverException
                 injected = 0
-                # Inject cookies from response
+
+                # 1. Inject response cookies via add_cookie (already on lekeelekee.com domain)
                 for ck_name, ck_value in resp2.cookies.items():
                     try:
-                        self.driver.add_cookie({'name': ck_name, 'value': ck_value, 'domain': 'www.lekeelekee.com', 'path': '/'})
+                        self.driver.add_cookie({'name': ck_name, 'value': ck_value,
+                                                'domain': 'www.lekeelekee.com', 'path': '/'})
                         injected += 1
-                    except Exception:
-                        pass
-                # Set JWT token in localStorage if present
-                if token:
-                    try:
-                        self.driver.execute_script(
+                        print(f"  🍪 cookie: {ck_name}")
+                    except Exception as cke:
+                        print(f"  ⚠️  cookie {ck_name}: {cke!r}")
+
+                # 2. Inject token + user into localStorage via JS (no navigation needed)
+                try:
+                    ls_script = ""
+                    if token:
+                        ls_script += (
                             "localStorage.setItem('token', arguments[0]);"
                             "localStorage.setItem('authToken', arguments[0]);"
-                            "localStorage.setItem('access_token', arguments[0]);",
-                            token
+                            "localStorage.setItem('access_token', arguments[0]);"
                         )
-                        injected += 1
-                        print("✅ Token injected into localStorage")
-                    except Exception as lse:
-                        print(f"⚠️  localStorage injection: {lse!r}")
-                # Also inject all response data keys that look like user data
-                try:
-                    resp_user = resp_data.get('user') or resp_data.get('data', {})
                     if resp_user and isinstance(resp_user, dict):
-                        self.driver.execute_script("localStorage.setItem('user', JSON.stringify(arguments[0]));", resp_user)
-                except Exception:
-                    pass
+                        ls_script += "localStorage.setItem('user', JSON.stringify(arguments[1]));"
+                    if ls_script:
+                        self.driver.execute_script(ls_script, token or "", resp_user or {})
+                        injected += 1
+                        print("✅ localStorage injected (token + user)")
+                except Exception as lse:
+                    print(f"⚠️  localStorage injection: {lse!r}")
 
-                print(f"✅ {injected} item(s) injected")
-                self.driver.get('https://www.lekeelekee.com/feed')
-                time.sleep(2)
-                if '/login' not in self.driver.current_url:
-                    print(f"✅ Logged in via API → {self.driver.current_url}")
-                    return True
-                # Try home as fallback
-                self.driver.get('https://www.lekeelekee.com/home')
-                time.sleep(2)
-                if '/login' not in self.driver.current_url:
-                    print(f"✅ Logged in via API (home) → {self.driver.current_url}")
-                    return True
-                raise RuntimeError("Cookies/token injected but browser still on /login")
+                print(f"✅ {injected} item(s) injected — navigating to /feed")
+
+                # 3. Navigate — use JS location.href to avoid driver.get() WebDriverException
+                try:
+                    self.driver.execute_script("window.location.href = 'https://www.lekeelekee.com/feed';")
+                    time.sleep(4)
+                    cur_url = self.driver.current_url
+                    print(f"  🔎 After JS nav: {cur_url}")
+                    if '/login' not in cur_url and 'lekeelekee.com' in cur_url:
+                        print(f"✅ Logged in via API+JS-nav → {cur_url}")
+                        return True
+                except Exception as nav_e:
+                    print(f"⚠️  JS nav: {nav_e!r}")
+
+                # 4. Fallback: use driver.get (might throw; catch and check URL)
+                try:
+                    self.driver.get('https://www.lekeelekee.com/feed')
+                    time.sleep(3)
+                    if '/login' not in self.driver.current_url:
+                        print(f"✅ Logged in via API → {self.driver.current_url}")
+                        return True
+                except Exception as ge:
+                    print(f"⚠️  driver.get /feed: {ge!r}")
+                    # Even if get() throws, check URL
+                    try:
+                        cur = self.driver.current_url
+                        if '/login' not in cur and 'lekeelekee.com' in cur:
+                            print(f"✅ Logged in (get threw but URL ok) → {cur}")
+                            return True
+                    except Exception:
+                        pass
+
+                raise RuntimeError("Session injected but browser still on /login after all nav attempts")
             else:
                 raise RuntimeError(f"API login failed — HTTP {status2}: {snippet2[:100]}")
 
