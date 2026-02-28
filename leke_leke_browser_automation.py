@@ -229,6 +229,45 @@ class LekeLekeeAutomation:
             print(f"❌ Failed to start browser: {e}")
             return False
 
+    def _fill_field(self, element, value: str):
+        """Fill an input field reliably on both local and remote (BrightData) WebDrivers.
+
+        Strategy:
+        1. Single bulk send_keys() — fastest, works on most drivers.
+        2. JS value injection + synthetic events — fallback for remote CDP sessions.
+        Both attempts are wrapped so a WebDriverException on one silently tries the next.
+        """
+        # Attempt 1 — native bulk send_keys (no char-by-char loop)
+        try:
+            element.clear()
+        except Exception:
+            pass
+        try:
+            element.send_keys(value)
+            return
+        except Exception:
+            pass
+
+        # Attempt 2 — JavaScript injection (reliable on BrightData CDP sessions)
+        try:
+            self.driver.execute_script(
+                "arguments[0].focus();"
+                "arguments[0].value = arguments[1];"
+                "arguments[0].dispatchEvent(new Event('input',{bubbles:true}));"
+                "arguments[0].dispatchEvent(new Event('change',{bubbles:true}));",
+                element, value
+            )
+            return
+        except Exception:
+            pass
+
+        # Attempt 3 — click to focus first, then send_keys
+        try:
+            element.click()
+            element.send_keys(value)
+        except Exception:
+            pass
+
     def _dismiss_overlays(self):
         """Best-effort dismissal for cookie banners/modals that block clicks."""
         if not self.driver:
@@ -496,15 +535,9 @@ class LekeLekeeAutomation:
             if password_field is None:
                 raise TimeoutError("Password input not found with any selector")
 
-            for char in self.email:
-                email_field.send_keys(char)
-                time.sleep(random.uniform(0.05, 0.15))
-
-            self.human_delay(0.5, 1.0)
-
-            for char in self.password:
-                password_field.send_keys(char)
-                time.sleep(random.uniform(0.05, 0.15))
+            self._fill_field(email_field, self.email)
+            self.human_delay(0.3, 0.7)
+            self._fill_field(password_field, self.password)
 
             self.human_delay(0.5, 1.0)
 
