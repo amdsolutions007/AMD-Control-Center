@@ -609,8 +609,30 @@ class LekeLekeeAutomation:
                 raise TimeoutError("Password input not found")
 
             # ── STEP 3: Fill form immediately before submit ───────────────────
-            # Use pure JS native-setter to update React controlled state.
-            # Also send_keys via ActionChains as belt-and-suspenders.
+            # First, run an inline JS test to probe the password field setter
+            try:
+                pw_probe = self.driver.execute_script(
+                    """
+                    try {
+                        var el = document.querySelector('#password, input[type="password"]');
+                        if (!el) return 'NO_ELEMENT';
+                        var inFrame = (window !== window.top);
+                        var nd = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value');
+                        if (!nd) return 'NO_DESCRIPTOR';
+                        if (!nd.set) return 'NO_SETTER';
+                        nd.set.call(el, 'probe_test');
+                        var after = el.value;
+                        el.value = '';  // clean up
+                        return 'PROBE_OK val=' + after.length + ' inFrame=' + inFrame;
+                    } catch(e) {
+                        return 'PROBE_ERR ' + e.name + ': ' + e.message;
+                    }
+                    """
+                )
+                print(f"🔎 Password setter probe: {pw_probe}")
+            except Exception as e:
+                print(f"🔎 Password setter probe threw: {e!r}")
+
             print("📝 Filling form...")
             self._fill_field(email_field,    self.email)
             # Re-find password after email fill (React re-renders invalidate ref)
