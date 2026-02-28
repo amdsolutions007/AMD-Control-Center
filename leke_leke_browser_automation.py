@@ -46,12 +46,74 @@ class LekeLekeeAutomation:
         self.last_action_time = 0
         self.action_count = 0
 
+    # ── Residential Proxy helper ─────────────────────────────────────────────
+    @staticmethod
+    def _build_proxy_extension(proxy_host: str, proxy_port: str,
+                               proxy_user: str, proxy_pass: str) -> str:
+        """Build an in-memory Chrome proxy-auth extension and return its temp dir path.
+        Required when the proxy URL contains user:pass credentials."""
+        import zipfile, tempfile, base64
+        manifest = json.dumps({
+            "version": "1.0.0",
+            "manifest_version": 2,
+            "name": "Proxy Auth",
+            "permissions": ["proxy", "tabs", "unlimitedStorage",
+                             "storage", "<all_urls>", "webRequest",
+                             "webRequestBlocking"],
+            "background": {"scripts": ["background.js"]},
+            "minimum_chrome_version": "22.0.0"
+        })
+        background_js = f"""
+        var config = {{
+            mode: "fixed_servers",
+            rules: {{ singleProxy: {{ scheme: "http", host: "{proxy_host}",
+                                      port: parseInt("{proxy_port}") }},
+                      bypassList: ["localhost"] }}
+        }};
+        chrome.proxy.settings.set({{value: config, scope: "regular"}}, function(){{}});
+        function callbackFn(details) {{
+            return {{ authCredentials: {{ username: "{proxy_user}",
+                                         password: "{proxy_pass}" }} }};
+        }}
+        chrome.webRequest.onAuthRequired.addListener(
+            callbackFn, {{urls: ["<all_urls>"]}}, ["blocking"]
+        );
+        """
+        tmp_dir = tempfile.mkdtemp(prefix="proxy_ext_")
+        zip_path = os.path.join(tmp_dir, "proxy_auth.zip")
+        with zipfile.ZipFile(zip_path, "w") as zf:
+            zf.writestr("manifest.json", manifest)
+            zf.writestr("background.js", background_js)
+        return zip_path
+
     def start_browser(self) -> bool:
         """Start Chrome via undetected-chromedriver + Xvfb to defeat Cloudflare Turnstile.
-        uc patches the ChromeDriver binary to remove all automation fingerprints."""
+        uc patches the ChromeDriver binary to remove all automation fingerprints.
+
+        Residential proxy (REQUIRED to bypass Cloudflare IP block on Railway):
+        Set env var LEKE_LEKE_PROXY=http://user:pass@host:port  — a residential
+        proxy routes traffic through a home IP that Cloudflare does not block.
+        Free tier: https://webshare.io (10 residential proxies, IP-auth, no user:pass needed)
+        """
         try:
             import subprocess as _sp
             import os as _os
+
+            # ── Residential proxy configuration ──────────────────────────────
+            proxy_url = _os.environ.get("LEKE_LEKE_PROXY", "").strip()
+            proxy_ext_path = None
+            if proxy_url:
+                from urllib.parse import urlparse as _urlparse
+                _p = _urlparse(proxy_url)
+                proxy_host = _p.hostname or ""
+                proxy_port = str(_p.port or 80)
+                proxy_user = _p.username or ""
+                proxy_pass = _p.password or ""
+                print(f"🌐 Residential proxy: {proxy_host}:{proxy_port} "
+                      f"({'auth' if proxy_user else 'IP-auth / no-auth'})")
+            else:
+                proxy_host = proxy_port = proxy_user = proxy_pass = ""
+                print("⚠️  No LEKE_LEKE_PROXY set — Cloudflare IP block will likely prevent login")
 
             # ── Launch Xvfb virtual display on :99 ───────────────────────────
             display = _os.environ.get("DISPLAY", ":99")
@@ -80,6 +142,15 @@ class LekeLekeeAutomation:
                     "AppleWebKit/537.36 (KHTML, like Gecko) "
                     "Chrome/122.0.0.0 Safari/537.36"
                 )
+                # ── Proxy: use packed extension for auth, flag for no-auth ──
+                if proxy_url:
+                    if proxy_user:
+                        proxy_ext_path = self._build_proxy_extension(
+                            proxy_host, proxy_port, proxy_user, proxy_pass)
+                        options.add_extension(proxy_ext_path)
+                        print(f"🔌 Proxy auth extension loaded")
+                    else:
+                        options.add_argument(f"--proxy-server=http://{proxy_host}:{proxy_port}")
                 self.driver = uc.Chrome(
                     options=options,
                     driver_executable_path="/usr/bin/chromedriver",
@@ -87,7 +158,8 @@ class LekeLekeeAutomation:
                     use_subprocess=False,
                     headless=False,  # Xvfb on :99 provides the virtual display
                 )
-                print("✅ Browser started (undetected-chromedriver + Xvfb)")
+                print("✅ Browser started (undetected-chromedriver + Xvfb" +
+                      ("+proxy" if proxy_url else "") + ")")
             else:
                 # Fallback: plain Selenium (Turnstile may still block)
                 from selenium import webdriver as _wd
@@ -99,6 +171,13 @@ class LekeLekeeAutomation:
                 options.add_argument("--disable-blink-features=AutomationControlled")
                 options.add_argument("--disable-gpu")
                 options.add_argument("--window-size=1920,1080")
+                if proxy_url:
+                    if proxy_user:
+                        proxy_ext_path = self._build_proxy_extension(
+                            proxy_host, proxy_port, proxy_user, proxy_pass)
+                        options.add_extension(proxy_ext_path)
+                    else:
+                        options.add_argument(f"--proxy-server=http://{proxy_host}:{proxy_port}")
                 options.add_experimental_option("excludeSwitches", ["enable-automation"])
                 options.add_experimental_option("useAutomationExtension", False)
                 self.driver = _wd.Chrome(options=options)
