@@ -206,13 +206,30 @@ def _gemini_image(prompt: str) -> bytes | None:
         from google import genai
         from google.genai import types
         client = genai.Client(api_key=GEMINI_API_KEY)
-        response = client.models.generate_content(
-            model="gemini-2.0-flash-preview-image-generation",
-            contents=prompt,
-            config=types.GenerateContentConfig(
-                response_modalities=["IMAGE", "TEXT"]
-            ),
-        )
+        # Try flash image-gen models (name varies by region/tier)
+        for model_name in [
+            "gemini-2.0-flash-exp-image-generation",
+            "imagen-3.0-generate-002",
+            "gemini-2.0-flash-preview-image-generation",
+        ]:
+            try:
+                response = client.models.generate_content(
+                    model=model_name,
+                    contents=prompt,
+                    config=types.GenerateContentConfig(
+                        response_modalities=["IMAGE", "TEXT"]
+                    ),
+                )
+                break
+            except Exception as model_err:
+                if "NOT_FOUND" in str(model_err) or "404" in str(model_err):
+                    log.info(f"  Model {model_name} not found, trying next...")
+                    response = None
+                    continue
+                raise
+        if response is None:
+            log.warning("Gemini image: all model variants returned 404")
+            return None
         for part in response.candidates[0].content.parts:
             if hasattr(part, "inline_data") and part.inline_data:
                 raw = part.inline_data.data
