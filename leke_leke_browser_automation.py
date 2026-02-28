@@ -548,7 +548,14 @@ class LekeLekeeAutomation:
                 raise TimeoutError("Password input not found with any selector")
 
             self._fill_field(email_field, self.email)
-            self.human_delay(0.3, 0.7)
+            self.human_delay(0.5, 1.0)
+
+            # Re-find password field AFTER filling email — React re-renders the
+            # component on email input which stales the earlier reference.
+            password_field = self._find_input(password_selectors, wait_for_first=False, timeout=15)
+            if password_field is None:
+                raise TimeoutError("Password input not found after email fill")
+
             self._fill_field(password_field, self.password)
             self.human_delay(0.3, 0.5)
 
@@ -567,9 +574,9 @@ class LekeLekeeAutomation:
 
             # ── Cloudflare Turnstile: wait up to 20s for auto-solve ───────────
             # With Xvfb (non-headless), Turnstile auto-solves in ~3-8s.
-            print("⏳ Waiting for Cloudflare Turnstile to auto-solve (up to 20s)...")
+            print("⏳ Waiting for Cloudflare Turnstile to auto-solve (up to 40s)...")
             turnstile_solved = False
-            turnstile_deadline = time.time() + 20
+            turnstile_deadline = time.time() + 40
             while time.time() < turnstile_deadline:
                 try:
                     token = self.driver.execute_script(
