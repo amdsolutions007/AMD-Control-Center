@@ -232,29 +232,34 @@ class LekeLekeeAutomation:
     def _fill_field(self, element, value: str):
         """Fill an input field reliably on both local and remote (BrightData) WebDrivers.
 
-        LekeeLekee uses React controlled components — we must update React state,
-        not just the raw DOM value.  Strategy:
-          1. Click to focus + select-all + send_keys (triggers React synthetic events)
-          2. ALWAYS follow with JS native-setter + bubbling 'input'/'change' events
-             to ensure React state matches regardless of Step 1 outcome.
-          3. JS-only fallback if both previous steps fail completely.
+        LekeeLekee uses React controlled components — we must update React state.
+        Attempts in order:
+          0. W3C ActionChains (click-to-focus + send_keys via Actions API — best for CDP)
+          1. Element-level send_keys with select-all prefix
+          2. React-native-setter JS (ALWAYS runs to ensure React state sync)
         """
-        # Step 1 — native keyboard path (works for most React forms)
+        from selenium.webdriver.common.action_chains import ActionChains
+        from selenium.webdriver.common.keys import Keys as _Keys
+
+        # Attempt 0 — W3C Actions API (most reliable for remote CDP WebDrivers)
+        try:
+            ActionChains(self.driver)\
+                .click(element)\
+                .key_down(_Keys.CONTROL).send_keys('a').key_up(_Keys.CONTROL)\
+                .send_keys(value)\
+                .perform()
+        except Exception:
+            pass
+
+        # Attempt 1 — element-level send_keys fallback
         try:
             element.click()
-        except Exception:
-            pass
-        try:
-            from selenium.webdriver.common.keys import Keys
-            element.send_keys(Keys.CONTROL + 'a')   # select all existing text
-        except Exception:
-            pass
-        try:
+            element.send_keys(_Keys.CONTROL + 'a')
             element.send_keys(value)
         except Exception:
             pass
 
-        # Step 2 — React-compatible JS native setter (ALWAYS run to sync React state)
+        # Attempt 2 — React native setter (ALWAYS run to guarantee React state sync)
         try:
             self.driver.execute_script(
                 """
@@ -269,7 +274,7 @@ class LekeLekeeAutomation:
                 element, value
             )
         except Exception:
-            # Step 3 — plain JS value + events (older browsers / non-React)
+            # Fallback — plain assignment + synthetic events
             try:
                 self.driver.execute_script(
                     "arguments[0].value = arguments[1];"
@@ -503,13 +508,13 @@ class LekeLekeeAutomation:
         if self.login_with_cookies():
             return True
 
-        # ── FALLBACK: credential login (may be blocked by Cloudflare Turnstile) ─
+        # ── FALLBACK: credential login ─────────────────────────────────────────
         print("🔐 Logging in to Leke Leke (credential path)...")
         try:
             self.driver.get("https://www.lekeelekee.com/login")
             self.human_delay()
 
-            # ── Diagnostic: log title + first 500 chars of HTML body ──────────
+            # Diagnostic
             try:
                 print(f"🔎 Page title: {self.driver.title!r}")
                 body_text = self.driver.find_element(By.TAG_NAME, "body").text[:300]
@@ -517,96 +522,16 @@ class LekeLekeeAutomation:
             except Exception:
                 pass
 
-            # Handle overlays/cookie banners early
+            # Dismiss overlays before any interaction
             self._dismiss_overlays()
 
-            # ── Email field — PRIORITY: type='email' → id='email' → then fallbacks
-            email_selectors = [
-                (By.CSS_SELECTOR, "input[type='email']"),          # Super App primary
-                (By.CSS_SELECTOR, "input[id='email']"),            # Super App fallback
-                (By.CSS_SELECTOR, "input[id*='email' i]"),         # id contains 'email'
-                (By.CSS_SELECTOR, "input[autocomplete='email']"),  # autocomplete hint
-                (By.NAME,         "email"),                        # legacy name attr
-                (By.CSS_SELECTOR, "input[placeholder*='email' i]"),
-                (By.CSS_SELECTOR, "input[autocomplete='username']"),
-                (By.XPATH,        "//input[@type='email' or @id='email' or contains(@name,'email')]"),
-            ]
-            email_field = self._find_input(email_selectors, wait_for_first=True, timeout=45)
-            if email_field is None:
-                raise TimeoutError("Email input not found with any selector")
-
-            # ── Password field — multiple selector fallbacks ──────────────────
-            password_selectors = [
-                (By.NAME,         "password"),
-                (By.CSS_SELECTOR, "input[type='password']"),
-                (By.CSS_SELECTOR, "input[id*='password' i]"),
-                (By.CSS_SELECTOR, "input[placeholder*='password' i]"),
-                (By.XPATH,        "//input[@type='password']"),
-            ]
-            password_field = self._find_input(password_selectors, wait_for_first=False)
-            if password_field is None:
-                raise TimeoutError("Password input not found with any selector")
-
-            # ── Fill both fields with pure JS (avoids stale-element issues) ──
-            # React controlled components need the native value setter + bubbling
-            # events — simple DOM .value assignment is ignored by React state.
-            print("📝 Filling form via JS native-setter (React-safe)...")
-            try:
-                self.driver.execute_script(
-                    """
-                    var nSetter = Object.getOwnPropertyDescriptor(
-                        window.HTMLInputElement.prototype, 'value').set;
-                    var emailEl  = document.querySelector('#email, input[type="email"]');
-                    var pwEl     = document.querySelector('#password, input[type="password"]');
-                    if (emailEl) {
-                        nSetter.call(emailEl, arguments[0]);
-                        emailEl.dispatchEvent(new Event('input',  {bubbles:true}));
-                        emailEl.dispatchEvent(new Event('change', {bubbles:true}));
-                    }
-                    if (pwEl) {
-                        nSetter.call(pwEl, arguments[1]);
-                        pwEl.dispatchEvent(new Event('input',  {bubbles:true}));
-                        pwEl.dispatchEvent(new Event('change', {bubbles:true}));
-                    }
-                    """,
-                    self.email, self.password
-                )
-            except Exception as e:
-                print(f"⚠️  JS fill error: {e!r} — falling back to element send_keys")
-                self._fill_field(email_field, self.email)
-                self.human_delay(0.5, 1.0)
-                password_field2 = self._find_input(password_selectors, wait_for_first=False, timeout=15)
-                if password_field2:
-                    self._fill_field(password_field2, self.password)
-
-            # ── Diagnostic: read values back by ID (more reliable than element ref) ──
-            try:
-                check = self.driver.execute_script(
-                    """
-                    return {
-                        email: (document.querySelector('#email, input[type="email"]') || {}).value,
-                        password: (document.querySelector('#password, input[type="password"]') || {}).value
-                    };
-                    """
-                )
-                email_len = len(check.get("email") or "")
-                pw_len    = len(check.get("password") or "")
-                print(f"🔎 Form state — email: {email_len} chars, password: {pw_len} chars")
-                if pw_len == 0:
-                    print("⚠️  Password field still empty — React may block JS setter for password inputs")
-            except Exception:
-                pass
-
-            self.human_delay(0.5, 1.0)
-
-            # Re-check overlays that may appear after form interaction
-            self._dismiss_overlays()
-
-            # ── Cloudflare Turnstile: wait up to 40s for auto-solve ───────────
-            # BrightData Scraping Browser auto-solves Turnstile in ~3-8s.
-            print("⏳ Waiting for Cloudflare Turnstile to auto-solve (up to 40s)...")
+            # ── STEP 1: Wait for Cloudflare Turnstile to auto-solve ──────────
+            # BrightData auto-solves Turnstile on page load — we wait BEFORE
+            # filling the form so we don't interfere with the CAPTCHA evaluator.
+            print("⏳ Waiting for Cloudflare Turnstile to auto-solve (up to 45s)...")
             turnstile_solved = False
-            turnstile_deadline = time.time() + 40
+            turnstile_token  = ""
+            turnstile_deadline = time.time() + 45
             while time.time() < turnstile_deadline:
                 try:
                     token = self.driver.execute_script(
@@ -616,15 +541,63 @@ class LekeLekeeAutomation:
                     if token and token.strip():
                         print(f"✅ Turnstile solved — token present ({len(token)} chars)")
                         turnstile_solved = True
+                        turnstile_token  = token
                         break
                 except Exception:
                     pass
                 time.sleep(1)
-
             if not turnstile_solved:
-                print("⚠️  Turnstile did not solve — proceeding anyway (may fail)")
+                print("⚠️  Turnstile did not auto-solve — will proceed anyway")
 
-            # ── Submit button — try multiple selectors ────────────────────────
+            # ── STEP 2: Find form fields (fresh references after Turnstile wait) ──
+            email_selectors = [
+                (By.CSS_SELECTOR, "input[type='email']"),
+                (By.CSS_SELECTOR, "input[id='email']"),
+                (By.CSS_SELECTOR, "input[id*='email' i]"),
+                (By.CSS_SELECTOR, "input[autocomplete='email']"),
+                (By.NAME,         "email"),
+                (By.CSS_SELECTOR, "input[placeholder*='email' i]"),
+                (By.CSS_SELECTOR, "input[autocomplete='username']"),
+                (By.XPATH,        "//input[@type='email' or @id='email' or contains(@name,'email')]"),
+            ]
+            password_selectors = [
+                (By.NAME,         "password"),
+                (By.CSS_SELECTOR, "input[type='password']"),
+                (By.CSS_SELECTOR, "input[id*='password' i]"),
+                (By.CSS_SELECTOR, "input[placeholder*='password' i]"),
+                (By.XPATH,        "//input[@type='password']"),
+            ]
+            email_field    = self._find_input(email_selectors,    wait_for_first=True,  timeout=30)
+            password_field = self._find_input(password_selectors, wait_for_first=False, timeout=15)
+            if email_field is None:
+                raise TimeoutError("Email input not found")
+            if password_field is None:
+                raise TimeoutError("Password input not found")
+
+            # ── STEP 3: Fill form immediately before submit ───────────────────
+            # Use pure JS native-setter to update React controlled state.
+            # Also send_keys via ActionChains as belt-and-suspenders.
+            print("📝 Filling form...")
+            self._fill_field(email_field,    self.email)
+            # Re-find password after email fill (React re-renders invalidate ref)
+            password_field = self._find_input(password_selectors, wait_for_first=False, timeout=10) or password_field
+            self._fill_field(password_field, self.password)
+
+            # Diagnostic (fast readback)
+            try:
+                check = self.driver.execute_script(
+                    "return {"
+                    "  email: (document.querySelector('#email, input[type=\"email\"]') || {}).value,"
+                    "  password: (document.querySelector('#password, input[type=\"password\"]') || {}).value"
+                    "};"
+                )
+                el = len(check.get("email") or "")
+                pl = len(check.get("password") or "")
+                print(f"🔎 Field readback — email: {el} chars, password: {pl} chars")
+            except Exception:
+                pass
+
+            # ── STEP 4: Submit ────────────────────────────────────────────────
             submit_selectors = [
                 "button[type='submit']",
                 "input[type='submit']",
@@ -642,28 +615,27 @@ class LekeLekeeAutomation:
                 except Exception:
                     continue
             if login_button is None:
-                raise TimeoutError("Login submit button not found with any selector")
+                raise TimeoutError("Login submit button not found")
 
             if turnstile_solved:
-                # Normal path: button should be enabled now
                 try:
                     WebDriverWait(self.driver, 5).until(lambda d: login_button.is_enabled())
                     self._safe_click(login_button)
                     print("✅ Submit button clicked (Turnstile passed)")
                 except Exception:
-                    # Button still disabled — force JS click anyway
-                    self.driver.execute_script("arguments[0].removeAttribute('disabled'); arguments[0].click();", login_button)
-                    print("✅ Submit button JS-forced (Turnstile passed but button still disabled)")
+                    self.driver.execute_script(
+                        "arguments[0].removeAttribute('disabled'); arguments[0].click();",
+                        login_button
+                    )
+                    print("✅ Submit button JS-forced (Turnstile passed, button was disabled)")
             else:
-                # Turnstile bypass: remove disabled attr and submit via JS
                 try:
                     self.driver.execute_script(
                         "arguments[0].removeAttribute('disabled'); arguments[0].click();",
                         login_button
                     )
-                    print("✅ Submit button JS-forced (Turnstile bypass)")
+                    print("✅ Submit button JS-forced (no Turnstile token)")
                 except Exception:
-                    # Last resort: submit the form directly
                     self.driver.execute_script(
                         "var form = document.querySelector('form'); if(form) form.submit();"
                     )
