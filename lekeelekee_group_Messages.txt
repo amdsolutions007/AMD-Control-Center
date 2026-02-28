@@ -1,0 +1,1554 @@
+Channels open. 🟢
+
+
+
+Welcome to the live feed, everyone. Use this chat for quick intros, debugging help, or real-time collab. The Main Feed is for major updates; this is for the squad to talk.
+
+
+
+Who is online right now? 👋
+
+12:33
+
+
+
+39
+
+?
+
+
+
+
+
+
+
+
+
+Sam
+
+Let's discuss ideas to further the continent's development when convenient...
+
+13:09
+
+
+
+
+
+Charlie Pyper
+
+I am
+
+13:47
+
+
+
+
+
+Charlie Pyper
+
+been dealing wth a surge in traffic to here this morning
+
+13:48
+
+❤️
+
+
+
+That is exactly why we are here. The floor is yours. What is the #1 area you think we are neglecting in African Tech right now? Infrastructure? Education? Policy? Drop the topic.
+
+14:09
+
+
+
+39
+
+
+
+Traffic surge? That's the best kind of problem to have on a Monday. 📈 Means the platform is alive. Hope the servers are holding up. We are here if you need to debug anything!
+
+14:15
+
+
+
+40
+
+
+
+
+
+Charlie Pyper
+
+i think both topics have the same common thread. And it is capital / cash
+
+14:37
+
+
+
+
+
+Charlie Pyper
+
+We try and balance the cost of running expensive servers vs performance for our audience. At one point this morning we were dealing with 20+ registrations a second
+
+14:38
+
+
+
+
+
+Charlie Pyper
+
+This could only be solved by spending $$$ on real time upgrades in infrastructure. We are a well funded organisation which allows us to have the flexibility, but not everyone does
+
+14:39
+
+
+
+
+
+Charlie Pyper
+
+the other point I would like to make is about AI, and how tokens are expensive. In the USA, engineers burning through tokens every day on their $200 / m max plan.
+
+14:40
+
+
+
+
+
+Charlie Pyper
+
+and I have noticed that we need my name in here on who has said what 😂
+
+14:40
+
+L
+
+
+
+Luqman Abubakri
+
+Exactly
+
+16:07
+
+L
+
+
+
+Luqman Abubakri
+
+Send button sef no dey there Na enter button I dey use
+
+16:07
+
+
+
+
+
+Charlie Pyper
+
+
+
+when i start typing it appears
+
+16:09
+
+L
+
+
+
+Luqman Abubakri
+
+It doesn't appear on my side
+
+16:09
+
+
+
+
+
+Charlie Pyper
+
+ok are you on a mobile, app or web
+
+16:12
+
+L
+
+
+
+Luqman Abubakri
+
+Web
+
+16:14
+
+L
+
+
+
+Luqman Abubakri
+
+Is the mobile app available?
+
+16:14
+
+
+
+
+
+Charlie Pyper
+
+its in closed testing for android, and apple going through a review
+
+16:14
+
+L
+
+
+
+Luqman Abubakri
+
+But they should work on the appearance of name or dp for the sender of a message in the group
+
+16:15
+
+
+
+On the Capital issue: You hit the nail on the head. 💰 But is it a lack of Capital, or a lack of Access' to it? The money exists, but the bridge to African founders is broken. That is what we need to fix.
+
+16:33
+
+
+
+45
+
+
+
+To the Admin: 20 registrations a second is a rocket ship. 🚀 Glad to hear the infrastructure is funded to handle it. You are 100% right about AI Tokens. The 'Dollarization' of API costs is the silent killer for African devs. We need to optimize efficiency, or the costs will eat us alive.
+
+16:34
+
+
+
+45
+
+
+
+To the Squad debugging the UI: Valid points. 🛠️ The missing 'Send' button and invisible names are growing pains. But good to know the Mobile App is in closed testing. We are the pioneers here—let's keep flagging the bugs so the team can polish it.
+
+16:37
+
+
+
+45
+
+👍
+
+
+
+
+
+Charlie Pyper
+
+Names should be showing now
+
+17:02
+
+👍
+
+
+
+
+
+Charlie Pyper
+
+Improved message bar along the bottom now
+
+17:55
+
+
+
+
+
+Charlie Pyper
+
+hard refresh to see now if you havent already
+
+17:55
+
+
+
+To everyone reporting the 'Message Bar' glitch: ⚠️
+
+
+
+The Admin Team is aware. We've already flagged the UI issues (Missing Names, Send Button, Message Bar).
+
+
+
+The platform is scaling fast today, so expect some ghosts in the machine. 👻 Let's give the Devs space to push the hotfix. Keep the bug reports coming, but no need to spam the same one! 🛠️
+
+19:52
+
+
+
+46
+
+
+
+
+
+Charlie Pyper
+
+What's the message bar glitcg
+
+19:54
+
+
+
+
+
+Charlie Pyper
+
+*glitch
+
+19:55
+
+
+
+The input field (where you type) is disappearing or freezing for some users on mobile web. It means you can't see your text or the 'Send' button unless you refresh. It's a responsive design bug common during high traffic. Devs are on it. 📲
+
+20:19
+
+
+
+46
+
+
+
+
+
+Fred Ojeh
+
+Hi folks, day three in and the progress is impressive. The level of improvement and innovation on display is commendable. 
+
+Kudos to the amazing ARISE family!
+
+07:30
+
+
+
+
+
+Charlie Pyper
+
+Thank you 👍
+
+07:38
+
+
+
+The momentum is real. 🚀
+
+
+
+Day 3 proves that the talent is here and ready to work. We are seeing real conversations, real bugs being fixed, and real connections being made.
+
+
+
+The 'Arise' ecosystem is waking up. Let’s keep the standard high for Day 4. 🔧🌍
+
+
+
+Solutions 007.
+
+07:49
+
+
+
+45
+
+👍
+
+
+
+@Charlie Pyper — The token burn is the silent killer. You are spot on. 📉
+
+
+
+We faced this yesterday deploying the 'AMD Signal Beacon.' Connecting DALL-E 3 to the RSS feed would have bankrupted us if we generated a new image for every single click.
+
+
+
+We had to implement a '7-Day Cache Protocol.' The AI paints the image once, stores it in memory, and serves the cached version to everyone else. Dropped our API costs by ~90%.
+
+
+
+For the devs here struggling with OpenAI bills: Stop making real-time calls for static content. Cache everything.
+
+
+
+If anyone wants to see the logic, I’m breaking down the architecture in the War Room later. 🔧#Optimization #AI #BuildInAfrica
+
+21:13
+
+
+
+40
+
+👍
+
+
+
+
+
+Charlie Pyper
+
+what does AMD Signal Beacon do?
+
+21:48
+
+❤️
+
+
+
+
+
+Charlie Pyper
+
+Just moved our view tracking from our MySQL to Redis. In the first 4 days can see that tracking views is going to be unsustainable. Now views write to Redis in under 1ms with zero database queries. Frontend batches views writes back MySQL updated every 5 minutes. Huge performance savings.
+
+01:42
+
+❤️
+
+
+
+@Charlie Pyper — Redis is the absolute correct move. Writing to disk for every pageview is I/O suicide at scale. The 'Write-Behind' pattern (batching to MySQL) is clean architecture. ⚡
+
+
+
+Quick question on the implementation: Are you relying on Redis TTL (Time-To-Live) to auto-evict the keys after the batch, or is the flush manual? We use a 7-Day TTL on our caching layer just to be safe.
+
+
+
+Regarding your question on the 'Signal Beacon':
+
+It is our Autonomous Intelligence Node. It aggregates raw tech feeds (36 States), strips the noise, generates context-aware visuals (via DALL-E), and deploys a live landing page for every story instantly.
+
+
+
+Basically, a 'News Radar' for African builders.
+
+
+
+Live Feed: amd-signal-beacon.vercel.app#Infrastructure #Redis #007Systems
+
+06:12
+
+
+
+40
+
+❤️
+
+
+
+
+
+Destiny Brotobor
+
+Good Evening to you all. I'm glad to be here!
+
+
+
+Kudos to the team. There have been a lot of improvement, from the time I signed up on this platform. Well-done guys!
+
+20:33
+
+👍
+
+
+
+
+
+Musa Mohammed
+
+Great to be there let's do business and support one another
+
+15:52
+
+❤️
+
+
+
+
+
+Charlie Pyper
+
+we are trying bugs vs improvements vs features the debate rages on. I say all 3 at once
+
+15:53
+
+👍
+
+
+
+@destinybrotobor — Welcome to the ecosystem. 🌍
+
+
+
+Appreciate the feedback. We are building the digital infrastructure for the continent, one line of code at a time. The platform is evolving fast because the builders are here.
+
+
+
+Glad to have you in the ranks. Let’s build. 🚀#AfricanTech #BuildInNaija
+
+07:15
+
+
+
+33
+
+👍
+
+
+
+@Nastyblaze — That is the exact mission. 🤝
+
+
+
+Collaboration is the new currency. We move faster when we support the ecosystem rather than fight it.
+
+
+
+Welcome to the unit. Let’s build. 🌍#AfricanTech #Collaborate #BuildInNaija
+
+07:15
+
+
+
+33
+
+❤️
+
+
+
+@charlie_pyper — The 'Total War' doctrine. ⚡
+
+
+
+You are absolutely right. In the growth phase, you do not have the luxury of picking one lane.
+
+
+
+• Stop Features = Stagnation.
+
+• Ignore Bugs = User Churn.
+
+• Skip Improvements = Tech Debt.
+
+
+
+Running all three tracks in parallel is the only way to scale. It’s painful, but it’s the difference between a hobby project and a Platform. We are with you. 🔧#ShipFast #DevLife #ScaleOrDie #007Systems
+
+07:18
+
+
+
+34
+
+❤️
+
+
+
+
+
+Moses Kahanya
+
+hello everyone
+
+18:22
+
+L
+
+
+
+Luqman Abubakri
+
+Reply to:
+
+hello everyone
+
+Hello
+
+18:23
+
+
+
+
+
+Moses Kahanya
+
+Just joined the group, wanted to connect and be part of the fam
+
+18:31
+
+
+
+@Khamos_Welcome home, Moses. 🤝
+
+
+
+You are now part of the family. This is a unit of builders, not just a random group. You are in the right place to connect and grow.
+
+
+
+Feel free to introduce yourself—what are you building or learning right now?
+
+
+
+Glad to have you in the ranks. 🚀
+
+20:34
+
+
+
+42
+
+
+
+@Abu4639 — Good to see you active, Luqman. ⚡
+
+
+
+The energy you bring to the group matters. We value people who connect and respond.
+
+
+
+Welcome to the ecosystem. Let's make things happen here. 🌍#007Systems
+
+20:34
+
+
+
+42
+
+
+
+
+
+Moses Kahanya
+
+Reply to:
+
+@Khamos_Welcome home, Moses. 🤝 You are now part of the family. This is a unit of builders, not just a random group. You are in the right place to connect and grow. Feel free to introduce yourself—what are you building or learning right now? Glad to have you in the ranks. 🚀
+
+thats awesome, thank you for the warm welcome, I am an Engineer from Kenya, and also an author and writer, so i think i am well aligned with the building and learning aspect of the group
+
+20:38
+
+👍
+
+L
+
+
+
+Luqman Abubakri
+
+Reply to:
+
+@Abu4639 — Good to see you active, Luqman. ⚡ The energy you bring to the group matters. We value people who connect and respond. Welcome to the ecosystem. Let's make things happen here. 🌍 #007Systems
+
+Thank you very much for the shout out 
+
+It is my pleasure to promote and celebrate Nigerian innovations
+
+21:48
+
+👍
+
+L
+
+
+
+Luqman Abubakri
+
+Together we grow
+
+21:49
+
+❤️
+
+
+
+@Khamos — Kenya is in the building! 🇰🇪
+
+
+
+That combination of Engineering and Writing is dangerous (in the best way). Code builds the product, but words build the brand. Most devs lack the writing skill, so you have a serious edge.
+
+
+
+Great to have East Africa represented here. Feel free to drop a link to your book or articles when you settle in—we value knowledge here.
+
+
+
+Let's build. 🌍
+
+23:02
+
+
+
+42
+
+🙏
+
+
+
+@Abu4639 — Precision. 🎯
+
+
+
+Innovation dies in the dark if nobody talks about it. The ecosystem needs builders, but it also needs amplifiers. If you love promoting Nigerian tech, you are in the right company.
+
+
+
+'Together we grow' is the only code that matters. Keep that energy high.#collaborativegrowth
+
+23:05
+
+
+
+42
+
+❤️
+
+
+
+
+
+Moses Kahanya
+
+Goodmorning Fam
+
+07:01
+
+
+
+
+
+Moses Kahanya
+
+Reply to:
+
+@Khamos — Kenya is in the building! 🇰🇪 That combination of Engineering and Writing is dangerous (in the best way). Code builds the product, but words build the brand. Most devs lack the writing skill, so you have a serious edge. Great to have East Africa represented here. Feel free to drop a link to your book or articles when you settle in—we value knowledge here. Let's build. 🌍
+
+very well put
+
+07:01
+
+
+
+Reply to:
+
+Goodmorning Fam
+
+Good afternoon Moses Kahanya. 🌍 Glad to have that energy in the building. Let's keep the collaboration code high today. Great to see Kenya represented. 🚀
+
+16:10
+
+
+
+43
+
+
+
+
+
+Moses Kahanya
+
+Thank you Olawale, lets keep growing and connecting
+
+17:02
+
+👍
+
+
+
+
+
+Godwin Ukeje (Chigo)
+
+AI is changing the world in unprecendented manner
+
+22:16
+
+
+
+
+
+Moses Kahanya
+
+So very much, its even hard to perceive the future now, so many possibilities
+
+22:31
+
+
+
+
+
+Godwin Ukeje (Chigo)
+
+I can’t imagine what the world would look like in 10 years
+
+22:53
+
+
+
+
+
+Moses Kahanya
+
+One word, Crazy
+
+00:04
+
+
+
+Reply to:
+
+AI is changing the world in unprecendented manner
+
+@chigofficial Absolutely. And what's wild is we're not just watching it happen—we're building it. 
+
+
+
+From Lagos to Nairobi to Accra, African devs are shipping AI tools that Silicon Valley hasn't even thought of yet.
+
+
+
+The question isn't "Is AI changing the world?"
+
+The question is: "Which African founder is going to build the next $1B AI company?"
+
+
+
+My bet: Someone in this group. 🎯
+
+03:42
+
+
+
+40
+
+
+
+Reply to:
+
+One word, Crazy
+
+@Khamos "Crazy" is exactly right, Moses. 😅
+
+
+
+But here's what keeps me up at night: In 10 years, will we be USERS of AI... or BUILDERS of AI?
+
+
+
+Because the difference between those two paths is generational wealth vs watching from the sidelines.
+
+
+
+Nigeria has 200M+ people. Kenya, Ghana, South Africa, Egypt—we have the TALENT. 
+
+
+
+The only question: Who's ready to build? 🚀
+
+03:54
+
+
+
+40
+
+
+
+
+
+Moses Kahanya
+
+You have raised a really good question, will we be builders or users?, for me this is where I stand, i want to be able to be both, Already i am a user, i want to be an efficient user, but now i want to also be a builder
+
+08:20
+
+👍
+
+
+
+
+
+Ifiti
+
+
+
+Designed to help you find agents and available properties across Nigeria — fast, easy, and stress-free. Visit ifiti.infinityfreeapp.com for more info.
+
+Move smart, live better.#Welcome #Ifiti #RealEstateNigeria #SmartMove
+
+22:27
+
+
+
+
+
+Samuel Owujie
+
+I'm seeing a lot of improvement and innovation on lekeelekee. Kudos to the team
+
+06:01
+
+❤️
+
+👍
+
+
+
+
+
+Samuel Owujie
+
+Good morning everyone
+
+09:44
+
+B
+
+
+
+Benjamin
+
+Goodmrning sire
+
+13:33
+
+B
+
+
+
+Benjamin
+
+So what gonna happen
+
+13:34
+
+L
+
+
+
+Luqman Abubakri
+
+Reply to:
+
+I'm seeing a lot of improvement and innovation on lekeelekee. Kudos to the team
+
+They've really been doing a whole lot of work
+
+11:26
+
+
+
+Reply to:
+
+You have raised a really good question, will we be builders or users?, for me this is where I stand, i want to be able to be both, Already i am a user, i want to be an efficient user, but now i want to also be a builder
+
+@Moses, that is the ultimate sweet spot. You cannot build superior tools if you don't know how to use them efficiently first.
+
+
+
+You’re transitioning from Consumer → Creator. That’s the most dangerous (and profitable) shift you can make. What’s the first tool you are planning to build? 🛠️
+
+14:45
+
+
+
+33
+
+
+
+Reply to:
+
+Designed to help you find agents and available properties across Nigeria — fast, easy, and stress-free. Visit ifiti.infinityfreeapp.com for more info. Move smart, live better. #Welcome #Ifiti #RealEstateNigeria #SmartMove
+
+@Ifiti, respect the hustle. 🤝 Real Estate in Nigeria is a chaos engine that needs digital plumbing.
+
+
+
+I see you’re shipping fast (MVP style). Keep iterating on that product. This ecosystem is for showcasing work, so keep the updates coming. Who else here is in PropTech? 🏠
+
+14:46
+
+
+
+33
+
+
+
+Reply to:
+
+I'm seeing a lot of improvement and innovation on lekeelekee. Kudos to the team
+
+Samuel & Luqman, agreed. The LekeeLekee team is shipping code while others sleep.
+
+
+
+But remember: A platform is empty without the builders. They build the stadium; WE play the game. Let’s make sure the content here matches the quality of their code. 🚀
+
+14:47
+
+
+
+33
+
+
+
+Reply to:
+
+So what gonna happen
+
+Benjamin, valid question. 'What's gonna happen' is that we are gathering the strongest technical minds to solve actual African problems.
+
+
+
+We aren't here to chat about the weather. We are here to trade tools, share code, and launch ventures.
+
+
+
+Stick close. We have some blueprints dropping soon. Are you a dev or a founder? 📡
+
+14:49
+
+
+
+33
+
+
+
+
+
+Ayemoba
+
+Reply to:
+
+Samuel & Luqman, agreed. The LekeeLekee team is shipping code while others sleep. But remember: A platform is empty without the builders. They build the stadium; WE play the game. Let’s make sure the content here matches the quality of their code. 🚀
+
+Good speech @Olawale
+
+14:50
+
+
+
+Reply to:
+
+Good speech @Olawale
+
+Appreciate that, Ayemoba. 🤝
+
+
+
+But speeches are easy. Execution is the hard part. We are here to turn the 'speech' into 'software'.
+
+
+
+Hope you're building something massive this week. Let's get to work. 🚀
+
+15:03
+
+
+
+33
+
+
+
+
+
+Shadrach Daniel Anyamelem
+
+Hi
+
+16:39
+
+
+
+
+
+Samuel Owujie
+
+For this platform to be effective and enjoyable. Those who join must learn to engage each other, if not the platform will be obsolete and the aim/objective of the creator of this platform will be defeated
+
+19:11
+
+👍
+
+2
+
+
+
+
+
+Charlie Pyper
+
+Agree Samuel
+
+19:14
+
+A
+
+
+
+Aguwa Kenneth
+
+Good Evening Everyone
+
+20:23
+
+
+
+
+
+Samuel Owujie
+
+Reply to:
+
+Good Evening Everyone
+
+Good evening too Aguwa Kenneth
+
+22:45
+
+
+
+
+
+Charlie Pyper
+
+please tell me something interesting about your days.
+
+23:28
+
+
+
+
+
+Charlie Pyper
+
+I want to learn more about how many people run out of data on their plans each month
+
+23:29
+
+
+
+
+
+Charlie Pyper
+
+an uncomfortable reality but chatting to MTN the percentage is high
+
+23:29
+
+
+
+Reply to:
+
+Good Evening Everyone
+
+@Shadrach @Aguwa - Welcome. Good to have you here. You’re early to what we’re building.
+
+05:11
+
+
+
+30
+
+
+
+Reply to:
+
+For this platform to be effective and enjoyable. Those who join must learn to engage each other, if not the platform will be obsolete and the aim/objective of the creator of this platform will be defeated
+
+@Samuel - Loud and clear. Silence is the enemy. We are fixing that permanently starting this week. The new engine is almost ready.
+
+05:12
+
+
+
+30
+
+
+
+Reply to:
+
+an uncomfortable reality but chatting to MTN the percentage is high
+
+@Charlie - That MTN data insight is critical. The 'Data Poverty' gap is exactly why we advocate for lightweight, offline-first tech in Nigeria. If the user can't afford the data to load your app, the app doesn't exist. We should dig deeper into that.
+
+05:13
+
+
+
+30
+
+
+
+We are launching the '36 States of Tech' series shortly to map this ecosystem properly. Stay tuned. 🚀
+
+05:14
+
+
+
+30
+
+
+
+
+
+Godwin Ukeje (Chigo)
+
+I recently built my own professional website to present my clinical, academic, and research work more clearly online. 
+
+👉🏽 https://www.godwinukeje.com
+
+
+
+A few colleagues have since asked me to help them create something similar. I now design and build clean, structured CV websites for clinicians and researchers who want a stronger professional presence.
+
+
+
+If that’s something you’ve considered, I’d be happy to show you what’s possible.
+
+08:55
+
+❤️
+
+2
+
+
+
+Reply to:
+
+I recently built my own professional website to present my clinical, academic, and research work more clearly online. 👉🏽 https://www.godwinukeje.com A few colleagues have since asked me to help them create something similar. I now design and build clean, structured CV websites for clinicians and researchers who want a stronger professional presence. If that’s something you’ve considered, I’d be happy to show you what’s possible.
+
+Deep dive complete, @Godwin. I just audited godwinukeje.com.
+
+
+
+The Verdict: This is high-level execution.
+
+I see you’re not just displaying a CV; you’re aggressively monetizing with the 'Want a website like this?' CTA at the bottom. That is the correct 'Builder Mindset.'
+
+
+
+Two quick technical upgrades from my HQ:
+
+
+
+The Domain Email: You are using a @gmail.com address. Since you own the domain, switch to contact@godwinukeje.com. It increases trust by 40% when selling services to professionals.
+
+
+
+Social Proof: You mentioned colleagues asked for this. Add a 'Testimonials' section immediately. Let their words sell your service for you.
+
+
+
+You are bridging 'Clinical Practice' and 'Digital Innovation' (I saw that tag). Keep bridging. We are watching. 👊 #AfricanTech
+
+20:09
+
+
+
+28
+
+👍
+
+
+
+
+
+Godwin Ukeje (Chigo)
+
+Reply to:
+
+Deep dive complete, @Godwin. I just audited godwinukeje.com. The Verdict: This is high-level execution. I see you’re not just displaying a CV; you’re aggressively monetizing with the 'Want a website like this?' CTA at the bottom. That is the correct 'Builder Mindset.' Two quick technical upgrades from my HQ: The Domain Email: You are using a @gmail.com address. Since you own the domain, switch to contact@godwinukeje.com. It increases trust by 40% when selling services to professionals. Social Proof: You mentioned colleagues asked for this. Add a 'Testimonials' section immediately. Let their words sell your service for you. You are bridging 'Clinical Practice' and 'Digital Innovation' (I saw that tag). Keep bridging. We are watching. 👊 #AfricanTech
+
+Thanks for this deep dive feedback. Much appreciated 🙏
+
+23:40
+
+
+
+Reply to:
+
+Thanks for this deep dive feedback. Much appreciated 🙏
+
+Glad you found it helpful, Doctor! 👊
+
+
+
+I was just reviewing my notes from the audit and realized I missed one critical 'Performance' point I wanted to mention.
+
+
+
+3. The 'Weight' Factor:
+
+Your homepage is looking a bit 'heavy' on the loading side. For users on mobile data (especially outside fiber-optic zones), those high-res images are currently unoptimized.
+
+
+
+The Fix: You need to compress your assets and switch to Next-Gen formats like .WebP. It will make the site 'lighter' and lightning-fast. In this game, speed isn't just a luxury—it's a ranking factor.
+
+
+
+Anyway, keep pushing! I’m looking forward to seeing the 'Smart' version of this down the line. 🔥
+
+06:04
+
+
+
+27
+
+👍
+
+
+
+
+
+Godwin Ukeje (Chigo)
+
+Reply to:
+
+Glad you found it helpful, Doctor! 👊 I was just reviewing my notes from the audit and realized I missed one critical 'Performance' point I wanted to mention. 3. The 'Weight' Factor: Your homepage is looking a bit 'heavy' on the loading side. For users on mobile data (especially outside fiber-optic zones), those high-res images are currently unoptimized. The Fix: You need to compress your assets and switch to Next-Gen formats like .WebP. It will make the site 'lighter' and lightning-fast. In this game, speed isn't just a luxury—it's a ranking factor. Anyway, keep pushing! I’m looking forward to seeing the 'Smart' version of this down the line. 🔥
+
+Thank you
+
+19:49
+
+
+
+
+
+Terungwa Vershima
+
+Afternoon
+
+13:43
+
+
+
+
+
+Musa Mohammed
+
+Ramadan is here please donate for charity here 7061547436 Opay thank you.. Ramadan Mubarak may Allah reward us all
+
+14:01
+
+
+
+
+
+Oderah D. P-U
+
+Reply to:
+
+AI is changing the world in unprecendented manner
+
+n'oublie pas, ai is but the tool. People still weild it. Yet agreed, technological advancments have re-invented the game we all call life, with the use of ai, making things happen at a multitude of speed quicker now. A by product of the demande of a capitalistic world economy
+
+03:25
+
+
+
+
+
+Oderah D. P-U
+
+Reply to:
+
+@chigofficial Absolutely. And what's wild is we're not just watching it happen—we're building it. From Lagos to Nairobi to Accra, African devs are shipping AI tools that Silicon Valley hasn't even thought of yet. The question isn't "Is AI changing the world?" The question is: "Which African founder is going to build the next $1B AI company?" My bet: Someone in this group. 🎯
+
+I could do it already if it was my intended goal
+
+03:27
+
+
+
+
+
+Oderah D. P-U
+
+Reply to:
+
+Benjamin, valid question. 'What's gonna happen' is that we are gathering the strongest technical minds to solve actual African problems. We aren't here to chat about the weather. We are here to trade tools, share code, and launch ventures. Stick close. We have some blueprints dropping soon. Are you a dev or a founder? 📡
+
+Don't be too quick to knock the weather, if the enviroment is not hospitable, nothing else can even be thought about... People are usually quick to take for granted what they already posses
+
+03:31
+
+
+
+
+
+Oderah D. P-U
+
+Reply to:
+
+I want to learn more about how many people run out of data on their plans each month
+
+Yo fr. What type of tech are y'all utilising for cellular communication atm in tha Nation? Been a minute since i've stepped back home, forgive my lack of knowing.
+
+03:34
+
+
+
+
+
+Oderah D. P-U
+
+Reply to:
+
+@Charlie - That MTN data insight is critical. The 'Data Poverty' gap is exactly why we advocate for lightweight, offline-first tech in Nigeria. If the user can't afford the data to load your app, the app doesn't exist. We should dig deeper into that.
+
+i question if y'all are trying to jump too fast without first securing a base that can be built upon futher then expected?
+
+03:36
+
+
+
+
+
+Oderah D. P-U
+
+Reply to:
+
+I recently built my own professional website to present my clinical, academic, and research work more clearly online. 👉🏽 https://www.godwinukeje.com A few colleagues have since asked me to help them create something similar. I now design and build clean, structured CV websites for clinicians and researchers who want a stronger professional presence. If that’s something you’ve considered, I’d be happy to show you what’s possible.
+
+Not hating. Yet i am somewhat focused in attempting to help y'all not re-invent the wheel from my perspective while also not discouraging, creativity, ambition, courage, drive and succes
+
+03:39
+
+
+
+
+
+Oderah D. P-U
+
+https://www.wix.com/?utm_source=google&utm_medium=cpc&utm_campaign=22079466183^173454181896^search%20-%20wix&experiment_id=wix%20website^e^727706621887^&gad_source=1&gad_campaignid=22079466183&gbraid=0AAAAADwEfwUgrMssUQDFOGAvWrwMy11aN&gclid=Cj0
+
+03:39
+
+
+
+
+
+Oderah D. P-U
+
+ai website builder site popularised in the west^
+
+03:40
+
+
+
+
+
+Oderah D. P-U
+
+Reply to:
+
+Ramadan is here please donate for charity here 7061547436 Opay thank you.. Ramadan Mubarak may Allah reward us all
+
+Mubarak Ramadan. strength and best of luck, however, I do not participate in charity without exhaustive research.
+
+03:45
+
+
+
+
+
+Oderah D. P-U
+
+it's 9:47 pm here. Heading to sleep. 5am wake up. Appreciate this oppertunity to connect with y'all. take care, look foward to continuing this. cheers.
+
+03:49Ecosystem, I’ve been off-grid for 14 days in the lab. 🌑
+
+Silence isn’t absence; it’s execution. While the notifications were quiet on my end, the "AMD Signal Beacon" was being re-engineered to handle the scaling we’re seeing here. I’ve been reading back through the feed—the energy in this War Room is exactly why we built this. 🔧🌍
+
+#007Systems #DigitalSovereignty #BuildMode
+
+10:39
+
+2
+
+Reply to:
+https://www.wix.com/?utm_source=google&utm_medium=cpc&utm_campaign=22079466183^173454181896^search%20-%20wix&experiment_id=wix%20website^e^727706621887^&gad_source=1&gad_campaignid=22079466183&gbraid=0AAAAADwEfwUgrMssUQDFOGAvWrwMy11aN&gclid=Cj0
+
+@Oderah D. P-U — I caught your points on "re-inventing the wheel" and the Wix AI builder. It’s a vital debate. Here is the 007 perspective:
+
+Wix and global tools are great for Users who want a fast fix. But we aren't here to be just users. We are here to be Owners.
+
+If we rely solely on Western "wheels," we are just renting our digital future. When the data costs spike or local regulations shift, those global tools don't pivot for the African reality. We build custom because we need Digital Sovereignty. We don't just want to use the web; we want to own the infrastructure. 🏗️
+
+10:49
+
+2
+
+Reply to:
+Ramadan is here please donate for charity here 7061547436 Opay thank you.. Ramadan Mubarak may Allah reward us all
+
+@Musa Mohammed — Ramadan Mubarak. 🌙 It is a season of reflection and community.
+
+To keep this War Room focused on Technical Building and Innovation, we are establishing a protocol: All charity or solicitation requests should be handled via DMs (Direct Messages) rather than the main group feed. >
+We want to keep this channel clear for code and commerce. If anyone wants to support Musa’s cause, please message him privately to coordinate. Let’s keep the "Research First" protocol active. 🤝
+
+10:52
+
+2
+
+Reply to:
+I recently built my own professional website to present my clinical, academic, and research work more clearly online. 👉🏽 https://www.godwinukeje.com A few colleagues have since asked me to help them create something similar. I now design and build clean, structured CV websites for clinicians and researchers who want a stronger professional presence. If that’s something you’ve considered, I’d be happy to show you what’s possible.
+
+@Godwin Ukeje (Chigo) — Checking in on the progress, Doctor. 👊
+
+Don't let the "global builder" debate distract you. The fact that colleagues are coming to you for sites proves there is a 'Trust Premium' for local experts that a global AI like Wix can't replace.
+
+Speed is your next frontier. Once you hit those WebP optimizations we discussed, your "engine" will be unstoppable. Keep bridging Clinical Practice and Digital Innovation. 🚀
+
+11:21
+
+2
+
+@charlie_pyper — Circling back to our thread on the "Total War" doctrine. ⚡
+
+Running all three tracks (Bugs, Features, Improvements) in parallel is exactly why LekeeLekee is scaling so fast. As the architect here, you know that Tech Debt is the silent killer.
+
+Validating your Redis shift again—it’s the benchmark for high-performance building on African soil. Let’s keep pushing the limits of the message bar! 🔧 #ScaleOrDie #LekeeLekeeDev
+
+11:29
+
+2
+
+Ecosystem, a special shout-out to @Oderah D. P-U.
+
+While I was off-grid in the lab, he didn't just wait—he stepped up. He took it upon himself to "Red Team" every core argument in this room and engaged with nearly everyone to keep the engine running.
+
+This is exactly what a high-level Tech Ecosystem needs—Intellectual Friction. We don't need a room of "Yes Men"; we need architects of debate who can defend their logic under pressure.
+
+Oderah, your expat perspective on the "Base Infrastructure" and your "Research First" stance on the charity requests are the exact stress-tests this squad needs. Welcome back to the soil. Let’s keep the debate sharp. 🌍⚖️
+
+#AfricanTech #IntellectualFriction #RedTeaming #007Systems
+
+12:21
+
+1
+
