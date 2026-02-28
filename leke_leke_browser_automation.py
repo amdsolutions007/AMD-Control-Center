@@ -87,19 +87,41 @@ class LekeLekeeAutomation:
         return zip_path
 
     def start_browser(self) -> bool:
-        """Start Chrome via undetected-chromedriver + Xvfb to defeat Cloudflare Turnstile.
-        uc patches the ChromeDriver binary to remove all automation fingerprints.
+        """Start Chrome browser, defeating Cloudflare Turnstile.
 
-        Residential proxy (REQUIRED to bypass Cloudflare IP block on Railway):
-        Set env var LEKE_LEKE_PROXY=http://user:pass@host:port  — a residential
-        proxy routes traffic through a home IP that Cloudflare does not block.
-        Free tier: https://webshare.io (10 residential proxies, IP-auth, no user:pass needed)
+        Priority order:
+        1. BRIGHTDATA_WS_ENDPOINT — remote Scraping Browser (handles CF natively)
+        2. LEKE_LEKE_PROXY + local UC Chrome — residential proxy via Xvfb
+        3. Local UC Chrome, no proxy (will fail on Railway due to CF IP block)
+
+        BrightData setup (recommended — guaranteed CF bypass):
+          Sign up at brightdata.com → Scraping Browser zone → copy WebDriver URL
+          Set Railway env var: BRIGHTDATA_WS_ENDPOINT=https://brd-customer-...:PASSWORD@brd.superproxy.io:9515
         """
         try:
             import subprocess as _sp
             import os as _os
 
-            # ── Residential proxy configuration ──────────────────────────────
+            # ── PRIORITY 1: BrightData Scraping Browser (remote CDP) ─────────
+            # Purpose-built CF bypass — routes through residential IPs with CF
+            # partnership. No local Chrome, no Xvfb, no proxy extension needed.
+            bd_endpoint = _os.environ.get("BRIGHTDATA_WS_ENDPOINT", "").strip()
+            if bd_endpoint:
+                from selenium import webdriver as _wd
+                options = _wd.ChromeOptions()
+                # BrightData requires these capabilities
+                options.set_capability("browserName", "chrome")
+                # Mask the endpoint URL in logs (contains credentials)
+                _host_part = bd_endpoint.split("@")[-1] if "@" in bd_endpoint else bd_endpoint
+                print(f"🌐 BrightData Scraping Browser → {_host_part}")
+                self.driver = _wd.Remote(
+                    command_executor=bd_endpoint,
+                    options=options,
+                )
+                print("✅ Browser started (BrightData Scraping Browser — CF bypass active)")
+                return True
+
+            # ── PRIORITY 2: Residential proxy configuration ───────────────────
             proxy_url = _os.environ.get("LEKE_LEKE_PROXY", "").strip()
             proxy_ext_path = None
             if proxy_url:
