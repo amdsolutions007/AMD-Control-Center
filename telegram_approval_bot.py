@@ -206,6 +206,58 @@ Use /generate to create next post"""
         else:
             await update.message.reply_text("ℹ️ No active 2FA session. Code not needed right now.")
 
+    async def cookies_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Handle /cookies <json> — CEO pastes exported browser cookies to bypass Turnstile.
+
+        How to extract cookies:
+        1. Log in to lekeelekee.com on Chrome/Firefox normally
+        2. Install 'Cookie Editor' extension → Export → Copy All (JSON format)
+        3. Send: /cookies [paste JSON here]
+
+        The bot saves them to lekee_cookies.json and uses them on every publish —
+        no Turnstile ever again until the session expires (~30 days).
+        """
+        if str(update.effective_user.id) != str(CEO_TELEGRAM_ID):
+            return
+
+        # Cookies JSON is everything after "/cookies "
+        full_text = update.message.text.strip()
+        prefix = "/cookies "
+        if not full_text.startswith(prefix) or len(full_text) <= len(prefix):
+            await update.message.reply_text(
+                "📋 *How to set cookies (one-time setup):*\n\n"
+                "1. Open Chrome on your phone/computer\n"
+                "2. Log in to lekeelekee.com normally\n"
+                "3. Install *Cookie-Editor* extension\n"
+                "4. Click the extension → *Export* → *Export as JSON* → Copy\n"
+                "5. Send: `/cookies [paste JSON here]`\n\n"
+                "After this, the bot bypasses Turnstile permanently until the session expires.",
+                parse_mode='Markdown'
+            )
+            return
+
+        cookies_json = full_text[len(prefix):]
+        # Save via automation class helper
+        from leke_leke_browser_automation import LekeLekeeAutomation
+        dummy = LekeLekeeAutomation.__new__(LekeLekeeAutomation)
+        dummy.COOKIE_FILE = LekeLekeeAutomation.COOKIE_FILE
+        ok = dummy.save_cookies(cookies_json)
+
+        if ok:
+            import json as _json
+            count = len(_json.loads(cookies_json))
+            await update.message.reply_text(
+                f"✅ *{count} cookies saved successfully!*\n\n"
+                f"Next /generate → APPROVE will use cookie login — no Turnstile.\n"
+                f"Session typically lasts 30 days.",
+                parse_mode='Markdown'
+            )
+            print(f"✅ CEO saved {count} cookies via /cookies command")
+        else:
+            await update.message.reply_text(
+                "❌ Invalid cookie JSON. Make sure you copied the full JSON array from Cookie-Editor.",
+            )
+
     async def publish_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle /publish_<post_id> — retry a failed publish without regenerating.
 
@@ -422,8 +474,14 @@ Use /generate to create next post"""
             await query.edit_message_text(
                 f"❌ PUBLISH FAILED\n\n"
                 f"Day {post['day']}/36: {post['state_name']}\n\n"
-                f"Error: {safe_err}\n"
-                f"Post saved in approved_posts/ — retry with /publish_{post_id}"
+                f"Error: {safe_err}\n\n"
+                f"━━━━━━━━━━━━━━━━\n"
+                f"🔑 FIX: Set session cookies to bypass Turnstile:\n"
+                f"1. Log in to lekeelekee.com on Chrome\n"
+                f"2. Install Cookie-Editor extension\n"
+                f"3. Export as JSON → Copy\n"
+                f"4. Send: /cookies [paste JSON]\n\n"
+                f"Then retry with: /publish_{post_id}"
             )
             # ── Send screenshot to CEO if login failed ────────────────────────
             if screenshot and os.path.exists(screenshot):
@@ -453,6 +511,7 @@ Use /generate to create next post"""
         self.app.add_handler(CommandHandler("queue", self.queue_command))
         self.app.add_handler(CommandHandler("generate", self.generate_command))
         self.app.add_handler(CommandHandler("otp", self.otp_command))
+        self.app.add_handler(CommandHandler("cookies", self.cookies_command))
 
         # Retry handler: /publish_<post_id>  (dynamic command — uses regex message handler)
         from telegram.ext import MessageHandler, filters as tg_filters

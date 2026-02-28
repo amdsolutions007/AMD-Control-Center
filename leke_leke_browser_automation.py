@@ -208,6 +208,112 @@ class LekeLekeeAutomation:
 
         self.action_count += 1
 
+    # ─────────────────────────────────────────────────────────────────────────
+    # COOKIE INJECTION — bypasses Cloudflare Turnstile entirely
+    # Cookies are extracted once by CEO from their real browser, stored in
+    # lekee_cookies.json (persisted) or LEKE_LEKE_COOKIES env var.
+    # ─────────────────────────────────────────────────────────────────────────
+    COOKIE_FILE = "lekee_cookies.json"
+
+    def save_cookies(self, cookies_json: str) -> bool:
+        """Parse and save cookies JSON string to disk. Called by /cookies command."""
+        try:
+            cookies = json.loads(cookies_json)
+            if not isinstance(cookies, list):
+                raise ValueError("Expected a JSON array of cookie objects")
+            with open(self.COOKIE_FILE, "w") as f:
+                json.dump(cookies, f, indent=2)
+            print(f"✅ Saved {len(cookies)} cookies to {self.COOKIE_FILE}")
+            return True
+        except Exception as e:
+            print(f"❌ save_cookies failed: {e!r}")
+            return False
+
+    def _load_cookies(self) -> list:
+        """Load cookies from file or LEKE_LEKE_COOKIES env var."""
+        # 1. Try file first (set by /cookies command)
+        if os.path.exists(self.COOKIE_FILE):
+            try:
+                with open(self.COOKIE_FILE) as f:
+                    cookies = json.load(f)
+                if cookies:
+                    print(f"📂 Loaded {len(cookies)} cookies from {self.COOKIE_FILE}")
+                    return cookies
+            except Exception as e:
+                print(f"⚠️  Cookie file unreadable: {e!r}")
+        # 2. Try env var (Railway secret)
+        env_cookies = os.getenv("LEKE_LEKE_COOKIES", "").strip()
+        if env_cookies:
+            try:
+                cookies = json.loads(env_cookies)
+                if cookies:
+                    print(f"🔑 Loaded {len(cookies)} cookies from LEKE_LEKE_COOKIES env var")
+                    return cookies
+            except Exception as e:
+                print(f"⚠️  LEKE_LEKE_COOKIES env var invalid JSON: {e!r}")
+        return []
+
+    def login_with_cookies(self) -> bool:
+        """Primary login path: inject stored session cookies → navigate to /home.
+        Returns True if session is valid (redirected away from /login).
+        """
+        cookies = self._load_cookies()
+        if not cookies:
+            print("ℹ️  No stored cookies — falling back to credential login")
+            return False
+
+        try:
+            # Must be on the domain before adding cookies
+            self.driver.get("https://www.lekeelekee.com")
+            self.human_delay(1, 2)
+
+            # Clear any existing cookies then inject stored set
+            self.driver.delete_all_cookies()
+            for cookie in cookies:
+                # Remove keys Selenium doesn't accept
+                clean = {k: v for k, v in cookie.items()
+                         if k in ("name", "value", "domain", "path", "secure",
+                                  "httpOnly", "expiry", "sameSite")}
+                try:
+                    self.driver.add_cookie(clean)
+                except Exception:
+                    pass  # skip malformed cookie entries
+
+            # Navigate to home — if cookies are valid we'll land there
+            self.driver.get("https://www.lekeelekee.com/home")
+            self.human_delay(2, 3)
+
+            current_url = self.driver.current_url
+            if "/login" in current_url:
+                print("⚠️  Cookie session invalid or expired — falling back to credentials")
+                # Delete stale cookie file so next run re-prompts CEO
+                try:
+                    os.remove(self.COOKIE_FILE)
+                    print("🗑️  Stale cookie file removed")
+                except Exception:
+                    pass
+                return False
+
+            print(f"✅ Cookie login successful — landed on: {current_url}")
+            return True
+
+        except Exception as e:
+            print(f"⚠️  Cookie login error: {e!r} — falling back to credentials")
+            return False
+        current_time = time.time()
+
+        if current_time - self.last_action_time > 3600:
+            self.action_count = 0
+            self.last_action_time = current_time
+
+        if self.action_count >= self.actions_per_hour:
+            wait_time = 3600 - (current_time - self.last_action_time)
+            print(f"⚠️ Rate limit reached. Waiting {wait_time/60:.1f} minutes...")
+            time.sleep(max(wait_time, 0))
+            self.action_count = 0
+
+        self.action_count += 1
+
     def _find_input(self, selectors: list, wait_for_first: bool = True, timeout: int = 45):
         """Race ALL selectors simultaneously — return whichever renders first.
         Polls every 500ms for `timeout` seconds. `wait_for_first` kept for compat.
@@ -236,9 +342,14 @@ class LekeLekeeAutomation:
         return None
 
     def login(self, screenshot_path: str = None) -> bool:
-        """Login to Leke Leke with 2FA intercept and screenshot diagnostic"""
+        """Login: try cookie injection first (bypasses Turnstile), fall back to credentials."""
+        # ── PRIMARY: cookie injection (no CAPTCHA) ────────────────────────────
+        if self.login_with_cookies():
+            return True
+
+        # ── FALLBACK: credential login (may be blocked by Cloudflare Turnstile) ─
+        print("🔐 Logging in to Leke Leke (credential path)...")
         try:
-            print("🔐 Logging in to Leke Leke...")
             self.driver.get("https://www.lekeelekee.com/login")
             self.human_delay()
 
