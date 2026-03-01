@@ -101,9 +101,31 @@ export async function GET() {
       );
     }
 
-    // Step 4: Generate RSS items — cap at 20 most recent to keep XML lightweight
-    // Rule: >20 items makes feed heavy; Leke Leke times out after 30s (cURL 28)
-    const rssItems = mixedContent.slice(0, 20).map(mixed => ({
+    // Step 4: ONE-PER-HOUR LAW — drip-feed the single most relevant item for this clock hour.
+    //
+    // WHY: LekeeLekee polls the RSS endpoint multiple times per hour.
+    //   • Old behaviour (20 items/poll × N polls/hour) → 311+ imports/hour — SPAM VIOLATION.
+    //   • New behaviour: same GUID + same pubDate for the entire hour → LekeeLekee de-dupes,
+    //     imports exactly 1 item, and Cache-Control prevents redundant polls.
+    //
+    // ROTATION: hourIndex advances every real clock-hour, cycling through all content
+    //   indefinitely so the feed stays fresh day after day with zero manual input.
+    //
+    // NOTE: mixedContent.slice(0,20) cap is RETAINED as the source pool for the rotation
+    //   to stay well within the 30s cURL deadline when the cache is cold.
+    const sourcePool = mixedContent.slice(0, 20);
+    const hourIndex = Math.floor(Date.now() / (1000 * 60 * 60)); // advances every hour
+    const hourlyItem = sourcePool[hourIndex % sourcePool.length];
+
+    // Lock the pubDate to the START of the current clock-hour so the GUID+date is
+    // identical on every poll within the same hour — LekeeLekee will not re-import it.
+    const hourStart = new Date(hourIndex * 60 * 60 * 1000);
+    const lockedItem: typeof hourlyItem = {
+      ...hourlyItem,
+      publishTime: hourStart,
+    };
+
+    const rssItems = [lockedItem].map(mixed => ({
       post: {
         id: mixed.id,
         title: mixed.title,
@@ -113,7 +135,7 @@ export async function GET() {
         footerType: 'default' as const,
       },
       content: mixed.content,
-      imageUrl: (mixed as any).imageUrl, // Include AI-generated image if available
+      imageUrl: (mixed as any).imageUrl,
     }));
 
     // Step 5: Generate RSS XML with image enclosures
@@ -122,8 +144,9 @@ export async function GET() {
     const duration = Date.now() - startTime;
     const cacheStats = getCacheStats();
     const imagesWithGraphics = rssItems.filter(item => item.imageUrl).length;
-    
+
     console.log(`✓ RSS generated in ${duration}ms`);
+    console.log(`🕐 ONE-PER-HOUR LAW: serving slot ${hourIndex % sourcePool.length + 1}/${sourcePool.length} — pubDate locked to ${hourStart.toISOString()}`);
     console.log(`📊 Image cache: ${cacheStats.active} active, ${cacheStats.expired} expired`);
     console.log(`🎨 Posts with AI graphics: ${imagesWithGraphics}/${rssItems.length}`);
 
@@ -131,13 +154,19 @@ export async function GET() {
       status: 200,
       headers: {
         'Content-Type': 'application/xml; charset=utf-8',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        // ONE-PER-HOUR LAW: cache this response for a full clock-hour.
+        // Vercel CDN + LekeeLekee's poller both honour max-age=3600.
+        // Result: at most 1 new import per hour regardless of poll frequency.
+        'Cache-Control': 'public, max-age=3600, s-maxage=3600',
         'X-Total-Posts': stats.total.toString(),
         'X-Manual-Posts': stats.manual.toString(),
         'X-External-Posts': stats.external.toString(),
         'X-Mix-Ratio': `${stats.manualPercent}% manual / ${stats.externalPercent}% external`,
         'X-AI-Graphics': `${imagesWithGraphics}/${rssItems.length}`,
         'X-Cache-Stats': `${cacheStats.active} active, ${cacheStats.expired} expired`,
+        'X-Feed-Law': '1-item-per-hour drip feed',
+        'X-Hour-Slot': `${hourIndex % sourcePool.length + 1}/${sourcePool.length}`,
+        'X-Hour-Start': hourStart.toISOString(),
         'X-Generated-At': new Date().toISOString(),
         'X-Generation-Time': `${duration}ms`,
       },
