@@ -57,8 +57,8 @@ export async function GET() {
     let externalArticles = [];
     const now = Date.now();
     
-    // TEMPORARY: Force fresh generation for graphics testing
-    const forceFresh = true;
+    // Use cache (TTL = 1 hour) to stay well within Leke Leke's 30s cURL deadline
+    const forceFresh = false;
     
     if (!forceFresh && externalNewsCache && (now - externalNewsCache.timestamp) < CACHE_TTL) {
       console.log('✓ Using cached external news');
@@ -69,9 +69,9 @@ export async function GET() {
       const freshArticles = filterFreshArticles(rawArticles);
       const filteredArticles = filterArticles(freshArticles);
       
-      // Refine articles WITH graphics generation (async)
-      // Note: Graphics generation is rate-limited (5 seconds per image)
-      const enableGraphics = process.env.ENABLE_AI_GRAPHICS !== 'false'; // Default: enabled
+      // AI graphics disabled — each image adds 5s delay → easily exceeds 30s cURL timeout
+      // Re-enable only for offline batch runs, never for live feed endpoint.
+      const enableGraphics = false;
       externalArticles = await refineArticles(filteredArticles, enableGraphics);
       
       // Update cache
@@ -101,8 +101,9 @@ export async function GET() {
       );
     }
 
-    // Step 4: Generate RSS items with images
-    const rssItems = mixedContent.map(mixed => ({
+    // Step 4: Generate RSS items — cap at 20 most recent to keep XML lightweight
+    // Rule: >20 items makes feed heavy; Leke Leke times out after 30s (cURL 28)
+    const rssItems = mixedContent.slice(0, 20).map(mixed => ({
       post: {
         id: mixed.id,
         title: mixed.title,
