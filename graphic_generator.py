@@ -511,8 +511,13 @@ class GraphicGenerator:
         so only the logo art appears as a transparent overlay."""
         badge_path = os.path.join(os.path.dirname(__file__), "amd_badge.png")
         if not os.path.exists(badge_path):
+            # Try assets/ subdirectory (project standard location)
+            badge_path = os.path.join(os.path.dirname(__file__), "assets", "amd_badge.png")
+        if not os.path.exists(badge_path):
             # Try current working directory (Railway mounts at /app)
             badge_path = "amd_badge.png"
+        if not os.path.exists(badge_path):
+            badge_path = os.path.join("assets", "amd_badge.png")
         if not os.path.exists(badge_path):
             print("⚠️ amd_badge.png not found — skipping watermark")
             return image

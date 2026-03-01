@@ -6,17 +6,100 @@ Human-in-the-Loop: CEO reviews and approves posts before they go live
 import os
 import json
 import asyncio
-import threading
 import time
 import urllib.request
 import urllib.parse
 from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime
+from datetime import datetime, time as dt_time, timezone
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
 from content_generator import ContentGenerator
 from graphic_generator import GraphicGenerator
-from leke_leke_browser_automation import LekeLekeeAutomation
+
+# ── Direct API helpers (no browser / Selenium) ──────────────────────────────────
+try:
+    import requests as _req
+except ImportError:
+    import subprocess, sys
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "requests", "-q"])
+    import requests as _req
+
+_BASE_URL = "https://www.lekeelekee.com"
+_GROUP_ID = "4d183887-2d5a-47b0-8226-dd6939d29694"   # African Tech Ecosystem 🌍
+
+
+def _lekee_login(email: str, password: str):
+    """Login to LekeeLekee. Returns (session, token, user_id). Retries on 429."""
+    session = _req.Session()
+    session.headers.update({
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
+        "Origin": _BASE_URL,
+        "Referer": _BASE_URL + "/",
+        "Accept": "application/json",
+    })
+    resp = None
+    for attempt in range(1, 4):
+        resp = session.post(
+            f"{_BASE_URL}/api/v1/auth/login",
+            data={"email": email, "password": password},
+            headers={"Content-Type": "application/x-www-form-urlencoded"},
+            timeout=30,
+        )
+        if resp.status_code == 429:
+            wait = 60 * attempt
+            print(f"⏳ Rate limited — waiting {wait}s (attempt {attempt}/3)...")
+            time.sleep(wait)
+            continue
+        break
+    if resp is None or resp.status_code != 200:
+        raise RuntimeError(f"Login failed: HTTP {resp.status_code if resp else '?'} — {resp.text[:200] if resp else 'no response'}")
+    data = resp.json()
+    if data.get("status") != "success":
+        raise RuntimeError(f"Login error: {data.get('message', resp.text[:100])}")
+    token   = data["data"]["token"]
+    user_id = data["data"]["user"]["public_id"]
+    session.headers.update({
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+    })
+    print(f"🔑 Logged in: token={len(token)} chars | user={user_id}")
+    return session, token, user_id
+
+
+def _lekee_post_group(session, caption: str) -> dict:
+    """Direct API Strike: POST to African Tech Ecosystem group."""
+    resp = session.post(
+        f"{_BASE_URL}/api/v1/groups/{_GROUP_ID}/posts",
+        json={"content": caption, "type": "post"},
+        timeout=30,
+    )
+    if resp.status_code not in (200, 201):
+        raise RuntimeError(f"Group post failed: HTTP {resp.status_code} — {resp.text[:300]}")
+    return resp.json()
+
+
+def _update_state_tracker(day: int, state_name: str, capital: str, post_id: str):
+    """Update state_tracker.json after a successful post."""
+    tracker_path = "state_tracker.json"
+    try:
+        with open(tracker_path) as f:
+            data = json.load(f)
+    except Exception:
+        data = {"current_day": day + 1, "campaign": "36_Nigerian_States",
+                "group_id": _GROUP_ID, "history": []}
+    data["current_day"] = day + 1
+    data.setdefault("history", []).append({
+        "day": day,
+        "state": state_name,
+        "capital": capital,
+        "post_id": post_id,
+        "posted_at": datetime.utcnow().isoformat(),
+        "platform": "lekeelekee_group",
+    })
+    with open(tracker_path, "w") as f:
+        json.dump(data, f, indent=2)
+    print(f"💾 state_tracker.json updated: current_day={day + 1}")
 
 # Configuration
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
@@ -41,8 +124,6 @@ class TelegramApprovalBot:
         self.content_gen = ContentGenerator()
         self.graphic_gen = GraphicGenerator()
         self.app = None
-        self._2fa_event: threading.Event = None
-        self._2fa_code: str = None
         self._pending_registry: dict = self._load_registry()
 
     def _load_registry(self) -> dict:
@@ -417,116 +498,141 @@ Use /generate to create next post"""
         post: dict,
         context,
     ):
-        """Run Selenium posting in a thread executor so it doesn't block the bot."""
+        """Direct API Strike — pure requests, no browser / Selenium."""
         email    = os.getenv("LEKE_LEKE_EMAIL", "")
         password = os.getenv("LEKE_LEKE_PASSWORD", "")
 
         if not email or not password:
             await query.edit_message_text(
                 f"⚠️ *PUBLISH SKIPPED*\n\n"
-                f"LEKE_LEKE_EMAIL or LEKE_LEKE_PASSWORD not set in environment.\n"
-                f"Post saved to approved_posts/ — set credentials and redeploy.",
+                f"LEKE_LEKE_EMAIL or LEKE_LEKE_PASSWORD not set.\n"
+                f"Set credentials in Railway → Variables and redeploy.",
                 parse_mode='Markdown'
             )
             return
 
-        loop = asyncio.get_event_loop()
-        bot_instance = context.bot  # ✅ correct in python-telegram-bot v20
+        loop     = asyncio.get_event_loop()
+        caption  = post.get("caption", "")
+        day      = post.get("day", 0)
+        state_nm = post.get("state_name", "")
+        capital  = post.get("capital", "")
 
-        def _run_selenium(post_data: dict) -> tuple:
-            """Synchronous Selenium block — runs inside ThreadPoolExecutor.
-            Returns (ok: bool, err: str|None, screenshot_path: str|None)"""
-
-            # ── 2FA plumbing: threading.Event bridges Selenium thread → asyncio ──
-            ev = threading.Event()
-            self._2fa_event = ev
-            self._2fa_code = None
-
-            def two_factor_callback(prompt_msg: str) -> str:
-                """Called by Selenium when 2FA screen detected.
-                Notifies CEO via Telegram, blocks until /otp code received (max 2 min)."""
-                asyncio.run_coroutine_threadsafe(
-                    bot_instance.send_message(
-                        chat_id=int(CEO_TELEGRAM_ID),
-                        text=prompt_msg,
-                        parse_mode='Markdown',
-                    ),
-                    loop,
-                )
-                ev.wait(timeout=120)
-                return self._2fa_code or ""
-
-            screenshot_out = "failed_login.png"
-            browser = LekeLekeeAutomation(
-                email, password, headless=True,
-                two_factor_callback=two_factor_callback,
-            )
+        def _run_api() -> tuple:
+            """Blocking requests calls — runs in executor thread."""
             try:
-                if not browser.start_browser():
-                    return False, "Browser failed to start", None
-
-                if not browser.login(screenshot_path=screenshot_out):
-                    ss = screenshot_out if os.path.exists(screenshot_out) else None
-                    return False, "Leke Leke login failed", ss
-
-                success = browser.post_dual_destination(post_data)
-                if success:
-                    browser.archive_posted(post_id, post_data)
-                    self._remove_from_registry(post_id)
-                return success, None, None
+                session, _token, _uid = _lekee_login(email, password)
+                result  = _lekee_post_group(session, caption)
+                lk_id   = (
+                    result.get("data", {}).get("post", {}).get("public_id", "")
+                    or result.get("data", {}).get("public_id", "unknown")
+                )
+                return True, lk_id, None
             except Exception as exc:
-                return False, str(exc), None
-            finally:
-                browser.close()
-                self._2fa_event = None
-                self._2fa_code = None
+                return False, None, str(exc)
 
         with ThreadPoolExecutor(max_workers=1) as pool:
-            ok, err, screenshot = await loop.run_in_executor(pool, _run_selenium, post)
+            ok, lk_post_id, err = await loop.run_in_executor(pool, _run_api)
 
         if ok:
+            _update_state_tracker(day, state_nm, capital, lk_post_id)
             await query.edit_message_text(
-                f"✅ *SUCCESSFULLY PUBLISHED!*\n\n"
-                f"Day {post['day']}/36: {post['state_name']}\n\n"
-                f"🏘️ African Tech Ecosystem group — LIVE\n"
-                f"📰 General Feed (slim caption) — LIVE\n\n"
-                f"🟢 Both destinations confirmed.",
+                f"✅ *PUBLISHED!*\n\n"
+                f"Day {day}/36: {state_nm}\n\n"
+                f"🏘️ African Tech Ecosystem — LIVE\n"
+                f"🆔 Post ID: `{lk_post_id}`\n\n"
+                f"🟢 {state_nm.upper()} IS LIVE",
                 parse_mode='Markdown'
             )
-            print(f"🟢 Post {post_id} published to LekeeLekee")
+            print(f"🟢 {state_nm} published — lekee post_id: {lk_post_id}")
         else:
-            # No parse_mode — err and post_id may contain underscores that break Markdown
-            safe_err = (err or 'Unknown').replace('<', '').replace('>', '')
+            safe_err = (err or "Unknown error").replace('<', '').replace('>', '')
             await query.edit_message_text(
                 f"❌ PUBLISH FAILED\n\n"
-                f"Day {post['day']}/36: {post['state_name']}\n\n"
+                f"Day {day}/36: {state_nm}\n\n"
                 f"Error: {safe_err}\n\n"
-                f"━━━━━━━━━━━━━━━━\n"
-                f"🚫 ROOT CAUSE: Railway IP is Cloudflare IP-blocked.\n"
-                f"Proxy IPs (WebShare free) are ALSO flagged by Cloudflare.\n\n"
-                f"✅ FIX — BrightData Scraping Browser (5 min, purpose-built CF bypass):\n"
-                f"1. Sign up at brightdata.com (free trial available)\n"
-                f"2. Create a zone → Scraping Browser → copy the WebDriver endpoint URL\n"
-                f"   Format: https://brd-customer-XXX-zone-YYY:PASSWORD@brd.superproxy.io:9515\n"
-                f"3. Railway dashboard → telegram-approval-bot → Variables → Add:\n"
-                f"   BRIGHTDATA_WS_ENDPOINT = [paste URL]\n"
-                f"4. Save (auto-redeploys in ~90s)\n\n"
-                f"Then retry with: /publish_{post_id}"
+                f"Retry with: /publish_{post_id}"
             )
-            # ── Send screenshot to CEO if login failed ────────────────────────
-            if screenshot and os.path.exists(screenshot):
-                try:
-                    with open(screenshot, 'rb') as photo_f:
-                        await bot_instance.send_photo(
-                            chat_id=int(CEO_TELEGRAM_ID),
-                            photo=photo_f,
-                            caption="📸 Login failure screenshot — this is exactly what the browser saw on LekeeLekee",
-                        )
-                    print("📸 Failure screenshot sent to CEO")
-                except Exception as ss_err:
-                    print(f"ℹ️  Could not send screenshot: {ss_err!r}")
             print(f"❌ Publish failed for {post_id}: {err}")
             
+    async def _daily_generate_job(self, context: ContextTypes.DEFAULT_TYPE):
+        """
+        Daily 09:00 UTC job — auto-generates next state post & sends approval
+        prompt to CEO without waiting for a /generate command.
+        """
+        print("⏰ Daily scheduler triggered — generating next post for CEO review")
+        ceo_id = int(CEO_TELEGRAM_ID) if CEO_TELEGRAM_ID else None
+        if not ceo_id:
+            print("⚠️  CEO_TELEGRAM_ID not set — skipping daily job")
+            return
+
+        try:
+            # ── Generate content ───────────────────────────────────────────────
+            post = self.content_gen.generate_next_post()
+            status = self.content_gen.get_campaign_status()
+
+            # ── Generate graphic ───────────────────────────────────────────────
+            graphic_path = await self.graphic_gen.generate_state_graphic(
+                state_name=post['state_name'],
+                day_number=post['day'],
+                caption=post['caption'],
+                zone=post.get('zone', ''),
+                capital=post.get('capital', '')
+            )
+            post['graphic_path'] = graphic_path
+
+            # ── Save to pending ────────────────────────────────────────────────
+            post_id   = f"post_{post['day']}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            post_file = os.path.join(PENDING_DIR, f"{post_id}.json")
+            with open(post_file, 'w') as f:
+                json.dump(post, f, indent=2)
+            self._pending_registry[post_id] = post
+            self._save_registry()
+
+            # ── Progress bar ───────────────────────────────────────────────────
+            done       = status['completed']
+            total      = 36
+            pct        = round(done / total * 100, 1)
+            filled     = int(done / total * 20)
+            bar        = "█" * filled + "░" * (20 - filled)
+
+            keyboard = InlineKeyboardMarkup([[
+                InlineKeyboardButton(f"✅ APPROVE — POST DAY {post['day']}", callback_data=f"approve_{post_id}"),
+                InlineKeyboardButton("❌ REJECT", callback_data=f"reject_{post_id}"),
+            ]])
+
+            header = (
+                f"🔔 *DAILY POST READY FOR APPROVAL*\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"📅 Day {post['day']}/{total}: *{post['state_name']}*\n"
+                f"📍 Capital: {post.get('capital', 'N/A')}\n"
+                f"🌍 Zone: {post.get('zone', 'N/A')}\n\n"
+                f"📊 Progress: `[{bar}]` {pct}%  ({done}/{total} states)\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+                f"*Caption Preview:*\n```\n{post['caption'][:500]}\n```"
+            )
+
+            with open(graphic_path, 'rb') as photo:
+                await context.bot.send_photo(
+                    chat_id=ceo_id,
+                    photo=photo,
+                    caption=header,
+                    parse_mode='Markdown',
+                    reply_markup=keyboard,
+                )
+
+            print(f"✅ Daily prompt sent to CEO — Day {post['day']}: {post['state_name']}")
+
+        except Exception as e:
+            print(f"❌ Daily job failed: {e}")
+            try:
+                await context.bot.send_message(
+                    chat_id=ceo_id,
+                    text=f"⚠️ Daily auto-generation failed:\n`{str(e)[:300]}`\n\nSend /generate to retry manually.",
+                    parse_mode='Markdown',
+                )
+            except Exception:
+                pass
+
     def run(self):
         """Start the Telegram bot"""
         if not TELEGRAM_BOT_TOKEN:
@@ -534,6 +640,19 @@ Use /generate to create next post"""
             return
             
         self.app = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
+
+        # ── Daily 09:00 UTC scheduler ─────────────────────────────────────────
+        if self.app.job_queue:
+            self.app.job_queue.run_daily(
+                self._daily_generate_job,
+                time=datetime.time(hour=9, minute=0, second=0,
+                                   tzinfo=datetime.timezone.utc),
+                name="daily_36_states_post",
+            )
+            print("📅 Daily scheduler registered: 09:00 UTC")
+        else:
+            print("⚠️  JobQueue unavailable — install python-telegram-bot[job-queue]")
+        # ─────────────────────────────────────────────────────────────────────
         
         # Commands
         self.app.add_handler(CommandHandler("start", self.start_command))
