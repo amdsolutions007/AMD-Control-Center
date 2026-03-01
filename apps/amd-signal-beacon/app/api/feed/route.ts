@@ -13,7 +13,8 @@ import hooksData from '@/data/hooks.json';
 import footersData from '@/data/footers.json';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+// revalidate removed — ONE-PER-HOUR LAW uses Cache-Control: public, s-maxage=3600
+// on the response so Vercel's CDN edge caches the single item for a full clock-hour.
 
 // In-memory cache for external news (1 hour TTL)
 let externalNewsCache: {
