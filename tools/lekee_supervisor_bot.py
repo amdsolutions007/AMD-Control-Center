@@ -52,6 +52,12 @@ except ImportError:
 
 from content_generator import ContentGenerator
 
+# brand_compositor lives in the same tools/ directory
+_TOOLS_DIR = os.path.dirname(os.path.abspath(__file__))
+if _TOOLS_DIR not in sys.path:
+    sys.path.insert(0, _TOOLS_DIR)
+from brand_compositor import composite, load_cached, save_cached
+
 # ── Logging ─────────────────────────────────────────────────────────────────────
 logging.basicConfig(
     level=logging.INFO,
@@ -282,118 +288,70 @@ def _gemini_flash_image(prompt: str) -> bytes | None:
         return None
 
 
-def _pillow_graphic(state: dict, day: int) -> bytes | None:
-    """Pack 3: Pillow-generated branded graphic."""
-    try:
-        from PIL import Image, ImageDraw, ImageFont
-
-        W, H   = 1024, 1024
-        BG     = (15, 23, 42)       # dark navy
-        ORANGE = (255, 107, 0)
-        WHITE  = (255, 255, 255)
-        GREY   = (156, 163, 175)
-        GOLD   = (255, 165, 0)
-
-        img  = Image.new("RGB", (W, H), color=BG)
-        draw = ImageDraw.Draw(img)
-
-        # gradient background (subtle)
-        for y in range(H):
-            shade = int(y / H * 30)
-            draw.line([(0, y), (W, y)], fill=(BG[0] + shade // 3, BG[1] + shade // 2, BG[2] + shade))
-
-        # AMD orange stripes
-        draw.rectangle([(0, 0), (W, 14)], fill=ORANGE)
-        draw.rectangle([(0, H - 14), (W, H)], fill=ORANGE)
-
-        # horizontal divider
-        draw.rectangle([(60, H // 2 - 2), (W - 60, H // 2 + 2)], fill=ORANGE)
-
-        # Try to load system fonts; fall back gracefully
-        def _font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
-            candidates = [
-                f"/usr/share/fonts/truetype/dejavu/DejaVuSans{'Bold' if bold else ''}.ttf",
-                f"/usr/share/fonts/truetype/liberation/LiberationSans-{'Bold' if bold else 'Regular'}.ttf",
-                "/System/Library/Fonts/Helvetica.ttc",
-                "/usr/share/fonts/truetype/ubuntu/Ubuntu-{'B' if bold else 'R'}.ttf",
-            ]
-            for path in candidates:
-                try:
-                    return ImageFont.truetype(path, size)
-                except Exception:
-                    continue
-            return ImageFont.load_default()
-
-        f_xl  = _font(88, bold=True)
-        f_lg  = _font(60, bold=True)
-        f_md  = _font(42)
-        f_sm  = _font(32)
-
-        # DAY label
-        draw.text((W // 2, H // 4), f"DAY {day}/{TOTAL_DAYS}", font=f_xl, fill=GOLD, anchor="mm")
-
-        # State name (upper half)
-        name = state["name"].upper()
-        draw.text((W // 2, H // 2 - 80), name, font=f_lg, fill=WHITE, anchor="mm")
-
-        # Capital
-        capital = state.get("capital", "")
-        if capital:
-            draw.text((W // 2, H // 2 + 60), f"Capital: {capital}", font=f_md, fill=GREY, anchor="mm")
-
-        # Zone
-        zone = state.get("zone", "")
-        if zone:
-            draw.text((W // 2, H // 2 + 130), zone, font=f_sm, fill=GREY, anchor="mm")
-
-        # Bottom label
-        draw.text((W // 2, H * 3 // 4 + 60), "TECH ECOSYSTEM  🌍", font=f_md, fill=ORANGE, anchor="mm")
-        draw.text((W // 2, H - 50), "AMD SOLUTIONS 007", font=f_sm, fill=GOLD, anchor="mm")
-
-        buf = io.BytesIO()
-        img.save(buf, format="PNG", optimize=True)
-        data = buf.getvalue()
-        log.info(f"✅ Pack 3 Pillow: {len(data):,} bytes")
-        return data
-
-    except Exception as e:
-        log.warning(f"Pack 3 Pillow failed: {e}")
-        return None
-
-
 def generate_graphic(state: dict, day: int) -> bytes | None:
     """
-    Four-Pack AI Fallback (no local templates):
-      Pack 1 — OpenAI DALL-E 3
-      Pack 2 — Google Imagen 4 Fast   (confirmed working ~900KB)
-      Pack 3 — Google Imagen 4 Standard
-      Pack 4 — Gemini Flash experimental
-      Pack 5 — None → text-only post (NO Pillow templates)
+    Full pipeline:
+      1. Check disk cache (tools/graphic_cache/day_NN_state.png)
+      2. Generate AI background:
+         Pack 1 — OpenAI DALL-E 3
+         Pack 2 — Google Imagen 4 Fast  (~900KB)
+         Pack 3 — Google Imagen 4 Standard
+         Pack 4 — Gemini Flash experimental
+      3. Composite AMD brand overlay (logo, day badge, state name, footer)
+      4. Save to cache
+      5. Return branded PNG bytes  (None = text-only post)
+
+    NO Pillow templates — AI background is mandatory.
     """
+    state_name = state.get("name", "unknown")
+
+    # ── 1. Cache hit ──────────────────────────────────────────────────────────
+    cached = load_cached(day, state_name)
+    if cached:
+        log.info(f"📦 Cache hit: Day {day} {state_name} ({len(cached):,} bytes)")
+        return cached
+
     prompt = _build_prompt(state, day)
 
+    # ── 2. Get AI background ─────────────────────────────────────────────────
+    ai_bg: bytes | None = None
+
     log.info("🎨 Pack 1: Trying DALL-E 3...")
-    img = _dalle3(prompt)
-    if img:
-        return img
+    ai_bg = _dalle3(prompt)
 
-    log.info("🎨 Pack 2: Trying Imagen 4 Fast...")
-    img = _imagen4(prompt, model="imagen-4.0-fast-generate-001")
-    if img:
-        return img
+    if not ai_bg:
+        log.info("🎨 Pack 2: Trying Imagen 4 Fast...")
+        ai_bg = _imagen4(prompt, model="imagen-4.0-fast-generate-001")
 
-    log.info("🎨 Pack 3: Trying Imagen 4 Standard...")
-    img = _imagen4(prompt, model="imagen-4.0-generate-001")
-    if img:
-        return img
+    if not ai_bg:
+        log.info("🎨 Pack 3: Trying Imagen 4 Standard...")
+        ai_bg = _imagen4(prompt, model="imagen-4.0-generate-001")
 
-    log.info("🎨 Pack 4: Trying Gemini Flash experimental image gen...")
-    img = _gemini_flash_image(prompt)
-    if img:
-        return img
+    if not ai_bg:
+        log.info("🎨 Pack 4: Trying Gemini Flash experimental...")
+        ai_bg = _gemini_flash_image(prompt)
 
-    log.warning("🎨 Pack 5: All AI image packs failed — text-only post (no local templates)")
-    return None
+    if not ai_bg:
+        log.warning("🎨 All AI packs failed — no graphic (text-only post)")
+        return None
+
+    # ── 3. Composite AMD brand overlay ────────────────────────────────────────
+    log.info(f"🖼  Compositing AMD branding onto {len(ai_bg):,}-byte AI background...")
+    try:
+        branded = composite(ai_bg, state, day)
+        log.info(f"✅ Branded graphic: {len(branded):,} bytes")
+    except Exception as e:
+        log.error(f"Brand compositor failed: {e} — sending raw AI image")
+        branded = ai_bg
+
+    # ── 4. Save to cache ──────────────────────────────────────────────────────
+    try:
+        save_cached(day, state_name, branded)
+        log.info(f"💾 Cached: tools/graphic_cache/day_{day:02d}_...")
+    except Exception as e:
+        log.warning(f"Cache save failed: {e}")
+
+    return branded
 
 
 # ── Approval Prompt ─────────────────────────────────────────────────────────────
