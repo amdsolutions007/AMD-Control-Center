@@ -622,6 +622,14 @@ Use /generate to create next post"""
 
             print(f"✅ Daily prompt sent to CEO — Day {post['day']}: {post['state_name']}")
 
+            # Record today's fire date so startup catch-up skips re-firing
+            try:
+                flag = os.path.join(os.path.dirname(__file__), ".last_daily_fire")
+                with open(flag, "w") as fh:
+                    fh.write(datetime.now(timezone.utc).strftime("%Y-%m-%d"))
+            except Exception:
+                pass
+
         except Exception as e:
             print(f"❌ Daily job failed: {e}")
             try:
@@ -641,15 +649,37 @@ Use /generate to create next post"""
             
         self.app = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
 
-        # ── Daily 09:00 UTC scheduler ─────────────────────────────────────────
+        # ── Daily 08:00 UTC = 09:00 WAT scheduler ────────────────────────────
+        # WAT = UTC+1 → fire at 08:00 UTC so CEO sees it at 09:00 AM Lagos time
         if self.app.job_queue:
             self.app.job_queue.run_daily(
                 self._daily_generate_job,
-                time=datetime.time(hour=9, minute=0, second=0,
-                                   tzinfo=datetime.timezone.utc),
+                time=dt_time(hour=8, minute=0, second=0, tzinfo=timezone.utc),
                 name="daily_36_states_post",
             )
-            print("📅 Daily scheduler registered: 09:00 UTC")
+            print("📅 Daily scheduler registered: 08:00 UTC (09:00 WAT)")
+
+            # ── Startup catch-up: fire immediately if we're past 08:00 UTC today
+            # and today's prompt hasn't been sent yet (handles Railway restarts)
+            now_utc = datetime.now(timezone.utc)
+            fired_today_flag = os.path.join(
+                os.path.dirname(__file__), ".last_daily_fire"
+            )
+            last_fire_date = ""
+            if os.path.exists(fired_today_flag):
+                try:
+                    last_fire_date = open(fired_today_flag).read().strip()
+                except Exception:
+                    pass
+            today_str = now_utc.strftime("%Y-%m-%d")
+            if now_utc.hour >= 8 and last_fire_date != today_str:
+                print(f"⚡ Startup catch-up: past 08:00 UTC, last fire={last_fire_date!r} → scheduling immediate job")
+                self.app.job_queue.run_once(
+                    self._daily_generate_job, when=10,
+                    name="startup_catchup"
+                )
+            else:
+                print(f"✅ Catch-up not needed (now={now_utc.strftime('%H:%M UTC')}, last_fire={last_fire_date!r})")
         else:
             print("⚠️  JobQueue unavailable — install python-telegram-bot[job-queue]")
         # ─────────────────────────────────────────────────────────────────────
