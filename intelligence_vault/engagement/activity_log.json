@@ -1,0 +1,1120 @@
+{
+  "total_events": 196,
+  "summary": {
+    "new_follower": 68,
+    "group_invite": 2,
+    "photo_reaction": 1,
+    "joined_group": 125
+  },
+  "spam_alerts_stripped": 9,
+  "events": [
+    {
+      "event": "new_follower",
+      "actor": "Ayanlola Doyin Faith",
+      "timestamp": "unknown"
+    },
+    {
+      "event": "group_invite",
+      "actor": "Mild Ekomaru",
+      "timestamp": "15h",
+      "target": "Growth & Digital Marketing Hub (Africa)"
+    },
+    {
+      "event": "photo_reaction",
+      "actor": "Cephason Kings isuwa",
+      "timestamp": "20h",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Albert Albert",
+      "timestamp": "1d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Kelvin Ekpo",
+      "timestamp": "1d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Sushant Adhikarii",
+      "timestamp": "1d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Prof. Yunusa Salami",
+      "timestamp": "2d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Prince Olawale Adekeye",
+      "timestamp": "2d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "GLOBAL ADVERTISING AND MARKETING HUB",
+      "timestamp": "2d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Aries Mayor Brandi",
+      "timestamp": "3d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "321234vd",
+      "timestamp": "3d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Omotoso Oluseye",
+      "timestamp": "3d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Ian Gobo",
+      "timestamp": "3d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Akume Benedict Amenger",
+      "timestamp": "4d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Reggy Williams",
+      "timestamp": "4d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Kingsley Okonji",
+      "timestamp": "4d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Sprintals",
+      "timestamp": "4d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Blessing Fowobaje",
+      "timestamp": "4d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Tolu Agienoji",
+      "timestamp": "4d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Precious Joshua",
+      "timestamp": "5d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Felix A. Momoh",
+      "timestamp": "5d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Stephen G Agbo",
+      "timestamp": "5d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Obah Edwin",
+      "timestamp": "5d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Obah Edwin",
+      "timestamp": "5d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Patrick Enemudo",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Tosin",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Hman-is-Black",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Nanpan",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Femi Ayodele",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Bello Ofuje Jude",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "African Soil",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Oko",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Anthony Okpechi",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Minister of Enjoyment",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Isezba",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Eugene Uka",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Olasunkanmi Hayes",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "CALEB Aiyebameru",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Marvellous Balogun",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Abudukerimu Sule",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Oderah D. P-U",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Sani Danjumma",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Adefolarin",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Mazi Chinemerem Onyekwere",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "forgeatruck",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "OLATUBOSUN Olatayo",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Arrysmart Emmanuel",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Nneka Blessing",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Eze Echie",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Daniel Akerele",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Olu",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Gabriel Oluwalayomi",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Ibrahim Adetona",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "jimi yusuf",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Ebrima Danjo",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Vandelun Amokaha",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Ladi Omole",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Osazuwa Igbins",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Comfort Yako Asala",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "ABC",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Louis",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "HBS KOIKI",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Dr Gabby David",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "VALENTINE UCHENNA NDUKWE",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Anonymous",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Terungwa Vershima",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Agbasoga Nkem",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Martins Omagbitse",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Victor Mathias",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Michael Iziogba",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Emmanuel Thompson",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Arimaha Eze",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Osuji",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Baba",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Aaron Philip",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Raji Idris",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Raji Idris",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Pharm. Cyril Obinna Ezuruike",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Efehi Asowata",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Christian",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Harmattan",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Samuel Alamu",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Cephason Kings isuwa",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "OLOWA CINDERELLA LOVETH",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Glory Ojirhomu",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "John Gyang Pwol",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Samuel Olorunfemi",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Olanire Ayokunu Nuel",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Arinze Okoye",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Janarius john mbanu",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Daniel Adeyanju",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Marvel",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Ekpeyong Vincent okon",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Sprintals",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "ldris buhari alhassan",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Solomon Francis Idoga",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Ben juro",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Godwin Ukeje (Chigo)",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Elijah Money",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Aguwa Kenneth",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Joshua Daniels",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "IrokoPress",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Chinedu Nwagwu",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Chinedu Nwagwu",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Timothy Osadolor",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "GOP Oladosu",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Tester001",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "sirAndrews",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Richards Diejomaoh",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Benjamin",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Patrick Emmanuel Interesting",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "AOJ",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "KAYODE OKEGBEMI",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Sylvanus Kemie",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Ifiti",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Uwakmfon Earnest Essen",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Fyndr App",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "James OKARIMIA",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Joshua Omoniyi",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Sprintals",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Samson Abanni",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Nneka Blessing",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Sisi Eko",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Moses Kahanya",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Misan Ogisi",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "deborah david",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "deborah david",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Sprintals",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Enam Obiosio",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Olasanmi Olakunle",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Cephason Kings isuwa",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Chidiebube Ekwe",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "James Lambie",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Musa Mohammed",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Jake",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Sprintals",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Frankiss",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Dguy Dguy",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Destiny Brotobor",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Abednego Bitrus",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Obum Raphael Uba",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Luqman Abubakri",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Owumi Robinson",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Tonye Edet Arinyedokiari",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Chiedoziem Peter",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "cyril Olisanyem",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Samuel Owujie",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Family Zone",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Udoekong Umoudofia",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "chidinma okereke",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Ifiti",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Mike",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Oluseye Onadipe",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Vincent Abu",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Femi Akinyemi",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Edoreh Festus",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Ayemoba",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Sprintals",
+      "timestamp": "6d"
+    },
+    {
+      "event": "new_follower",
+      "actor": "James David Kings",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Fred Ojeh",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Timothy",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Oluseye Ajose-Adeogun",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Akinboyo Oluwaseun",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Kenneth",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Olaniyi Evans",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "IMADONMWINYI Ambrose",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Chigo",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Jonathan A Umogbai",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Temitope Aluko",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Ademuyiwa Olatunbosun",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Abayomi Emmanuel Aduloju",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Luqman Abubakri",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "UMUKORO JOSHUA",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Godson Nwankwo",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Lazarus Istifanus Kpasaba",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Daniel dickson",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Teera Parson",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Adeoye oluwabukola",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Ayubs",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Kayode Jegede",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Oba Adeoye",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Ejeh Abigail Abeyi",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "James Lambie",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Charlie Pyper",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "group_invite",
+      "actor": "Mild Ekomaru",
+      "timestamp": "6d",
+      "target": "Growth & Digital Marketing Hub (Africa)"
+    },
+    {
+      "event": "new_follower",
+      "actor": "Ayobami Lawal",
+      "timestamp": "6d"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Asemota Uyi",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Jonathan",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Balsa Kokovic",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Emmanuel Oyeleye",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "SciGuy",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Samuel Rayner",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Shadrach Daniel Anyamelem",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Akin Soyoye",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "SAPELE SIMON",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    },
+    {
+      "event": "joined_group",
+      "actor": "Chinonso okeke",
+      "timestamp": "6d",
+      "target": "African Tech Ecosystem 🌍"
+    }
+  ]
+}

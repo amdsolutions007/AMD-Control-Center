@@ -1,0 +1,42 @@
+{
+  "total": 9,
+  "note": "Moderation alerts stripped from main activity log — archived here for reference.",
+  "alerts": [
+    {
+      "alert": "Your post has been removed by our moderation team for violating Community Guidelines. Reason: Spamming",
+      "timestamp": "15h"
+    },
+    {
+      "alert": "Your post has been removed by our moderation team for violating Community Guidelines. Reason: Spamming",
+      "timestamp": "15h"
+    },
+    {
+      "alert": "Your post has been removed by our moderation team for violating Community Guidelines. Reason: Spamming",
+      "timestamp": "15h"
+    },
+    {
+      "alert": "Your post has been removed by our moderation team for violating Community Guidelines. Reason: Spamming",
+      "timestamp": "15h"
+    },
+    {
+      "alert": "Your post has been removed by our moderation team for violating Community Guidelines. Reason: Spamming",
+      "timestamp": "15h"
+    },
+    {
+      "alert": "Your post has been removed by our moderation team for violating Community Guidelines. Reason: Spamming",
+      "timestamp": "15h"
+    },
+    {
+      "alert": "Your post has been removed by our moderation team for violating Community Guidelines. Reason: Spamming",
+      "timestamp": "15h"
+    },
+    {
+      "alert": "Your post has been removed by our moderation team for violating Community Guidelines. Reason: Spamming",
+      "timestamp": "15h"
+    },
+    {
+      "alert": "You have received a warning for violating our Community Guidelines. Active strikes: 1 of 5.",
+      "timestamp": "15h"
+    }
+  ]
+}

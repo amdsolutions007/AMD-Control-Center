@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-03-01T19:59:37.541370+00:00",
+  "empire_citizen_report": {
+    "profile_followers": 60,
+    "group_members": 49,
+    "overlap_super_fans": 1,
+    "unique_total_reach": 108,
+    "formula": "60 profile + 49 group − 1 overlap = 108 unique citizens"
+  },
+  "growth_intelligence": {
+    "group_only_unconverted": 48,
+    "profile_only_unconverted": 59,
+    "conversion_note": "48 group members haven't followed the CEO profile yet — highest-priority invite targets. 59 profile followers haven't joined the group yet — send one group invite to double their engagement."
+  },
+  "engagement_breakdown": {
+    "new_follower": 68,
+    "group_invite": 2,
+    "photo_reaction": 1,
+    "joined_group": 125
+  },
+  "spam_alerts_total": 9,
+  "top_super_fans": [
+    "Raji Idris"
+  ],
+  "training_data": {
+    "ceo_samples": 573,
+    "style_profile": {
+      "total_training_samples": 573,
+      "avg_message_length_chars": 521,
+      "hashtag_usage_rate": "63%",
+      "emoji_usage_rate": "61%",
+      "signature_pattern": "Executive authority. Thought leadership. Never casual. Ends with #hashtags.",
+      "recurring_phrases": [
+        "Let's build 🌍",
+        "Solutions 007",
+        "#007Systems",
+        "#AfricanTech",
+        "#BuildInNaija",
+        "AMD Intel:",
+        "The floor is yours",
+        "Welcome to the ecosystem"
+      ]
+    }
+  },
+  "vault_structure": {
+    "members/profile/followers.json": "60 profile followers",
+    "members/group/members.json": "49 group members",
+    "engagement/cross_reference.json": "Super-fans, group-only, profile-only splits",
+    "engagement/activity_log.json": "196 sanitized events",
+    "archives/post_archive.txt": "Full post history",
+    "archives/group_messages_archive.txt": "Full group chat history",
+    "archives/spam_alerts.json": "9 stripped alerts",
+    "training_data/ceo_messages.json": "573 CEO message samples",
+    "training_data/member_interactions.json": "58 member samples",
+    "reports/empire_citizen_report.json": "This report"
+  }
+}

@@ -48,6 +48,8 @@ social_engine/social_engine.out
 !whatsapp_empire/package-lock.json
 !36_states_data.json
 !state_tracker.json
+!campaign_progress.json
+!intelligence_vault/**/*.json
 client_secret.json
 token.json
 
