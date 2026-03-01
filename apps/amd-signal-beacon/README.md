@@ -4,14 +4,14 @@
 
 ---
 
-## 🎯 LIVE PRODUCTION STATUS (Feb 14, 2026)
+## 🎯 LIVE PRODUCTION STATUS (Mar 1, 2026)
 
 **Main Site:** https://amd-signal-beacon.vercel.app/  
 **Analytics Dashboard:** https://amd-signal-beacon.vercel.app/admin-analytics  
 **RSS Feed:** https://amd-signal-beacon.vercel.app/api/feed  
 **Google Analytics:** https://analytics.google.com/analytics/web/#/a383703211p523704298  
 
-**Status:** 🟢 **LIVE & TRACKING** (15 users, 90 events in last 7 days)  
+**Status:** 🟢 **LIVE & HEARTBEAT RESTORED** — RSS feed: HTTP 200, 8.2s, 20 items (cURL 28 eliminated)  
 **Password:** `amd007` (admin dashboard access)
 
 ---
@@ -419,6 +419,18 @@ JSON.parse(localStorage.getItem('amd_video_analytics'))
 - ✅ Added to Vercel production environment
 - ✅ Deployed to production (live tracking enabled)
 - ✅ Updated README with confirmed GA4 status
+
+### **Mar 1, 2026 — HEARTBEAT RESTORED: RSS cURL 28 Fix**
+- ✅ **Root cause identified & eliminated** — three compounding issues caused cURL Error 28 (Operation Timed Out):
+  1. **`forceFresh = true`** — hardcoded debug flag bypassed the 1-hour in-memory cache on *every* request, forcing a full external news fetch each time
+  2. **`enableGraphics = true`** (default) — DALL-E 3 image generation added a mandatory **5-second delay per article** (rate-limit guard); with 10+ articles = 50 s+ per request, far exceeding LekeeLekee's 30-second cURL deadline
+  3. **No item cap** — feed grew unbounded; larger XML = slower parse on LekeeLekee's end
+- ✅ **Fixes applied in `app/api/feed/route.ts`** (commit `9e231da`):
+  - `forceFresh = false` — 1-hour cache restored; only ~3s on cache-hit
+  - `enableGraphics = false` — disabled on live endpoint; AI graphics remain available via offline batch scripts only
+  - `mixedContent.slice(0, 20)` — RSS XML capped at 20 most recent items
+- ✅ **Proof**: `curl https://amd-signal-beacon.vercel.app/api/feed` → HTTP 200 in **8.2s**, 28KB, 20 items
+- ⚠️ **Future agents rule**: Never set `forceFresh = true` or `enableGraphics = true` in production `route.ts`. Those flags are for offline DALL-E testing only. Violating this will re-break the LekeeLekee RSS heartbeat.
 
 ### **Feb 14, 2026 - Performance & Analytics Upgrade**
 - ✅ Added lazy loading to all article images
