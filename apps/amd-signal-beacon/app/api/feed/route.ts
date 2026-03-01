@@ -123,7 +123,7 @@ export async function GET() {
     const hourStart = new Date(hourIndex * 60 * 60 * 1000);
     const lockedItem: typeof hourlyItem = {
       ...hourlyItem,
-      publishTime: hourStart,
+      publishTime: hourStart.toISOString(),  // MixedPost.publishTime is string
     };
 
     const rssItems = [lockedItem].map(mixed => ({
