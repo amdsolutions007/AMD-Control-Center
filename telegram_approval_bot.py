@@ -80,7 +80,8 @@ def _lekee_post_group(session, caption: str) -> dict:
 
 
 def _update_state_tracker(day: int, state_name: str, capital: str, post_id: str):
-    """Update state_tracker.json after a successful post."""
+    """Update state_tracker.json AND campaign_progress.json after a successful post."""
+    # ── state_tracker.json ────────────────────────────────────────────────────
     tracker_path = "state_tracker.json"
     try:
         with open(tracker_path) as f:
@@ -88,18 +89,31 @@ def _update_state_tracker(day: int, state_name: str, capital: str, post_id: str)
     except Exception:
         data = {"current_day": day + 1, "campaign": "36_Nigerian_States",
                 "group_id": _GROUP_ID, "history": []}
-    data["current_day"] = day + 1
+    data["current_day"] = day + 1   # next day (1-indexed display)
     data.setdefault("history", []).append({
         "day": day,
         "state": state_name,
         "capital": capital,
         "post_id": post_id,
-        "posted_at": datetime.utcnow().isoformat(),
+        "posted_at": datetime.now(timezone.utc).isoformat(),
         "platform": "lekeelekee_group",
     })
     with open(tracker_path, "w") as f:
         json.dump(data, f, indent=2)
-    print(f"💾 state_tracker.json updated: current_day={day + 1}")
+    print(f"💾 state_tracker.json updated: next=Day {day + 1}")
+
+    # ── campaign_progress.json (ContentGenerator state, 0-indexed) ────────────
+    cp_path = "campaign_progress.json"
+    try:
+        with open(cp_path) as f:
+            cp = json.load(f)
+    except Exception:
+        cp = {}
+    cp["current_day"]  = day      # day is 1-indexed display; index = day - 1 + 1 = day
+    cp["last_updated"] = datetime.now(timezone.utc).isoformat()
+    with open(cp_path, "w") as f:
+        json.dump(cp, f, indent=2)
+    print(f"💾 campaign_progress.json updated: current_day={day} (Day {day + 1} next)")
 
 # Configuration
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
@@ -463,18 +477,22 @@ Use /generate to create next post"""
                 with open(approved_file, 'w') as f:
                     json.dump(post, f, indent=2)
             self._remove_from_registry(post_id)
+
+            # ── Instant UI feedback — callback must return in <3s or Telegram retries ──
             await query.edit_message_text(
-                f"🚀 *PUBLISHING TO LEKEELEKEE...*\n\n"
-                f"Day {post['day']}/36: {post['state_name']}\n\n"
-                f"📤 Step 1 — Group: African Tech Ecosystem (full caption)\n"
-                f"⏳ Step 2 — 5-minute safety delay\n"
-                f"📤 Step 3 — General Feed (slim caption <490 chars)\n\n"
-                f"🕐 Total time: ~7 minutes — sit tight!",
+                f"🔄 *PROCESSING STRIKE...*\n\n"
+                f"Day {post['day']}/36: *{post['state_name']}*\n\n"
+                f"📤 Sending to African Tech Ecosystem group...\n"
+                f"⏳ Please wait — this takes up to 30 seconds.",
                 parse_mode='Markdown'
             )
 
-            print(f"✅ Post {post_id} approved by CEO — starting inline publish")
-            await self._publish_to_leke_leke(query, post_id, post, context)
+            print(f"✅ Post {post_id} approved by CEO — firing async publish task")
+
+            # ── Fire-and-forget: publish runs in background, UI already updated ──
+            asyncio.create_task(
+                self._publish_to_leke_leke(query, post_id, post, context)
+            )
                 
         elif action == "reject":
             # Move to rejected

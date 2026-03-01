@@ -1,5 +1,5 @@
 {
-  "current_day": 3,
+  "current_day": 4,
   "campaign": "36_Nigerian_States",
   "group_id": "4d183887-2d5a-47b0-8226-dd6939d29694",
   "history": [
@@ -15,6 +15,13 @@
       "state": "FCT Abuja",
       "post_id": "0371ebd5-bbda-4bd6-8462-923f18656056",
       "posted_at": "2026-03-01T06:39:56.293462"
+    },
+    {
+      "day": 3,
+      "state": "Kano",
+      "capital": "Kano",
+      "post_id": "f0b4bd4d-1826-447b-8fb4-a7b6a566fed4",
+      "posted_at": "2026-03-01T12:13:00.204529+00:00"
     }
   ]
 }
