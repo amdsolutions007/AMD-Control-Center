@@ -67,6 +67,12 @@ BRAIN_THRESHOLD    = int(os.environ.get("BRAIN_THRESHOLD", "50"))
 GEMINI_API_KEY     = os.environ.get("GEMINI_API_KEY", "")
 GEMINI_BRAIN_MODEL = os.environ.get("GEMINI_BRAIN_MODEL", "gemini-2.5-flash")
 
+# Telegram Direct Alert — sync engine sends CEO approval prompts directly
+# (avoids shared-filesystem dependency between amd-sync-engine container
+#  and telegram-approval-bot container on Railway)
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+CEO_TELEGRAM_ID    = os.environ.get("CEO_TELEGRAM_ID", "")
+
 # ── LOGGING: stdout (Railway captures this) ───────────────────────────────────
 logging.basicConfig(
     level=logging.INFO,
@@ -74,6 +80,66 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S"
 )
 log = logging.getLogger("AMD.SyncEngine")
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# TELEGRAM DIRECT BRIDGE — sends CEO approval prompts without shared FS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+def _telegram_send_draft_prompt(entry: dict) -> None:
+    """
+    Send CEO a Telegram inline-keyboard approval prompt for a new AI draft.
+    Uses raw HTTP API — NO python-telegram-bot dependency needed here.
+    The telegram-approval-bot handles the callback (dreply_approve_ / dreply_skip_).
+    When CEO taps ✅, the bot parses the draft from message text and posts to LekeeLekee.
+
+    Message format is canonical — telegram_approval_bot._publish_draft_reply
+    relies on the exact section headers to extract the ai_draft on callback.
+    """
+    if not TELEGRAM_BOT_TOKEN or not CEO_TELEGRAM_ID:
+        log.warning("TELEGRAM_BOT_TOKEN / CEO_TELEGRAM_ID not set — skipping Telegram draft prompt")
+        return
+
+    fp      = (entry.get("fingerprint") or "")[:32]
+    author  = entry.get("author", "unknown")
+    score   = entry.get("score", 0)
+    reasons = ", ".join(entry.get("reasons", []))[:100]
+    their   = (entry.get("their_message") or "").strip()[:300]
+    ai_text = (entry.get("ai_draft") or "").strip()
+
+    # The canonical message format — MUST NOT CHANGE without updating _publish_draft_reply parser
+    message = (
+        f"💬 SYNC ENGINE — DRAFT REPLY\n"
+        f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"From: {author}  |  Score: {score}/100\n"
+        f"Signals: {reasons}\n\n"
+        f"Their message:\n{their}\n\n"
+        f"🧠 AI DRAFT [CEO VOICE]:\n"
+        f"{ai_text}\n\n"
+        f"Tap ✅ POST IT to reply live on LekeeLekee, or ❌ SKIP to discard."
+    )
+    payload = {
+        "chat_id":    CEO_TELEGRAM_ID,
+        "text":       message,
+        "reply_markup": json.dumps({
+            "inline_keyboard": [[
+                {"text": "✅ POST IT",  "callback_data": f"dreply_approve_{fp}"},
+                {"text": "❌ SKIP",     "callback_data": f"dreply_skip_{fp}"},
+            ]]
+        }),
+    }
+    try:
+        r = requests.post(
+            f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
+            json=payload, timeout=15,
+        )
+        body = r.json()
+        if body.get("ok"):
+            log.info(f"  📱 Draft prompt → CEO Telegram | {author} (score={score}) fp={fp[:8]}...")
+        else:
+            log.warning(f"  ⚠️ Telegram draft prompt failed: {body.get('description')}")
+    except Exception as exc:
+        log.warning(f"  ⚠️ Telegram draft prompt exception: {exc}")
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -842,6 +908,10 @@ class VaultWriter:
             }, f, indent=2, ensure_ascii=False)
 
         log.info(f"  📝 {len(new_entries)} AI draft(s) written → intelligence_vault/live/ai_reply_drafts.json")
+
+        # ── Direct Telegram notification for each NEW draft (cross-container bridge) ──
+        for entry in new_entries:
+            _telegram_send_draft_prompt(entry)
 
     def _write_flagged(self, new_flagged: list[dict]):
         """Append newly flagged replies to the persistent flag register."""

@@ -4,6 +4,7 @@ Human-in-the-Loop: CEO reviews and approves posts before they go live
 """
 
 import os
+import re
 import json
 import asyncio
 import time
@@ -472,6 +473,35 @@ Use /generate to create next post"""
             sub_action, fingerprint = remainder.split("_", 1)  # "approve" / "skip", "abc123..."
 
             draft = self._get_draft_by_fingerprint(fingerprint)
+
+            # ── Cross-container fallback: parse draft from message text ────────
+            # amd-sync-engine and telegram-approval-bot run in separate Railway
+            # containers with separate filesystems. When amd-sync-engine sends
+            # the Telegram prompt directly, no shared JSON file exists here.
+            # Parse the canonical "🧠 AI DRAFT [CEO VOICE]:" section from the message.
+            if not draft and query.message and query.message.text:
+                msg_text = query.message.text
+                # Extract author
+                author = "unknown"
+                m_author = re.search(r"From:\s+(\S+)\s+\|", msg_text)
+                if m_author:
+                    author = m_author.group(1)
+                # Extract AI draft between canonical headers
+                m_draft = re.search(
+                    r"🧠 AI DRAFT \[CEO VOICE\]:\n(.*?)\n\nTap ✅",
+                    msg_text, re.DOTALL
+                )
+                if m_draft:
+                    ai_text = m_draft.group(1).strip()
+                    draft = {
+                        "fingerprint":   fingerprint,
+                        "author":        author,
+                        "ai_draft":      ai_text,
+                        "their_message": "",
+                        "score":         0,
+                    }
+                    print(f"📩 Draft parsed from message text (cross-container) — {author} fp={fingerprint[:8]}")
+
             if not draft:
                 await query.edit_message_text(
                     "❌ Draft not found — it may have already been actioned."
