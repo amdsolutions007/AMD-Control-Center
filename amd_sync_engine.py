@@ -1,13 +1,17 @@
 """
-AMD Sync Engine — Phase 1: Local Foundation (Cloud-Ready Architecture)
+AMD Sync Engine — Phase 2: Cloud-Ready Architecture with Reply Brain
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Mission: Poll LekeeLekee every 5 minutes. Deposit notifications and
 group messages into intelligence_vault/live/. Flag reply candidates
 against the CEO's 573-sample historical communication pattern.
+For HIGH-score messages: auto-draft a CEO reply using GPT-4 brain,
+modelled on the WhatsApp NaijaBiz Pilot DNA (same identity, executive
+thought-leadership voice adapted for LekeeLekee public ecosystem posts).
 
-Architecture: Stateless, env-driven, Railway-deployable (Phase 2).
+Architecture: Stateless, env-driven, Railway-deployable.
+Deployment: Dockerfile.sync → Railway service `amd-sync-engine`
 Author: GitHub Copilot | AMD Solutions 007
-Date: 2026-03-01
+Date: 2026-03-01 (v1) → 2026-03-02 (v2 — Brain wired)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 """
 
@@ -24,6 +28,13 @@ from typing import Optional
 import requests
 from dotenv import load_dotenv
 
+# OpenAI is optional — engine degrades gracefully if not installed or key absent
+try:
+    from openai import OpenAI as _OpenAI
+    _OPENAI_AVAILABLE = True
+except ImportError:
+    _OPENAI_AVAILABLE = False
+
 # ── BOOT: Load environment ────────────────────────────────────────────────────
 load_dotenv()
 
@@ -39,6 +50,10 @@ TRAINING_FILE  = VAULT_DIR / "training_data" / "ceo_messages.json"
 # Token cache — survives across --once runs and Railway restarts
 # Stored as plain text (not .json) so .gitignore doesn't catch it
 TOKEN_CACHE    = Path(__file__).parent / ".leke_session_token"
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
+BRAIN_MODEL    = os.environ.get("BRAIN_MODEL", "gpt-4-turbo-preview")
+# Score threshold to trigger AI brain draft (0-100). Default: 50.
+BRAIN_THRESHOLD = int(os.environ.get("BRAIN_THRESHOLD", "50"))
 
 # ── LOGGING: stdout (Railway captures this) ───────────────────────────────────
 logging.basicConfig(
@@ -388,6 +403,164 @@ class LekeeLekeeClient:
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# SECTION 2.5 — REPLY BRAIN ENGINE (GPT-4 — NaijaBiz Pilot DNA)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# DNA Source: puppeteer_whatsapp_ai_bot.js + ai_knowledge_base_v2.js
+# Same identity core, voice adapted:
+#   WhatsApp DNA  → "NaijaBiz Pilot" (sales secretary, customer service)
+#   LekeeLekee DNA → CEO Olawale Shoyemi (executive, ecosystem thought leader)
+
+# The LekeeLekee system prompt — CEO's own voice:
+_LEKEE_BRAIN_SYSTEM_PROMPT = """\
+You are Olawale Shoyemi, CEO of AMD Solutions 007 — Nigeria's premier
+AI automation and software development company. You speak in your own
+executive voice, not as a bot.
+
+IDENTITY
+─────────────────────────────────────────────────
+Full name:   Olawale Shoyemi
+Handle:      @amd on LekeeLekee
+Company:     AMD Solutions 007
+Website:     https://amdsolutions007.com
+Linktree:    https://linktr.ee/amdsolutions007
+Mission:     "We build solutions for every Nigerian business — from
+             market traders to multinational banks."
+Philosophy:  "New technology is expensive. It is for those who can
+             afford the best."
+Mantra:      "Let's build 🌍" | "#007Systems" | "#AfricanTech"
+
+VOICE RULES (Direct from 573 training samples)
+─────────────────────────────────────────────────
+1. Executive authority — never casual, never a pushover.
+2. Thought leadership first — add insight, not praise.
+3. Ecosystem builder — acknowledge contributors, celebrate builders.
+4. Short paragraphs — max 2-3 sentences per paragraph.
+5. End posts with 1-3 relevant hashtags when appropriate.
+6. Use 🌍 💻 🚀 ⚡ occasionally — not on every sentence.
+7. NEVER use American slang. Nigerian/African English is the voice.
+8. NEVER write "As an AI..." or "I'm an AI..." — you ARE Olawale.
+9. When replying to questions, give a real answer, not a redirect.
+10. When welcoming a new member: warm, brief, challenge them to contribute.
+
+VIP PROTOCOL
+─────────────────────────────────────────────────
+• @charlie_pyper  — CEO of LekeeLekee platform itself. HIGHEST priority.
+  Treat as a peer founder. Acknowledge his platform. Propose partnership.
+  Example: "Charlie — you've built remarkable infrastructure. Let's align
+  on how AMD's Signal Beacon can serve your ecosystem at scale. 🌍"
+
+• Any platform founder / CTO — peer-to-peer tone.
+• New members asking questions — welcoming but substantive.
+• Members posting about startups / funding — engage with genuine insight.
+
+CONTEXT
+─────────────────────────────────────────────────
+You are being shown a message from the 'African Tech Ecosystem 🌍' group
+on LekeeLekee. Your task is to draft a concise, on-brand reply that
+Olawale would actually send.
+
+REPLY FORMAT
+─────────────────────────────────────────────────
+- Max 120 words.
+- Start with the person's @handle if replying to someone specific.
+- Never explain yourself. Never hedge. Be decisive.
+- Output the reply text ONLY — no preamble, no labels.
+"""
+
+# VIP handle → special tone note injected into the prompt
+_VIP_TONE_NOTES = {
+    "charlie_pyper": ("[VIP: Charlie Pyper is CEO of LekeeLekee. Respond as "
+                      "a peer founder. Acknowledge his platform. Propose "
+                      "collaboration. Highest priority."),
+    "charlie":       "[VIP: Likely Charlie Pyper (LekeeLekee CEO). Peer-founder tone.]",
+}
+
+
+class ReplyBrainEngine:
+    """
+    GPT-4 reply drafter — the AMD brain ported from the WhatsApp NaijaBiz Pilot.
+
+    Architecture mirror (from ai_knowledge_base_v2.js):
+      messages = [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user',   content: <incoming_message_context> }
+      ]
+      model       = gpt-4-turbo-preview  (env: BRAIN_MODEL)
+      temperature = 0.7
+      max_tokens  = 300   (tighter than WA bot's 500 — LekeeLekee posts are concise)
+
+    Degrades gracefully: if OPENAI_API_KEY is absent or openai not installed,
+    all calls return None without raising.
+    """
+
+    def __init__(self):
+        self._client = None
+        self._enabled = False
+
+        if not _OPENAI_AVAILABLE:
+            log.warning("Brain: openai package not installed. Install with: "
+                        "pip install openai  (Ray Phase 2 requirement)")
+            return
+        if not OPENAI_API_KEY:
+            log.warning("Brain: OPENAI_API_KEY not set — AI drafts disabled. "
+                        "Add to .env or Railway dashboard to activate.")
+            return
+
+        self._client  = _OpenAI(api_key=OPENAI_API_KEY)
+        self._enabled = True
+        log.info(f"🧠 Reply Brain ONLINE — model: {BRAIN_MODEL} | "
+                 f"threshold: score≥{BRAIN_THRESHOLD}")
+
+    @property
+    def enabled(self) -> bool:
+        return self._enabled
+
+    def draft_reply(self, author: str, text: str, score_reasons: list[str]) -> Optional[str]:
+        """
+        Generate a CEO reply draft for a high-scoring message.
+        Returns the draft string, or None on error / disabled.
+
+        Args:
+            author:        e.g. "@charlie_pyper"
+            text:          The full incoming message body
+            score_reasons: List of scoring signals that triggered the flag
+        """
+        if not self._enabled:
+            return None
+
+        # Build context for GPT
+        clean_handle = author.lstrip("@").lower()
+        vip_note     = _VIP_TONE_NOTES.get(clean_handle, "")
+
+        reasons_str  = ", ".join(score_reasons) if score_reasons else "general engagement"
+        user_prompt  = (
+            f"Message from {author}:\n"
+            f"\"{text.strip()[:600]}\"\n\n"
+            f"Scoring signals: {reasons_str}\n"
+            + (f"\n{vip_note}" if vip_note else "")
+            + "\nDraft a reply Olawale would send."
+        )
+
+        try:
+            completion = self._client.chat.completions.create(
+                model       = BRAIN_MODEL,
+                messages    = [
+                    {"role": "system", "content": _LEKEE_BRAIN_SYSTEM_PROMPT},
+                    {"role": "user",   "content": user_prompt},
+                ],
+                temperature = 0.7,
+                max_tokens  = 300,
+            )
+            draft = completion.choices[0].message.content.strip()
+            log.info(f"  🧠 Brain drafted reply for {author} "
+                     f"(model={BRAIN_MODEL}, {len(draft)} chars)")
+            return draft
+        except Exception as e:
+            log.warning(f"Brain draft failed for {author}: {e}")
+            return None
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # SECTION 3 — VAULT WRITER
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -479,9 +652,15 @@ class VaultWriter:
             return 0
         return self._append_items(self._today_path("notifications"), new_items, "notification")
 
-    def deposit_messages(self, raw_list: list[dict], patterns: dict) -> tuple[int, list[dict]]:
+    def deposit_messages(
+        self,
+        raw_list: list[dict],
+        patterns: dict,
+        brain: Optional["ReplyBrainEngine"] = None,
+    ) -> tuple[int, list[dict]]:
         """
         Deposit new group messages + run pattern scoring.
+        HIGH-score messages (≥ BRAIN_THRESHOLD) get an AI draft via the brain.
         Returns (net_new_count, flagged_list).
         """
         new_items  = []
@@ -512,6 +691,18 @@ class VaultWriter:
 
             scoring = score_message_for_reply(text, author, patterns)
 
+            # AI brain draft — only for HIGH-confidence flags to conserve API calls
+            ai_draft = None
+            if (brain and brain.enabled
+                    and scoring["flag"]
+                    and scoring["score"] >= BRAIN_THRESHOLD
+                    and scoring.get("priority") != "SKIP"):
+                ai_draft = brain.draft_reply(
+                    author       = f"@{author}".replace("@@", "@"),
+                    text         = text,
+                    score_reasons = scoring.get("reasons", []),
+                )
+
             item = {
                 "fingerprint":  fp,
                 "received_at":  datetime.now(timezone.utc).isoformat(),
@@ -519,6 +710,7 @@ class VaultWriter:
                 "text_preview": text[:200],
                 "char_length":  len(text),
                 "reply_score":  scoring,
+                "ai_draft":     ai_draft,   # None if brain offline or score < threshold
                 "raw":          raw,
             }
             new_items.append(item)
@@ -530,7 +722,52 @@ class VaultWriter:
 
         written = self._append_items(self._today_path("messages"), new_items, "group_message")
         self._write_flagged(flagged)
+        # Write AI drafts as a separate, clean file for CEO to action
+        drafted = [i for i in flagged if i.get("ai_draft")]
+        if drafted:
+            self._write_ai_drafts(drafted)
         return written, flagged
+
+    def _write_ai_drafts(self, drafted: list[dict]):
+        """Write AI-drafted CEO replies to a clean, actionable file."""
+        path = LIVE_DIR / "ai_reply_drafts.json"
+        existing = []
+        if path.exists():
+            try:
+                with open(path) as f:
+                    existing = json.load(f).get("drafts", [])
+            except Exception:
+                pass
+
+        new_entries = []
+        for item in drafted:
+            new_entries.append({
+                "status":       "PENDING",   # CEO: change to SENT/SKIP after action
+                "author":       item["author"],
+                "their_message": item["text_preview"],
+                "ai_draft":     item["ai_draft"],
+                "score":        item["reply_score"]["score"],
+                "reasons":      item["reply_score"]["reasons"],
+                "generated_at": datetime.now(timezone.utc).isoformat(),
+                "fingerprint":  item["fingerprint"],
+            })
+
+        merged = existing + new_entries
+        merged = merged[-100:]  # Rolling 100 drafts
+
+        with open(path, "w") as f:
+            json.dump({
+                "description": (
+                    "AI-drafted CEO replies — powered by GPT-4 NaijaBiz Pilot DNA. "
+                    "Review, edit, and post manually. Change status to SENT/SKIP."
+                ),
+                "model":        BRAIN_MODEL,
+                "total_drafts": len(merged),
+                "last_updated": datetime.now(timezone.utc).isoformat(),
+                "drafts":       merged,
+            }, f, indent=2, ensure_ascii=False)
+
+        log.info(f"  📝 {len(new_entries)} AI draft(s) written → intelligence_vault/live/ai_reply_drafts.json")
 
     def _write_flagged(self, new_flagged: list[dict]):
         """Append newly flagged replies to the persistent flag register."""
@@ -569,7 +806,8 @@ def _divider(title: str = "", width: int = 64):
 
 
 def print_pulse_report(messages: list[dict], flagged: list[dict], cycle: int,
-                       notif_count: int, msg_count: int):
+                       notif_count: int, msg_count: int,
+                       brain_enabled: bool = False):
     """Terminal Pulse Report — proves the bridge is live."""
     ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
@@ -580,6 +818,10 @@ def print_pulse_report(messages: list[dict], flagged: list[dict], cycle: int,
     print(f"  New Notifs:      {notif_count} deposited")
     print(f"  New Messages:    {msg_count} deposited")
     print(f"  Flagged Replies: {len(flagged)} queued for CEO attention")
+    drafted = [f for f in flagged if f.get("ai_draft")]
+    brain_status = f"ONLINE (model={BRAIN_MODEL})" if brain_enabled else "OFFLINE (set OPENAI_API_KEY)"
+    print(f"  AI Brain:        {brain_status}")
+    print(f"  AI Drafts:       {len(drafted)} generated this cycle")
     _divider()
 
     # Show last 5 messages from the vault (proof of live data)
@@ -599,17 +841,25 @@ def print_pulse_report(messages: list[dict], flagged: list[dict], cycle: int,
             print(f"       Score: {score.get('score', 0)}/100 | {prio} | {reasons}")
             _divider()
 
-    # Flagged items deserving immediate attention
+    # Flagged items + AI drafts
     if flagged:
         _divider("⚡ FLAGGED FOR CEO REPLY")
         for f in flagged[-3:]:
             print(f"  → {f['author']} (score: {f['reply_score']['score']}/100)")
             print(f"    \"{f['text_preview'][:100]}\"")
             print(f"    Triggers: {', '.join(f['reply_score']['reasons'])}")
+            draft = f.get("ai_draft")
+            if draft:
+                print(f"    🧠 AI DRAFT:")
+                # Indent draft lines
+                for line in draft.split("\n"):
+                    print(f"       {line}")
             print()
 
     _divider("VAULT LOCATION")
     print(f"  {LIVE_DIR}")
+    if (LIVE_DIR / 'ai_reply_drafts.json').exists():
+        print(f"  📝 AI drafts: {LIVE_DIR}/ai_reply_drafts.json")
     _divider()
 
 
@@ -639,6 +889,12 @@ def main(run_once: bool = False):
     # Vault writer
     writer = VaultWriter()
 
+    # Reply brain — GPT-4, ported from WhatsApp NaijaBiz Pilot DNA
+    brain = ReplyBrainEngine()
+    if not brain.enabled:
+        log.info("⚠️  Brain offline — pattern scoring only (no AI drafts).")
+        log.info("   Set OPENAI_API_KEY in .env to activate AI reply drafts.")
+
     cycle = 0
     log.info(f"🚀 Sync engine live — polling every {POLL_INTERVAL}s")
 
@@ -653,8 +909,10 @@ def main(run_once: bool = False):
 
         # ── Poll group messages ───────────────────────────────────────
         raw_msgs     = client.fetch_group_messages(limit=50)
-        msg_count, flagged = writer.deposit_messages(raw_msgs, patterns)
-        log.info(f"  Messages      → fetched:{len(raw_msgs)}  new:{msg_count}  flagged:{len(flagged)}")
+        msg_count, flagged = writer.deposit_messages(raw_msgs, patterns, brain=brain)
+        drafted_count = sum(1 for f in flagged if f.get("ai_draft"))
+        log.info(f"  Messages      → fetched:{len(raw_msgs)}  new:{msg_count}  "
+                 f"flagged:{len(flagged)}  ai_drafted:{drafted_count}")
 
         # ── Pulse Report (every cycle — trimmed after first boot) ─────
         # Build enriched list from raw for display
@@ -672,7 +930,8 @@ def main(run_once: bool = False):
                 "reply_score":  scoring,
             })
 
-        print_pulse_report(enriched, flagged, cycle, notif_count, msg_count)
+        print_pulse_report(enriched, flagged, cycle, notif_count, msg_count,
+                           brain_enabled=brain.enabled)
 
         # ── Sleep until next cycle ────────────────────────────────────
         if run_once:

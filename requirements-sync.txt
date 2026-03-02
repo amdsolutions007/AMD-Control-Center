@@ -1,0 +1,13 @@
+# AMD Sync Engine — Minimal Railway dependencies
+# Keep this tight: this service has NO Selenium, NO media generation
+# Separate from requirements.txt to keep the Docker image small (<200MB)
+
+# Core
+requests>=2.31.0
+python-dotenv>=1.0.0
+
+# AI Brain (Phase 2) — Required for GPT-4 reply drafts
+# Set OPENAI_API_KEY in Railway dashboard to activate the brain
+openai>=1.12.0
+
+# Standard library only for everything else (json, hashlib, pathlib, datetime)

@@ -1,0 +1,50 @@
+# AMD Sync Engine — Railway Container
+# ─────────────────────────────────────────────────────────────────────
+# Lightweight: NO Selenium, NO Chromium, NO media deps.
+# Just Python + requests + openai. Target image size < 200MB.
+# Deploy: Railway service `amd-sync-engine`
+# ─────────────────────────────────────────────────────────────────────
+
+FROM python:3.11-slim
+
+# Unbuffer output so all logs appear instantly in Railway dashboard
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+
+# Minimal system packages (curl for Railway health checks)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Working directory
+WORKDIR /app
+
+# Install Python deps FIRST (layer-cached unless requirements change)
+COPY requirements-sync.txt .
+RUN pip install --no-cache-dir -r requirements-sync.txt
+
+# Copy the engine and its data sources
+COPY amd_sync_engine.py .
+COPY intelligence_vault/ ./intelligence_vault/
+
+# TOKEN_CACHE and LIVE_DIR are written at runtime to /app/intelligence_vault/live/
+# Railway volumes: mount /app/intelligence_vault to persist between redeploys
+
+# ── ENVIRONMENT VARIABLES (set in Railway dashboard, never hardcoded) ──────────
+# Required:
+#   LEKE_LEKE_EMAIL         = ceo@amdsolutions007.com
+#   LEKE_LEKE_PASSWORD      = (see AGENTS.md Article VI)
+#   LEKE_LEKE_GROUP_ID      = 4d183887-2d5a-47b0-8226-dd6939d29694
+#   LEKE_LEKE_BASE_URL      = https://www.lekeelekee.com
+#
+# Optional (AI Brain — Phase 2):
+#   OPENAI_API_KEY          = sk-...  (activates GPT-4 reply drafts)
+#   BRAIN_MODEL             = gpt-4-turbo-preview  (default)
+#   BRAIN_THRESHOLD         = 50  (min score to trigger AI draft)
+#
+# Optional (Tuning):
+#   POLL_INTERVAL_SECS      = 300  (5 minutes default)
+
+# Start the sync engine in continuous poll mode (no --once flag)
+CMD ["python", "amd_sync_engine.py"]
