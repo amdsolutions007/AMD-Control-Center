@@ -35,6 +35,15 @@ try:
 except ImportError:
     _OPENAI_AVAILABLE = False
 
+# Google Gemini is optional — hard fallback when OpenAI fails (401/429/balance)
+# Uses google-genai SDK (current, replaces deprecated google-generativeai)
+try:
+    from google import genai as _genai
+    from google.genai import types as _genai_types
+    _GEMINI_AVAILABLE = True
+except ImportError:
+    _GEMINI_AVAILABLE = False
+
 # ── BOOT: Load environment ────────────────────────────────────────────────────
 load_dotenv()
 
@@ -50,10 +59,13 @@ TRAINING_FILE  = VAULT_DIR / "training_data" / "ceo_messages.json"
 # Token cache — survives across --once runs and Railway restarts
 # Stored as plain text (not .json) so .gitignore doesn't catch it
 TOKEN_CACHE    = Path(__file__).parent / ".leke_session_token"
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
-BRAIN_MODEL    = os.environ.get("BRAIN_MODEL", "gpt-4-turbo-preview")
+OPENAI_API_KEY     = os.environ.get("OPENAI_API_KEY", "")
+BRAIN_MODEL        = os.environ.get("BRAIN_MODEL", "gpt-4-turbo-preview")
 # Score threshold to trigger AI brain draft (0-100). Default: 50.
-BRAIN_THRESHOLD = int(os.environ.get("BRAIN_THRESHOLD", "50"))
+BRAIN_THRESHOLD    = int(os.environ.get("BRAIN_THRESHOLD", "50"))
+# Gemini fallback — free tier, same key used by 36-State graphics engine
+GEMINI_API_KEY     = os.environ.get("GEMINI_API_KEY", "")
+GEMINI_BRAIN_MODEL = os.environ.get("GEMINI_BRAIN_MODEL", "gemini-2.0-flash")
 
 # ── LOGGING: stdout (Railway captures this) ───────────────────────────────────
 logging.basicConfig(
@@ -478,38 +490,64 @@ _VIP_TONE_NOTES = {
 
 class ReplyBrainEngine:
     """
-    GPT-4 reply drafter — the AMD brain ported from the WhatsApp NaijaBiz Pilot.
+    Resilient AI reply drafter — OpenAI primary, Google Gemini hard fallback.
 
-    Architecture mirror (from ai_knowledge_base_v2.js):
-      messages = [
-          { role: 'system', content: SYSTEM_PROMPT },
-          { role: 'user',   content: <incoming_message_context> }
-      ]
-      model       = gpt-4-turbo-preview  (env: BRAIN_MODEL)
-      temperature = 0.7
-      max_tokens  = 300   (tighter than WA bot's 500 — LekeeLekee posts are concise)
+    Cascade:
+      1. OpenAI GPT-4 (gpt-4-turbo-preview, env: BRAIN_MODEL)
+         → Any 401 / 429 / billing error → immediate Gemini takeover
+      2. Google Gemini 2.0 Flash (env: GEMINI_BRAIN_MODEL, free tier)
+         → Same identity, same system prompt, same voice
+      3. None — if both fail, replaces with None (no crash)
 
-    Degrades gracefully: if OPENAI_API_KEY is absent or openai not installed,
-    all calls return None without raising.
+    DNA from WhatsApp NaijaBiz Pilot (ai_knowledge_base_v2.js).
     """
 
+    # OpenAI error strings that trigger Gemini fallback
+    _OPENAI_FATAL_PATTERNS = (
+        "401", "429", "insufficient_quota",
+        "billing", "credit", "balance", "exceeded",
+    )
+
     def __init__(self):
-        self._client = None
-        self._enabled = False
+        self._client        = None   # OpenAI client
+        self._gemini_client = None   # Gemini client (google-genai)
+        self._gemini_model  = None   # Gemini model name string
+        self._enabled       = False
 
-        if not _OPENAI_AVAILABLE:
-            log.warning("Brain: openai package not installed. Install with: "
-                        "pip install openai  (Ray Phase 2 requirement)")
-            return
-        if not OPENAI_API_KEY:
-            log.warning("Brain: OPENAI_API_KEY not set — AI drafts disabled. "
-                        "Add to .env or Railway dashboard to activate.")
-            return
+        # ── Primary: OpenAI ───────────────────────────────────────────────────
+        if _OPENAI_AVAILABLE and OPENAI_API_KEY:
+            self._client  = _OpenAI(api_key=OPENAI_API_KEY)
+            self._enabled = True
+            log.info(f"🧠 Brain PRIMARY ONLINE — OpenAI/{BRAIN_MODEL} | "
+                     f"threshold: score≥{BRAIN_THRESHOLD}")
+        else:
+            if not _OPENAI_AVAILABLE:
+                log.warning("Brain: openai package not installed — trying Gemini only.")
+            elif not OPENAI_API_KEY:
+                log.warning("Brain: OPENAI_API_KEY not set — trying Gemini only.")
 
-        self._client  = _OpenAI(api_key=OPENAI_API_KEY)
-        self._enabled = True
-        log.info(f"🧠 Reply Brain ONLINE — model: {BRAIN_MODEL} | "
-                 f"threshold: score≥{BRAIN_THRESHOLD}")
+        # ── Hard Fallback: Google Gemini ──────────────────────────────────────
+        if _GEMINI_AVAILABLE and GEMINI_API_KEY:
+            # google-genai SDK (current): Client-based, per-call model config
+            self._gemini_client = _genai.Client(api_key=GEMINI_API_KEY)
+            self._gemini_model  = GEMINI_BRAIN_MODEL   # just the model name string
+            if not self._enabled:
+                self._enabled = True
+                log.info(f"🧠 Brain ONLINE (Gemini-only mode) — "
+                         f"{GEMINI_BRAIN_MODEL} | threshold: score≥{BRAIN_THRESHOLD}")
+            else:
+                log.info(f"🛡️  Gemini fallback ARMED — {GEMINI_BRAIN_MODEL} "
+                         f"(activates on OpenAI 401/429/billing)")
+        else:
+            if not _GEMINI_AVAILABLE:
+                log.warning("Brain fallback: google-generativeai not installed. "
+                            "Run: pip install google-generativeai")
+            elif not GEMINI_API_KEY:
+                log.warning("Brain fallback: GEMINI_API_KEY not set.")
+
+        if not self._enabled:
+            log.warning("⚠️  Brain OFFLINE — add OPENAI_API_KEY or GEMINI_API_KEY "
+                        "to activate AI drafts.")
 
     @property
     def enabled(self) -> bool:
@@ -517,8 +555,8 @@ class ReplyBrainEngine:
 
     def draft_reply(self, author: str, text: str, score_reasons: list[str]) -> Optional[str]:
         """
-        Generate a CEO reply draft for a high-scoring message.
-        Returns the draft string, or None on error / disabled.
+        Generate a CEO reply draft with automatic OpenAI→Gemini failover.
+        Returns the draft string, or None if both providers fail.
 
         Args:
             author:        e.g. "@charlie_pyper"
@@ -528,10 +566,8 @@ class ReplyBrainEngine:
         if not self._enabled:
             return None
 
-        # Build context for GPT
         clean_handle = author.lstrip("@").lower()
         vip_note     = _VIP_TONE_NOTES.get(clean_handle, "")
-
         reasons_str  = ", ".join(score_reasons) if score_reasons else "general engagement"
         user_prompt  = (
             f"Message from {author}:\n"
@@ -541,23 +577,53 @@ class ReplyBrainEngine:
             + "\nDraft a reply Olawale would send."
         )
 
-        try:
-            completion = self._client.chat.completions.create(
-                model       = BRAIN_MODEL,
-                messages    = [
-                    {"role": "system", "content": _LEKEE_BRAIN_SYSTEM_PROMPT},
-                    {"role": "user",   "content": user_prompt},
-                ],
-                temperature = 0.7,
-                max_tokens  = 300,
-            )
-            draft = completion.choices[0].message.content.strip()
-            log.info(f"  🧠 Brain drafted reply for {author} "
-                     f"(model={BRAIN_MODEL}, {len(draft)} chars)")
-            return draft
-        except Exception as e:
-            log.warning(f"Brain draft failed for {author}: {e}")
-            return None
+        # ── ATTEMPT 1: OpenAI (paid, highest quality) ─────────────────────────
+        if self._client:
+            try:
+                completion = self._client.chat.completions.create(
+                    model       = BRAIN_MODEL,
+                    messages    = [
+                        {"role": "system", "content": _LEKEE_BRAIN_SYSTEM_PROMPT},
+                        {"role": "user",   "content": user_prompt},
+                    ],
+                    temperature = 0.7,
+                    max_tokens  = 300,
+                )
+                draft = completion.choices[0].message.content.strip()
+                log.info(f"  🧠 OpenAI drafted reply for {author} "
+                         f"({BRAIN_MODEL}, {len(draft)} chars)")
+                return draft
+            except Exception as e:
+                err_str = str(e).lower()
+                is_fatal = any(p in err_str for p in self._OPENAI_FATAL_PATTERNS)
+                if is_fatal:
+                    log.warning(f"  ⚡ OpenAI FATAL ({str(e)[:80]}) "
+                                f"→ switching to Gemini fallback")
+                else:
+                    log.warning(f"  OpenAI draft error for {author}: {str(e)[:120]}")
+                # Fall through to Gemini for any OpenAI error
+
+        # ── ATTEMPT 2: Google Gemini (free, hard fallback) ────────────────────
+        if self._gemini_client and self._gemini_model:
+            try:
+                response = self._gemini_client.models.generate_content(
+                    model    = self._gemini_model,
+                    contents = user_prompt,
+                    config   = _genai_types.GenerateContentConfig(
+                        system_instruction = _LEKEE_BRAIN_SYSTEM_PROMPT,
+                        temperature        = 0.7,
+                        max_output_tokens  = 300,
+                    ),
+                )
+                draft = response.text.strip()
+                log.info(f"  🛡️  Gemini drafted reply for {author} "
+                         f"({self._gemini_model}, {len(draft)} chars)")
+                return draft
+            except Exception as e:
+                log.warning(f"  Gemini fallback failed for {author}: {e}")
+
+        log.error(f"  ☠️  Both AI providers failed for {author} — no draft produced.")
+        return None
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
