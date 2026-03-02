@@ -1,0 +1,409 @@
+{
+  "vault_path": "intelligence_vault/live/notifications_2026-03-01.json",
+  "kind": "notification",
+  "date": "2026-03-01",
+  "total_items": 20,
+  "last_updated": "2026-03-01T21:41:08.443978+00:00",
+  "items": [
+    {
+      "fingerprint": "ba8913ab7028019d922c96a217a7442a",
+      "received_at": "2026-03-01T21:41:08.424896+00:00",
+      "raw": {
+        "id": "97f19110-94e4-4cad-b392-35798de918d9",
+        "type": "App\\Notifications\\ContentLiked",
+        "data": {
+          "message": "reacted to your post",
+          "content_id": "69ce3674-3748-4784-8238-c6b227320d1d",
+          "url": "/post/69ce3674-3748-4784-8238-c6b227320d1d",
+          "user_id": "019c1f62-2f31-70a1-9be9-042186e5c4b9",
+          "user_name": "Folusho Ezekiel Ogunshina",
+          "username": "Folusho",
+          "user_avatar": "https://cdn.lekeelekee.com/avatars/019c1f62-2f31-70a1-9be9-042186e5c4b9/20260202_172722_mjDoCjim.jpg",
+          "preview": "Your competitors aren't your enemies.\n\nThey're your TEACHERS.\n\nThis weekend, do competitor research:"
+        },
+        "read_at": "2026-03-01T14:22:08+00:00",
+        "created_at": "2026-03-01T13:07:06+00:00"
+      }
+    },
+    {
+      "fingerprint": "d5e53d1d45acea539b6afc493f95398e",
+      "received_at": "2026-03-01T21:41:08.427011+00:00",
+      "raw": {
+        "id": "61bc4163-9f9c-4db4-b666-785e89dfad31",
+        "type": "App\\Notifications\\ContentLiked",
+        "data": {
+          "message": "reacted to your post",
+          "content_id": "2ddb803d-4e5a-4867-9da2-1ab3abfb02c7",
+          "url": "/post/2ddb803d-4e5a-4867-9da2-1ab3abfb02c7",
+          "user_id": "019ca7fc-77f2-7189-a90f-ae1cfb621db6",
+          "user_name": "Grant Allen Asiboje",
+          "username": "salaryalert",
+          "user_avatar": "https://cdn.lekeelekee.com/avatars/019ca7fc-77f2-7189-a90f-ae1cfb621db6/20260301_060438_JVQPCWF9.jpg",
+          "preview": "GOMBE STATE, NIGERIA 🇳🇬\nCapital: Gombe\n\nPopulation: 2.4M\nStartups: 16+\nFunding (2025): $4M\nTop"
+        },
+        "read_at": "2026-03-01T07:53:02+00:00",
+        "created_at": "2026-03-01T07:36:00+00:00"
+      }
+    },
+    {
+      "fingerprint": "1d6f9b7b6629a21494befe88b3d50f95",
+      "received_at": "2026-03-01T21:41:08.427093+00:00",
+      "raw": {
+        "id": "a5e423b4-bc22-4541-a96e-ca28da42a644",
+        "type": "App\\Notifications\\ContentLiked",
+        "data": {
+          "message": "reacted to your post",
+          "content_id": "1a0b00d8-794d-4a22-8ec2-b1fedc19707d",
+          "url": "/post/1a0b00d8-794d-4a22-8ec2-b1fedc19707d",
+          "user_id": "019ca7fc-77f2-7189-a90f-ae1cfb621db6",
+          "user_name": "Grant Allen Asiboje",
+          "username": "salaryalert",
+          "user_avatar": "https://cdn.lekeelekee.com/avatars/019ca7fc-77f2-7189-a90f-ae1cfb621db6/20260301_060438_JVQPCWF9.jpg",
+          "preview": "Hard question:\n\nIf you stopped working tomorrow, would your startup make money?\n\nIf NO, you don't ha"
+        },
+        "read_at": "2026-03-01T07:53:02+00:00",
+        "created_at": "2026-03-01T07:34:46+00:00"
+      }
+    },
+    {
+      "fingerprint": "eb13c230e85529b1fa9261f3d0f8fc85",
+      "received_at": "2026-03-01T21:41:08.427140+00:00",
+      "raw": {
+        "id": "a40e307d-8372-40bd-a1fd-f71a213b0e70",
+        "type": "App\\Notifications\\NewFollower",
+        "data": {
+          "message": "started following you",
+          "user_id": "019ca7fc-77f2-7189-a90f-ae1cfb621db6",
+          "user_name": "Grant Allen Asiboje",
+          "username": "salaryalert",
+          "user_avatar": "https://cdn.lekeelekee.com/avatars/019ca7fc-77f2-7189-a90f-ae1cfb621db6/20260301_060438_JVQPCWF9.jpg"
+        },
+        "read_at": "2026-03-01T07:53:02+00:00",
+        "created_at": "2026-03-01T07:34:39+00:00"
+      }
+    },
+    {
+      "fingerprint": "36afc8e6649593f2bed9ab44e99c6946",
+      "received_at": "2026-03-01T21:41:08.427330+00:00",
+      "raw": {
+        "id": "370175e3-9573-4c8f-a56f-e6258e715851",
+        "type": "App\\Notifications\\ContentLiked",
+        "data": {
+          "message": "reacted to your post",
+          "content_id": "1a0b00d8-794d-4a22-8ec2-b1fedc19707d",
+          "url": "/post/1a0b00d8-794d-4a22-8ec2-b1fedc19707d",
+          "user_id": "019c0f51-8899-7293-aac9-a33faf789c09",
+          "user_name": "Mild Ekomaru",
+          "username": "Milduchenna",
+          "user_avatar": "https://cdn.lekeelekee.com/avatars/019c0f51-8899-7293-aac9-a33faf789c09/20260130_143440_1KAlZexv.jpg",
+          "preview": "Hard question:\n\nIf you stopped working tomorrow, would your startup make money?\n\nIf NO, you don't ha"
+        },
+        "read_at": "2026-03-01T07:26:06+00:00",
+        "created_at": "2026-03-01T07:25:27+00:00"
+      }
+    },
+    {
+      "fingerprint": "0234edb920eabe1b75ad5299370a6ed3",
+      "received_at": "2026-03-01T21:41:08.427380+00:00",
+      "raw": {
+        "id": "6120f492-cb1c-4324-9fc3-73cd7213c48d",
+        "type": "App\\Notifications\\GroupNotification",
+        "data": {
+          "type": "new_member",
+          "group_id": "4d183887-2d5a-47b0-8226-dd6939d29694",
+          "group_name": "African Tech Ecosystem 🌍",
+          "group_avatar": "https://cdn.lekeelekee.com/groups/groups/4d183887-2d5a-47b0-8226-dd6939d29694/avatar_a0641ee4-f79b-41eb-9ece-42efbf69b37e.png",
+          "message": "Grant Allen Asiboje joined African Tech Ecosystem 🌍",
+          "actor": {
+            "id": "019ca7fc-77f2-7189-a90f-ae1cfb621db6",
+            "name": "Grant Allen Asiboje",
+            "username": "salaryalert",
+            "avatar_url": "https://cdn.lekeelekee.com/avatars/019ca7fc-77f2-7189-a90f-ae1cfb621db6/20260301_060438_JVQPCWF9.jpg"
+          }
+        },
+        "read_at": "2026-03-01T07:24:29+00:00",
+        "created_at": "2026-03-01T07:18:32+00:00"
+      }
+    },
+    {
+      "fingerprint": "b818a45e4a2a8f3a0860f0cd77857bea",
+      "received_at": "2026-03-01T21:41:08.427418+00:00",
+      "raw": {
+        "id": "cf08f338-2798-4b76-bdb9-e0bb9ecb76cf",
+        "type": "App\\Notifications\\NewFollower",
+        "data": {
+          "message": "started following you",
+          "user_id": "019c1ef0-3eca-73ad-b171-43a9f31210a4",
+          "user_name": "Augustus CJ",
+          "username": "emperoraustus",
+          "user_avatar": "https://cdn.lekeelekee.com/avatars/019c1ef0-3eca-73ad-b171-43a9f31210a4/20260202_155154_TtduM8PP.jpg"
+        },
+        "read_at": "2026-02-28T21:08:33+00:00",
+        "created_at": "2026-02-28T21:01:46+00:00"
+      }
+    },
+    {
+      "fingerprint": "75dff3d33fc06c93ed9b4318df994e3b",
+      "received_at": "2026-03-01T21:41:08.427453+00:00",
+      "raw": {
+        "id": "d826f1d2-d318-4243-a8f7-2d78f4fe5cbb",
+        "type": "App\\Notifications\\GroupNotification",
+        "data": {
+          "type": "new_member",
+          "group_id": "4d183887-2d5a-47b0-8226-dd6939d29694",
+          "group_name": "African Tech Ecosystem 🌍",
+          "group_avatar": "https://cdn.lekeelekee.com/groups/groups/4d183887-2d5a-47b0-8226-dd6939d29694/avatar_a0641ee4-f79b-41eb-9ece-42efbf69b37e.png",
+          "message": "Forward joined African Tech Ecosystem 🌍",
+          "actor": {
+            "id": "019c805a-6b2e-7385-9628-e7714cfe82c5",
+            "name": "Forward",
+            "username": "PBabs",
+            "avatar_url": null
+          }
+        },
+        "read_at": "2026-02-28T19:05:36+00:00",
+        "created_at": "2026-02-28T19:03:46+00:00"
+      }
+    },
+    {
+      "fingerprint": "273448c15b7e4afaf4fd6a98bacb702d",
+      "received_at": "2026-03-01T21:41:08.427485+00:00",
+      "raw": {
+        "id": "3bf87bc3-965e-468b-8f8b-d1f8c58268d4",
+        "type": "App\\Notifications\\GroupNotification",
+        "data": {
+          "type": "new_member",
+          "group_id": "4d183887-2d5a-47b0-8226-dd6939d29694",
+          "group_name": "African Tech Ecosystem 🌍",
+          "group_avatar": "https://cdn.lekeelekee.com/groups/groups/4d183887-2d5a-47b0-8226-dd6939d29694/avatar_a0641ee4-f79b-41eb-9ece-42efbf69b37e.png",
+          "message": "Michael Daniel Itodo joined African Tech Ecosystem 🌍",
+          "actor": {
+            "id": "019ca34b-7765-73b0-a17c-2e8248195e0e",
+            "name": "Michael Daniel Itodo",
+            "username": "Michaelitodo",
+            "avatar_url": null
+          }
+        },
+        "read_at": "2026-02-28T18:09:25+00:00",
+        "created_at": "2026-02-28T12:55:57+00:00"
+      }
+    },
+    {
+      "fingerprint": "bbf061a9527feb84aa916cf737c50a68",
+      "received_at": "2026-03-01T21:41:08.427520+00:00",
+      "raw": {
+        "id": "1fdb277c-537d-4616-a272-f2457a0673ff",
+        "type": "App\\Notifications\\GroupNotification",
+        "data": {
+          "type": "new_member",
+          "group_id": "4d183887-2d5a-47b0-8226-dd6939d29694",
+          "group_name": "African Tech Ecosystem 🌍",
+          "group_avatar": "https://cdn.lekeelekee.com/groups/groups/4d183887-2d5a-47b0-8226-dd6939d29694/avatar_a0641ee4-f79b-41eb-9ece-42efbf69b37e.png",
+          "message": "David Zadok joined African Tech Ecosystem 🌍",
+          "actor": {
+            "id": "019c8762-fb64-72ce-90ca-9b18a21821c0",
+            "name": "David Zadok",
+            "username": "David-_Zadok1",
+            "avatar_url": "https://cdn.lekeelekee.com/avatars/019c8762-fb64-72ce-90ca-9b18a21821c0/20260222_221126_MqikYQzu.jpg"
+          }
+        },
+        "read_at": "2026-02-28T18:09:25+00:00",
+        "created_at": "2026-02-28T00:10:40+00:00"
+      }
+    },
+    {
+      "fingerprint": "5318f388769c84f443b16f29f85863f1",
+      "received_at": "2026-03-01T21:41:08.427552+00:00",
+      "raw": {
+        "id": "5485cf13-8b28-4fe2-a690-dac78d9945c2",
+        "type": "App\\Notifications\\NewFollower",
+        "data": {
+          "message": "started following you",
+          "user_id": "019c2300-b229-733b-85d2-b11e2aa1565b",
+          "user_name": "Justin Iheme",
+          "username": "Justin",
+          "user_avatar": "https://cdn.lekeelekee.com/avatars/019c2300-b229-733b-85d2-b11e2aa1565b/20260203_111930_SpbZVsHt.jpg"
+        },
+        "read_at": "2026-02-27T16:43:10+00:00",
+        "created_at": "2026-02-27T15:22:47+00:00"
+      }
+    },
+    {
+      "fingerprint": "52693c63ba315635498f3fa1e776f2c3",
+      "received_at": "2026-03-01T21:41:08.427587+00:00",
+      "raw": {
+        "id": "523daa52-8d81-4138-9756-b508ca34deff",
+        "type": "App\\Notifications\\NewFollower",
+        "data": {
+          "message": "started following you",
+          "user_id": "019c6850-89a5-7278-8062-646d9286be77",
+          "user_name": "Ayanlola Doyin Faith",
+          "username": "Praise2014",
+          "user_avatar": null
+        },
+        "read_at": "2026-02-27T08:54:23+00:00",
+        "created_at": "2026-02-26T19:09:20+00:00"
+      }
+    },
+    {
+      "fingerprint": "dc79e1bd530c3d179478387a9d04b1c7",
+      "received_at": "2026-03-01T21:41:08.427624+00:00",
+      "raw": {
+        "id": "204a7c60-5d20-46d9-8c3f-f63a8fbca729",
+        "type": "App\\Notifications\\ContentLiked",
+        "data": {
+          "message": "reacted to your post",
+          "content_id": "6d1f0ff9-ee8a-4fc0-a152-52a9dda473b8",
+          "url": "/post/6d1f0ff9-ee8a-4fc0-a152-52a9dda473b8",
+          "user_id": "019c8557-4345-71c6-a1d7-6cb5baaa4e13",
+          "user_name": "Culer 💙❤️",
+          "username": "Ugben",
+          "user_avatar": "https://cdn.lekeelekee.com/avatars/019c8557-4345-71c6-a1d7-6cb5baaa4e13/20260222_123745_gUk2dMyx.jpg",
+          "preview": "BAUCHI STATE, NIGERIA 🇳🇬\nCapital: Bauchi\n\nPopulation: 4.6M\nStartups: 24+\nFunding (2025): $7M\nT"
+        },
+        "read_at": "2026-02-27T08:54:23+00:00",
+        "created_at": "2026-02-26T17:58:47+00:00"
+      }
+    },
+    {
+      "fingerprint": "2b08f1226271aa9d7326f2c30f2de07f",
+      "received_at": "2026-03-01T21:41:08.427659+00:00",
+      "raw": {
+        "id": "7477b04b-9fdf-470c-aafd-f1adebe3e611",
+        "type": "App\\Notifications\\ContentLiked",
+        "data": {
+          "message": "reacted to your post",
+          "content_id": "b52d20ca-ab4e-4511-8b08-cc68b184ac60",
+          "url": "/post/b52d20ca-ab4e-4511-8b08-cc68b184ac60",
+          "user_id": "019c8557-4345-71c6-a1d7-6cb5baaa4e13",
+          "user_name": "Culer 💙❤️",
+          "username": "Ugben",
+          "user_avatar": "https://cdn.lekeelekee.com/avatars/019c8557-4345-71c6-a1d7-6cb5baaa4e13/20260222_123745_gUk2dMyx.jpg",
+          "preview": "🌍 AMD Intel: “I’ve never been on leave”: Busha co-founder Moyo Sodipo on seven years buildi"
+        },
+        "read_at": "2026-02-27T08:54:23+00:00",
+        "created_at": "2026-02-26T17:58:44+00:00"
+      }
+    },
+    {
+      "fingerprint": "6d97b2955f08a22d12ab1efbf5f37182",
+      "received_at": "2026-03-01T21:41:08.427694+00:00",
+      "raw": {
+        "id": "08f502bd-362c-4951-8491-7e98bc54e907",
+        "type": "App\\Notifications\\ContentTakedownNotification",
+        "data": {
+          "type": "content_takedown",
+          "title": "Content Removed",
+          "message": "Your post has been removed by our moderation team for violating Community Guidelines. Reason: Spamming",
+          "reason": "Spamming",
+          "content_type": "post",
+          "content_preview": "🌍 AMD Intel: 5 AI tools helping African founders build big businesses\n\n📰 Via TechPoint Africa\n",
+          "icon": "⚠️",
+          "color": "#dc2626"
+        },
+        "read_at": "2026-02-27T08:54:23+00:00",
+        "created_at": "2026-02-26T17:49:33+00:00"
+      }
+    },
+    {
+      "fingerprint": "acb1bc2843a6a3e7040f62eb4eb77dc6",
+      "received_at": "2026-03-01T21:41:08.433775+00:00",
+      "raw": {
+        "id": "5d731d68-7c97-4637-a409-1d31247460a4",
+        "type": "App\\Notifications\\ContentTakedownNotification",
+        "data": {
+          "type": "content_takedown",
+          "title": "Content Removed",
+          "message": "Your post has been removed by our moderation team for violating Community Guidelines. Reason: Spamming",
+          "reason": "Spamming",
+          "content_type": "post",
+          "content_preview": "🌍 AMD Intel: Kenya’s Pesalink plugs into Africa-wide local-currency settlement network\n\nThe par",
+          "icon": "⚠️",
+          "color": "#dc2626"
+        },
+        "read_at": "2026-02-27T08:54:23+00:00",
+        "created_at": "2026-02-26T17:49:29+00:00"
+      }
+    },
+    {
+      "fingerprint": "04f38aa6d92b5913cd2d684907d4242b",
+      "received_at": "2026-03-01T21:41:08.433872+00:00",
+      "raw": {
+        "id": "2ee8e313-5a2e-4a51-b678-fb5de2b92319",
+        "type": "App\\Notifications\\ContentTakedownNotification",
+        "data": {
+          "type": "content_takedown",
+          "title": "Content Removed",
+          "message": "Your post has been removed by our moderation team for violating Community Guidelines. Reason: Spamming",
+          "reason": "Spamming",
+          "content_type": "post",
+          "content_preview": "🌍 AMD Intel: The CBN has a plan to make regulation work for fintechs. Here is what it looks like.",
+          "icon": "⚠️",
+          "color": "#dc2626"
+        },
+        "read_at": "2026-02-27T08:54:23+00:00",
+        "created_at": "2026-02-26T17:49:25+00:00"
+      }
+    },
+    {
+      "fingerprint": "89b8eaba2b341967164e1ab005d7e3b8",
+      "received_at": "2026-03-01T21:41:08.433920+00:00",
+      "raw": {
+        "id": "441a69d9-7de1-4dd0-8133-50903b5dd76b",
+        "type": "App\\Notifications\\ContentTakedownNotification",
+        "data": {
+          "type": "content_takedown",
+          "title": "Content Removed",
+          "message": "Your post has been removed by our moderation team for violating Community Guidelines. Reason: Spamming",
+          "reason": "Spamming",
+          "content_type": "post",
+          "content_preview": "🌍 AMD Intel: 7 haulage and logistics startups reshaping freight in 2026\n\nDiscover seven logistics",
+          "icon": "⚠️",
+          "color": "#dc2626"
+        },
+        "read_at": "2026-02-27T08:54:23+00:00",
+        "created_at": "2026-02-26T17:49:21+00:00"
+      }
+    },
+    {
+      "fingerprint": "8815c8e44919a20e6e936364ddc5cc9e",
+      "received_at": "2026-03-01T21:41:08.433966+00:00",
+      "raw": {
+        "id": "20781cbb-ed01-48c9-bc0f-bf6a3c726ae7",
+        "type": "App\\Notifications\\ContentTakedownNotification",
+        "data": {
+          "type": "content_takedown",
+          "title": "Content Removed",
+          "message": "Your post has been removed by our moderation team for violating Community Guidelines. Reason: Spamming",
+          "reason": "Spamming",
+          "content_type": "post",
+          "content_preview": "🌍 AMD Intel: Top 6 insurance startups in Africa transforming coverage\n\nMeet 6 African insurance s",
+          "icon": "⚠️",
+          "color": "#dc2626"
+        },
+        "read_at": "2026-02-27T08:54:23+00:00",
+        "created_at": "2026-02-26T17:49:17+00:00"
+      }
+    },
+    {
+      "fingerprint": "cbcc25021589009ad2eaf63353294d1d",
+      "received_at": "2026-03-01T21:41:08.434004+00:00",
+      "raw": {
+        "id": "d48f0b8a-327a-4174-a896-c2d8da62933c",
+        "type": "App\\Notifications\\ContentTakedownNotification",
+        "data": {
+          "type": "content_takedown",
+          "title": "Content Removed",
+          "message": "Your post has been removed by our moderation team for violating Community Guidelines. Reason: Spamming",
+          "reason": "Spamming",
+          "content_type": "post",
+          "content_preview": "🌍 AMD Intel: Nigeria’s crypto exchanges must now report trades, but enforcement remains unclear",
+          "icon": "⚠️",
+          "color": "#dc2626"
+        },
+        "read_at": "2026-02-27T08:54:23+00:00",
+        "created_at": "2026-02-26T17:49:12+00:00"
+      }
+    }
+  ]
+}
