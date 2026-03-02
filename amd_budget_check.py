@@ -172,18 +172,25 @@ def check_gemini_status() -> dict:
         from google import genai as _g
         from google.genai import types as _gt
         client = _g.Client(api_key=GEMINI_API_KEY)
-        # Minimal probe: 1-token generation — fastest valid API call
+        # Minimal probe — use thinking_budget=0 so we get direct text (not just thinking tokens)
         result = client.models.generate_content(
-            model    = "gemini-2.0-flash",
+            model    = "gemini-2.5-flash",
             contents = "Reply with the single word: OK",
-            config   = _gt.GenerateContentConfig(max_output_tokens=5),
+            config   = _gt.GenerateContentConfig(
+                max_output_tokens = 20,
+                thinking_config   = _gt.ThinkingConfig(thinking_budget=0),
+            ),
         )
         reply = (result.text or "").strip()
+        if not reply and result.candidates:
+            parts = (result.candidates[0].content or {}).parts or []
+            reply = "".join(p.text or "" for p in parts).strip()
         return {
             "provider":    "gemini",
             "status":      "ok",
             "balance_usd": None,
-            "message":     (f"API key valid ✅ | probe reply: '{reply}'. "
+            "message":     (f"API key valid ✅ | gemini-2.5-flash live | "
+                            f"probe reply: '{reply[:20]}'. "
                             f"Free tier — quota-based (not USD)."),
         }
     except ImportError:

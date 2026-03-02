@@ -65,7 +65,7 @@ BRAIN_MODEL        = os.environ.get("BRAIN_MODEL", "gpt-4-turbo-preview")
 BRAIN_THRESHOLD    = int(os.environ.get("BRAIN_THRESHOLD", "50"))
 # Gemini fallback — free tier, same key used by 36-State graphics engine
 GEMINI_API_KEY     = os.environ.get("GEMINI_API_KEY", "")
-GEMINI_BRAIN_MODEL = os.environ.get("GEMINI_BRAIN_MODEL", "gemini-2.0-flash")
+GEMINI_BRAIN_MODEL = os.environ.get("GEMINI_BRAIN_MODEL", "gemini-2.5-flash")
 
 # ── LOGGING: stdout (Railway captures this) ───────────────────────────────────
 logging.basicConfig(
@@ -612,10 +612,18 @@ class ReplyBrainEngine:
                     config   = _genai_types.GenerateContentConfig(
                         system_instruction = _LEKEE_BRAIN_SYSTEM_PROMPT,
                         temperature        = 0.7,
-                        max_output_tokens  = 300,
+                        max_output_tokens  = 500,
+                        # Disable thinking mode: reply drafts need speed not chain-of-thought
+                        thinking_config    = _genai_types.ThinkingConfig(thinking_budget=0),
                     ),
                 )
-                draft = response.text.strip()
+                # gemini-2.5-flash can return None .text if only thinking tokens fired
+                draft = (response.text or "").strip()
+                if not draft and response.candidates:
+                    parts = (response.candidates[0].content or {}).parts or []
+                    draft = "".join(p.text or "" for p in parts).strip()
+                if not draft:
+                    raise ValueError("Empty response from Gemini (all thinking tokens consumed)")
                 log.info(f"  🛡️  Gemini drafted reply for {author} "
                          f"({self._gemini_model}, {len(draft)} chars)")
                 return draft

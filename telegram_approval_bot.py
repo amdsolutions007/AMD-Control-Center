@@ -125,6 +125,15 @@ APPROVED_DIR = "approved_posts"
 REJECTED_DIR = "rejected_posts"
 PENDING_REGISTRY = "pending_posts.json"  # survives redeploys
 
+# ── Sync Engine AI Draft Bridge ──────────────────────────────────────────────
+# Path written by amd_sync_engine.py every 5 minutes when high-score messages
+# are detected in the LekeeLekee group.
+from pathlib import Path as _Path
+VAULT_LIVE_DIR  = _Path(__file__).parent / "intelligence_vault" / "live"
+DRAFTS_FILE     = VAULT_LIVE_DIR / "ai_reply_drafts.json"
+# Telegram callback prefix keeps new flow separate from 36-states approve/reject
+_DREPLY_PREFIX  = "dreply_"
+
 # Ensure directories exist
 os.makedirs(PENDING_DIR, exist_ok=True)
 os.makedirs(APPROVED_DIR, exist_ok=True)
@@ -450,11 +459,48 @@ Use /generate to create next post"""
         await self._publish_to_leke_leke(fake_query, post_id, post, context)
 
     async def button_callback(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle approval/rejection button clicks"""
+        """Handle approval/rejection button clicks (36-states posts + AI draft replies)"""
         query = update.callback_query
         await query.answer()
-        
-        action, post_id = query.data.split('_', 1)
+
+        data = query.data or ""
+
+        # ── BRANCH A: Sync Engine Draft Reply (dreply_approve_ / dreply_skip_) ──
+        if data.startswith(_DREPLY_PREFIX):
+            # callback_data format: dreply_approve_<fingerprint>  OR  dreply_skip_<fingerprint>
+            remainder  = data[len(_DREPLY_PREFIX):]          # e.g. "approve_abc123..."
+            sub_action, fingerprint = remainder.split("_", 1)  # "approve" / "skip", "abc123..."
+
+            draft = self._get_draft_by_fingerprint(fingerprint)
+            if not draft:
+                await query.edit_message_text(
+                    "❌ Draft not found — it may have already been actioned."
+                )
+                return
+
+            if sub_action == "approve":
+                await query.edit_message_text(
+                    f"🔄 *POSTING REPLY...*\n\n"
+                    f"👤 To: {draft.get('author', 'unknown')}\n"
+                    f"⏳ Contacting LekeeLekee API...",
+                    parse_mode="Markdown",
+                )
+                # Async Callback Law: fire-and-forget, already returned
+                asyncio.create_task(
+                    self._publish_draft_reply(query, fingerprint, draft)
+                )
+
+            elif sub_action == "skip":
+                self._update_draft_status(fingerprint, "SKIP")
+                await query.edit_message_text(
+                    f"❌ *SKIPPED*\n\nDraft for {draft.get('author', 'unknown')} discarded.",
+                    parse_mode="Markdown",
+                )
+                print(f"❌ Draft skipped — {draft.get('author')} (fp={fingerprint[:8]})")
+            return
+
+        # ── BRANCH B: 36-States post approval (existing flow) ─────────────────
+        action, post_id = data.split('_', 1)
         post_file = os.path.join(PENDING_DIR, f"{post_id}.json")
 
         # Load from disk file, or fall back to registry (survives redeploys)
@@ -659,6 +705,179 @@ Use /generate to create next post"""
             except Exception:
                 pass
 
+    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    # SYNC ENGINE DRAFT APPROVAL BRIDGE (added 2026-03-02)
+    # Polls intelligence_vault/live/ai_reply_drafts.json every 5 min.
+    # For each PENDING draft the AI engine wrote, fires a Telegram prompt
+    # to the CEO. One tap ✅ → posts to LekeeLekee. ❌ SKIP → discards.
+    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    def _read_drafts_file(self) -> list[dict]:
+        """Read ai_reply_drafts.json. Returns list of draft dicts."""
+        if not DRAFTS_FILE.exists():
+            return []
+        try:
+            with open(DRAFTS_FILE) as f:
+                return json.load(f).get("drafts", [])
+        except Exception as e:
+            print(f"⚠️  Could not read drafts file: {e}")
+            return []
+
+    def _write_drafts_file(self, drafts: list[dict]):
+        """Write the full drafts list back to disk atomically."""
+        try:
+            VAULT_LIVE_DIR.mkdir(parents=True, exist_ok=True)
+            data = {}
+            if DRAFTS_FILE.exists():
+                try:
+                    with open(DRAFTS_FILE) as f:
+                        data = json.load(f)
+                except Exception:
+                    pass
+            data["drafts"]      = drafts
+            data["last_updated"] = datetime.now(timezone.utc).isoformat()
+            with open(DRAFTS_FILE, "w") as f:
+                json.dump(data, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            print(f"⚠️  Could not write drafts file: {e}")
+
+    def _update_draft_status(self, fingerprint: str, status: str):
+        """Set status field on a specific draft by fingerprint."""
+        drafts = self._read_drafts_file()
+        for d in drafts:
+            if d.get("fingerprint") == fingerprint:
+                d["status"] = status
+                break
+        self._write_drafts_file(drafts)
+
+    def _get_draft_by_fingerprint(self, fingerprint: str) -> dict | None:
+        """Return a single draft dict by its fingerprint, or None."""
+        for d in self._read_drafts_file():
+            if d.get("fingerprint") == fingerprint:
+                return d
+        return None
+
+    async def _send_draft_approval_prompt(self, draft: dict, ceo_id: int, context):
+        """
+        Send a draft reply to CEO as a Telegram approval prompt.
+        Buttons: ✅ POST IT  |  ❌ SKIP
+        """
+        fp      = draft.get("fingerprint", "")[:32]   # keep callback_data ≤ 64 bytes
+        author  = draft.get("author",        "unknown")
+        score   = draft.get("score",         0)
+        reasons = ", ".join(draft.get("reasons", []))[:100]
+        their   = (draft.get("their_message") or "").strip()[:300]
+        ai_text = (draft.get("ai_draft")      or "").strip()
+
+        message = (
+            f"💬 *SYNC ENGINE — DRAFT REPLY*\n"
+            f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            f"👤 *From:* {author}  |  🎯 Score: {score}/100\n"
+            f"🔍 Signals: `{reasons}`\n\n"
+            f"📨 *Their message:*\n"
+            f"```\n{their}\n```\n\n"
+            f"🧠 *AI Draft (CEO Voice):*\n"
+            f"```\n{ai_text[:600]}\n```\n\n"
+            f"_Tap ✅ to post this reply to LekeeLekee, or ❌ to skip._"
+        )
+        keyboard = InlineKeyboardMarkup([[
+            InlineKeyboardButton("✅ POST IT",  callback_data=f"dreply_approve_{fp}"),
+            InlineKeyboardButton("❌ SKIP",     callback_data=f"dreply_skip_{fp}"),
+        ]])
+        try:
+            await context.bot.send_message(
+                chat_id    = ceo_id,
+                text       = message,
+                parse_mode = "Markdown",
+                reply_markup = keyboard,
+            )
+            print(f"📱 Draft prompt sent to CEO — {author} (score={score}, fp={fp})")
+        except Exception as e:
+            print(f"⚠️  Could not send draft prompt: {e}")
+
+    async def _draft_watchdog_job(self, context):
+        """
+        Periodic job (every 5 min) — checks ai_reply_drafts.json for PENDING
+        drafts written by amd_sync_engine and fires CEO approval prompts.
+        """
+        ceo_id = int(CEO_TELEGRAM_ID) if CEO_TELEGRAM_ID else None
+        if not ceo_id:
+            return
+        if not DRAFTS_FILE.exists():
+            return
+
+        drafts  = self._read_drafts_file()
+        pending = [d for d in drafts if d.get("status") == "PENDING"
+                   and d.get("fingerprint")]
+        if not pending:
+            return
+
+        print(f"🔔 Draft watchdog: {len(pending)} new PENDING draft(s) found")
+        updated = False
+        for draft in pending:
+            await self._send_draft_approval_prompt(draft, ceo_id, context)
+            # Mark as SENT_FOR_REVIEW so watchdog doesn't re-send on next cycle
+            draft["status"] = "SENT_FOR_REVIEW"
+            updated = True
+
+        if updated:
+            self._write_drafts_file(drafts)
+
+    async def _publish_draft_reply(self, query, fingerprint: str, draft: dict):
+        """
+        Direct API Strike: post the AI draft reply to LekeeLekee group.
+        Called when CEO taps ✅ on a draft approval prompt.
+        """
+        email    = os.getenv("LEKE_LEKE_EMAIL", "")
+        password = os.getenv("LEKE_LEKE_PASSWORD", "")
+
+        if not email or not password:
+            await query.edit_message_text(
+                "⚠️ LEKE_LEKE_EMAIL or LEKE_LEKE_PASSWORD not set in Railway — "
+                "cannot post reply."
+            )
+            return
+
+        author   = draft.get("author", "unknown")
+        ai_text  = draft.get("ai_draft", "").strip()
+
+        if not ai_text:
+            await query.edit_message_text(f"❌ Draft is empty for {author} — nothing to post.")
+            return
+
+        loop = asyncio.get_event_loop()
+
+        def _do_post():
+            session, _tok, _uid = _lekee_login(email, password)
+            return _lekee_post_group(session, ai_text)
+
+        try:
+            result = await loop.run_in_executor(None, _do_post)
+            lk_id  = (
+                result.get("data", {}).get("post", {}).get("public_id", "")
+                or result.get("data", {}).get("public_id", "unknown")
+            )
+            # Mark as SENT
+            self._update_draft_status(fingerprint, "SENT")
+
+            await query.edit_message_text(
+                f"✅ *REPLY POSTED!*\n\n"
+                f"👤 In reply thread to: {author}\n"
+                f"🆔 LekeeLekee Post ID: `{lk_id}`\n\n"
+                f"_{ai_text[:200]}_",
+                parse_mode="Markdown",
+            )
+            print(f"✅ Draft reply posted to LekeeLekee — author={author}, post_id={lk_id}")
+
+        except Exception as e:
+            self._update_draft_status(fingerprint, "PENDING")   # Re-queue on error
+            safe_err = str(e).replace('<', '').replace('>', '')[:200]
+            await query.edit_message_text(
+                f"❌ *PUBLISH FAILED*\n\nError: {safe_err}\n\nStatus reset to PENDING.",
+                parse_mode="Markdown",
+            )
+            print(f"❌ Draft reply publish failed: {e}")
+
     def run(self):
         """Start the Telegram bot"""
         if not TELEGRAM_BOT_TOKEN:
@@ -721,7 +940,18 @@ Use /generate to create next post"""
 
         # Buttons
         self.app.add_handler(CallbackQueryHandler(self.button_callback))
-        
+
+        # ── Draft Reply Watchdog — polls AI draft vault every 5 minutes ──────
+        if self.app.job_queue:
+            self.app.job_queue.run_repeating(
+                self._draft_watchdog_job,
+                interval=300,    # 5 minutes — same cadence as sync engine poll
+                first=30,        # First check 30s after boot (sync engine may need time)
+                name="draft_reply_watchdog",
+            )
+            print("🔔 Draft reply watchdog armed — checks every 5 min")
+        # ─────────────────────────────────────────────────────────────────────
+
         print("🤖 Telegram Approval Bot starting...")
         print(f"📱 CEO Telegram ID: {CEO_TELEGRAM_ID}")
         print("✅ Ready to receive commands")
