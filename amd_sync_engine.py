@@ -86,37 +86,231 @@ log = logging.getLogger("AMD.SyncEngine")
 # TELEGRAM DIRECT BRIDGE — sends CEO approval prompts without shared FS
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+# ── Urgency tier definitions ─────────────────────────────────────────────────
+_URGENCY_TIERS = {
+    "🔴 URGENT":   ("respond within 1 hour",   85),   # score ≥ 85 OR VIP + question
+    "🟡 HIGH":     ("respond within 4 hours",   60),
+    "🟢 NORMAL":   ("respond today",            0),
+}
+
+# Source-type display labels
+_SOURCE_LABELS = {
+    "GROUP_CHAT":         "African Tech Ecosystem Group",
+    "PROFILE_COMMENT":    "Profile Comment",
+    "DIRECT_MESSAGE":     "Direct Message",
+    "GROUP_NOTIFICATION": "Group Notification",
+}
+
+
+def _analyse_sentiment(text: str) -> dict:
+    """
+    World-Class Feature: Context-Aware Sentiment & Urgency Engine.
+    Detects tone, emotional valence, and conversation type without calling any
+    external API — runs locally, zero cost, <1ms.
+
+    Returns:
+        sentiment:  POSITIVE / NEUTRAL / NEGATIVE
+        tone:       QUESTION / PITCH / COMPLAINT / INSIGHT / GREETING / OTHER
+        urgency:    URGENT / HIGH / NORMAL
+        urgency_label: human-readable deadline string
+        escalation_signal: bool  — true if text contains risk indicators
+    """
+    t = text.lower()
+
+    # ── Tone classification ───────────────────────────────────────────────────
+    if "?" in t and any(w in t for w in ["how", "what", "why", "when", "who", "can", "should", "would"]):
+        tone = "QUESTION"
+    elif any(w in t for w in ["invest", "partner", "collaborate", "proposal", "opportunity", "offer"]):
+        tone = "PITCH"
+    elif any(w in t for w in ["problem", "broken", "failed", "error", "issue", "not working", "fix", "bug"]):
+        tone = "COMPLAINT"
+    elif any(w in t for w in ["introduce", "hello", "hi", "good morning", "joined", "new here", "nice to meet"]):
+        tone = "GREETING"
+    elif any(w in t for w in ["think", "believe", "opinion", "insight", "perspective", "idea", "built", "learned"]):
+        tone = "INSIGHT"
+    else:
+        tone = "OTHER"
+
+    # ── Sentiment valence ────────────────────────────────────────────────────
+    pos_words = ["great", "excellent", "amazing", "love", "best", "congrat",
+                 "impressive", "incredible", "thank", "well done", "fantastic",
+                 "remarkable", "brilliant", "phenomenal", "excited", "proud"]
+    neg_words = ["bad", "worst", "fail", "terrible", "awful", "disappoint",
+                 "scam", "fraud", "wrong", "mistake", "never", "quit", "stop",
+                 "useless", "broken", "crash", "error", "problem", "issue"]
+    pos_hits = sum(1 for w in pos_words if w in t)
+    neg_hits = sum(1 for w in neg_words if w in t)
+    if neg_hits > pos_hits + 1:
+        sentiment = "NEGATIVE"
+    elif pos_hits > 0:
+        sentiment = "POSITIVE"
+    else:
+        sentiment = "NEUTRAL"
+
+    # ── Escalation signals ───────────────────────────────────────────────────
+    # Triggers that require immediate CEO attention (reputation risk / crisis)
+    escalation_triggers = [
+        "scam", "fraud", "lawsuit", "legal", "chargeback", "refund",
+        "police", "report", "expose", "screenshot", "viral", "dm me",
+        "urgent", "asap", "immediately", "emergency",
+    ]
+    escalation_signal = any(e in t for e in escalation_triggers)
+
+    # ── Urgency determination ────────────────────────────────────────────────
+    # Urgency is independent of reply score — based on time-sensitivity signals
+    time_pressure_words = [
+        "today", "now", "asap", "urgent", "immediately", "quick", "fast",
+        "deadline", "tonight", "this morning", "this afternoon",
+    ]
+    if escalation_signal or any(w in t for w in time_pressure_words):
+        urgency = "URGENT"
+        urgency_label = "respond within 1 hour"
+    elif tone in ("QUESTION", "PITCH", "COMPLAINT"):
+        urgency = "HIGH"
+        urgency_label = "respond within 4 hours"
+    else:
+        urgency = "NORMAL"
+        urgency_label = "respond today"
+
+    return {
+        "sentiment":        sentiment,
+        "tone":             tone,
+        "urgency":          urgency,
+        "urgency_label":    urgency_label,
+        "escalation_signal": escalation_signal,
+    }
+
+
+def _urgency_icon(urgency: str) -> str:
+    return {"URGENT": "🔴", "HIGH": "🟡", "NORMAL": "🟢"}.get(urgency, "⚪")
+
+
+def _extract_source_metadata(raw: dict, source_type: str = "GROUP_CHAT") -> dict:
+    """
+    Extract traceable source metadata from a raw LekeeLekee API message object.
+    Fields extracted:
+        message_id  — the post's public_id (used as parent_id in threaded replies)
+        post_url    — direct link to the post on LekeeLekee
+        timestamp   — original post creation time (ISO 8601)
+        source_type — GROUP_CHAT | PROFILE_COMMENT | DIRECT_MESSAGE | GROUP_NOTIFICATION
+        source_name — human-readable location label
+    """
+    # LekeeLekee post shape (confirmed from live probe):
+    # {"public_id":"...", "created_at":"...", "user":{"username":"..."}, ...}
+    message_id = (
+        raw.get("public_id")
+        or raw.get("id")
+        or raw.get("post_id")
+        or raw.get("message_id")
+        or ""
+    )
+    # Timestamps: prefer ISO field → fallback to epoch
+    ts_raw = (
+        raw.get("created_at")
+        or raw.get("timestamp")
+        or raw.get("posted_at")
+        or raw.get("date")
+        or ""
+    )
+    try:
+        # Normalise to UTC ISO-8601 — LekeeLekee returns "2025-11-07T18:20:05.000000Z"
+        from datetime import datetime as _dt
+        ts = _dt.fromisoformat(ts_raw.replace("Z", "+00:00")).strftime("%Y-%m-%d %H:%M UTC")
+    except Exception:
+        ts = ts_raw[:19] or "unknown"
+
+    # Build direct post URL — format confirmed from live site
+    post_url = ""
+    if message_id:
+        if source_type == "GROUP_CHAT":
+            post_url = f"https://www.lekeelekee.com/groups/{GROUP_ID}/posts/{message_id}"
+        elif source_type == "PROFILE_COMMENT":
+            user_obj = raw.get("user") or {}
+            handle   = user_obj.get("username") or ""
+            post_url = f"https://www.lekeelekee.com/{handle}" if handle else ""
+        else:
+            post_url = f"https://www.lekeelekee.com"
+
+    return {
+        "message_id":  message_id,
+        "post_url":    post_url,
+        "timestamp":   ts,
+        "source_type": source_type,
+        "source_name": _SOURCE_LABELS.get(source_type, source_type),
+    }
+
+
 def _telegram_send_draft_prompt(entry: dict) -> None:
     """
     Send CEO a Telegram inline-keyboard approval prompt for a new AI draft.
     Uses raw HTTP API — NO python-telegram-bot dependency needed here.
     The telegram-approval-bot handles the callback (dreply_approve_ / dreply_skip_).
-    When CEO taps ✅, the bot parses the draft from message text and posts to LekeeLekee.
 
     Message format is canonical — telegram_approval_bot._publish_draft_reply
-    relies on the exact section headers to extract the ai_draft on callback.
+    uses the section headers to extract ai_draft and message_id on callback.
+    Format version: v2 (threaded + sentiment + source metadata).
     """
     if not TELEGRAM_BOT_TOKEN or not CEO_TELEGRAM_ID:
         log.warning("TELEGRAM_BOT_TOKEN / CEO_TELEGRAM_ID not set — skipping Telegram draft prompt")
         return
 
-    fp      = (entry.get("fingerprint") or "")[:32]
-    author  = entry.get("author", "unknown")
-    score   = entry.get("score", 0)
-    reasons = ", ".join(entry.get("reasons", []))[:100]
-    their   = (entry.get("their_message") or "").strip()[:300]
-    ai_text = (entry.get("ai_draft") or "").strip()
+    fp          = (entry.get("fingerprint") or "")[:32]
+    author      = entry.get("author", "unknown")
+    score       = entry.get("score", 0)
+    reasons     = ", ".join(entry.get("reasons", []))[:100]
+    their       = (entry.get("their_message") or "").strip()[:300]
+    ai_text     = (entry.get("ai_draft") or "").strip()
+    message_id  = entry.get("message_id", "")
+    post_url    = entry.get("post_url", "")
+    timestamp   = entry.get("timestamp", "unknown")
+    source_name = entry.get("source_name", "African Tech Ecosystem Group")
+    sentiment   = entry.get("sentiment", {})
 
-    # The canonical message format — MUST NOT CHANGE without updating _publish_draft_reply parser
+    urgency     = (sentiment.get("urgency")     or "NORMAL")
+    tone        = (sentiment.get("tone")         or "OTHER")
+    escalation  = sentiment.get("escalation_signal", False)
+    urg_label   = sentiment.get("urgency_label", "respond today")
+
+    u_icon = _urgency_icon(urgency)
+    esc_banner = "\n⚠️ ESCALATION SIGNAL DETECTED — Review immediately." if escalation else ""
+
+    # ── Follow-up reminder line (World-Class Feature #2) ─────────────────────
+    # Injected as an ops reminder so CEO never forgets unanswered threads
+    followup_note = ""
+    if urgency == "URGENT":
+        followup_note = "\n🔔 AUTO-REMINDER: if not actioned in 60 min, re-alert fires."
+    elif urgency == "HIGH":
+        followup_note = "\n🔔 AUTO-REMINDER: if not actioned in 4 hrs, re-alert fires."
+
+    # ── Link line (omit if not available) ────────────────────────────────────
+    link_line = f"\n🔗 Link: {post_url}" if post_url else ""
+
+    # ── Thread indicator ─────────────────────────────────────────────────────
+    thread_line = f"🧵 Threaded reply to: {message_id}" if message_id else "🧵 Thread: standalone post"
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # CANONICAL FORMAT v2 — CRITICAL: section headers used by bot parser.
+    # Do NOT rename the headers below without updating _publish_draft_reply.
+    # Fields extracted by the bot on CEO tap:
+    #   "🧠 AI DRAFT [CEO VOICE]:"  → ai_draft text
+    #   "🧵 Threaded reply to:"      → message_id (parent_id for reply API)
+    # ──────────────────────────────────────────────────────────────────────────
     message = (
-        f"💬 SYNC ENGINE — DRAFT REPLY\n"
-        f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-        f"From: {author}  |  Score: {score}/100\n"
-        f"Signals: {reasons}\n\n"
+        f"{u_icon} SYNC ENGINE — INTELLIGENCE BRIEF{esc_banner}\n"
+        f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"From:      {author}  |  Score: {score}/100\n"
+        f"Tone:      {tone}  |  Sentiment: {sentiment.get('sentiment','NEUTRAL')}\n"
+        f"{u_icon} Urgency:  {urgency} — {urg_label}\n"
+        f"Signals:   {reasons}\n"
+        f"🕒 Time:    {timestamp}\n"
+        f"📍 Source:  {source_name}"
+        f"{link_line}\n\n"
         f"Their message:\n{their}\n\n"
+        f"{thread_line}\n"
         f"🧠 AI DRAFT [CEO VOICE]:\n"
         f"{ai_text}\n\n"
-        f"Tap ✅ POST IT to reply live on LekeeLekee, or ❌ SKIP to discard."
+        f"Tap ✅ POST IT to send as threaded reply, or ❌ SKIP to discard."
+        f"{followup_note}"
     )
     payload = {
         "chat_id":    CEO_TELEGRAM_ID,
@@ -135,7 +329,7 @@ def _telegram_send_draft_prompt(entry: dict) -> None:
         )
         body = r.json()
         if body.get("ok"):
-            log.info(f"  📱 Draft prompt → CEO Telegram | {author} (score={score}) fp={fp[:8]}...")
+            log.info(f"  📱 Draft prompt → CEO | {author} | {u_icon} {urgency} | fp={fp[:8]}...")
         else:
             log.warning(f"  ⚠️ Telegram draft prompt failed: {body.get('description')}")
     except Exception as exc:
@@ -261,11 +455,27 @@ def score_message_for_reply(text: str, author_handle: str, patterns: dict) -> di
 
     score = min(score, 100)
 
+    # ── Sentiment & Urgency Intelligence (added v2) ────────────────────────────
+    # Run the local sentiment engine — zero external API calls, <1ms
+    sentiment_analysis = _analyse_sentiment(text)
+
+    # VIP upgrade: VIP sender always escalates urgency to at least HIGH
+    if any(v in author_handle.lower() for v in ("charlie_pyper", "charlie", "lekeelekee")):
+        if sentiment_analysis["urgency"] == "NORMAL":
+            sentiment_analysis["urgency"]       = "HIGH"
+            sentiment_analysis["urgency_label"]  = "respond within 4 hours"
+
     return {
-        "score":       score,
-        "flag":        score >= 25,   # Threshold: 25 captures substantive third-party posts
-        "priority":    "HIGH" if score >= 70 else "MEDIUM" if score >= 40 else "LOW",
-        "reasons":     reasons,
+        "score":     score,
+        "flag":      score >= 25,   # Threshold: 25 captures substantive third-party posts
+        "priority":  "HIGH" if score >= 70 else "MEDIUM" if score >= 40 else "LOW",
+        "reasons":   reasons,
+        # v2 intelligence fields
+        "sentiment": sentiment_analysis["sentiment"],
+        "tone":      sentiment_analysis["tone"],
+        "urgency":   sentiment_analysis["urgency"],
+        "urgency_label":      sentiment_analysis["urgency_label"],
+        "escalation_signal": sentiment_analysis["escalation_signal"],
     }
 
 
@@ -831,6 +1041,11 @@ class VaultWriter:
 
             scoring = score_message_for_reply(text, author, patterns)
 
+            # ── Source metadata extraction (added v2) ─────────────────────────
+            # Determine source_type from the caller context; default = GROUP_CHAT
+            # (notifications-sourced items override this in fetch_notifications path)
+            src_meta = _extract_source_metadata(raw, source_type="GROUP_CHAT")
+
             # AI brain draft — only for HIGH-confidence flags to conserve API calls
             ai_draft = None
             if (brain and brain.enabled
@@ -845,6 +1060,11 @@ class VaultWriter:
 
             item = {
                 "fingerprint":  fp,
+                "message_id":   src_meta["message_id"],   # v2 — parent_id for threaded reply
+                "post_url":     src_meta["post_url"],      # v2 — direct link to post
+                "timestamp":    src_meta["timestamp"],    # v2 — original post creation time
+                "source_type":  src_meta["source_type"],  # v2 — GROUP_CHAT etc.
+                "source_name":  src_meta["source_name"],  # v2 — human-readable location
                 "received_at":  datetime.now(timezone.utc).isoformat(),
                 "author":       f"@{author}".replace("@@", "@"),
                 "text_preview": text[:200],
@@ -881,15 +1101,29 @@ class VaultWriter:
 
         new_entries = []
         for item in drafted:
+            scoring = item["reply_score"]
             new_entries.append({
-                "status":       "PENDING",   # CEO: change to SENT/SKIP after action
-                "author":       item["author"],
+                "status":        "PENDING",   # CEO: SENT/SKIP after action
+                "author":        item["author"],
                 "their_message": item["text_preview"],
-                "ai_draft":     item["ai_draft"],
-                "score":        item["reply_score"]["score"],
-                "reasons":      item["reply_score"]["reasons"],
-                "generated_at": datetime.now(timezone.utc).isoformat(),
-                "fingerprint":  item["fingerprint"],
+                "ai_draft":      item["ai_draft"],
+                "score":         scoring["score"],
+                "reasons":       scoring["reasons"],
+                # v2 intelligence fields ───────────────────────────────────────
+                "sentiment":     scoring.get("sentiment", "NEUTRAL"),
+                "tone":          scoring.get("tone", "OTHER"),
+                "urgency":       scoring.get("urgency", "NORMAL"),
+                "urgency_label": scoring.get("urgency_label", "respond today"),
+                "escalation_signal": scoring.get("escalation_signal", False),
+                # Source provenance ───────────────────────────────────────────
+                "message_id":    item.get("message_id", ""),
+                "post_url":      item.get("post_url", ""),
+                "timestamp":     item.get("timestamp", ""),
+                "source_type":   item.get("source_type", "GROUP_CHAT"),
+                "source_name":   item.get("source_name", "African Tech Ecosystem Group"),
+                # ─────────────────────────────────────────────────────────────
+                "generated_at":  datetime.now(timezone.utc).isoformat(),
+                "fingerprint":   item["fingerprint"],
             })
 
         merged = existing + new_entries

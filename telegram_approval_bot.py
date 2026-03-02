@@ -68,11 +68,18 @@ def _lekee_login(email: str, password: str):
     return session, token, user_id
 
 
-def _lekee_post_group(session, caption: str) -> dict:
-    """Direct API Strike: POST to African Tech Ecosystem group."""
+def _lekee_post_group(session, caption: str, parent_id: str = None) -> dict:
+    """
+    Direct API Strike: POST to African Tech Ecosystem group.
+    If parent_id is provided, the post becomes a threaded reply to that post.
+    parent_id = LekeeLekee public_id of the original message being replied to.
+    """
+    payload = {"content": caption, "type": "post"}
+    if parent_id:
+        payload["parent_id"] = parent_id   # Threaded reply — Article II.2 law
     resp = session.post(
         f"{_BASE_URL}/api/v1/groups/{_GROUP_ID}/posts",
-        json={"content": caption, "type": "post"},
+        json=payload,
         timeout=30,
     )
     if resp.status_code not in (200, 201):
@@ -478,7 +485,7 @@ Use /generate to create next post"""
             # amd-sync-engine and telegram-approval-bot run in separate Railway
             # containers with separate filesystems. When amd-sync-engine sends
             # the Telegram prompt directly, no shared JSON file exists here.
-            # Parse the canonical "🧠 AI DRAFT [CEO VOICE]:" section from the message.
+            # Parse canonical sections from the v2 message format.
             if not draft and query.message and query.message.text:
                 msg_text = query.message.text
                 # Extract author
@@ -486,11 +493,22 @@ Use /generate to create next post"""
                 m_author = re.search(r"From:\s+(\S+)\s+\|", msg_text)
                 if m_author:
                     author = m_author.group(1)
-                # Extract AI draft between canonical headers
+                # Extract AI draft between canonical v2 headers
                 m_draft = re.search(
                     r"🧠 AI DRAFT \[CEO VOICE\]:\n(.*?)\n\nTap ✅",
                     msg_text, re.DOTALL
                 )
+                # Extract message_id for threaded reply from v2 header
+                message_id = ""
+                m_tid = re.search(r"🧵 Threaded reply to:\s*(\S+)", msg_text)
+                if m_tid:
+                    message_id = m_tid.group(1).strip()
+                # Extract post_url
+                post_url = ""
+                m_url = re.search(r"🔗 Link:\s*(https?://\S+)", msg_text)
+                if m_url:
+                    post_url = m_url.group(1).strip()
+
                 if m_draft:
                     ai_text = m_draft.group(1).strip()
                     draft = {
@@ -499,8 +517,11 @@ Use /generate to create next post"""
                         "ai_draft":      ai_text,
                         "their_message": "",
                         "score":         0,
+                        "message_id":    message_id,   # v2 — threaded reply
+                        "post_url":      post_url,     # v2 — source link
                     }
-                    print(f"📩 Draft parsed from message text (cross-container) — {author} fp={fingerprint[:8]}")
+                    print(f"📩 Draft parsed from message text (cross-container) — {author} "
+                          f"fp={fingerprint[:8]} msg_id={message_id[:12] or 'none'}")
 
             if not draft:
                 await query.edit_message_text(
@@ -870,6 +891,8 @@ Use /generate to create next post"""
 
         author   = draft.get("author", "unknown")
         ai_text  = draft.get("ai_draft", "").strip()
+        # v2: threaded reply — use the original message's public_id as parent_id
+        parent_id = (draft.get("message_id") or "").strip() or None
 
         if not ai_text:
             await query.edit_message_text(f"❌ Draft is empty for {author} — nothing to post.")
@@ -879,7 +902,7 @@ Use /generate to create next post"""
 
         def _do_post():
             session, _tok, _uid = _lekee_login(email, password)
-            return _lekee_post_group(session, ai_text)
+            return _lekee_post_group(session, ai_text, parent_id=parent_id)
 
         try:
             result = await loop.run_in_executor(None, _do_post)
@@ -890,14 +913,17 @@ Use /generate to create next post"""
             # Mark as SENT
             self._update_draft_status(fingerprint, "SENT")
 
+            thread_note = f"🧵 Threaded reply to: `{parent_id}`\n" if parent_id else "📢 Standalone post\n"
             await query.edit_message_text(
                 f"✅ *REPLY POSTED!*\n\n"
-                f"👤 In reply thread to: {author}\n"
+                f"👤 To: {author}\n"
+                f"{thread_note}"
                 f"🆔 LekeeLekee Post ID: `{lk_id}`\n\n"
                 f"_{ai_text[:200]}_",
                 parse_mode="Markdown",
             )
-            print(f"✅ Draft reply posted to LekeeLekee — author={author}, post_id={lk_id}")
+            print(f"✅ Draft reply posted — author={author}, post_id={lk_id}, "
+                  f"parent_id={parent_id or 'none'}")
 
         except Exception as e:
             self._update_draft_status(fingerprint, "PENDING")   # Re-queue on error
