@@ -55,7 +55,7 @@ LEDGER_FILE        = VAULT / "live" / "replied_messages.json"
 CONTEXT_LOG_FILE   = VAULT / "live" / "context_packets.json"
 
 # ── MODULE 3 CONSTANTS ───────────────────────────────────────────────────────
-GEMINI_API_KEY      = os.getenv("GEMINI_API_KEY", "AIzaSyDEsAEZPEW0rV0W0HX7WSRnhWaz_TpPs7c")
+GEMINI_API_KEY      = os.getenv("GEMINI_API_KEY", "")
 GHOST_GUARD_MINUTES = 15
 TRAINING_DATA_FILE  = VAULT / "training_data" / "ceo_messages.json"
 DRAFTS_LOG_FILE     = VAULT / "live" / "draft_queue.json"
@@ -753,7 +753,7 @@ class ReplyGenerator:
         if not GEMINI_API_KEY:
             raise RuntimeError("GEMINI_API_KEY not set")
         genai.configure(api_key=GEMINI_API_KEY)
-        self.model = genai.GenerativeModel("gemini-1.5-flash")
+        self.model = genai.GenerativeModel("gemini-2.5-flash")
         self._load_training_data()
 
     def _load_training_data(self):
@@ -890,7 +890,7 @@ Write ONE reply from CEO @amd — no preamble, no explanation, no quotes around 
             "lead_tag":      lead_tag,
             "tone_used":     tone_used,
             "word_count":    len(draft_text.split()),
-            "model_used":    "gemini-1.5-flash",
+            "model_used":    "gemini-2.5-flash",
             "packet_id":     packet["packet_id"],
             "message_id":    msg["id"],
             "reply_to_id":   msg["id"],
@@ -1100,7 +1100,7 @@ def run_once(show_packets: int = 3, force_all: bool = False, gen_drafts: bool = 
     print(f"  Bio-Probes fired (live API):   {probe_count}")
     print(f"  Ledger file:                   {LEDGER_FILE}")
     print(f"  Context log file:              {CONTEXT_LOG_FILE}")
-    print(f"  Module 3 (AI Brain) status:    ✅ LIVE (gemini-1.5-flash)")
+    print(f"  Module 3 (AI Brain) status:    ✅ LIVE (gemini-2.5-flash)")
     print(f"  Module 4 (Telegram Gate) status: PENDING — Next build phase")
     print(f"{'=' * 72}\n")
 
