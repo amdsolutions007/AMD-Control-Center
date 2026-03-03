@@ -59,6 +59,15 @@ LEKE_PASSWORD   = os.getenv("LEKE_LEKE_PASSWORD", "#@Amdmail@007")
 GENERAL_CONV_ID = "019c12b7-0ef5-73c5-92ca-1e5609f5f5bf"
 STATIC_IV       = "MDAwMDAwMDAwMDAwMDAwMA=="
 
+# ── DM DIRECTORY ──────────────────────────────────────────────────────────────
+DM_DIR_FILE     = ROOT / "intelligence_vault" / "live" / "dm_directory.json"
+
+# ── CALLBACK PREFIXES ─────────────────────────────────────────────────────────
+_CB_SEND = "SEND:"
+_CB_EDIT = "EDIT:"
+_CB_SKIP = "SKIP:"
+_CB_DM   = "DM:"
+
 # ── NOTE: Button press handling lives in telegram_approval_bot.py (Railway) ─
 # This file only PUSHES cards. No polling loop needed here.
 
@@ -125,6 +134,15 @@ def dispatch_to_leke_leke(draft_text: str, reply_to_id: str) -> dict:
 # DRAFT QUEUE HELPERS
 # ─────────────────────────────────────────────────────────────────────────────
 
+def _load_dm_directory() -> dict:
+    """Load username → DM conversation ID map. Returns {} on missing file."""
+    if not DM_DIR_FILE.exists():
+        return {}
+    with open(DM_DIR_FILE) as f:
+        d = json.load(f)
+    return {k: v for k, v in d.items() if not k.startswith("_")}
+
+
 def _load_drafts() -> list:
     if not DRAFTS_FILE.exists():
         return []
@@ -179,10 +197,17 @@ def _format_card(draft: dict, index: int = 1, total: int = 1) -> str:
     words    = draft.get("word_count", 0)
     model    = draft.get("model_used", "gemini-2.5-flash")
     text     = draft.get("draft_text", "")
+    handle   = draft.get("sender_handle", "")
+
+    # DM availability flag
+    dm_dir  = _load_dm_directory()
+    clean_h = handle.lstrip("@").strip()
+    has_dm  = clean_h in dm_dir
+    is_price_signal = "PRICE_SIGNAL" in lead_tag
 
     # Lead tag badge colour line
     tag_line = lead_tag
-    if "PRICE_SIGNAL" in lead_tag:
+    if is_price_signal:
         tag_line = "🔥 <b>PRICE SIGNAL</b> — Commercial lead detected"
     elif "CRITICAL_ISSUE" in lead_tag:
         tag_line = "🆘 <b>CRITICAL ISSUE</b> — Member needs support"
@@ -202,6 +227,26 @@ def _format_card(draft: dict, index: int = 1, total: int = 1) -> str:
         f"🏷️  <b>Tag:</b>    {tag_line}\n"
         f"🎭 <b>Tone:</b>   {tone_badge}\n"
         f"📊 <b>Stats:</b>  {words} words  ·  {model}\n"
+        f"📬 <b>DM:</b>     {'💬 Private channel OPEN' if has_dm else '🔇 No DM conversation yet'}\n"
+    )
+
+    # PRICE_SIGNAL: inject private DM recommendation banner
+    if is_price_signal and has_dm:
+        card += (
+            f"\n"
+            f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            f"🔐 <b>PRIVATE DM RECOMMENDED</b>\n"
+            f"<i>Commercial lead — send privately to protect the deal.</i>\n"
+        )
+    elif is_price_signal and not has_dm:
+        card += (
+            f"\n"
+            f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            f"⚠️ <b>PRICE SIGNAL — DM not available yet</b>\n"
+            f"<i>No private channel open with this member.</i>\n"
+        )
+
+    card += (
         f"\n"
         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
         f"✍️  <b>DRAFT REPLY:</b>\n"
@@ -215,15 +260,32 @@ def _format_card(draft: dict, index: int = 1, total: int = 1) -> str:
 
 
 def _build_keyboard(draft: dict) -> InlineKeyboardMarkup:
-    """3-button inline keyboard for draft approval."""
-    mid = draft["message_id"]
-    return InlineKeyboardMarkup([
-        [
-            InlineKeyboardButton("✅  SEND IT",  callback_data=f"SEND:{mid}"),
-            InlineKeyboardButton("✏️  EDIT",   callback_data=f"EDIT:{mid}"),
-            InlineKeyboardButton("⏭️  SKIP",    callback_data=f"SKIP:{mid}"),
-        ]
-    ])
+    """4-button inline keyboard for draft approval (row 1: SEND/EDIT/SKIP, row 2: DM)."""
+    mid     = draft["message_id"]
+    handle  = draft.get("sender_handle", "").lstrip("@").strip()
+    dm_dir  = _load_dm_directory()
+    has_dm  = handle in dm_dir
+    is_price = "PRICE_SIGNAL" in draft.get("lead_tag", "")
+
+    row1 = [
+        InlineKeyboardButton("✅  SEND IT",  callback_data=f"SEND:{mid}"),
+        InlineKeyboardButton("✏️  EDIT",    callback_data=f"EDIT:{mid}"),
+        InlineKeyboardButton("⏭️  SKIP",    callback_data=f"SKIP:{mid}"),
+    ]
+
+    # DM row — always shown; greyed label if no conv
+    if has_dm:
+        dm_label = "💬  SEND AS DM" if not is_price else "🔐  SEND AS DM ⭐"
+        row2 = [InlineKeyboardButton(dm_label, callback_data=f"DM:{mid}")]
+    else:
+        # No DM conv yet — show informational button (tapping it gives a helpful notice)
+        row2 = [InlineKeyboardButton("🔇  NO DM — group only", callback_data=f"DM:{mid}")]
+
+    if is_price and has_dm:
+        # PRICE_SIGNAL: DM row goes FIRST as primary recommended action
+        return InlineKeyboardMarkup([row2, row1])
+    else:
+        return InlineKeyboardMarkup([row1, row2])
 
 
 # Callback handlers removed — they live in telegram_approval_bot.py (Railway bot)
@@ -260,7 +322,10 @@ async def _push_drafts_to_telegram(app, drafts: list) -> int:
             f"🛰️  <b>LEKEEBOT v2 — APPROVAL QUEUE</b>\n"
             f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
             f"<b>{total} draft{'s' if total>1 else ''} awaiting your approval.</b>\n\n"
-            f"Tap <b>✅ SEND IT</b> to dispatch, <b>✏️ EDIT</b> to revise, <b>⏭️ SKIP</b> to archive."
+            f"Tap <b>✅ SEND IT</b> → group reply\n"
+            f"Tap <b>💬 SEND AS DM</b> → private 1-on-1 message\n"
+            f"Tap <b>✏️ EDIT</b> → revise before sending\n"
+            f"Tap <b>⏭️ SKIP</b> → archive draft"
         ),
         parse_mode=ParseMode.HTML,
     )
@@ -274,7 +339,7 @@ async def _push_drafts_to_telegram(app, drafts: list) -> int:
             parse_mode=ParseMode.HTML,
             reply_markup=keyboard,
         )
-        _active_drafts[msg.message_id] = draft
+        _ = msg  # send-only — no tracking needed
         print(f"[PORTAL] 📤 Sent card #{i}/{total} — {draft.get('sender_handle')} | {draft.get('lead_tag')}")
 
     return total
@@ -305,26 +370,26 @@ async def _run(test_mode: bool = False):
     if test_mode:
         test_draft = {
             "draft_text": (
-                "Grant! That consistent drive for evolution you described? That's exactly "
-                "who this ecosystem was built for. Continuous learners who don't just absorb "
-                "— they apply, build, and teach. Happy Sunday from the lab. The network here "
-                "will accelerate your trajectory faster than any course. The floor is yours — "
-                "what are you currently building? Let's go. 🌍 #AfricanTech"
+                "Augustus! Your arrival in the African Tech Ecosystem is noted — and respected. "
+                "The community you've joined is moving fast, and the right 1-on-1 conversations "
+                "here change trajectories. I'd like to connect with you directly. "
+                "What's your biggest commercial challenge right now? Let's talk privately. 🔐 #AfricanTech"
             ),
-            "lead_tag":      "🤝 SYNERGY_OPPORTUNITY",
+            "lead_tag":      "🔥 PRICE_SIGNAL",
             "tone_used":     "INNER_CIRCLE",
-            "word_count":    71,
+            "word_count":    57,
             "model_used":    "gemini-2.5-flash",
-            "packet_id":     "CTX_TEST_001",
-            "message_id":    "TEST_MSG_001",
+            "packet_id":     "CTX_DM_TEST_001",
+            "message_id":    "TEST_DM_001",
             "reply_to_id":   None,
-            "sender_handle": "@salaryalert",
-            "sender_name":   "Grant Allen Asiboje",
+            "sender_handle": "@emperoraustus",
+            "sender_name":   "Augustus CJ",
+            "dm_conv_id":    "019ca622-8a00-7014-a47b-876660178d73",
             "generated_at":  datetime.now(timezone.utc).isoformat(),
             "status":        "pending_approval",
         }
         drafts = [test_draft]
-        print(f"\n[PORTAL] 🧪 TEST MODE — pushing 1 test card to CEO (ID {CEO_CHAT_ID})")
+        print(f"\n[PORTAL] 🧪 TEST MODE — pushing @emperoraustus DM card to CEO (ID {CEO_CHAT_ID})")
     else:
         drafts = _load_drafts()
         print(f"\n[PORTAL] 📋 Loaded {len(drafts)} drafts from queue")

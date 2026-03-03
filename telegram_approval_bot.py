@@ -35,6 +35,7 @@ _STATIC_IV      = "MDAwMDAwMDAwMDAwMDAwMA=="
 _LEKEEBOT_SEND  = "SEND:"  # callback_data prefix for Module 4 SEND IT
 _LEKEEBOT_SKIP  = "SKIP:"  # callback_data prefix for Module 4 SKIP
 _LEKEEBOT_EDIT  = "EDIT:"  # callback_data prefix for Module 4 EDIT
+_LEKEEBOT_DM    = "DM:"   # callback_data prefix for Module 6 SEND AS DM
 # draft_queue.json path (matches chat_intel_engine.py constant)
 _LEKEEBOT_QUEUE = None  # lazy-loaded
 
@@ -149,6 +150,8 @@ PENDING_REGISTRY = "pending_posts.json"  # survives redeploys
 from pathlib import Path as _Path
 VAULT_LIVE_DIR  = _Path(__file__).parent / "intelligence_vault" / "live"
 DRAFTS_FILE     = VAULT_LIVE_DIR / "ai_reply_drafts.json"
+# Module 6 — DM directory
+_DM_DIR_FILE    = VAULT_LIVE_DIR / "dm_directory.json"
 # Telegram callback prefix keeps new flow separate from 36-states approve/reject
 _DREPLY_PREFIX  = "dreply_"
 
@@ -506,11 +509,14 @@ Use /generate to create next post"""
         with open(path, "w") as f:
             json.dump(drafts, f, indent=2, ensure_ascii=False)
 
-    def _lekee_send_chat_reply(self, text: str, reply_to_id: str) -> dict:
+    def _lekee_send_chat_reply(self, text: str, reply_to_id: str | None,
+                               override_conv_id: str | None = None) -> dict:
         """
-        Module 5 — Dispatch approved reply to #General channel via direct API.
-        Encodes text as base64 ciphertext, threads to reply_to_id.
+        Module 5/6 — Dispatch approved reply via direct API.
+        Defaults to #General channel; pass override_conv_id for DMs.
+        Encodes text as base64 ciphertext, optionally threads to reply_to_id.
         """
+        conv_id = override_conv_id or _LEKE_CONV_ID
         # Auth
         resp = _req.post(
             f"{_BASE_URL}/api/v1/auth/login",
@@ -527,11 +533,11 @@ Use /generate to create next post"""
         # Send
         ciphertext = base64.b64encode(text.encode("utf-8")).decode("ascii")
         payload = {"ciphertext": ciphertext, "iv": _STATIC_IV}
-        if reply_to_id and reply_to_id != "TEST_MSG_001":
+        if reply_to_id and reply_to_id not in ("TEST_MSG_001", "TEST_DM_001", None):
             payload["reply_to"] = reply_to_id
 
         send_resp = _req.post(
-            f"{_BASE_URL}/api/v1/conversations/{_LEKE_CONV_ID}/messages",
+            f"{_BASE_URL}/api/v1/conversations/{conv_id}/messages",
             headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
             json=payload,
             timeout=20,
@@ -539,6 +545,95 @@ Use /generate to create next post"""
         if send_resp.status_code not in (200, 201):
             raise RuntimeError(f"Send failed — HTTP {send_resp.status_code}: {send_resp.text[:200]}")
         return send_resp.json() if "application/json" in send_resp.headers.get("content-type","") else {}
+
+    # ── MODULE 6: Private DM Engine ───────────────────────────────────────────
+
+    def _lekeebot_load_dm_directory(self) -> dict:
+        """Load username → DM conversation ID map."""
+        if not _DM_DIR_FILE.exists():
+            return {}
+        with open(_DM_DIR_FILE) as f:
+            d = json.load(f)
+        return {k: v for k, v in d.items() if not k.startswith("_")}
+
+    def _lekeebot_resolve_dm_conv(self, username: str) -> str | None:
+        """Return DM conversation ID for a username, or None."""
+        clean = username.lstrip("@").strip()
+        return self._lekeebot_load_dm_directory().get(clean)
+
+    async def _handle_lekeebot_dm(self, query, data: str, context) -> None:
+        """
+        Module 6 — Private DM Engine.
+        Routes CEO tap on [💬 SEND AS DM] to the member's private conversation.
+        """
+        from telegram.constants import ParseMode
+        message_id = data[len(_LEKEEBOT_DM):]
+        draft = next((d for d in self._lekeebot_load_drafts()
+                      if d.get("message_id") == message_id), None)
+
+        if not draft:
+            await query.edit_message_text("⚠️ Draft not found — may have been actioned already.")
+            return
+
+        handle  = draft.get("sender_handle", "").lstrip("@").strip()
+        name    = draft.get("sender_name", handle)
+        conv_id = (draft.get("dm_conv_id")
+                   or self._lekeebot_resolve_dm_conv(handle))
+
+        if not conv_id:
+            await query.edit_message_text(
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"🔇 <b>NO PRIVATE CHANNEL YET</b>\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+                f"👤 <b>{name}</b>  <code>@{handle}</code>\n\n"
+                f"<i>No DM conversation exists with this member yet.\n"
+                f"Use ✅ SEND IT to reply in the group, or open a DM on LekeeLekee first.</i>",
+                parse_mode=ParseMode.HTML,
+            )
+            return
+
+        # Instant CEO feedback — Async Callback Law
+        await query.edit_message_text(
+            f"⏳ <b>Sending private DM to {name}...</b>\n\n"
+            f"<code>@{handle}</code>  ·  conv <code>{conv_id[:8]}…</code>",
+            parse_mode=ParseMode.HTML,
+        )
+        asyncio.create_task(self._lekeebot_dm_dispatch_task(query, draft, conv_id))
+
+    async def _lekeebot_dm_dispatch_task(self, query, draft: dict, conv_id: str) -> None:
+        """Background task: dispatch reply to DM conversation (Async Callback Law compliant)."""
+        from telegram.constants import ParseMode
+        name   = draft.get("sender_name", "")
+        handle = draft.get("sender_handle", "")
+        try:
+            result  = self._lekee_send_chat_reply(
+                draft["draft_text"],
+                reply_to_id=None,        # DMs don't thread
+                override_conv_id=conv_id,
+            )
+            post_id = result.get("id", result.get("data", {}).get("id", "sent"))
+            self._lekeebot_update_status(draft["message_id"], "sent_dm")
+            await query.edit_message_text(
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"💬 <b>PRIVATE DM DELIVERED</b>\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+                f"👤 <b>{name}</b>  <code>{handle}</code>\n"
+                f"🏷️  {draft.get('lead_tag','')}\n"
+                f"🔐 Sent via private 1-on-1 channel\n"
+                f"🆔 Post ID: <code>{str(post_id)[:40]}</code>\n\n"
+                f"<i>Message delivered privately · {datetime.now(timezone.utc).strftime('%H:%M UTC')}</i>\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━",
+                parse_mode=ParseMode.HTML,
+            )
+            print(f"[MODULE6] 💬 DM sent → @{handle} | conv={conv_id[:8]} | post_id={post_id}")
+        except Exception as exc:
+            await query.edit_message_text(
+                f"❌ <b>DM DISPATCH FAILED</b>\n\n"
+                f"<code>{str(exc)[:300]}</code>\n\n"
+                f"<i>Tap ✅ SEND IT to post in group instead.</i>",
+                parse_mode=ParseMode.HTML,
+            )
+            print(f"[MODULE6] ❌ DM dispatch failed for @{handle}: {exc}")
 
     async def _handle_lekeebot_callback(self, query, data: str, context):
         """Handle SEND: / SKIP: / EDIT: callbacks from Module 4 draft cards."""
@@ -681,9 +776,13 @@ Use /generate to create next post"""
 
         data = query.data or ""
 
-        # ── BRANCH C: LekeeBot Module 4 — Chat Draft Approval (SEND:/EDIT:/SKIP:) ──
-        if data.startswith(_LEKEEBOT_SEND) or data.startswith(_LEKEEBOT_SKIP) or data.startswith(_LEKEEBOT_EDIT):
+        # ── BRANCH C: LekeeBot Module 4+6 — Chat Draft Approval + Private DM Engine ─
+        if (data.startswith(_LEKEEBOT_SEND) or data.startswith(_LEKEEBOT_SKIP)
+                or data.startswith(_LEKEEBOT_EDIT)):
             await self._handle_lekeebot_callback(query, data, context)
+            return
+        if data.startswith(_LEKEEBOT_DM):
+            await self._handle_lekeebot_dm(query, data, context)
             return
 
         # ── BRANCH A: Sync Engine Draft Reply (dreply_approve_ / dreply_skip_) ──
