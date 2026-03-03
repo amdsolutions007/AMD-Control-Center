@@ -1246,6 +1246,41 @@ Use /generate to create next post"""
             )
             print(f"❌ Draft reply publish failed: {e}")
 
+    async def _daily_architect_brief_job(self, context: ContextTypes.DEFAULT_TYPE):
+        """
+        Daily 06:00 UTC = 07:00 WAT — send the Architect Brief prompt to CEO.
+        Reminds CEO to post the daily thought-leadership brief to #General.
+        Fires BEFORE the 09:00 WAT state campaign so CEO can plan the full morning.
+        """
+        print("⏰ Architect Brief scheduler triggered — 07:00 WAT")
+        ceo_id = int(CEO_TELEGRAM_ID) if CEO_TELEGRAM_ID else None
+        if not ceo_id:
+            return
+
+        from datetime import date as _date
+        today = _date.today().strftime("%A, %B %d")
+
+        brief_text = (
+            f"🌅 *07:00 WAT — ARCHITECT BRIEF* | {today}\n\n"
+            "Good morning, Olawale.\n\n"
+            "⚡ *Your daily tasks:*\n"
+            "1. Drop today's thought-leadership post to *#General* (LekeeLekee)\n"
+            "2. Review any 💬 DM replies from the Wake-Up Strike\n"
+            "3. Approve the *09:00 WAT State Campaign* post (incoming)\n\n"
+            "🛰️ The pipeline is running. You focus on the signal.\n\n"
+            "_— AMD Control Center_"
+        )
+
+        try:
+            await context.bot.send_message(
+                chat_id=ceo_id,
+                text=brief_text,
+                parse_mode="Markdown",
+            )
+            print("✅ Architect Brief sent to CEO")
+        except Exception as exc:
+            print(f"⚠️  Architect Brief send failed: {exc}")
+
     def run(self):
         """Start the Telegram bot"""
         if not TELEGRAM_BOT_TOKEN:
@@ -1263,6 +1298,15 @@ Use /generate to create next post"""
                 name="daily_36_states_post",
             )
             print("📅 Daily scheduler registered: 08:00 UTC (09:00 WAT)")
+
+            # ── 07:00 WAT daily Architect Brief ───────────────────────────────
+            # WAT = UTC+1 → fire at 06:00 UTC so CEO sees it at 07:00 AM Lagos
+            self.app.job_queue.run_daily(
+                self._daily_architect_brief_job,
+                time=dt_time(hour=6, minute=0, second=0, tzinfo=timezone.utc),
+                name="daily_architect_brief",
+            )
+            print("📅 Architect Brief registered: 06:00 UTC (07:00 WAT)")
 
             # ── Startup catch-up: fire immediately if we're past 08:00 UTC today
             # and today's prompt hasn't been sent yet (handles Railway restarts)

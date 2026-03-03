@@ -79,6 +79,9 @@ FOUNDING_HANDLES  = SUPER_FAN_HANDLES | {CHARLIE_PYPER}
 POLL_INTERVAL_SEC = 60   # seconds between polls in live mode
 MSG_FETCH_LIMIT   = 50   # messages per API call
 
+# DM directory — written by wake_up_strike.py
+DM_DIR_FILE = VAULT / "live" / "dm_directory.json"
+
 # ─────────────────────────────────────────────────────────────────────────────
 # AUTH
 # ─────────────────────────────────────────────────────────────────────────────
@@ -219,6 +222,66 @@ def fetch_new_messages(ledger: dict, limit: int = MSG_FETCH_LIMIT) -> list[dict]
         new_msgs.append(m)
 
     return new_msgs
+
+
+def fetch_dm_messages(ledger: dict, limit: int = MSG_FETCH_LIMIT) -> list[dict]:
+    """
+    Fetch recent messages from ALL DM conversations in dm_directory.json.
+    Returns only UNSEEN messages from non-CEO senders.
+    Each message includes _source_conv (username) for context.
+    """
+    if not DM_DIR_FILE.exists():
+        return []
+
+    try:
+        dm_dir: dict = json.loads(DM_DIR_FILE.read_text())
+    except Exception:
+        return []
+
+    all_dm_msgs: list[dict] = []
+
+    for username, conv_id in dm_dir.items():
+        try:
+            resp = requests.get(
+                f"{BASE_URL}/api/v1/conversations/{conv_id}/messages",
+                headers=_headers(),
+                params={"page": 1, "per_page": limit},
+                timeout=25,
+            )
+            data = _safe_json(resp)
+            if not data:
+                continue
+
+            raw_messages = data.get("messages", [])
+            for m in raw_messages:
+                msg_id     = m.get("id", "")
+                sender_pid = m.get("sender_public_id", "")
+
+                if sender_pid == CEO_PUBLIC_ID:
+                    _mark_pending(ledger, f"dm_{msg_id}", CEO_USERNAME)
+                    continue
+
+                if _is_seen(ledger, f"dm_{msg_id}"):
+                    continue
+
+                body = _decode_body(m.get("ciphertext", ""))
+                if not body:
+                    continue
+
+                m["_body"]        = body
+                m["_sender_obj"]  = m.get("sender") or {}
+                m["_reply_ctx"]   = m.get("reply_to")
+                m["_source_conv"] = username          # track which DM this came from
+                m["_conv_id"]     = conv_id
+                m["_is_dm"]       = True
+                # Prefix msg_id to avoid ledger collision with group chat ids
+                m["id"]           = f"dm_{msg_id}"
+                all_dm_msgs.append(m)
+
+        except Exception as exc:
+            print(f"[DM POLLER] ⚠️  {username}: {exc}")
+
+    return all_dm_msgs
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1039,11 +1102,18 @@ def run_once(show_packets: int = 3, force_all: bool = False, gen_drafts: bool = 
     else:
         new_msgs = fetch_new_messages(ledger)
 
-    print(f"[POLLER] New messages found: {len(new_msgs)}")
+    # ── Tracker Bridge: also poll DM conversations ──────────────────────────
+    dm_msgs = fetch_dm_messages(ledger)
+    if dm_msgs:
+        print(f"[DM POLLER] {len(dm_msgs)} new DM message(s) from {DM_DIR_FILE.name}")
+    all_new_msgs = new_msgs + dm_msgs
 
-    if not new_msgs:
+    print(f"[POLLER] New messages found: {len(new_msgs)} #General + {len(dm_msgs)} DM = {len(all_new_msgs)} total")
+
+    if not all_new_msgs:
         print("[POLLER] No new messages. Vault is current.")
         return []
+    new_msgs = all_new_msgs  # unified list for downstream processing
 
     # Load vault indices
     print(f"[CONTEXT] Loading Intelligence Vault...")
@@ -1133,7 +1203,8 @@ def run_polling_loop():
     """Full live polling loop — runs indefinitely on Railway."""
     print(f"\n{'=' * 72}")
     print(f"  🛰️  LEKEEBOT v2 — CHAT INTEL ENGINE — LIVE MODE")
-    print(f"  Poll interval: {POLL_INTERVAL_SEC}s | Group: #General")
+    dm_count = len(json.loads(DM_DIR_FILE.read_text())) if DM_DIR_FILE.exists() else 0
+    print(f"  Poll interval: {POLL_INTERVAL_SEC}s | #General + {dm_count} DM conv(s)")
     print(f"{'=' * 72}")
 
     cycle = 0
