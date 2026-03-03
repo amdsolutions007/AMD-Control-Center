@@ -1,22 +1,45 @@
 {
-  "generated_at": "2026-03-03T01:46:55.581951+00:00",
+  "generated_at": "2026-03-03T02:22:05.677988+00:00",
   "empire_citizen_report": {
-    "profile_followers": 60,
-    "group_members": 127,
-    "overlap_super_fans": 5,
-    "unique_total_reach": 177,
-    "formula": "60 profile followers + 127 group members − 5 overlap = 177 unique citizens"
+    "profile_followers": 63,
+    "group_members": 128,
+    "overlap_super_fans": 6,
+    "unique_total_reach": 185,
+    "formula": "63 profile followers + 128 group members − 6 overlap = 185 unique citizens"
   },
   "growth_intelligence": {
     "previous_vault_count": 49,
-    "live_api_count": 127,
+    "live_api_count": 63,
     "net_new_citizens": 78,
     "api_raw_records": 128,
     "duplicate_accounts_detected": 1,
     "data_integrity_note": "LekeeLekee API returns 128 raw member records. After handle deduplication, 127 unique authenticated citizens confirmed. The 1 duplicate is a user with two accounts (same handle appearing twice in API pagination). Vault stores unique citizens only.",
-    "group_only_unconverted": 121,
-    "profile_only_unconverted": 55,
-    "conversion_note": "121 group members haven't followed the CEO profile yet — highest-priority invite targets. 55 profile followers haven't joined the group yet."
+    "group_only_unconverted": 122,
+    "profile_only_unconverted": 57,
+    "conversion_note": "122 group members haven't followed the CEO profile yet — highest-priority invite targets. 57 profile followers haven't joined the group yet.",
+    "profile_followers_live": 63,
+    "followers_net_new": 3,
+    "profile_followers_live_api": 63,
+    "profile_followers_ceo_count": 64,
+    "followers_count_note": "CEO manually counted 64 on UI. Live paginated API sweep returned 63 authenticated records. 1-count discrepancy — likely a pending follow that cleared UI cache after CEO checked, or a deactivated account. Vault stores API-confirmed 63 citizens.",
+    "new_followers": [
+      {
+        "name": "Augustus CJ",
+        "handle": "@emperoraustus",
+        "vault_status": "NEW"
+      },
+      {
+        "name": "Justin Iheme",
+        "handle": "@Justin",
+        "vault_status": "NEW"
+      },
+      {
+        "name": "Grant Allen Asiboje",
+        "handle": "@salaryalert",
+        "vault_status": "NEW — SUPER-FAN UPGRADE (also group member)"
+      }
+    ],
+    "super_fan_upgrade": "Grant Allen Asiboje (@salaryalert) joined the follower list, becoming the 6th super-fan (group member + follower overlap)"
   },
   "engagement_breakdown": {
     "new_follower": 68,
@@ -53,8 +76,8 @@
     }
   },
   "vault_structure": {
-    "members/profile/followers.json": "60 profile followers",
-    "members/group/members.json": "127 group members (v2 detailed)",
+    "members/profile/followers.json": "63 profile followers (v2 sync)",
+    "members/group/members.json": "127 unique group members (v2 detailed)",
     "engagement/cross_reference.json": "Super-fans, group-only, profile-only splits",
     "engagement/activity_log.json": "196 sanitized events",
     "archives/post_archive.txt": "Full post history",

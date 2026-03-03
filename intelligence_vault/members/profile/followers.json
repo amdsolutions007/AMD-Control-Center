@@ -1,5 +1,5 @@
 {
-  "total": 60,
+  "total": 63,
   "members": [
     {
       "name": "OLATUBOSUN Olatayo",
@@ -360,6 +360,26 @@
       "handle": "@Ogboye-Tutu",
       "bio": "Retired Major",
       "source": "profile_followers"
+    },
+    {
+      "name": "Augustus CJ",
+      "handle": "@emperoraustus",
+      "bio": "Augustus CJ is kind, philanthropist, and I strongly believe in human development.",
+      "source": "profile_follower"
+    },
+    {
+      "name": "Justin Iheme",
+      "handle": "@Justin",
+      "bio": "",
+      "source": "profile_follower"
+    },
+    {
+      "name": "Grant Allen Asiboje",
+      "handle": "@salaryalert",
+      "bio": "Always evolving, Grant is committed to continuous learning both online and offline constantly sharpening his skills to stay ahead in the ever-changing world.",
+      "source": "profile_follower"
     }
-  ]
+  ],
+  "last_synced": "2026-03-03T02:16:57.491760+00:00",
+  "sync_source": "follower_sweep_v2"
 }
