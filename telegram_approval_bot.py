@@ -6,6 +6,7 @@ Human-in-the-Loop: CEO reviews and approves posts before they go live
 import os
 import re
 import json
+import base64
 import asyncio
 import time
 import urllib.request
@@ -27,6 +28,15 @@ except ImportError:
 
 _BASE_URL = "https://www.lekeelekee.com"
 _GROUP_ID = "4d183887-2d5a-47b0-8226-dd6939d29694"   # African Tech Ecosystem 🌍
+
+# ── LekeeBot Module 4+5 — Chat Approval Gate + Reply Dispatcher ──────────────────
+_LEKE_CONV_ID   = "019c12b7-0ef5-73c5-92ca-1e5609f5f5bf"  # #General channel
+_STATIC_IV      = "MDAwMDAwMDAwMDAwMDAwMA=="
+_LEKEEBOT_SEND  = "SEND:"  # callback_data prefix for Module 4 SEND IT
+_LEKEEBOT_SKIP  = "SKIP:"  # callback_data prefix for Module 4 SKIP
+_LEKEEBOT_EDIT  = "EDIT:"  # callback_data prefix for Module 4 EDIT
+# draft_queue.json path (matches chat_intel_engine.py constant)
+_LEKEEBOT_QUEUE = None  # lazy-loaded
 
 
 def _lekee_login(email: str, password: str):
@@ -466,12 +476,215 @@ Use /generate to create next post"""
         print(f"🔄 Retry publish requested by CEO for {post_id}")
         await self._publish_to_leke_leke(fake_query, post_id, post, context)
 
+    # ─────────────────────────────────────────────────────────────────────────
+    # MODULE 4+5 — LEKEEBOT CHAT APPROVAL GATE + REPLY DISPATCHER
+    # ─────────────────────────────────────────────────────────────────────────
+
+    def _get_lekeebot_queue_path(self):
+        """Lazy-load path to draft_queue.json."""
+        from pathlib import Path
+        return Path(__file__).parent / "intelligence_vault" / "live" / "draft_queue.json"
+
+    def _lekeebot_load_drafts(self) -> list:
+        path = self._get_lekeebot_queue_path()
+        if not path.exists():
+            return []
+        with open(path) as f:
+            return json.load(f)
+
+    def _lekeebot_update_status(self, message_id: str, status: str, new_text: str = None):
+        path = self._get_lekeebot_queue_path()
+        drafts = self._lekeebot_load_drafts()
+        for d in drafts:
+            if d.get("message_id") == message_id:
+                d["status"] = status
+                if new_text:
+                    d["draft_text"] = new_text
+                    d["word_count"] = len(new_text.split())
+                d["actioned_at"] = datetime.now(timezone.utc).isoformat()
+                break
+        with open(path, "w") as f:
+            json.dump(drafts, f, indent=2, ensure_ascii=False)
+
+    def _lekee_send_chat_reply(self, text: str, reply_to_id: str) -> dict:
+        """
+        Module 5 — Dispatch approved reply to #General channel via direct API.
+        Encodes text as base64 ciphertext, threads to reply_to_id.
+        """
+        # Auth
+        resp = _req.post(
+            f"{_BASE_URL}/api/v1/auth/login",
+            headers={"Content-Type": "application/x-www-form-urlencoded"},
+            data={"email": os.getenv("LEKE_LEKE_EMAIL", "ceo@amdsolutions007.com"),
+                  "password": os.getenv("LEKE_LEKE_PASSWORD", "#@Amdmail@007")},
+            timeout=20,
+        )
+        data = resp.json() if "application/json" in resp.headers.get("content-type","") else {}
+        token = (data.get("data", {}).get("token") or data.get("token") or data.get("access_token"))
+        if not token:
+            raise RuntimeError(f"LekeeLekee auth failed — HTTP {resp.status_code}")
+
+        # Send
+        ciphertext = base64.b64encode(text.encode("utf-8")).decode("ascii")
+        payload = {"ciphertext": ciphertext, "iv": _STATIC_IV}
+        if reply_to_id and reply_to_id != "TEST_MSG_001":
+            payload["reply_to"] = reply_to_id
+
+        send_resp = _req.post(
+            f"{_BASE_URL}/api/v1/conversations/{_LEKE_CONV_ID}/messages",
+            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+            json=payload,
+            timeout=20,
+        )
+        if send_resp.status_code not in (200, 201):
+            raise RuntimeError(f"Send failed — HTTP {send_resp.status_code}: {send_resp.text[:200]}")
+        return send_resp.json() if "application/json" in send_resp.headers.get("content-type","") else {}
+
+    async def _handle_lekeebot_callback(self, query, data: str, context):
+        """Handle SEND: / SKIP: / EDIT: callbacks from Module 4 draft cards."""
+        from telegram.constants import ParseMode
+
+        if data.startswith(_LEKEEBOT_SEND):
+            message_id = data[len(_LEKEEBOT_SEND):]
+            draft = next((d for d in self._lekeebot_load_drafts()
+                          if d.get("message_id") == message_id), None)
+            if not draft:
+                await query.edit_message_text("⚠️ Draft not found — may have been actioned already.")
+                return
+
+            # Instant CEO feedback — Async Callback Law
+            await query.edit_message_text(
+                f"⏳ <b>Dispatching to LekeeLekee...</b>\n\n"
+                f"👤 {draft.get('sender_name','')}  <code>{draft.get('sender_handle','')}</code>\n"
+                f"🏷️ {draft.get('lead_tag','')}",
+                parse_mode=ParseMode.HTML,
+            )
+            asyncio.create_task(self._lekeebot_dispatch_task(query, draft))
+
+        elif data.startswith(_LEKEEBOT_SKIP):
+            message_id = data[len(_LEKEEBOT_SKIP):]
+            draft = next((d for d in self._lekeebot_load_drafts()
+                          if d.get("message_id") == message_id), None)
+            sender = draft.get("sender_handle", "?") if draft else "?"
+            self._lekeebot_update_status(message_id, "skipped")
+            await query.edit_message_text(
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"⏭️ <b>SKIPPED</b>\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+                f"👤 <code>{sender}</code>\n"
+                f"<i>Draft archived. No reply sent.</i>\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━",
+                parse_mode=ParseMode.HTML,
+            )
+            print(f"[LEKEEBOT] ⏭️  Skipped draft for {sender}")
+
+        elif data.startswith(_LEKEEBOT_EDIT):
+            message_id = data[len(_LEKEEBOT_EDIT):]
+            draft = next((d for d in self._lekeebot_load_drafts()
+                          if d.get("message_id") == message_id), None)
+            if not draft:
+                await query.edit_message_text("⚠️ Draft not found.")
+                return
+            # Store in user_data so text handler picks it up
+            context.user_data["lekeebot_edit"] = {
+                "message_id": message_id,
+                "draft":      draft,
+            }
+            await query.edit_message_text(
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"✏️ <b>EDIT MODE — {draft.get('sender_handle','')}</b>\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+                f"<b>Current draft:</b>\n"
+                f"<i>{draft.get('draft_text','')[:600]}</i>\n\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"📝 <b>Type your corrected reply now.\nSend /cancel to abort.</b>",
+                parse_mode=ParseMode.HTML,
+            )
+
+    async def _lekeebot_dispatch_task(self, query, draft: dict):
+        """Background task: dispatch reply, update card. Async Callback Law compliant."""
+        from telegram import InlineKeyboardMarkup, InlineKeyboardButton
+        from telegram.constants import ParseMode
+        try:
+            result  = self._lekee_send_chat_reply(draft["draft_text"], draft.get("reply_to_id",""))
+            post_id = result.get("id", result.get("data", {}).get("id", "sent"))
+
+            await query.edit_message_text(
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"✅ <b>DISPATCHED TO #GENERAL</b>\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+                f"👤 <b>{draft.get('sender_name','')}</b>  <code>{draft.get('sender_handle','')}</code>\n"
+                f"🏷️  {draft.get('lead_tag','')}\n"
+                f"🆔 Post ID: <code>{str(post_id)[:40]}</code>\n\n"
+                f"<i>Threaded reply posted · {datetime.now(timezone.utc).strftime('%H:%M UTC')}</i>\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━",
+                parse_mode=ParseMode.HTML,
+            )
+            self._lekeebot_update_status(draft["message_id"], "sent")
+            print(f"[LEKEEBOT] ✅ Sent reply {draft.get('sender_handle')} → post_id={post_id}")
+
+        except Exception as exc:
+            from telegram import InlineKeyboardMarkup, InlineKeyboardButton
+            keyboard = InlineKeyboardMarkup([[
+                InlineKeyboardButton("✅  SEND IT",  callback_data=f"SEND:{draft['message_id']}"),
+                InlineKeyboardButton("⏭️  SKIP",    callback_data=f"SKIP:{draft['message_id']}"),
+            ]])
+            await query.edit_message_text(
+                f"❌ <b>DISPATCH FAILED</b>\n\n"
+                f"<code>{str(exc)[:300]}</code>\n\n"
+                f"<i>Tap SEND IT to retry or SKIP to discard.</i>",
+                parse_mode=ParseMode.HTML,
+                reply_markup=keyboard,
+            )
+            print(f"[LEKEEBOT] ❌ Dispatch failed for {draft.get('sender_handle')}: {exc}")
+
+    async def _handle_lekeebot_edit_input(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Intercepts CEO's plain-text reply when EDIT mode is active."""
+        if str(update.effective_user.id) != str(CEO_TELEGRAM_ID):
+            return
+
+        edit_ctx = context.user_data.pop("lekeebot_edit", None)
+        if not edit_ctx:
+            return  # not in edit mode — fall through to other handlers
+
+        new_text   = update.message.text.strip()
+        draft      = edit_ctx["draft"]
+        message_id = edit_ctx["message_id"]
+
+        # Save updated draft
+        self._lekeebot_update_status(message_id, "pending_approval", new_text)
+        draft["draft_text"] = new_text
+
+        # Re-send the revised card with action buttons
+        from telegram.constants import ParseMode
+        keyboard = InlineKeyboardMarkup([[
+            InlineKeyboardButton("✅  SEND IT",  callback_data=f"SEND:{message_id}"),
+            InlineKeyboardButton("✏️  EDIT",   callback_data=f"EDIT:{message_id}"),
+            InlineKeyboardButton("⏭️  SKIP",    callback_data=f"SKIP:{message_id}"),
+        ]])
+        await update.message.reply_text(
+            f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            f"✏️ <b>REVISED DRAFT</b>  <code>{draft.get('sender_handle','')}</code>\n"
+            f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+            f"{new_text}\n\n"
+            f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            f"<i>{len(new_text.split())} words · ready to send</i>",
+            parse_mode=ParseMode.HTML,
+            reply_markup=keyboard,
+        )
+        print(f"[LEKEEBOT] ✏️  Edit received for {draft.get('sender_handle')} — card re-queued")
+
     async def button_callback(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle approval/rejection button clicks (36-states posts + AI draft replies)"""
+        """Handle approval/rejection button clicks (36-states posts + AI draft replies + LekeeBot)"""
         query = update.callback_query
         await query.answer()
 
         data = query.data or ""
+
+        # ── BRANCH C: LekeeBot Module 4 — Chat Draft Approval (SEND:/EDIT:/SKIP:) ──
+        if data.startswith(_LEKEEBOT_SEND) or data.startswith(_LEKEEBOT_SKIP) or data.startswith(_LEKEEBOT_EDIT):
+            await self._handle_lekeebot_callback(query, data, context)
+            return
 
         # ── BRANCH A: Sync Engine Draft Reply (dreply_approve_ / dreply_skip_) ──
         if data.startswith(_DREPLY_PREFIX):
@@ -992,6 +1205,15 @@ Use /generate to create next post"""
                 tg_filters.TEXT & tg_filters.Regex(r"^/publish_"),
                 self.publish_command,
             )
+        )
+
+        # LekeeBot EDIT text handler — fires when CEO is in edit mode (group=1, lower priority)
+        self.app.add_handler(
+            MessageHandler(
+                tg_filters.TEXT & ~tg_filters.COMMAND & tg_filters.User(int(CEO_TELEGRAM_ID) if CEO_TELEGRAM_ID else 0),
+                self._handle_lekeebot_edit_input,
+            ),
+            group=1,
         )
 
         # Buttons
