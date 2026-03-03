@@ -1,0 +1,19 @@
+{
+  "drafts": [
+    {
+      "status": "PENDING",
+      "author": "@charlie_pyper",
+      "their_message": "Excited to see AMD Solutions 007 growing in our ecosystem! How are you using LekeeLekee for your clients?",
+      "ai_draft": "Charlie \u2014 you've built remarkable infrastructure here. AMD is actively using LekeeLekee as the primary distribution layer for our Signal Beacon feed. Let's align on deeper integration \u2014 our audience and yours overlap precisely. \ud83c\udf0d #AfricanTech",
+      "score": 76,
+      "reasons": [
+        "vip_sender",
+        "topic_match:tech,ecosystem",
+        "contains_question"
+      ],
+      "generated_at": "2026-03-02T12:13:12.524776+00:00",
+      "fingerprint": "438b434aad19c6fbf9d001582f240bb0"
+    }
+  ],
+  "last_updated": "2026-03-02T12:13:12.530160+00:00"
+}

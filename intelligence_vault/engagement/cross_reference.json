@@ -1,17 +1,41 @@
 {
   "super_fans": {
-    "count": 1,
+    "count": 5,
     "members": [
+      {
+        "name": "Cephason Kings isuwa",
+        "handle": "@Skycruz",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Godwin Ukeje (Chigo)",
+        "handle": "@chigofficial",
+        "role": "member",
+        "source": "group_members"
+      },
       {
         "name": "Raji Idris",
         "handle": "@rajiidris",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Luqman Abubakri",
+        "handle": "@Abu4639",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "deborah david",
+        "handle": "@derhbee",
         "role": "member",
         "source": "group_members"
       }
     ]
   },
   "group_only": {
-    "count": 48,
+    "count": 122,
     "members": [
       {
         "name": "Olawale Shoyemi",
@@ -20,200 +44,26 @@
         "source": "group_members"
       },
       {
-        "name": "Obah Edwin",
-        "handle": "@GreenTech",
+        "name": "Aaron Philip",
+        "handle": "@AaronPhilip_",
         "role": "member",
         "source": "group_members"
       },
       {
-        "name": "Joshua Omoniyi",
-        "handle": "@JoshuaOmoniyi",
+        "name": "Abednego Bitrus",
+        "handle": "@Abedbig5",
         "role": "member",
         "source": "group_members"
       },
       {
-        "name": "James OKARIMIA",
-        "handle": "@James07jok",
+        "name": "Ademuyiwa Olatunbosun",
+        "handle": "@Tubbyquest",
         "role": "member",
         "source": "group_members"
       },
       {
-        "name": "Sylvanus Kemie",
-        "handle": "@kemie_sylvanus",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "ldris buhari alhassan",
-        "handle": "@idrisb",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Benjamin",
-        "handle": "@evil",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Tester001",
-        "handle": "@tester001",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Joshua Daniels",
-        "handle": "@JoshuaDaniels75",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Aguwa Kenneth",
-        "handle": "@aguwakenneth",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Patrick Enemudo",
-        "handle": "@LivingFlame",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Daniel Adeyanju",
-        "handle": "@DigitalTricks",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Samuel Olorunfemi",
-        "handle": "@Sam-abs",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Arinze Okoye",
-        "handle": "@kayzen",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Olasunkanmi Hayes",
-        "handle": "@Sunky_hayes",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Pharm. Cyril Obinna Ezuruike",
-        "handle": "@Obinna101",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Louis",
-        "handle": "@oka",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Efehi Asowata",
-        "handle": "@Wateson",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Christian",
-        "handle": "@Ewoh",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Samuel Alamu",
-        "handle": "@samcecilpds",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Ladi Omole",
-        "handle": "@ladiomole",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Harmattan",
-        "handle": "@harmattan",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Victor Mathias",
-        "handle": "@victoraspire",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Arimaha Eze",
-        "handle": "@Arimeze",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Osuji",
-        "handle": "@Otigbuenyinya1",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Baba",
-        "handle": "@Bellosam",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Gabriel Oluwalayomi",
-        "handle": "@GOluwalayomi",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Omotoso Oluseye",
-        "handle": "@OmoTee",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Michael Iziogba",
-        "handle": "@Emperormizi",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Agbasoga Nkem",
-        "handle": "@Nke",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Sani Danjumma",
-        "handle": "@Sanidanjumma5",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "GLOBAL ADVERTISING AND MARKETING HUB",
-        "handle": "@Global-Ads-And-Marketing-Hub",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "Albert Albert",
-        "handle": "@loveworld2026",
-        "role": "member",
-        "source": "group_members"
-      },
-      {
-        "name": "321234vd",
-        "handle": "@4ziwuvd4",
+        "name": "Akin Soyoye",
+        "handle": "@Akin55",
         "role": "member",
         "source": "group_members"
       },
@@ -224,32 +74,140 @@
         "source": "group_members"
       },
       {
-        "name": "Reggy Williams",
-        "handle": "@webcityz",
+        "name": "Albert Albert",
+        "handle": "@loveworld2026",
         "role": "member",
         "source": "group_members"
       },
       {
-        "name": "Stephen G Agbo",
-        "handle": "@SteveG",
+        "name": "Ayemoba",
+        "handle": "@Solomon",
         "role": "member",
         "source": "group_members"
       },
       {
-        "name": "Nanpan",
-        "handle": "@Nwan",
+        "name": "Balsa Kokovic",
+        "handle": "@balsa",
         "role": "member",
         "source": "group_members"
       },
       {
-        "name": "Prof. Yunusa Salami",
-        "handle": "@Yunusalam",
+        "name": "Charlie Pyper",
+        "handle": "@charlie_pyper",
         "role": "member",
         "source": "group_members"
       },
       {
-        "name": "Bello Ofuje Jude",
-        "handle": "@ofujebello",
+        "name": "Chidiebube Ekwe",
+        "handle": "@Thee",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Chiedoziem Peter",
+        "handle": "@IAmLadon",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Chinedu Nwagwu",
+        "handle": "@Chixy",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Christian",
+        "handle": "@Ewoh",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Daniel Adeyanju",
+        "handle": "@DigitalTricks",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "David Zadok",
+        "handle": "@David-_Zadok1",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Destiny Brotobor",
+        "handle": "@destinybrotobor",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Efehi Asowata",
+        "handle": "@Wateson",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Emmanuel Arinze Chukwuebuka",
+        "handle": "@Arrysmart",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Emmanuel Oyeleye",
+        "handle": "@emmieybliss",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Emmanuel Thompson",
+        "handle": "@Allen_Allison",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Eugene Uka",
+        "handle": "@Genix",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Femi Akinyemi",
+        "handle": "@femiakinyemi",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Fred Ojeh",
+        "handle": "@Freddy",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "GLOBAL ADVERTISING AND MARKETING HUB",
+        "handle": "@Global-Ads-And-Marketing-Hub",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Godson Nwankwo",
+        "handle": "@Real_Gee",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Grant Allen Asiboje",
+        "handle": "@salaryalert",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "IMADONMWINYI Ambrose",
+        "handle": "@AIprompting",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Ifiti",
+        "handle": "@ifiti",
         "role": "member",
         "source": "group_members"
       },
@@ -260,20 +218,74 @@
         "source": "group_members"
       },
       {
-        "name": "Marvellous Balogun",
-        "handle": "@Marvinz",
+        "name": "James Lambie",
+        "handle": "@Jimbob",
         "role": "member",
         "source": "group_members"
       },
       {
-        "name": "Anthony Okpechi",
-        "handle": "@StChisco",
+        "name": "Joshua Omoniyi",
+        "handle": "@JoshuaOmoniyi",
         "role": "member",
         "source": "group_members"
       },
       {
-        "name": "Felix A. Momoh",
-        "handle": "@felyx",
+        "name": "Kayode Jegede",
+        "handle": "@Kay_Jegs",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Kenneth",
+        "handle": "@Usiobaifo",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Martins Omagbitse",
+        "handle": "@martins_montana",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Michael Daniel Itodo",
+        "handle": "@Michaelitodo",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Michael Iziogba",
+        "handle": "@Emperormizi",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Moses Kahanya",
+        "handle": "@Khamos",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Musa Mohammed",
+        "handle": "@Nastyblaze",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Nanpan",
+        "handle": "@Nwan",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Oba Adeoye",
+        "handle": "@obaadeoye",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Obum Uba",
+        "handle": "@Obum",
         "role": "member",
         "source": "group_members"
       },
@@ -284,8 +296,236 @@
         "source": "group_members"
       },
       {
-        "name": "HBS KOIKI",
-        "handle": "@power444glory",
+        "name": "Olaniyi Evans",
+        "handle": "@Prof_Olaniyi_Evans",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Oluseye Ajose-Adeogun",
+        "handle": "@Super_S101",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Owumi Robinson",
+        "handle": "@robi4luv",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Patrick Enemudo",
+        "handle": "@LivingFlame",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Pharm. Cyril Obinna Ezuruike",
+        "handle": "@Obinna101",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Reggy Williams",
+        "handle": "@webcityz",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "SAPELE SIMON",
+        "handle": "@SAPELE",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Sam",
+        "handle": "@srayz",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Samuel Alamu",
+        "handle": "@samcecilpds",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Samuel Olorunfemi",
+        "handle": "@Sam-abs",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Samuel Owujie",
+        "handle": "@Samking",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "SciGuy",
+        "handle": "@SciGuy",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Shadrach Daniel Anyamelem",
+        "handle": "@magnificent",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Sisi Eko",
+        "handle": "@sisieko",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Sushant Adhikarii",
+        "handle": "@sushant_07",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Sylvanus Kemie",
+        "handle": "@kemie_sylvanus",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Temitope Aluko",
+        "handle": "@thoppy",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Terungwa  Vershima",
+        "handle": "@Desmond",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Udoekong Umoudofia",
+        "handle": "@udowar",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Uwakmfon Earnest Essen",
+        "handle": "@UwakkyOffixial",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Uyi Asemota",
+        "handle": "@asemed",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Victor Mathias",
+        "handle": "@victoraspire",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Witty Global",
+        "handle": "@Witty_",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "321234vd",
+        "handle": "@4ziwuvd4",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Adefolarin",
+        "handle": "@Afol75",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Adeoye oluwabukola",
+        "handle": "@Okrika_buqaizo_thriftstore",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Agbasoga Nkem",
+        "handle": "@Nke",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Aguwa Kenneth",
+        "handle": "@aguwakenneth",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Anthony Okpechi",
+        "handle": "@StChisco",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Arimaha Eze",
+        "handle": "@Arimeze",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Arinze Okoye",
+        "handle": "@kayzen",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Baba",
+        "handle": "@Bellosam",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Bello Ofuje Jude",
+        "handle": "@ofujebello",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Ben juro",
+        "handle": "@odogwu1",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Benjamin",
+        "handle": "@evil",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Chinonso okeke",
+        "handle": "@Valle",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Daniel Akerele",
+        "handle": "@danbol",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Daniel dickson",
+        "handle": "@dicky",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Dguy Dguy",
+        "handle": "@Dguy",
         "role": "member",
         "source": "group_members"
       },
@@ -296,13 +536,240 @@
         "source": "group_members"
       },
       {
+        "name": "Ebrima Danjo",
+        "handle": "@Danjo",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Ejeh Abigail Abeyi",
+        "handle": "@Abigail",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Felix A. Momoh",
+        "handle": "@felyx",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Forward",
+        "handle": "@PBabs",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Gabriel Oluwalayomi",
+        "handle": "@GOluwalayomi",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "HBS KOIKI",
+        "handle": "@power444glory",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Harmattan",
+        "handle": "@harmattan",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Ibrahim Adetona",
+        "handle": "@iadetona",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Jake",
+        "handle": "@JakeS",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "James Lambie",
+        "handle": "@james_lambie",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "James OKARIMIA",
+        "handle": "@James07jok",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Jonathan",
+        "handle": "@AgentKyles19",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Joshua Daniels",
+        "handle": "@JoshuaDaniels75",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Ladi Omole",
+        "handle": "@ladiomole",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Lazarus Istifanus Kpasaba",
+        "handle": "@kpasaba",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Louis",
+        "handle": "@oka",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Marvellous Balogun",
+        "handle": "@Marvinz",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Obah Edwin",
+        "handle": "@GreenTech",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Obah Edwin",
+        "handle": "@GreenTeck",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Olasunkanmi Hayes",
+        "handle": "@Sunky_hayes",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Olu",
+        "handle": "@Oludee",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Oluseye Onadipe",
+        "handle": "@Seyebaba",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Omotoso Oluseye",
+        "handle": "@OmoTee",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Osuji",
+        "handle": "@Otigbuenyinya1",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Prof. Yunusa Salami",
+        "handle": "@Yunusalam",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Richards Diejomaoh",
+        "handle": "@rdiejomaoh",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Sani Danjumma",
+        "handle": "@Sanidanjumma5",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Stephen G Agbo",
+        "handle": "@SteveG",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Teera Parson",
+        "handle": "@Tee",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Terngu Shadrach",
+        "handle": "@shadyboy",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Tersoo musa Ade okoro",
+        "handle": "@Promisejp",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Tester001",
+        "handle": "@tester001",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "UMUKORO JOSHUA",
+        "handle": "@mukorodgreat",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
         "name": "VALENTINE UCHENNA NDUKWE",
         "handle": "@SAINTUC",
         "role": "member",
         "source": "group_members"
+      },
+      {
+        "name": "Vandelun Amokaha",
+        "handle": "@Capt_jack-sparrow",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "Vincent Abu",
+        "handle": "@DAVINZ01",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "chidinma okereke",
+        "handle": "@growthpanda_",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "cyril Olisanyem",
+        "handle": "@cyntechtic",
+        "role": "member",
+        "source": "group_members"
+      },
+      {
+        "name": "ldris buhari alhassan",
+        "handle": "@idrisb",
+        "role": "member",
+        "source": "group_members"
       }
-    ],
-    "note": "TARGET: Already in the group. One follow-request converts them to Super-Fans."
+    ]
   },
   "profile_only": {
     "count": 59,
@@ -663,5 +1130,6 @@
       }
     ],
     "note": "TARGET: Following the CEO's profile. One group invite converts them."
-  }
+  },
+  "last_synced": "2026-03-03T01:46:55.581951+00:00"
 }

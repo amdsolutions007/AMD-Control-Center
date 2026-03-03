@@ -1,624 +1,480 @@
 {
-  "generated_at": "2026-03-03T01:46:55.581951+00:00",
-  "empire_citizen_report": {
-    "profile_followers": 60,
-    "group_members": 127,
-    "overlap_super_fans": 5,
-    "unique_total_reach": 177,
-    "formula": "60 profile followers + 127 group members − 5 overlap = 177 unique citizens"
-  },
-  "growth_intelligence": {
-    "previous_vault_count": 49,
-    "live_api_count": 127,
-    "net_new_citizens": 78,
-    "api_raw_records": 128,
-    "duplicate_accounts_detected": 1,
-    "data_integrity_note": "LekeeLekee API returns 128 raw member records. After handle deduplication, 127 unique authenticated citizens confirmed. The 1 duplicate is a user with two accounts (same handle appearing twice in API pagination). Vault stores unique citizens only.",
-    "group_only_unconverted": 121,
-    "profile_only_unconverted": 55,
-    "conversion_note": "121 group members haven't followed the CEO profile yet — highest-priority invite targets. 55 profile followers haven't joined the group yet."
-  },
-  "engagement_breakdown": {
-    "new_follower": 68,
-    "group_invite": 2,
-    "photo_reaction": 1,
-    "joined_group": 125
-  },
-  "spam_alerts_total": 9,
-  "top_super_fans": [
-    "Cephason Kings isuwa",
-    "Godwin Ukeje (Chigo)",
-    "Raji Idris",
-    "Luqman Abubakri",
-    "deborah david"
-  ],
-  "training_data": {
-    "ceo_samples": 573,
-    "style_profile": {
-      "total_training_samples": 573,
-      "avg_message_length_chars": 521,
-      "hashtag_usage_rate": "63%",
-      "emoji_usage_rate": "61%",
-      "signature_pattern": "Executive authority. Thought leadership. Never casual. Ends with #hashtags.",
-      "recurring_phrases": [
-        "Let's build 🌍",
-        "Solutions 007",
-        "#007Systems",
-        "#AfricanTech",
-        "#BuildInNaija",
-        "AMD Intel:",
-        "The floor is yours",
-        "Welcome to the ecosystem"
-      ]
-    }
-  },
-  "vault_structure": {
-    "members/profile/followers.json": "60 profile followers",
-    "members/group/members.json": "127 group members (v2 detailed)",
-    "engagement/cross_reference.json": "Super-fans, group-only, profile-only splits",
-    "engagement/activity_log.json": "196 sanitized events",
-    "archives/post_archive.txt": "Full post history",
-    "archives/group_messages_archive.txt": "Full group chat history",
-    "archives/spam_alerts.json": "9 stripped alerts",
-    "training_data/ceo_messages.json": "573 CEO message samples",
-    "training_data/member_interactions.json": "58 member samples",
-    "reports/empire_citizen_report.json": "This report",
-    "last_roster_sync": "2026-03-03T01:46:55.581951+00:00"
-  },
-  "sector_breakdown": {
-    "Ecosystem Citizen": 127
-  },
-  "engagement_tiers": {
-    "high_60_plus": 0,
-    "medium_30_59": 0,
-    "low_under_30": 127
-  },
-  "new_citizens_this_sync": [
+  "sync_time": "2026-03-03T01:46:55.581951+00:00",
+  "live_api_count": 127,
+  "previous_count": 0,
+  "new_citizens": 78,
+  "new_citizen_list": [
     {
       "handle": "@charlie_pyper",
       "name": "Charlie Pyper",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-01 08:20 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-01 08:20 UTC"
     },
     {
       "handle": "@james_lambie",
       "name": "James Lambie",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-05 14:54 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-05 14:54 UTC"
     },
     {
       "handle": "@Jimbob",
       "name": "James Lambie",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-01 10:29 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-01 10:29 UTC"
     },
     {
       "handle": "@sushant_07",
       "name": "Sushant Adhikarii",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-25 07:11 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-25 07:11 UTC"
     },
     {
       "handle": "@magnificent",
       "name": "Shadrach Daniel Anyamelem",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-01-31 11:50 UTC",
-      "engagement_score": 10
+      "joined": "2026-01-31 11:50 UTC"
     },
     {
       "handle": "@balsa",
       "name": "Balsa Kokovic",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-01-31 21:17 UTC",
-      "engagement_score": 10
+      "joined": "2026-01-31 21:17 UTC"
     },
     {
       "handle": "@Solomon",
       "name": "Ayemoba",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-03 10:23 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-03 10:23 UTC"
     },
     {
       "handle": "@Abedbig5",
       "name": "Abednego Bitrus",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-04 17:55 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-04 17:55 UTC"
     },
     {
       "handle": "@emmieybliss",
       "name": "Emmanuel Oyeleye",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-01-31 19:47 UTC",
-      "engagement_score": 10
+      "joined": "2026-01-31 19:47 UTC"
     },
     {
       "handle": "@Valle",
       "name": "Chinonso okeke",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-01-31 07:20 UTC",
-      "engagement_score": 0
+      "joined": "2026-01-31 07:20 UTC"
     },
     {
       "handle": "@SAPELE",
       "name": "SAPELE SIMON",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-01-31 07:26 UTC",
-      "engagement_score": 10
+      "joined": "2026-01-31 07:26 UTC"
     },
     {
       "handle": "@SciGuy",
       "name": "SciGuy",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-01-31 14:15 UTC",
-      "engagement_score": 10
+      "joined": "2026-01-31 14:15 UTC"
     },
     {
       "handle": "@Akin55",
       "name": "Akin Soyoye",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-01-31 08:33 UTC",
-      "engagement_score": 10
+      "joined": "2026-01-31 08:33 UTC"
     },
     {
       "handle": "@Kay_Jegs",
       "name": "Kayode Jegede",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-02 02:06 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-02 02:06 UTC"
     },
     {
       "handle": "@srayz",
       "name": "Sam",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-01-31 13:51 UTC",
-      "engagement_score": 10
+      "joined": "2026-01-31 13:51 UTC"
     },
     {
       "handle": "@AgentKyles19",
       "name": "Jonathan",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-01-31 22:24 UTC",
-      "engagement_score": 0
+      "joined": "2026-01-31 22:24 UTC"
     },
     {
       "handle": "@Skycruz",
       "name": "Cephason Kings isuwa",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-06 08:57 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-06 08:57 UTC"
     },
     {
       "handle": "@asemed",
       "name": "Uyi Asemota",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-01 00:02 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-01 00:02 UTC"
     },
     {
       "handle": "@obaadeoye",
       "name": "Oba Adeoye",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-01 18:38 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-01 18:38 UTC"
     },
     {
       "handle": "@Abigail",
       "name": "Ejeh Abigail Abeyi",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-01 15:13 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-01 15:13 UTC"
     },
     {
       "handle": "@Freddy",
       "name": "Fred Ojeh",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-03 06:24 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-03 06:24 UTC"
     },
     {
       "handle": "@Desmond",
       "name": "Terungwa  Vershima",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-17 08:21 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-17 08:21 UTC"
     },
     {
       "handle": "@destinybrotobor",
       "name": "Destiny Brotobor",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-04 19:20 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-04 19:20 UTC"
     },
     {
       "handle": "@Okrika_buqaizo_thriftstore",
       "name": "Adeoye oluwabukola",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-02 09:11 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-02 09:11 UTC"
     },
     {
       "handle": "@dicky",
       "name": "Daniel dickson",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-02 10:23 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-02 10:23 UTC"
     },
     {
       "handle": "@Tubbyquest",
       "name": "Ademuyiwa Olatunbosun",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-02 14:06 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-02 14:06 UTC"
     },
     {
       "handle": "@mukorodgreat",
       "name": "UMUKORO JOSHUA",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-02 11:12 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-02 11:12 UTC"
     },
     {
       "handle": "@Prof_Olaniyi_Evans",
       "name": "Olaniyi Evans",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-02 18:36 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-02 18:36 UTC"
     },
     {
       "handle": "@kpasaba",
       "name": "Lazarus Istifanus Kpasaba",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-02 10:27 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-02 10:27 UTC"
     },
     {
       "handle": "@Tee",
       "name": "Teera Parson",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-02 10:19 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-02 10:19 UTC"
     },
     {
       "handle": "@Real_Gee",
       "name": "Godson Nwankwo",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-02 11:08 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-02 11:08 UTC"
     },
     {
       "handle": "@Nastyblaze",
       "name": "Musa Mohammed",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-05 14:50 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-05 14:50 UTC"
     },
     {
       "handle": "@Abu4639",
       "name": "Luqman Abubakri",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-02 13:10 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-02 13:10 UTC"
     },
     {
       "handle": "@chigofficial",
       "name": "Godwin Ukeje (Chigo)",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-02 16:01 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-02 16:01 UTC"
     },
     {
       "handle": "@thoppy",
       "name": "Temitope Aluko",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-02 15:07 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-02 15:07 UTC"
     },
     {
       "handle": "@rdiejomaoh",
       "name": "Richards Diejomaoh",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-08 19:10 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-08 19:10 UTC"
     },
     {
       "handle": "@AIprompting",
       "name": "IMADONMWINYI Ambrose",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-02 17:31 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-02 17:31 UTC"
     },
     {
       "handle": "@ifiti",
       "name": "Ifiti",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-03 19:06 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-03 19:06 UTC"
     },
     {
       "handle": "@Usiobaifo",
       "name": "Kenneth",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-02 20:02 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-02 20:02 UTC"
     },
     {
       "handle": "@Super_S101",
       "name": "Oluseye Ajose-Adeogun",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-02 23:46 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-02 23:46 UTC"
     },
     {
       "handle": "@IAmLadon",
       "name": "Chiedoziem Peter",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-04 06:45 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-04 06:45 UTC"
     },
     {
       "handle": "@cyntechtic",
       "name": "cyril Olisanyem",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-04 05:55 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-04 05:55 UTC"
     },
     {
       "handle": "@AaronPhilip_",
       "name": "Aaron Philip",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-16 19:06 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-16 19:06 UTC"
     },
     {
       "handle": "@JakeS",
       "name": "Jake",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-05 13:34 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-05 13:34 UTC"
     },
     {
       "handle": "@odogwu1",
       "name": "Ben juro",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-13 18:34 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-13 18:34 UTC"
     },
     {
       "handle": "@femiakinyemi",
       "name": "Femi Akinyemi",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-03 12:53 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-03 12:53 UTC"
     },
     {
       "handle": "@DAVINZ01",
       "name": "Vincent Abu",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-03 13:04 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-03 13:04 UTC"
     },
     {
       "handle": "@Seyebaba",
       "name": "Oluseye Onadipe",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-03 13:27 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-03 13:27 UTC"
     },
     {
       "handle": "@Obum",
       "name": "Obum Uba",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-04 12:37 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-04 12:37 UTC"
     },
     {
       "handle": "@growthpanda_",
       "name": "chidinma okereke",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-03 19:33 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-03 19:33 UTC"
     },
     {
       "handle": "@udowar",
       "name": "Udoekong Umoudofia",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-03 20:34 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-03 20:34 UTC"
     },
     {
       "handle": "@Samking",
       "name": "Samuel Owujie",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-04 01:09 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-04 01:09 UTC"
     },
     {
       "handle": "@robi4luv",
       "name": "Owumi Robinson",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-04 09:13 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-04 09:13 UTC"
     },
     {
       "handle": "@Dguy",
       "name": "Dguy Dguy",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-04 20:12 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-04 20:12 UTC"
     },
     {
       "handle": "@Thee",
       "name": "Chidiebube Ekwe",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-05 20:18 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-05 20:18 UTC"
     },
     {
       "handle": "@Khamos",
       "name": "Moses Kahanya",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-06 17:18 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-06 17:18 UTC"
     },
     {
       "handle": "@Chixy",
       "name": "Chinedu Nwagwu",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-10 08:20 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-10 08:20 UTC"
     },
     {
       "handle": "@derhbee",
       "name": "deborah david",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-06 16:07 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-06 16:07 UTC"
     },
     {
       "handle": "@UwakkyOffixial",
       "name": "Uwakmfon Earnest Essen",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-07 14:44 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-07 14:44 UTC"
     },
     {
       "handle": "@sisieko",
       "name": "Sisi Eko",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-07 02:54 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-07 02:54 UTC"
     },
     {
       "handle": "@Allen_Allison",
       "name": "Emmanuel Thompson",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-17 05:25 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-17 05:25 UTC"
     },
     {
       "handle": "@martins_montana",
       "name": "Martins Omagbitse",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-17 08:11 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-17 08:11 UTC"
     },
     {
       "handle": "@GreenTeck",
       "name": "Obah Edwin",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-21 12:14 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-21 12:14 UTC"
     },
     {
       "handle": "@Witty_",
       "name": "Witty Global",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-03-02 08:20 UTC",
-      "engagement_score": 10
+      "joined": "2026-03-02 08:20 UTC"
     },
     {
       "handle": "@Capt_jack-sparrow",
       "name": "Vandelun Amokaha",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-17 16:51 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-17 16:51 UTC"
     },
     {
       "handle": "@Danjo",
       "name": "Ebrima Danjo",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-17 17:39 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-17 17:39 UTC"
     },
     {
       "handle": "@iadetona",
       "name": "Ibrahim Adetona",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-17 19:25 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-17 19:25 UTC"
     },
     {
       "handle": "@Genix",
       "name": "Eugene Uka",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-19 15:19 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-19 15:19 UTC"
     },
     {
       "handle": "@Oludee",
       "name": "Olu",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-17 20:26 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-17 20:26 UTC"
     },
     {
       "handle": "@danbol",
       "name": "Daniel Akerele",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-18 02:57 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-18 02:57 UTC"
     },
     {
       "handle": "@Arrysmart",
       "name": "Emmanuel Arinze Chukwuebuka",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-18 10:30 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-18 10:30 UTC"
     },
     {
       "handle": "@Afol75",
       "name": "Adefolarin",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-18 17:44 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-18 17:44 UTC"
     },
     {
       "handle": "@PBabs",
       "name": "Forward",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-28 19:03 UTC",
-      "engagement_score": 0
+      "joined": "2026-02-28 19:03 UTC"
     },
     {
       "handle": "@David-_Zadok1",
       "name": "David Zadok",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-28 00:10 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-28 00:10 UTC"
     },
     {
       "handle": "@Michaelitodo",
       "name": "Michael Daniel Itodo",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-02-28 12:55 UTC",
-      "engagement_score": 10
+      "joined": "2026-02-28 12:55 UTC"
     },
     {
       "handle": "@salaryalert",
       "name": "Grant Allen Asiboje",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-03-01 07:18 UTC",
-      "engagement_score": 10
+      "joined": "2026-03-01 07:18 UTC"
     },
     {
       "handle": "@shadyboy",
       "name": "Terngu Shadrach",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-03-01 22:40 UTC",
-      "engagement_score": 0
+      "joined": "2026-03-01 22:40 UTC"
     },
     {
       "handle": "@Promisejp",
       "name": "Tersoo musa Ade okoro",
       "sector": "Ecosystem Citizen",
-      "joined": "2026-03-02 15:24 UTC",
-      "engagement_score": 0
+      "joined": "2026-03-02 15:24 UTC"
     }
-  ]
+  ],
+  "sector_breakdown": {
+    "Ecosystem Citizen": 127
+  },
+  "sync_status": "VAULT SYNCHRONIZED AT 127"
 }

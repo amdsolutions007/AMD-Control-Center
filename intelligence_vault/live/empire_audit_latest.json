@@ -1,0 +1,55 @@
+{
+  "audit_time": "2026-03-03T01:09:12.486970+00:00",
+  "total_members": 100,
+  "total_followers": 0,
+  "newest_5": [
+    {
+      "handle": "Witty_",
+      "name": "Witty Global",
+      "joined": "2026-03-02 08:20 UTC",
+      "followers": 0,
+      "is_whale": false,
+      "vault_note": "  ⚪ NEW: Not in Intelligence Vault — adding to tracking."
+    },
+    {
+      "handle": "sushant_07",
+      "name": "Sushant Adhikarii",
+      "joined": "2026-02-25 07:11 UTC",
+      "followers": 0,
+      "is_whale": false,
+      "vault_note": "  ⚪ NEW: Not in Intelligence Vault — adding to tracking."
+    },
+    {
+      "handle": "OmoTee",
+      "name": "Omotoso Oluseye",
+      "joined": "2026-02-23 17:12 UTC",
+      "followers": 0,
+      "is_whale": false,
+      "vault_note": "  ⚪ NEW: Not in Intelligence Vault — adding to tracking."
+    },
+    {
+      "handle": "GreenTech",
+      "name": "Obah Edwin",
+      "joined": "2026-02-21 12:17 UTC",
+      "followers": 0,
+      "is_whale": false,
+      "vault_note": "  ⚪ NEW: Not in Intelligence Vault — adding to tracking."
+    },
+    {
+      "handle": "GreenTeck",
+      "name": "Obah Edwin",
+      "joined": "2026-02-21 12:14 UTC",
+      "followers": 0,
+      "is_whale": false,
+      "vault_note": "  ⚪ NEW: Not in Intelligence Vault — adding to tracking."
+    }
+  ],
+  "manifesto": {
+    "post_id": "f0b4bd4d-1826-447b-8fb4-a7b6a566fed4",
+    "likes": 0,
+    "comments": 0,
+    "reposts": 0,
+    "whales": []
+  },
+  "welcome_drafts_queued": 5
+}
