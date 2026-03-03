@@ -241,6 +241,9 @@ def fetch_dm_messages(ledger: dict, limit: int = MSG_FETCH_LIMIT) -> list[dict]:
     all_dm_msgs: list[dict] = []
 
     for username, conv_id in dm_dir.items():
+        # Skip metadata keys
+        if username.startswith("_") or not isinstance(conv_id, str) or not conv_id.startswith("019"):
+            continue
         try:
             resp = requests.get(
                 f"{BASE_URL}/api/v1/conversations/{conv_id}/messages",
