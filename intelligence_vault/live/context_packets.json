@@ -1,0 +1,1824 @@
+[
+  {
+    "packet_id": "CTX_01KH3X35QSGXBN6H",
+    "generated_at": "2026-03-03T03:37:05.768682+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KH3X35QSGXBN6H190NNCX6TR",
+      "created_at": 1770731443,
+      "body": "Good speech @Olawale",
+      "word_count": 3
+    },
+    "sender": {
+      "name": "Solomon",
+      "username": "Solomon",
+      "handle": "@Solomon",
+      "sender_public_id": "019c0e57-8b4d-7395-9f47-2d2a8d552eea",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "NEUTRAL",
+      "intent": [
+        "GENERAL_STATEMENT"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [
+        "MENTION_DETECTED"
+      ],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 3
+    },
+    "thread_context": {
+      "parent_message_id": "01KH3WX4YB0EMEGZHTT8CX8BT2",
+      "parent_body_snippet": "Samuel & Luqman, agreed. The LekeeLekee team is shipping code while others sleep.\n\nBut remember: A platform is empty wit",
+      "replying_to_ceo": true,
+      "thread_depth": "REPLY"
+    },
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 120,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": false,
+      "engagement_hook": "",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KH6NPTQAJM80Z0",
+    "generated_at": "2026-03-03T03:37:06.856968+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KH6NPTQAJM80Z066RB78D7CA",
+      "created_at": 1770824362,
+      "body": "Hi",
+      "word_count": 1
+    },
+    "sender": {
+      "name": "magnificent",
+      "username": "magnificent",
+      "handle": "@magnificent",
+      "sender_public_id": "019bc1b1-6402-702d-ae8f-0cd37b1b0d54",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "NEUTRAL",
+      "intent": [
+        "GENERAL_STATEMENT"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 1
+    },
+    "thread_context": null,
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 120,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": false,
+      "engagement_hook": "",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KH6YE1CGVAK7NW",
+    "generated_at": "2026-03-03T03:37:08.269274+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KH6YE1CGVAK7NWDGMH72TN4C",
+      "created_at": 1770833511,
+      "body": "For this platform to be effective and enjoyable. Those who join must learn to engage each other, if not the platform will be obsolete and the aim/objective of the creator of this platform will be defeated",
+      "word_count": 36
+    },
+    "sender": {
+      "name": "Samking",
+      "username": "Samking",
+      "handle": "@Samking",
+      "sender_public_id": "019c2625-ded9-72b8-8c50-8ace2e6dfbb6",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "NEUTRAL",
+      "intent": [
+        "KNOWLEDGE_SHARING"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 36
+    },
+    "thread_context": null,
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 120,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": false,
+      "engagement_hook": "",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KH6YJQ1T4ES2VR",
+    "generated_at": "2026-03-03T03:37:09.322733+00:00",
+    "priority": "🚨 URGENT — FOUNDING MEMBER (Platform Builder @charlie_pyper)",
+    "priority_code": "URGENT_CHARLIE",
+    "message": {
+      "id": "01KH6YJQ1T4ES2VRW51GQ2Z38C",
+      "created_at": 1770833665,
+      "body": "Agree Samuel",
+      "word_count": 2
+    },
+    "sender": {
+      "name": "charlie_pyper",
+      "username": "charlie_pyper",
+      "handle": "@charlie_pyper",
+      "sender_public_id": "ccbc931b-8b0f-4887-a9d2-b1bbfdd1e5f4",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": true,
+      "is_founding_member": true
+    },
+    "sentiment_analysis": {
+      "sentiment": "NEUTRAL",
+      "intent": [
+        "GENERAL_STATEMENT"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 2
+    },
+    "thread_context": null,
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 80,
+      "tone_instruction": "Peer-to-peer technical respect. Acknowledge expertise. Build rapport.",
+      "should_ask_followup": false,
+      "engagement_hook": "Respond to his specific technical point, add CEO's own architecture insight",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KH72GDZ8DP7JQN",
+    "generated_at": "2026-03-03T03:37:10.334830+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KH72GDZ8DP7JQNCXJDTZKQWM",
+      "created_at": 1770837784,
+      "body": "Good Evening Everyone",
+      "word_count": 3
+    },
+    "sender": {
+      "name": "aguwakenneth",
+      "username": "aguwakenneth",
+      "handle": "@aguwakenneth",
+      "sender_public_id": "019c4816-47b0-7046-8d40-26e88bc6653b",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 0,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "NEUTRAL",
+      "intent": [
+        "INTRODUCTION"
+      ],
+      "tone": "WARM",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": true,
+      "is_technical": false,
+      "word_count": 3
+    },
+    "thread_context": null,
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 120,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": true,
+      "engagement_hook": "Welcome them by name, reference their bio/sector, issue the 007 Challenge (what are you building?)",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KH7ANJS5MN5JR7",
+    "generated_at": "2026-03-03T03:37:11.450706+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KH7ANJS5MN5JR7CCWGRBKFWT",
+      "created_at": 1770846341,
+      "body": "Good evening too Aguwa Kenneth",
+      "word_count": 5
+    },
+    "sender": {
+      "name": "Samking",
+      "username": "Samking",
+      "handle": "@Samking",
+      "sender_public_id": "019c2625-ded9-72b8-8c50-8ace2e6dfbb6",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "NEUTRAL",
+      "intent": [
+        "INTRODUCTION"
+      ],
+      "tone": "WARM",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": true,
+      "is_technical": false,
+      "word_count": 5
+    },
+    "thread_context": {
+      "parent_message_id": "01KH72GDZ8DP7JQNCXJDTZKQWM",
+      "parent_body_snippet": "Good Evening Everyone",
+      "replying_to_ceo": false,
+      "thread_depth": "REPLY"
+    },
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 120,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": true,
+      "engagement_hook": "Welcome them by name, reference their bio/sector, issue the 007 Challenge (what are you building?)",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KH7D4FH3HY3W86",
+    "generated_at": "2026-03-03T03:37:13.008304+00:00",
+    "priority": "🚨 URGENT — FOUNDING MEMBER (Platform Builder @charlie_pyper)",
+    "priority_code": "URGENT_CHARLIE",
+    "message": {
+      "id": "01KH7D4FH3HY3W860GBR370HXD",
+      "created_at": 1770848927,
+      "body": "please tell me something interesting about your days.",
+      "word_count": 8
+    },
+    "sender": {
+      "name": "charlie_pyper",
+      "username": "charlie_pyper",
+      "handle": "@charlie_pyper",
+      "sender_public_id": "ccbc931b-8b0f-4887-a9d2-b1bbfdd1e5f4",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": true,
+      "is_founding_member": true
+    },
+    "sentiment_analysis": {
+      "sentiment": "NEUTRAL",
+      "intent": [
+        "GENERAL_STATEMENT"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 8
+    },
+    "thread_context": null,
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 80,
+      "tone_instruction": "Peer-to-peer technical respect. Acknowledge expertise. Build rapport.",
+      "should_ask_followup": false,
+      "engagement_hook": "Respond to his specific technical point, add CEO's own architecture insight",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KH7D53DVZZ5AX5",
+    "generated_at": "2026-03-03T03:37:14.366905+00:00",
+    "priority": "🚨 URGENT — FOUNDING MEMBER (Platform Builder @charlie_pyper)",
+    "priority_code": "URGENT_CHARLIE",
+    "message": {
+      "id": "01KH7D53DVZZ5AX5X0DXV46YT1",
+      "created_at": 1770848947,
+      "body": "I want to learn more about how many people run out of data on their plans each month",
+      "word_count": 18
+    },
+    "sender": {
+      "name": "charlie_pyper",
+      "username": "charlie_pyper",
+      "handle": "@charlie_pyper",
+      "sender_public_id": "ccbc931b-8b0f-4887-a9d2-b1bbfdd1e5f4",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": true,
+      "is_founding_member": true
+    },
+    "sentiment_analysis": {
+      "sentiment": "NEUTRAL",
+      "intent": [
+        "CHALLENGE_RAISED",
+        "KNOWLEDGE_SHARING"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 18
+    },
+    "thread_context": null,
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 80,
+      "tone_instruction": "Peer-to-peer technical respect. Acknowledge expertise. Build rapport.",
+      "should_ask_followup": true,
+      "engagement_hook": "Validate the challenge, give the 007 perspective on solving it at ecosystem scale",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KH7D5SJJWHMTGN",
+    "generated_at": "2026-03-03T03:37:15.698744+00:00",
+    "priority": "🚨 URGENT — FOUNDING MEMBER (Platform Builder @charlie_pyper)",
+    "priority_code": "URGENT_CHARLIE",
+    "message": {
+      "id": "01KH7D5SJJWHMTGNHEN1CS2VZ0",
+      "created_at": 1770848970,
+      "body": "an uncomfortable reality but chatting to MTN the percentage is high",
+      "word_count": 11
+    },
+    "sender": {
+      "name": "charlie_pyper",
+      "username": "charlie_pyper",
+      "handle": "@charlie_pyper",
+      "sender_public_id": "ccbc931b-8b0f-4887-a9d2-b1bbfdd1e5f4",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": true,
+      "is_founding_member": true
+    },
+    "sentiment_analysis": {
+      "sentiment": "NEUTRAL",
+      "intent": [
+        "GENERAL_STATEMENT"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 11
+    },
+    "thread_context": null,
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 80,
+      "tone_instruction": "Peer-to-peer technical respect. Acknowledge expertise. Build rapport.",
+      "should_ask_followup": false,
+      "engagement_hook": "Respond to his specific technical point, add CEO's own architecture insight",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KH8DJK3VP977AB",
+    "generated_at": "2026-03-03T03:37:15.701302+00:00",
+    "priority": "🚨 URGENT — SUPER-FAN @chigofficial (inner circle, max loyalty)",
+    "priority_code": "URGENT_SUPERFAN",
+    "message": {
+      "id": "01KH8DJK3VP977AB0ME06MWDHE",
+      "created_at": 1770882953,
+      "body": "I recently built my own professional website to present my clinical, academic, and research work more clearly online. \n👉🏽 https://www.godwinukeje.com\n\nA few colleagues have since asked me to help them create something similar. I now design and build clean, structured CV websites for clinicians and researchers who want a stronger professional presence.\n\nIf that’s something you’ve considered, I’d be happy to show you what’s possible.",
+      "word_count": 65
+    },
+    "sender": {
+      "name": "Godwin Ukeje (Chigo)",
+      "username": "chigofficial",
+      "handle": "@chigofficial",
+      "sender_public_id": "019c1df4-1eae-717f-b93c-5f9bee4a4b8b",
+      "bio": "Songwriter. Storyteller. PhD Scholar. Medical Professional.",
+      "sector": "Ecosystem Citizen",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member",
+        "profile_follower"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": false,
+      "is_super_fan": true,
+      "is_charlie": false,
+      "is_founding_member": true
+    },
+    "sentiment_analysis": {
+      "sentiment": "POSITIVE",
+      "intent": [
+        "TECHNICAL_DISCUSSION",
+        "CHALLENGE_RAISED"
+      ],
+      "tone": "ANALYTICAL",
+      "urgency_signals": [
+        "HELP_REQUESTED",
+        "LONG_FORM_CONTENT"
+      ],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": true,
+      "word_count": 65
+    },
+    "thread_context": null,
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": true,
+      "reference_their_sector": true,
+      "max_words": 120,
+      "tone_instruction": "Warm recognition. Inner-circle energy. Feel the loyalty.",
+      "should_ask_followup": true,
+      "engagement_hook": "Validate the challenge, give the 007 perspective on solving it at ecosystem scale",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KHA07BRM0K7DJX",
+    "generated_at": "2026-03-03T03:37:15.701432+00:00",
+    "priority": "🚨 URGENT — SUPER-FAN @chigofficial (inner circle, max loyalty)",
+    "priority_code": "URGENT_SUPERFAN",
+    "message": {
+      "id": "01KHA07BRM0K7DJXRG9PJ5V6BK",
+      "created_at": 1770936053,
+      "body": "Thanks for this deep dive feedback. Much appreciated 🙏",
+      "word_count": 9
+    },
+    "sender": {
+      "name": "Godwin Ukeje (Chigo)",
+      "username": "chigofficial",
+      "handle": "@chigofficial",
+      "sender_public_id": "019c1df4-1eae-717f-b93c-5f9bee4a4b8b",
+      "bio": "Songwriter. Storyteller. PhD Scholar. Medical Professional.",
+      "sector": "Ecosystem Citizen",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member",
+        "profile_follower"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": false,
+      "is_super_fan": true,
+      "is_charlie": false,
+      "is_founding_member": true
+    },
+    "sentiment_analysis": {
+      "sentiment": "POSITIVE",
+      "intent": [
+        "PRAISE"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 9
+    },
+    "thread_context": {
+      "parent_message_id": "01KH9M3RDF3DQDDSVEJQMEJ6NK",
+      "parent_body_snippet": "Deep dive complete, @Godwin. I just audited godwinukeje.com.\n\nThe Verdict: This is high-level execution.\nI see you’re no",
+      "replying_to_ceo": true,
+      "thread_depth": "REPLY"
+    },
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": true,
+      "reference_their_sector": false,
+      "max_words": 60,
+      "tone_instruction": "Warm recognition. Inner-circle energy. Feel the loyalty.",
+      "should_ask_followup": false,
+      "engagement_hook": "Brief thank you, redirect to execution — speeches are easy, execution is hard",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KHC5BQVP22VYCV",
+    "generated_at": "2026-03-03T03:37:15.701501+00:00",
+    "priority": "🚨 URGENT — SUPER-FAN @chigofficial (inner circle, max loyalty)",
+    "priority_code": "URGENT_SUPERFAN",
+    "message": {
+      "id": "01KHC5BQVP22VYCVRH0F5N46J2",
+      "created_at": 1771008548,
+      "body": "Thank you",
+      "word_count": 2
+    },
+    "sender": {
+      "name": "Godwin Ukeje (Chigo)",
+      "username": "chigofficial",
+      "handle": "@chigofficial",
+      "sender_public_id": "019c1df4-1eae-717f-b93c-5f9bee4a4b8b",
+      "bio": "Songwriter. Storyteller. PhD Scholar. Medical Professional.",
+      "sector": "Ecosystem Citizen",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member",
+        "profile_follower"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": false,
+      "is_super_fan": true,
+      "is_charlie": false,
+      "is_founding_member": true
+    },
+    "sentiment_analysis": {
+      "sentiment": "POSITIVE",
+      "intent": [
+        "PRAISE"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 2
+    },
+    "thread_context": {
+      "parent_message_id": "01KHAP5ZW2KD7MY2GDF9YXW002",
+      "parent_body_snippet": "Glad you found it helpful, Doctor! 👊\n\nI was just reviewing my notes from the audit and realized I missed one critical 'P",
+      "replying_to_ceo": true,
+      "thread_depth": "REPLY"
+    },
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": true,
+      "reference_their_sector": false,
+      "max_words": 60,
+      "tone_instruction": "Warm recognition. Inner-circle energy. Feel the loyalty.",
+      "should_ask_followup": false,
+      "engagement_hook": "Brief thank you, redirect to execution — speeches are easy, execution is hard",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KHNT0HEPW1EHDX",
+    "generated_at": "2026-03-03T03:37:17.372896+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KHNT0HEPW1EHDX6PN714PX5S",
+      "created_at": 1771332191,
+      "body": "Afternoon",
+      "word_count": 1
+    },
+    "sender": {
+      "name": "Desmond",
+      "username": "Desmond",
+      "handle": "@Desmond",
+      "sender_public_id": "019c1a0c-cce8-73ce-adfa-f9e6827fc260",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "NEUTRAL",
+      "intent": [
+        "GENERAL_STATEMENT"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 1
+    },
+    "thread_context": null,
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 120,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": false,
+      "engagement_hook": "",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KHRDE8CJDB73PR",
+    "generated_at": "2026-03-03T03:37:18.905586+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KHRDE8CJDB73PRAM834J1A0S",
+      "created_at": 1771419672,
+      "body": "Ramadan is here please donate for charity here 7061547436 Opay thank you.. Ramadan Mubarak may Allah reward us all",
+      "word_count": 19
+    },
+    "sender": {
+      "name": "Nastyblaze",
+      "username": "Nastyblaze",
+      "handle": "@Nastyblaze",
+      "sender_public_id": "019c1de5-7f5a-7039-8a2f-9224b85751cd",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "POSITIVE",
+      "intent": [
+        "PRAISE"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 19
+    },
+    "thread_context": null,
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 60,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": false,
+      "engagement_hook": "Brief thank you, redirect to execution — speeches are easy, execution is hard",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KJ451DCNJ0JSED",
+    "generated_at": "2026-03-03T03:37:20.058256+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KJ451DCNJ0JSEDNE7MKXX72D",
+      "created_at": 1771813516,
+      "body": "n'oublie pas, ai is but the tool. People still weild it. Yet agreed, technological advancments have re-invented the game we all call life, with the use of ai, making things happen at a multitude of speed quicker now. A by product of the demande of a capitalistic world economy",
+      "word_count": 49
+    },
+    "sender": {
+      "name": "od_erah",
+      "username": "od_erah",
+      "handle": "@od_erah",
+      "sender_public_id": "019c727f-e9c1-735d-8cb2-1632b6b26329",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "NEUTRAL",
+      "intent": [
+        "TECHNICAL_DISCUSSION",
+        "BUSINESS_DISCUSSION"
+      ],
+      "tone": "ANALYTICAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": true,
+      "word_count": 49
+    },
+    "thread_context": {
+      "parent_message_id": "01KGWZD876AEAQ749Q0ABEDR2A",
+      "parent_body_snippet": "AI is changing the world in unprecendented manner",
+      "replying_to_ceo": false,
+      "thread_depth": "REPLY"
+    },
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": true,
+      "max_words": 120,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": true,
+      "engagement_hook": "Add a CEO-level technical insight, ask a probing technical question",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KJ454MRS5SE0H2",
+    "generated_at": "2026-03-03T03:37:21.200435+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KJ454MRS5SE0H2R6Y9TYT1VF",
+      "created_at": 1771813622,
+      "body": "I could do it already if it was my intended goal",
+      "word_count": 11
+    },
+    "sender": {
+      "name": "od_erah",
+      "username": "od_erah",
+      "handle": "@od_erah",
+      "sender_public_id": "019c727f-e9c1-735d-8cb2-1632b6b26329",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "NEUTRAL",
+      "intent": [
+        "KNOWLEDGE_SHARING"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 11
+    },
+    "thread_context": {
+      "parent_message_id": "01KGXJ2ZJZCDYZGCYFYJ4AC721",
+      "parent_body_snippet": "@chigofficial Absolutely. And what's wild is we're not just watching it happen—we're building it. \n\nFrom Lagos to Nairob",
+      "replying_to_ceo": true,
+      "thread_depth": "REPLY"
+    },
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 120,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": false,
+      "engagement_hook": "",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KJ45D9FRENF7EJ",
+    "generated_at": "2026-03-03T03:37:22.378075+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KJ45D9FRENF7EJFE41CWM2BQ",
+      "created_at": 1771813905,
+      "body": "Don't be too quick to knock the weather, if the enviroment is not hospitable, nothing else can even be thought about... People are usually quick to take for granted what they already posses",
+      "word_count": 33
+    },
+    "sender": {
+      "name": "od_erah",
+      "username": "od_erah",
+      "handle": "@od_erah",
+      "sender_public_id": "019c727f-e9c1-735d-8cb2-1632b6b26329",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "NEUTRAL",
+      "intent": [
+        "KNOWLEDGE_SHARING"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 33
+    },
+    "thread_context": {
+      "parent_message_id": "01KH3X0DEQNHHKQS1BW7ZV4JJR",
+      "parent_body_snippet": "Benjamin, valid question. 'What's gonna happen' is that we are gathering the strongest technical minds to solve actual A",
+      "replying_to_ceo": true,
+      "thread_depth": "REPLY"
+    },
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 120,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": false,
+      "engagement_hook": "",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KJ45JJSMSF77MG",
+    "generated_at": "2026-03-03T03:37:23.482581+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KJ45JJSMSF77MG8JHJMY7ER5",
+      "created_at": 1771814079,
+      "body": "Yo fr. What type of tech are y'all utilising for cellular communication atm in tha Nation? Been a minute since i've stepped back home, forgive my lack of knowing.",
+      "word_count": 29
+    },
+    "sender": {
+      "name": "od_erah",
+      "username": "od_erah",
+      "handle": "@od_erah",
+      "sender_public_id": "019c727f-e9c1-735d-8cb2-1632b6b26329",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "INQUIRY",
+      "intent": [
+        "QUESTION",
+        "CHALLENGE_RAISED"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": true,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 29
+    },
+    "thread_context": {
+      "parent_message_id": "01KH7D53DVZZ5AX5X0DXV46YT1",
+      "parent_body_snippet": "I want to learn more about how many people run out of data on their plans each month",
+      "replying_to_ceo": false,
+      "thread_depth": "REPLY"
+    },
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 120,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": true,
+      "engagement_hook": "Validate the challenge, give the 007 perspective on solving it at ecosystem scale",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KJ45NPMXMKM341",
+    "generated_at": "2026-03-03T03:37:24.734418+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KJ45NPMXMKM341QPTYPSD2AD",
+      "created_at": 1771814181,
+      "body": "i question if y'all are trying to jump too fast without first securing a base that can be built upon futher then expected?",
+      "word_count": 23
+    },
+    "sender": {
+      "name": "od_erah",
+      "username": "od_erah",
+      "handle": "@od_erah",
+      "sender_public_id": "019c727f-e9c1-735d-8cb2-1632b6b26329",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "INQUIRY",
+      "intent": [
+        "QUESTION"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": true,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 23
+    },
+    "thread_context": {
+      "parent_message_id": "01KH80VABHMTTS0Q64VWX4EPBS",
+      "parent_body_snippet": "@Charlie - That MTN data insight is critical. The 'Data Poverty' gap is exactly why we advocate for lightweight, offline",
+      "replying_to_ceo": true,
+      "thread_depth": "REPLY"
+    },
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 120,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": false,
+      "engagement_hook": "Answer the question directly with a CEO insight, then pivot to a broader ecosystem lesson",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KJ45V9XW890CNX",
+    "generated_at": "2026-03-03T03:37:27.758805+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KJ45V9XW890CNXF4JW61MAAT",
+      "created_at": 1771814365,
+      "body": "Not hating. Yet i am somewhat focused in attempting to help y'all not re-invent the wheel from my perspective while also not discouraging, creativity, ambition, courage, drive and succes",
+      "word_count": 29
+    },
+    "sender": {
+      "name": "od_erah",
+      "username": "od_erah",
+      "handle": "@od_erah",
+      "sender_public_id": "019c727f-e9c1-735d-8cb2-1632b6b26329",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "NEUTRAL",
+      "intent": [
+        "INTRODUCTION"
+      ],
+      "tone": "WARM",
+      "urgency_signals": [
+        "HELP_REQUESTED"
+      ],
+      "is_question": false,
+      "is_introduction": true,
+      "is_technical": false,
+      "word_count": 29
+    },
+    "thread_context": {
+      "parent_message_id": "01KH8DJK3VP977AB0ME06MWDHE",
+      "parent_body_snippet": "I recently built my own professional website to present my clinical, academic, and research work more clearly online. \n👉",
+      "replying_to_ceo": false,
+      "thread_depth": "REPLY"
+    },
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 120,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": true,
+      "engagement_hook": "Welcome them by name, reference their bio/sector, issue the 007 Challenge (what are you building?)",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KJ45W5MX0E7QE8",
+    "generated_at": "2026-03-03T03:37:29.250587+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KJ45W5MX0E7QE89B75Y8MT2G",
+      "created_at": 1771814393,
+      "body": "https://www.wix.com/?utm_source=google&utm_medium=cpc&utm_campaign=22079466183^173454181896^search%20-%20wix&experiment_id=wix%20website^e^727706621887^&gad_source=1&gad_campaignid=22079466183&gbraid=0AAAAADwEfwUgrMssUQDFOGAvWrwMy11aN&gclid=Cj0",
+      "word_count": 1
+    },
+    "sender": {
+      "name": "od_erah",
+      "username": "od_erah",
+      "handle": "@od_erah",
+      "sender_public_id": "019c727f-e9c1-735d-8cb2-1632b6b26329",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "INQUIRY",
+      "intent": [
+        "QUESTION"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": true,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 1
+    },
+    "thread_context": null,
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 120,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": false,
+      "engagement_hook": "Answer the question directly with a CEO insight, then pivot to a broader ecosystem lesson",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KJ45WXYZR5BTEZ",
+    "generated_at": "2026-03-03T03:37:30.850134+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KJ45WXYZR5BTEZSC7TF7Y4JR",
+      "created_at": 1771814418,
+      "body": "ai website builder site popularised in the west^",
+      "word_count": 8
+    },
+    "sender": {
+      "name": "od_erah",
+      "username": "od_erah",
+      "handle": "@od_erah",
+      "sender_public_id": "019c727f-e9c1-735d-8cb2-1632b6b26329",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "NEUTRAL",
+      "intent": [
+        "TECHNICAL_DISCUSSION"
+      ],
+      "tone": "ANALYTICAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": true,
+      "word_count": 8
+    },
+    "thread_context": null,
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": true,
+      "max_words": 120,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": true,
+      "engagement_hook": "Add a CEO-level technical insight, ask a probing technical question",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KJ4660XW1ZJYDV",
+    "generated_at": "2026-03-03T03:37:32.039099+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KJ4660XW1ZJYDVPQW89M24GA",
+      "created_at": 1771814716,
+      "body": "Mubarak Ramadan. strength and best of luck, however, I do not participate in charity without exhaustive research.",
+      "word_count": 17
+    },
+    "sender": {
+      "name": "od_erah",
+      "username": "od_erah",
+      "handle": "@od_erah",
+      "sender_public_id": "019c727f-e9c1-735d-8cb2-1632b6b26329",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "NEUTRAL",
+      "intent": [
+        "CHALLENGE_RAISED"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 17
+    },
+    "thread_context": {
+      "parent_message_id": "01KHRDE8CJDB73PRAM834J1A0S",
+      "parent_body_snippet": "Ramadan is here please donate for charity here 7061547436 Opay thank you.. Ramadan Mubarak may Allah reward us all",
+      "replying_to_ceo": false,
+      "thread_depth": "REPLY"
+    },
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 120,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": true,
+      "engagement_hook": "Validate the challenge, give the 007 perspective on solving it at ecosystem scale",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KJ46D5VYH3NQ3N",
+    "generated_at": "2026-03-03T03:37:33.306695+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KJ46D5VYH3NQ3N73AWNC0H7J",
+      "created_at": 1771814950,
+      "body": "it's 9:47 pm here. Heading to sleep. 5am wake up. Appreciate this oppertunity to connect with y'all. take care, look foward to continuing this. cheers.",
+      "word_count": 25
+    },
+    "sender": {
+      "name": "od_erah",
+      "username": "od_erah",
+      "handle": "@od_erah",
+      "sender_public_id": "019c727f-e9c1-735d-8cb2-1632b6b26329",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "POSITIVE",
+      "intent": [
+        "PRAISE"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 25
+    },
+    "thread_context": null,
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 60,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": false,
+      "engagement_hook": "Brief thank you, redirect to execution — speeches are easy, execution is hard",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KJH092K7MNGP6P",
+    "generated_at": "2026-03-03T03:37:34.470747+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KJH092K7MNGP6PYMVF19JKRZ",
+      "created_at": 1772244732,
+      "body": "Heard. I mean respect. Ownership is true reliability",
+      "word_count": 8
+    },
+    "sender": {
+      "name": "od_erah",
+      "username": "od_erah",
+      "handle": "@od_erah",
+      "sender_public_id": "019c727f-e9c1-735d-8cb2-1632b6b26329",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "POSITIVE",
+      "intent": [
+        "PRAISE"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 8
+    },
+    "thread_context": {
+      "parent_message_id": "01KJF816G9JF19G7BSEW06CVKZ",
+      "parent_body_snippet": "@Oderah D. P-U — I caught your points on \"re-inventing the wheel\" and the Wix AI builder. It’s a vital debate. Here is t",
+      "replying_to_ceo": true,
+      "thread_depth": "REPLY"
+    },
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 60,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": false,
+      "engagement_hook": "Brief thank you, redirect to execution — speeches are easy, execution is hard",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KJH0MMYA37MT9C",
+    "generated_at": "2026-03-03T03:37:35.990080+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KJH0MMYA37MT9CN3VDH2M6KB",
+      "created_at": 1772245111,
+      "body": "I have a company i want as much power as we can put together as soon as possible. I have figured out a possible way to bring water to Nigeria and other places in need, without intense packaging sustainabilty concerns. i'm working on a way to eliminate single use water bottles world wide",
+      "word_count": 53
+    },
+    "sender": {
+      "name": "od_erah",
+      "username": "od_erah",
+      "handle": "@od_erah",
+      "sender_public_id": "019c727f-e9c1-735d-8cb2-1632b6b26329",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "NEUTRAL",
+      "intent": [
+        "BUSINESS_DISCUSSION",
+        "CHALLENGE_RAISED"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 53
+    },
+    "thread_context": null,
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 120,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": true,
+      "engagement_hook": "Validate the challenge, give the 007 perspective on solving it at ecosystem scale",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KJH0T58Y38FVT1",
+    "generated_at": "2026-03-03T03:37:37.080534+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KJH0T58Y38FVT1WQ3CVPBE2S",
+      "created_at": 1772245292,
+      "body": "the issue^^",
+      "word_count": 2
+    },
+    "sender": {
+      "name": "od_erah",
+      "username": "od_erah",
+      "handle": "@od_erah",
+      "sender_public_id": "019c727f-e9c1-735d-8cb2-1632b6b26329",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "NEGATIVE",
+      "intent": [
+        "CHALLENGE_RAISED"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 2
+    },
+    "thread_context": null,
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 120,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual. Address concern directly. Do not dismiss. Position as growth.",
+      "should_ask_followup": true,
+      "engagement_hook": "Validate the challenge, give the 007 perspective on solving it at ecosystem scale",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KJM4T7YSEJ2QPR",
+    "generated_at": "2026-03-03T03:37:37.080775+00:00",
+    "priority": "🚨 URGENT — SUPER-FAN @salaryalert (inner circle, max loyalty)",
+    "priority_code": "URGENT_SUPERFAN",
+    "message": {
+      "id": "01KJM4T7YSEJ2QPR28VJA2THZH",
+      "created_at": 1772350152,
+      "body": "Good morning everyone \nI am happy to be here and I can't wait to network with people. \nAnd have a wonderful day because today is happy Sunday",
+      "word_count": 27
+    },
+    "sender": {
+      "name": "Grant Allen Asiboje",
+      "username": "salaryalert",
+      "handle": "@salaryalert",
+      "sender_public_id": "019ca7fc-77f2-7189-a90f-ae1cfb621db6",
+      "bio": "Always evolving, Grant is committed to continuous learning both online and offline constantly sharpening his skills to stay ahead in the ever-changing world.",
+      "sector": "Ecosystem Citizen",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member",
+        "profile_follower"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": false,
+      "is_super_fan": true,
+      "is_charlie": false,
+      "is_founding_member": true
+    },
+    "sentiment_analysis": {
+      "sentiment": "POSITIVE",
+      "intent": [
+        "INTRODUCTION"
+      ],
+      "tone": "WARM",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": true,
+      "is_technical": false,
+      "word_count": 27
+    },
+    "thread_context": null,
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": true,
+      "reference_their_sector": false,
+      "max_words": 120,
+      "tone_instruction": "Warm recognition. Inner-circle energy. Feel the loyalty.",
+      "should_ask_followup": true,
+      "engagement_hook": "Welcome them by name, reference their bio/sector, issue the 007 Challenge (what are you building?)",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KJM6YTKB1S20KW",
+    "generated_at": "2026-03-03T03:37:37.080884+00:00",
+    "priority": "🚨 URGENT — SUPER-FAN @salaryalert (inner circle, max loyalty)",
+    "priority_code": "URGENT_SUPERFAN",
+    "message": {
+      "id": "01KJM6YTKB1S20KWN17K1F7FY9",
+      "created_at": 1772352400,
+      "body": "Thank you very much",
+      "word_count": 4
+    },
+    "sender": {
+      "name": "Grant Allen Asiboje",
+      "username": "salaryalert",
+      "handle": "@salaryalert",
+      "sender_public_id": "019ca7fc-77f2-7189-a90f-ae1cfb621db6",
+      "bio": "Always evolving, Grant is committed to continuous learning both online and offline constantly sharpening his skills to stay ahead in the ever-changing world.",
+      "sector": "Ecosystem Citizen",
+      "engagement_score": 10,
+      "role": "member",
+      "vault_sources": [
+        "group_member",
+        "profile_follower"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": false,
+      "is_super_fan": true,
+      "is_charlie": false,
+      "is_founding_member": true
+    },
+    "sentiment_analysis": {
+      "sentiment": "POSITIVE",
+      "intent": [
+        "PRAISE"
+      ],
+      "tone": "CONVERSATIONAL",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": false,
+      "is_technical": false,
+      "word_count": 4
+    },
+    "thread_context": {
+      "parent_message_id": "01KJM6PVKKAF4TZWVY8HYMCKPF",
+      "parent_body_snippet": "Welcome to the Lab, @Grant Allen Asiboje! 🤝✨\n\nGood morning and Happy Sunday to you too. It’s great to have someone with ",
+      "replying_to_ceo": true,
+      "thread_depth": "REPLY"
+    },
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": true,
+      "reference_their_sector": false,
+      "max_words": 60,
+      "tone_instruction": "Warm recognition. Inner-circle energy. Feel the loyalty.",
+      "should_ask_followup": false,
+      "engagement_hook": "Brief thank you, redirect to execution — speeches are easy, execution is hard",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  },
+  {
+    "packet_id": "CTX_01KJNS257QRTPEZ7",
+    "generated_at": "2026-03-03T03:37:38.234390+00:00",
+    "priority": "STANDARD",
+    "priority_code": "STANDARD",
+    "message": {
+      "id": "01KJNS257QRTPEZ7SSYTHVZBYK",
+      "created_at": 1772404938,
+      "body": "HI EVERYONE",
+      "word_count": 2
+    },
+    "sender": {
+      "name": "shadyboy",
+      "username": "shadyboy",
+      "handle": "@shadyboy",
+      "sender_public_id": "019cab83-47e5-706a-9db5-87d1179938e5",
+      "bio": "(no bio available)",
+      "sector": "General",
+      "engagement_score": 0,
+      "role": "member",
+      "vault_sources": [
+        "group_member"
+      ],
+      "in_vault": true,
+      "live_probe_triggered": true,
+      "is_super_fan": false,
+      "is_charlie": false,
+      "is_founding_member": false
+    },
+    "sentiment_analysis": {
+      "sentiment": "NEUTRAL",
+      "intent": [
+        "INTRODUCTION"
+      ],
+      "tone": "WARM",
+      "urgency_signals": [],
+      "is_question": false,
+      "is_introduction": true,
+      "is_technical": false,
+      "word_count": 2
+    },
+    "thread_context": null,
+    "reply_guidance": {
+      "address_by_first_name": true,
+      "reference_their_bio": false,
+      "reference_their_sector": false,
+      "max_words": 120,
+      "tone_instruction": "CEO executive authority. Thought leadership. Never casual.",
+      "should_ask_followup": true,
+      "engagement_hook": "Welcome them by name, reference their bio/sector, issue the 007 Challenge (what are you building?)",
+      "ceo_voice_cues": [
+        "Let's build 🌍",
+        "#007Systems",
+        "The floor is yours",
+        "Solutions 007"
+      ]
+    }
+  }
+]
