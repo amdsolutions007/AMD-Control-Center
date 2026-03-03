@@ -32,6 +32,18 @@ import requests
 from datetime import datetime, timezone
 from pathlib import Path
 
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
+try:
+    import google.generativeai as genai
+    _GEMINI_AVAILABLE = True
+except ImportError:
+    _GEMINI_AVAILABLE = False
+
 # ── PATHS ────────────────────────────────────────────────────────────────────
 ROOT  = Path(__file__).resolve().parent.parent
 VAULT = ROOT / "intelligence_vault"
@@ -41,6 +53,13 @@ FOLLOWERS_FILE     = VAULT / "members" / "profile" / "followers.json"
 XREF_FILE          = VAULT / "engagement" / "cross_reference.json"
 LEDGER_FILE        = VAULT / "live" / "replied_messages.json"
 CONTEXT_LOG_FILE   = VAULT / "live" / "context_packets.json"
+
+# ── MODULE 3 CONSTANTS ───────────────────────────────────────────────────────
+GEMINI_API_KEY      = os.getenv("GEMINI_API_KEY", "AIzaSyDEsAEZPEW0rV0W0HX7WSRnhWaz_TpPs7c")
+GHOST_GUARD_MINUTES = 15
+TRAINING_DATA_FILE  = VAULT / "training_data" / "ceo_messages.json"
+DRAFTS_LOG_FILE     = VAULT / "live" / "draft_queue.json"
+GHOST_GUARD_FILE    = VAULT / "live" / "ghost_guard.json"
 
 # ── CREDENTIALS & CONSTANTS ──────────────────────────────────────────────────
 BASE_URL = os.getenv("LEKE_LEKE_BASE_URL", "https://www.lekeelekee.com")
@@ -410,11 +429,29 @@ def analyse_sentiment(body: str) -> dict:
     else:
         tone = "CONVERSATIONAL"
 
+    # ── LEAD SCORING MATRIX ───────────────────────────────────────────────────
+    PRICE_KEYWORDS   = ["price", "cost", "buy", "quote", "how much", "rate",
+                        "fee", "charge", "afford", "budget", "pay", "payment"]
+    CRITICAL_KEYWORDS = ["help", "broken", "issue", "problem", "error", "bug",
+                         "not working", "stuck", "fail", "crash", "support"]
+    SYNERGY_KEYWORDS  = ["partner", "collaborate", "build together", "joint",
+                         "work with", "team up", "connect", "collab", "link up"]
+
+    if any(k in b for k in PRICE_KEYWORDS):
+        lead_tag = "🔥 PRICE_SIGNAL"
+    elif any(k in b for k in CRITICAL_KEYWORDS):
+        lead_tag = "🆘 CRITICAL_ISSUE"
+    elif any(k in b for k in SYNERGY_KEYWORDS):
+        lead_tag = "🤝 SYNERGY_OPPORTUNITY"
+    else:
+        lead_tag = "📡 STANDARD"
+
     return {
         "sentiment":       sentiment,
         "intent":          intent,
         "tone":            tone,
         "urgency_signals": urgency_signals,
+        "lead_tag":        lead_tag,
         "is_question":     is_question,
         "is_introduction": is_introduction,
         "is_technical":    is_technical,
@@ -700,10 +737,270 @@ def print_packet(packet: dict, index: int) -> None:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# MODULE 3 — THE CEO BRAIN (ReplyGenerator)
+# ─────────────────────────────────────────────────────────────────────────────
+
+class ReplyGenerator:
+    """
+    Module 3 — The CEO Brain.
+    Connects 573 CEO training samples + 007 Manifesto to Gemini to produce
+    authentic executive-voice reply drafts for every context packet.
+    """
+
+    def __init__(self):
+        if not _GEMINI_AVAILABLE:
+            raise RuntimeError("google-generativeai not installed. Run: pip install google-generativeai")
+        if not GEMINI_API_KEY:
+            raise RuntimeError("GEMINI_API_KEY not set")
+        genai.configure(api_key=GEMINI_API_KEY)
+        self.model = genai.GenerativeModel("gemini-1.5-flash")
+        self._load_training_data()
+
+    def _load_training_data(self):
+        with open(TRAINING_DATA_FILE) as f:
+            data = json.load(f)
+        self.style_profile = data["style_profile"]
+        all_msgs = data["messages"]
+        # Curated mix: 20 group_messages + 10 profile_posts (system-prompt efficient)
+        group = [m for m in all_msgs if m["type"] == "group_message"][:20]
+        posts = [m for m in all_msgs if m["type"] == "profile_post"][:10]
+        self.samples = group + posts
+
+    def _build_system_prompt(self, packet: dict) -> str:
+        sender   = packet["sender"]
+        guidance = packet["reply_guidance"]
+        lead_tag = packet["sentiment_analysis"].get("lead_tag", "📡 STANDARD")
+        is_superfan = sender["is_super_fan"]
+        is_charlie  = sender["is_charlie"]
+
+        # ── TONE TIER ─────────────────────────────────────────────────────────
+        if is_charlie:
+            tone_tier = (
+                "PEER-TO-PEER TECHNICAL — Charlie Pyper BUILT this platform. "
+                "Treat him as an equal architect. Technical respect, zero hierarchy."
+            )
+        elif is_superfan:
+            tone_tier = (
+                "INNER CIRCLE — This person is a super-fan. Warm, personal, "
+                "loyalty acknowledged. You know each other. Feel the energy."
+            )
+        else:
+            tone_tier = (
+                "AUTHORITATIVE ARCHITECT — CEO executive authority. "
+                "Thought leadership. Never casual. Never promotional. Always building."
+            )
+
+        # ── TRAINING EXAMPLES ────────────────────────────────────────────────
+        examples = "\n".join(
+            f"[EXAMPLE {i+1}]: {m['content'][:220]}"
+            for i, m in enumerate(self.samples[:15])
+        )
+
+        # ── LEAD TAG INSTRUCTION ─────────────────────────────────────────────
+        lead_instruction = ""
+        if "PRICE_SIGNAL" in lead_tag:
+            lead_instruction = (
+                "\n🔥 COMMERCIAL ALERT: This member is showing BUYING SIGNALS. "
+                "Acknowledge warmly, NEVER quote prices in the group — always "
+                "close with: 'Let's take this to DMs for the full picture.'"
+            )
+        elif "CRITICAL_ISSUE" in lead_tag:
+            lead_instruction = (
+                "\n🆘 SUPPORT ALERT: Member needs help. Lead with empathy, "
+                "offer one concrete action step, invite to DM if technical."
+            )
+        elif "SYNERGY_OPPORTUNITY" in lead_tag:
+            lead_instruction = (
+                "\n🤝 PARTNERSHIP SIGNAL: Member wants to collaborate. "
+                "Elevate the vision, acknowledge the ambition, close with a "
+                "DM invite for specifics."
+            )
+
+        sp = self.style_profile
+
+        return f"""You are Olawale Shoyemi (@amd), Founder of AMD Solutions 007 — African Tech Ecosystem builder.
+
+═══ IDENTITY LAWS (never break) ═══
+• You are the CEO. Executive authority. Never apologetic. Never casual.
+• Address the member by FIRST NAME only — never full name.
+• End with 1–2 relevant hashtags from: #007Systems #AfricanTech #BuildInNaija #DigitalSovereignty #BuildMode
+• Reply length: 80–120 words max (60 words for PRAISE). SHORT is power.
+• Never generic. Reference THEIR exact words, bio, or sector.
+• Natural signature phrases you use: "Let's build 🌍", "The floor is yours",
+  "Solutions 007", "Let's get to work 🚀", "AMD Intel:", "The ecosystem wins."
+
+═══ TONE TIER FOR THIS REPLY ═══
+{tone_tier}
+{lead_instruction}
+
+═══ YOUR REAL WRITING STYLE (573 CEO messages — {sp.get('hashtag_usage_rate','63%')} hashtag, {sp.get('emoji_usage_rate','61%')} emoji) ═══
+{examples}
+
+═══ REPLY GUIDANCE ═══
+Max words: {guidance['max_words']}
+Ask follow-up: {'YES — end with a punchy question' if guidance['should_ask_followup'] else 'NO'}
+Engagement hook: {guidance['engagement_hook']}
+"""
+
+    def generate(self, packet: dict) -> dict:
+        """Generate a CEO-voice reply draft. Returns structured draft dict."""
+        msg      = packet["message"]
+        sender   = packet["sender"]
+        thread   = packet["thread_context"]
+        sentiment = packet["sentiment_analysis"]
+        lead_tag  = sentiment.get("lead_tag", "📡 STANDARD")
+
+        # Thread context hint
+        thread_note = ""
+        if thread:
+            speaker = "YOUR message" if thread["replying_to_ceo"] else "another member's message"
+            thread_note = f'\n(They are replying to {speaker}: "{thread["parent_body_snippet"][:100]}")'
+
+        super_fan_status = "⭐ SUPER-FAN — inner circle member\n" if sender["is_super_fan"] else ""
+        charlie_status   = "⚙️  PLATFORM BUILDER (@charlie_pyper)\n" if sender["is_charlie"] else ""
+
+        user_prompt = f"""MEMBER: {sender['name']} (@{sender['username']})
+BIO: {sender['bio'] or 'no bio available'}
+SECTOR: {sender['sector']}
+ENGAGEMENT SCORE: {sender['engagement_score']}/10
+{super_fan_status}{charlie_status}
+THEIR MESSAGE: "{msg['body']}"
+{thread_note}
+LEAD TAG: {lead_tag}
+
+Write ONE reply from CEO @amd — no preamble, no explanation, no quotes around it. Just the reply."""
+
+        system_prompt = self._build_system_prompt(packet)
+        full_prompt   = system_prompt + "\n\n" + user_prompt
+
+        try:
+            response   = self.model.generate_content(full_prompt)
+            draft_text = response.text.strip()
+        except Exception as exc:
+            draft_text = f"[AI DRAFT FAILED: {exc}]"
+
+        tone_used = (
+            "PEER_TECHNICAL"    if sender["is_charlie"]
+            else "INNER_CIRCLE" if sender["is_super_fan"]
+            else "AUTHORITATIVE_ARCHITECT"
+        )
+
+        return {
+            "draft_text":    draft_text,
+            "lead_tag":      lead_tag,
+            "tone_used":     tone_used,
+            "word_count":    len(draft_text.split()),
+            "model_used":    "gemini-1.5-flash",
+            "packet_id":     packet["packet_id"],
+            "message_id":    msg["id"],
+            "reply_to_id":   msg["id"],
+            "sender_handle": sender["handle"],
+            "generated_at":  datetime.now(timezone.utc).isoformat(),
+            "status":        "pending_approval",
+        }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MODULE 3 — DRAFT QUEUE + GHOST GUARD
+# ─────────────────────────────────────────────────────────────────────────────
+
+def generate_drafts(packets: list, generator: ReplyGenerator) -> list:
+    """Run all context packets through the CEO Brain. Save to draft_queue.json."""
+    drafts = []
+    for pkt in packets:
+        lead_tag = pkt.get("sentiment_analysis", {}).get("lead_tag", "📡 STANDARD")
+        print(f"[BRAIN] 🧠 Generating draft for {pkt['sender']['handle']} | {lead_tag}")
+        try:
+            draft = generator.generate(pkt)
+            drafts.append(draft)
+            _ghost_guard_register(draft)
+        except Exception as exc:
+            print(f"[BRAIN] ⚠️  Draft failed for {pkt['packet_id']}: {exc}")
+
+    # Persist to draft queue (rolling 500 cap)
+    DRAFTS_LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
+    existing_queue = []
+    if DRAFTS_LOG_FILE.exists():
+        with open(DRAFTS_LOG_FILE) as f:
+            try:
+                existing_queue = json.load(f)
+            except json.JSONDecodeError:
+                existing_queue = []
+    combined = existing_queue + drafts
+    with open(DRAFTS_LOG_FILE, "w") as f:
+        json.dump(combined[-500:], f, indent=2, ensure_ascii=False)
+
+    print(f"[BRAIN] ✅ {len(drafts)} draft(s) saved → {DRAFTS_LOG_FILE}")
+    return drafts
+
+
+def _ghost_guard_register(draft: dict) -> None:
+    """Register a PRIORITY draft for GhostGuard 15-min watchdog."""
+    tag = draft.get("lead_tag", "")
+    if "PRICE_SIGNAL" not in tag and "CRITICAL_ISSUE" not in tag:
+        return
+
+    GHOST_GUARD_FILE.parent.mkdir(parents=True, exist_ok=True)
+    guards = {}
+    if GHOST_GUARD_FILE.exists():
+        with open(GHOST_GUARD_FILE) as f:
+            try:
+                guards = json.load(f)
+            except json.JSONDecodeError:
+                guards = {}
+
+    guards[draft["message_id"]] = {
+        "lead_tag":      draft["lead_tag"],
+        "sender":        draft["sender_handle"],
+        "draft_preview": draft["draft_text"][:120],
+        "registered_at": datetime.now(timezone.utc).isoformat(),
+        "alert_sent":    False,
+    }
+    with open(GHOST_GUARD_FILE, "w") as f:
+        json.dump(guards, f, indent=2, ensure_ascii=False)
+    print(f"[GHOSTGUARD] ⏱️  Registered {draft['sender_handle']} ({tag}) — alert in {GHOST_GUARD_MINUTES}min if unapproved")
+
+
+def check_ghost_guard() -> list:
+    """Return list of overdue PRIORITY drafts (>15 min, unapproved). For Telegram alert."""
+    if not GHOST_GUARD_FILE.exists():
+        return []
+    with open(GHOST_GUARD_FILE) as f:
+        try:
+            guards = json.load(f)
+        except json.JSONDecodeError:
+            return []
+    overdue = []
+    now = datetime.now(timezone.utc)
+    for mid, g in guards.items():
+        if g.get("alert_sent"):
+            continue
+        registered = datetime.fromisoformat(g["registered_at"])
+        elapsed_min = (now - registered).total_seconds() / 60
+        if elapsed_min >= GHOST_GUARD_MINUTES:
+            overdue.append({**g, "message_id": mid, "elapsed_minutes": round(elapsed_min, 1)})
+    return overdue
+
+
+def print_draft(draft: dict, index: int) -> None:
+    """Pretty-print a single CEO draft reply."""
+    tag   = draft.get("lead_tag", "📡 STANDARD")
+    tone  = draft.get("tone_used", "")
+    words = draft.get("word_count", 0)
+    sender = draft.get("sender_handle", "?")
+    print(f"\n{'─' * 72}")
+    print(f"  ✍️  DRAFT #{index} | {sender} | {tag} | {tone} | {words} words")
+    print(f"{'─' * 72}")
+    print(draft.get("draft_text", "[no text]"))
+    print(f"  [status: {draft.get('status','?')} | model: {draft.get('model_used','?')}]")
+    print(f"{'─' * 72}")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # MAIN POLLING LOOP
 # ─────────────────────────────────────────────────────────────────────────────
 
-def run_once(show_packets: int = 3, force_all: bool = False) -> list[dict]:
+def run_once(show_packets: int = 3, force_all: bool = False, gen_drafts: bool = False) -> list:
     """
     Single poll: fetch messages, build context packets for new ones.
     Returns list of context packets.
@@ -803,9 +1100,31 @@ def run_once(show_packets: int = 3, force_all: bool = False) -> list[dict]:
     print(f"  Bio-Probes fired (live API):   {probe_count}")
     print(f"  Ledger file:                   {LEDGER_FILE}")
     print(f"  Context log file:              {CONTEXT_LOG_FILE}")
-    print(f"  Module 3 (AI Brain) status:    PENDING — Approval gate not yet built")
+    print(f"  Module 3 (AI Brain) status:    ✅ LIVE (gemini-1.5-flash)")
     print(f"  Module 4 (Telegram Gate) status: PENDING — Next build phase")
     print(f"{'=' * 72}\n")
+
+    # ── MODULE 3: DRAFT GENERATION ────────────────────────────────────────────
+    if gen_drafts and packets:
+        print(f"\n{'=' * 72}")
+        print(f"  🧠 MODULE 3 — CEO BRAIN ACTIVATED — generating {len(packets)} draft(s)")
+        print(f"{'=' * 72}")
+        try:
+            brain  = ReplyGenerator()
+            drafts = generate_drafts(packets, brain)
+            print(f"\n{'=' * 72}")
+            print(f"  ✍️  DRAFT REPLIES ({len(drafts)} generated)")
+            print(f"{'=' * 72}")
+            for i, d in enumerate(drafts, 1):
+                print_draft(d, i)
+            # GhostGuard check
+            overdue = check_ghost_guard()
+            if overdue:
+                print(f"\n⚠️  GHOST GUARD ALERT — {len(overdue)} PRIORITY draft(s) need approval:")
+                for o in overdue:
+                    print(f"   {o['sender']} | {o['lead_tag']} | {o['elapsed_minutes']} min elapsed")
+        except Exception as exc:
+            print(f"[BRAIN] ❌ Module 3 error: {exc}")
 
     return packets
 
@@ -838,17 +1157,18 @@ def run_polling_loop():
 if __name__ == "__main__":
     args = sys.argv[1:]
 
-    if "--once" in args or "--demo" in args:
-        # Single poll — show 3 enriched packets from LAST 3 non-CEO messages
-        n = 3
+    if "--once" in args or "--demo" in args or "--draft" in args:
+        # Single poll — show N enriched packets, optionally generate drafts
+        n          = 3
+        do_draft   = "--draft" in args
         for a in args:
             if a.startswith("--packets="):
                 n = int(a.split("=")[1])
-            elif a.startswith("--packets"):
+            elif a == "--packets":
                 idx = args.index(a)
                 if idx + 1 < len(args):
                     n = int(args[idx + 1])
-        run_once(show_packets=n, force_all=True)
+        run_once(show_packets=n, force_all=True, gen_drafts=do_draft)
     else:
         # Live polling loop
         run_polling_loop()

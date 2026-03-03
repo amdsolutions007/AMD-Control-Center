@@ -1,0 +1,37 @@
+{
+  "01KH8DJK3VP977AB0ME06MWDHE": {
+    "lead_tag": "🆘 CRITICAL_ISSUE",
+    "sender": "@chigofficial",
+    "draft_preview": "[AI DRAFT FAILED: 400 API key expired. Please renew the API key. [reason: \"API_KEY_INVALID\"\ndomain: \"googleapis.com\"\nmet",
+    "registered_at": "2026-03-03T04:18:47.798634+00:00",
+    "alert_sent": false
+  },
+  "01KHA07BRM0K7DJXRG9PJ5V6BK": {
+    "lead_tag": "🔥 PRICE_SIGNAL",
+    "sender": "@chigofficial",
+    "draft_preview": "[AI DRAFT FAILED: 400 API key expired. Please renew the API key. [reason: \"API_KEY_INVALID\"\ndomain: \"googleapis.com\"\nmet",
+    "registered_at": "2026-03-03T04:18:47.980308+00:00",
+    "alert_sent": false
+  },
+  "01KHRDE8CJDB73PRAM834J1A0S": {
+    "lead_tag": "🔥 PRICE_SIGNAL",
+    "sender": "@Nastyblaze",
+    "draft_preview": "[AI DRAFT FAILED: 400 API key expired. Please renew the API key. [reason: \"API_KEY_INVALID\"\ndomain: \"googleapis.com\"\nmet",
+    "registered_at": "2026-03-03T04:18:49.474717+00:00",
+    "alert_sent": false
+  },
+  "01KJ45V9XW890CNXF4JW61MAAT": {
+    "lead_tag": "🆘 CRITICAL_ISSUE",
+    "sender": "@od_erah",
+    "draft_preview": "[AI DRAFT FAILED: 400 API key expired. Please renew the API key. [reason: \"API_KEY_INVALID\"\ndomain: \"googleapis.com\"\nmet",
+    "registered_at": "2026-03-03T04:18:51.925692+00:00",
+    "alert_sent": false
+  },
+  "01KJH0T58Y38FVT1WQ3CVPBE2S": {
+    "lead_tag": "🆘 CRITICAL_ISSUE",
+    "sender": "@od_erah",
+    "draft_preview": "[AI DRAFT FAILED: 400 API key expired. Please renew the API key. [reason: \"API_KEY_INVALID\"\ndomain: \"googleapis.com\"\nmet",
+    "registered_at": "2026-03-03T04:18:54.975444+00:00",
+    "alert_sent": false
+  }
+}

@@ -1,7 +1,7 @@
 [
   {
     "packet_id": "CTX_01KH3X35QSGXBN6H",
-    "generated_at": "2026-03-03T03:37:05.768682+00:00",
+    "generated_at": "2026-03-03T04:18:06.629452+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -37,6 +37,7 @@
       "urgency_signals": [
         "MENTION_DETECTED"
       ],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": false,
       "is_technical": false,
@@ -66,7 +67,7 @@
   },
   {
     "packet_id": "CTX_01KH6NPTQAJM80Z0",
-    "generated_at": "2026-03-03T03:37:06.856968+00:00",
+    "generated_at": "2026-03-03T04:18:07.858267+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -100,6 +101,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": false,
       "is_technical": false,
@@ -124,7 +126,7 @@
   },
   {
     "packet_id": "CTX_01KH6YE1CGVAK7NW",
-    "generated_at": "2026-03-03T03:37:08.269274+00:00",
+    "generated_at": "2026-03-03T04:18:09.062126+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -158,6 +160,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": false,
       "is_technical": false,
@@ -182,7 +185,7 @@
   },
   {
     "packet_id": "CTX_01KH6YJQ1T4ES2VR",
-    "generated_at": "2026-03-03T03:37:09.322733+00:00",
+    "generated_at": "2026-03-03T04:18:10.799291+00:00",
     "priority": "🚨 URGENT — FOUNDING MEMBER (Platform Builder @charlie_pyper)",
     "priority_code": "URGENT_CHARLIE",
     "message": {
@@ -216,6 +219,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": false,
       "is_technical": false,
@@ -240,7 +244,7 @@
   },
   {
     "packet_id": "CTX_01KH72GDZ8DP7JQN",
-    "generated_at": "2026-03-03T03:37:10.334830+00:00",
+    "generated_at": "2026-03-03T04:18:12.081902+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -274,6 +278,7 @@
       ],
       "tone": "WARM",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": true,
       "is_technical": false,
@@ -298,7 +303,7 @@
   },
   {
     "packet_id": "CTX_01KH7ANJS5MN5JR7",
-    "generated_at": "2026-03-03T03:37:11.450706+00:00",
+    "generated_at": "2026-03-03T04:18:13.709208+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -332,6 +337,7 @@
       ],
       "tone": "WARM",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": true,
       "is_technical": false,
@@ -361,7 +367,7 @@
   },
   {
     "packet_id": "CTX_01KH7D4FH3HY3W86",
-    "generated_at": "2026-03-03T03:37:13.008304+00:00",
+    "generated_at": "2026-03-03T04:18:14.956753+00:00",
     "priority": "🚨 URGENT — FOUNDING MEMBER (Platform Builder @charlie_pyper)",
     "priority_code": "URGENT_CHARLIE",
     "message": {
@@ -395,6 +401,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": false,
       "is_technical": false,
@@ -419,7 +426,7 @@
   },
   {
     "packet_id": "CTX_01KH7D53DVZZ5AX5",
-    "generated_at": "2026-03-03T03:37:14.366905+00:00",
+    "generated_at": "2026-03-03T04:18:16.359473+00:00",
     "priority": "🚨 URGENT — FOUNDING MEMBER (Platform Builder @charlie_pyper)",
     "priority_code": "URGENT_CHARLIE",
     "message": {
@@ -454,6 +461,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": false,
       "is_technical": false,
@@ -478,7 +486,7 @@
   },
   {
     "packet_id": "CTX_01KH7D5SJJWHMTGN",
-    "generated_at": "2026-03-03T03:37:15.698744+00:00",
+    "generated_at": "2026-03-03T04:18:17.831014+00:00",
     "priority": "🚨 URGENT — FOUNDING MEMBER (Platform Builder @charlie_pyper)",
     "priority_code": "URGENT_CHARLIE",
     "message": {
@@ -512,6 +520,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": false,
       "is_technical": false,
@@ -536,7 +545,7 @@
   },
   {
     "packet_id": "CTX_01KH8DJK3VP977AB",
-    "generated_at": "2026-03-03T03:37:15.701302+00:00",
+    "generated_at": "2026-03-03T04:18:17.832180+00:00",
     "priority": "🚨 URGENT — SUPER-FAN @chigofficial (inner circle, max loyalty)",
     "priority_code": "URGENT_SUPERFAN",
     "message": {
@@ -575,6 +584,7 @@
         "HELP_REQUESTED",
         "LONG_FORM_CONTENT"
       ],
+      "lead_tag": "🆘 CRITICAL_ISSUE",
       "is_question": false,
       "is_introduction": false,
       "is_technical": true,
@@ -599,7 +609,7 @@
   },
   {
     "packet_id": "CTX_01KHA07BRM0K7DJX",
-    "generated_at": "2026-03-03T03:37:15.701432+00:00",
+    "generated_at": "2026-03-03T04:18:17.832399+00:00",
     "priority": "🚨 URGENT — SUPER-FAN @chigofficial (inner circle, max loyalty)",
     "priority_code": "URGENT_SUPERFAN",
     "message": {
@@ -634,6 +644,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "🔥 PRICE_SIGNAL",
       "is_question": false,
       "is_introduction": false,
       "is_technical": false,
@@ -663,7 +674,7 @@
   },
   {
     "packet_id": "CTX_01KHC5BQVP22VYCV",
-    "generated_at": "2026-03-03T03:37:15.701501+00:00",
+    "generated_at": "2026-03-03T04:18:17.832603+00:00",
     "priority": "🚨 URGENT — SUPER-FAN @chigofficial (inner circle, max loyalty)",
     "priority_code": "URGENT_SUPERFAN",
     "message": {
@@ -698,6 +709,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": false,
       "is_technical": false,
@@ -727,7 +739,7 @@
   },
   {
     "packet_id": "CTX_01KHNT0HEPW1EHDX",
-    "generated_at": "2026-03-03T03:37:17.372896+00:00",
+    "generated_at": "2026-03-03T04:18:19.041860+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -761,6 +773,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": false,
       "is_technical": false,
@@ -785,7 +798,7 @@
   },
   {
     "packet_id": "CTX_01KHRDE8CJDB73PR",
-    "generated_at": "2026-03-03T03:37:18.905586+00:00",
+    "generated_at": "2026-03-03T04:18:20.498537+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -819,6 +832,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "🔥 PRICE_SIGNAL",
       "is_question": false,
       "is_introduction": false,
       "is_technical": false,
@@ -843,7 +857,7 @@
   },
   {
     "packet_id": "CTX_01KJ451DCNJ0JSED",
-    "generated_at": "2026-03-03T03:37:20.058256+00:00",
+    "generated_at": "2026-03-03T04:18:21.754942+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -878,6 +892,7 @@
       ],
       "tone": "ANALYTICAL",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": false,
       "is_technical": true,
@@ -907,7 +922,7 @@
   },
   {
     "packet_id": "CTX_01KJ454MRS5SE0H2",
-    "generated_at": "2026-03-03T03:37:21.200435+00:00",
+    "generated_at": "2026-03-03T04:18:23.047849+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -941,6 +956,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": false,
       "is_technical": false,
@@ -970,7 +986,7 @@
   },
   {
     "packet_id": "CTX_01KJ45D9FRENF7EJ",
-    "generated_at": "2026-03-03T03:37:22.378075+00:00",
+    "generated_at": "2026-03-03T04:18:29.396258+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -1004,6 +1020,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": false,
       "is_technical": false,
@@ -1033,7 +1050,7 @@
   },
   {
     "packet_id": "CTX_01KJ45JJSMSF77MG",
-    "generated_at": "2026-03-03T03:37:23.482581+00:00",
+    "generated_at": "2026-03-03T04:18:30.610695+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -1068,6 +1085,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": true,
       "is_introduction": false,
       "is_technical": false,
@@ -1097,7 +1115,7 @@
   },
   {
     "packet_id": "CTX_01KJ45NPMXMKM341",
-    "generated_at": "2026-03-03T03:37:24.734418+00:00",
+    "generated_at": "2026-03-03T04:18:31.709139+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -1131,6 +1149,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": true,
       "is_introduction": false,
       "is_technical": false,
@@ -1160,7 +1179,7 @@
   },
   {
     "packet_id": "CTX_01KJ45V9XW890CNX",
-    "generated_at": "2026-03-03T03:37:27.758805+00:00",
+    "generated_at": "2026-03-03T04:18:32.779765+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -1196,6 +1215,7 @@
       "urgency_signals": [
         "HELP_REQUESTED"
       ],
+      "lead_tag": "🆘 CRITICAL_ISSUE",
       "is_question": false,
       "is_introduction": true,
       "is_technical": false,
@@ -1225,7 +1245,7 @@
   },
   {
     "packet_id": "CTX_01KJ45W5MX0E7QE8",
-    "generated_at": "2026-03-03T03:37:29.250587+00:00",
+    "generated_at": "2026-03-03T04:18:33.838512+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -1259,6 +1279,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": true,
       "is_introduction": false,
       "is_technical": false,
@@ -1283,7 +1304,7 @@
   },
   {
     "packet_id": "CTX_01KJ45WXYZR5BTEZ",
-    "generated_at": "2026-03-03T03:37:30.850134+00:00",
+    "generated_at": "2026-03-03T04:18:35.012903+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -1317,6 +1338,7 @@
       ],
       "tone": "ANALYTICAL",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": false,
       "is_technical": true,
@@ -1341,7 +1363,7 @@
   },
   {
     "packet_id": "CTX_01KJ4660XW1ZJYDV",
-    "generated_at": "2026-03-03T03:37:32.039099+00:00",
+    "generated_at": "2026-03-03T04:18:36.103034+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -1375,6 +1397,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": false,
       "is_technical": false,
@@ -1404,7 +1427,7 @@
   },
   {
     "packet_id": "CTX_01KJ46D5VYH3NQ3N",
-    "generated_at": "2026-03-03T03:37:33.306695+00:00",
+    "generated_at": "2026-03-03T04:18:37.196419+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -1438,6 +1461,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "🤝 SYNERGY_OPPORTUNITY",
       "is_question": false,
       "is_introduction": false,
       "is_technical": false,
@@ -1462,7 +1486,7 @@
   },
   {
     "packet_id": "CTX_01KJH092K7MNGP6P",
-    "generated_at": "2026-03-03T03:37:34.470747+00:00",
+    "generated_at": "2026-03-03T04:18:38.306750+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -1496,6 +1520,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": false,
       "is_technical": false,
@@ -1525,7 +1550,7 @@
   },
   {
     "packet_id": "CTX_01KJH0MMYA37MT9C",
-    "generated_at": "2026-03-03T03:37:35.990080+00:00",
+    "generated_at": "2026-03-03T04:18:39.431912+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -1560,6 +1585,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": false,
       "is_technical": false,
@@ -1584,7 +1610,7 @@
   },
   {
     "packet_id": "CTX_01KJH0T58Y38FVT1",
-    "generated_at": "2026-03-03T03:37:37.080534+00:00",
+    "generated_at": "2026-03-03T04:18:40.801917+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -1618,6 +1644,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "🆘 CRITICAL_ISSUE",
       "is_question": false,
       "is_introduction": false,
       "is_technical": false,
@@ -1642,7 +1669,7 @@
   },
   {
     "packet_id": "CTX_01KJM4T7YSEJ2QPR",
-    "generated_at": "2026-03-03T03:37:37.080775+00:00",
+    "generated_at": "2026-03-03T04:18:40.802009+00:00",
     "priority": "🚨 URGENT — SUPER-FAN @salaryalert (inner circle, max loyalty)",
     "priority_code": "URGENT_SUPERFAN",
     "message": {
@@ -1677,6 +1704,7 @@
       ],
       "tone": "WARM",
       "urgency_signals": [],
+      "lead_tag": "🤝 SYNERGY_OPPORTUNITY",
       "is_question": false,
       "is_introduction": true,
       "is_technical": false,
@@ -1701,7 +1729,7 @@
   },
   {
     "packet_id": "CTX_01KJM6YTKB1S20KW",
-    "generated_at": "2026-03-03T03:37:37.080884+00:00",
+    "generated_at": "2026-03-03T04:18:40.802061+00:00",
     "priority": "🚨 URGENT — SUPER-FAN @salaryalert (inner circle, max loyalty)",
     "priority_code": "URGENT_SUPERFAN",
     "message": {
@@ -1736,6 +1764,7 @@
       ],
       "tone": "CONVERSATIONAL",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": false,
       "is_technical": false,
@@ -1765,7 +1794,7 @@
   },
   {
     "packet_id": "CTX_01KJNS257QRTPEZ7",
-    "generated_at": "2026-03-03T03:37:38.234390+00:00",
+    "generated_at": "2026-03-03T04:18:42.600607+00:00",
     "priority": "STANDARD",
     "priority_code": "STANDARD",
     "message": {
@@ -1799,6 +1828,7 @@
       ],
       "tone": "WARM",
       "urgency_signals": [],
+      "lead_tag": "📡 STANDARD",
       "is_question": false,
       "is_introduction": true,
       "is_technical": false,
