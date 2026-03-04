@@ -224,26 +224,89 @@ def fetch_new_messages(ledger: dict, limit: int = MSG_FETCH_LIMIT) -> list[dict]
     return new_msgs
 
 
+def _discover_dm_convs_from_api() -> dict:
+    """
+    Query LekeeLekee API for ALL active direct conversations.
+    Returns {username_lower: conv_public_id} — works on Railway where
+    dm_directory.json is not kept up-to-date by the local blast tool.
+    """
+    discovered = {}
+    try:
+        resp = requests.get(
+            f"{BASE_URL}/api/v1/conversations",
+            headers=_headers(),
+            params={"per_page": 50},
+            timeout=25,
+        )
+        data = _safe_json(resp)
+        if not data:
+            return discovered
+        convs = data.get("conversations", [])
+        for c in convs:
+            if c.get("type") != "direct":
+                continue
+            conv_id = c.get("public_id") or c.get("id")
+            if not conv_id:
+                continue
+            # Find the other participant (not CEO)
+            for p in c.get("members", c.get("participants", [])):
+                pid = p.get("public_id") or p.get("id")
+                if pid and str(pid) != str(CEO_PUBLIC_ID):
+                    username = (p.get("username") or str(pid)).lower()
+                    discovered[username] = str(conv_id)
+                    break
+    except Exception as exc:
+        print(f"[DM DISCOVER] ⚠️  API discovery failed: {exc}")
+    return discovered
+
+
 def fetch_dm_messages(ledger: dict, limit: int = MSG_FETCH_LIMIT) -> list[dict]:
     """
-    Fetch recent messages from ALL DM conversations in dm_directory.json.
-    Returns only UNSEEN messages from non-CEO senders.
-    Each message includes _source_conv (username) for context.
+    Fetch recent messages from ALL DM conversations.
+    Source: dm_directory.json (local) MERGED with live API discovery.
+    This ensures Railway (where the blast doesn't run) still polls every
+    DM conversation that has been opened on the account.
     """
-    if not DM_DIR_FILE.exists():
+    # ── Source 1: local dm_directory.json ────────────────────────────────────
+    dm_dir: dict = {}
+    if DM_DIR_FILE.exists():
+        try:
+            raw = json.loads(DM_DIR_FILE.read_text())
+            for k, v in raw.items():
+                if not k.startswith("_") and isinstance(v, str) and v.startswith("019"):
+                    dm_dir[k.lower()] = v
+        except Exception:
+            pass
+
+    # ── Source 2: live API discovery (catches convs opened by blast) ─────────
+    api_convs = _discover_dm_convs_from_api()
+    merged = {**dm_dir, **api_convs}      # API wins on conflict (fresher)
+
+    if not merged:
         return []
 
-    try:
-        dm_dir: dict = json.loads(DM_DIR_FILE.read_text())
-    except Exception:
-        return []
+    # ── Persist any newly discovered convs back to dm_directory.json ─────────
+    if api_convs:
+        try:
+            existing = {}
+            if DM_DIR_FILE.exists():
+                existing = json.loads(DM_DIR_FILE.read_text())
+            updated = False
+            for u, cid in api_convs.items():
+                if u not in existing or existing.get(u) != cid:
+                    existing[u] = cid
+                    updated = True
+            if updated:
+                DM_DIR_FILE.parent.mkdir(parents=True, exist_ok=True)
+                DM_DIR_FILE.write_text(json.dumps(existing, indent=2))
+                print(f"[DM DISCOVER] 📁 Synced {len(api_convs)} DM conv(s) → dm_directory.json")
+        except Exception:
+            pass
 
+    print(f"[DM POLLER] Polling {len(merged)} DM conv(s): {list(merged.keys())[:8]}")
     all_dm_msgs: list[dict] = []
 
-    for username, conv_id in dm_dir.items():
-        # Skip metadata keys
-        if username.startswith("_") or not isinstance(conv_id, str) or not conv_id.startswith("019"):
-            continue
+    for username, conv_id in merged.items():
         try:
             resp = requests.get(
                 f"{BASE_URL}/api/v1/conversations/{conv_id}/messages",
@@ -274,10 +337,9 @@ def fetch_dm_messages(ledger: dict, limit: int = MSG_FETCH_LIMIT) -> list[dict]:
                 m["_body"]        = body
                 m["_sender_obj"]  = m.get("sender") or {}
                 m["_reply_ctx"]   = m.get("reply_to")
-                m["_source_conv"] = username          # track which DM this came from
+                m["_source_conv"] = username
                 m["_conv_id"]     = conv_id
                 m["_is_dm"]       = True
-                # Prefix msg_id to avoid ledger collision with group chat ids
                 m["id"]           = f"dm_{msg_id}"
                 all_dm_msgs.append(m)
 

@@ -1281,6 +1281,35 @@ Use /generate to create next post"""
         except Exception as exc:
             print(f"⚠️  Architect Brief send failed: {exc}")
 
+    async def _intel_poll_job(self, context: ContextTypes.DEFAULT_TYPE):
+        """
+        THE DOME — 60-second perpetual intel loop.
+
+        Runs chat_intel_engine.run_once(gen_drafts=True) on every tick:
+          • Fetches #General + ALL DM conversations (via API discovery)
+          • Builds context packets, scores them, generates Gemini reply drafts
+          • Writes PENDING drafts to ai_reply_drafts.json
+
+        _draft_watchdog_job picks up new drafts every 5 min and fires CEO
+        Telegram approval cards.
+
+        120-Second Response Law target:
+          intel poll fires every 60s → draft written → watchdog fires within 5 min
+          Worst case end-to-end: 60 + 300 = 360s.  Reduce watchdog to 60s for
+          strict 120s compliance (set interval=60 on _draft_watchdog_job).
+        """
+        import sys as _sys
+        _tools_dir = str(Path(__file__).parent / "tools")
+        if _tools_dir not in _sys.path:
+            _sys.path.insert(0, _tools_dir)
+        try:
+            from chat_intel_engine import run_once  # type: ignore
+            packets = run_once(gen_drafts=True)
+            if packets:
+                print(f"[DOME] ✅ {len(packets)} packet(s) processed → drafts queued")
+        except Exception as exc:
+            print(f"[DOME] ⚠️  Intel poll error: {exc}")
+
     def run(self):
         """Start the Telegram bot"""
         if not TELEGRAM_BOT_TOKEN:
@@ -1366,11 +1395,22 @@ Use /generate to create next post"""
         if self.app.job_queue:
             self.app.job_queue.run_repeating(
                 self._draft_watchdog_job,
-                interval=300,    # 5 minutes — same cadence as sync engine poll
+                interval=60,     # 120-Second Response Law: check every 60s
                 first=30,        # First check 30s after boot (sync engine may need time)
                 name="draft_reply_watchdog",
             )
-            print("🔔 Draft reply watchdog armed — checks every 5 min")
+            print("🔔 Draft reply watchdog armed — checks every 60s")
+        # ─────────────────────────────────────────────────────────────────────
+
+        # ── DOME: Intel Engine — perpetual 60s fetch + draft loop ────────────
+        if self.app.job_queue:
+            self.app.job_queue.run_repeating(
+                self._intel_poll_job,
+                interval=60,     # Fire every 60s — feeds drafts to watchdog
+                first=15,        # First poll 15s after boot
+                name="dome_intel_poll",
+            )
+            print("🛰️  DOME intel poll armed — 60s cycle")
         # ─────────────────────────────────────────────────────────────────────
 
         print("🤖 Telegram Approval Bot starting...")

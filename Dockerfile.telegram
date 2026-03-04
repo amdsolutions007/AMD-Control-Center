@@ -58,8 +58,13 @@ COPY telegram_approval_bot.py .
 COPY amd_badge.png .
 COPY 36_states_data.json .
 
+# DOME: Intel engine + vault
+COPY tools/ ./tools/
+COPY intelligence_vault/ ./intelligence_vault/
+
 # Create necessary directories
-RUN mkdir -p pending_posts approved_posts rejected_posts generated_graphics
+RUN mkdir -p pending_posts approved_posts rejected_posts generated_graphics \
+             tools intelligence_vault/live intelligence_vault/members/group intelligence_vault/members/profile
 
 # Run Telegram Bot
 CMD ["python", "telegram_approval_bot.py"]
