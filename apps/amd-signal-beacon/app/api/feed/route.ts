@@ -126,9 +126,18 @@ export async function GET() {
       publishTime: hourStart.toISOString(),  // MixedPost.publishTime is string
     };
 
+    // ── CACHE-BUSTER: stamp hourIndex into the GUID ──────────────────────────
+    // WHY: GUID = `post.id` is static (e.g. "day27-evening"). Once LekeeLekee
+    // imports it the first time it NEVER imports it again (dedup by GUID).
+    // FIX: `${post.id}-h${hourIndex}` produces a fresh GUID every clock-hour:
+    //   • Within the same hour: identical GUID → de-dup fires (1 import/hour ✅)
+    //   • Next hour: new suffix → LekeeLekee treats it as unseen → imports ✅
+    //   • Pool recycles after 20 hours? Doesn't matter — the -hN suffix is always unique ✅
+    const hourStampedId = `${hourlyItem.id}-h${hourIndex}`;
+
     const rssItems = [lockedItem].map(mixed => ({
       post: {
-        id: mixed.id,
+        id: hourStampedId,     // hour-stamped GUID — never repeats across hours
         title: mixed.title,
         content: mixed.content,
         publishTime: mixed.publishTime,
@@ -147,7 +156,7 @@ export async function GET() {
     const imagesWithGraphics = rssItems.filter(item => item.imageUrl).length;
 
     console.log(`✓ RSS generated in ${duration}ms`);
-    console.log(`🕐 ONE-PER-HOUR LAW: serving slot ${hourIndex % sourcePool.length + 1}/${sourcePool.length} — pubDate locked to ${hourStart.toISOString()}`);
+    console.log(`🕐 ONE-PER-HOUR LAW: slot ${hourIndex % sourcePool.length + 1}/${sourcePool.length} — GUID: ${hourStampedId} — pubDate: ${hourStart.toISOString()}`)
     console.log(`📊 Image cache: ${cacheStats.active} active, ${cacheStats.expired} expired`);
     console.log(`🎨 Posts with AI graphics: ${imagesWithGraphics}/${rssItems.length}`);
 
@@ -168,6 +177,7 @@ export async function GET() {
         'X-Feed-Law': '1-item-per-hour drip feed',
         'X-Hour-Slot': `${hourIndex % sourcePool.length + 1}/${sourcePool.length}`,
         'X-Hour-Start': hourStart.toISOString(),
+        'X-GUID': hourStampedId,
         'X-Generated-At': new Date().toISOString(),
         'X-Generation-Time': `${duration}ms`,
       },
