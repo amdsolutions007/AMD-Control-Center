@@ -170,53 +170,66 @@ def _save_dm_directory(dm_dir: dict) -> None:
 
 # ── UID Resolver ───────────────────────────────────────────────────────────────
 _uid_cache: dict[str, str] = {}
+_group_uid_map: dict[str, str] = {}   # pre-built from group_members_full.json
+
+
+def _build_group_uid_map() -> None:
+    """
+    Pre-populate uid cache from group_members_full.json (no API call needed).
+    Covers followers who are also group members.
+    """
+    global _group_uid_map
+    gf = ROOT / "intelligence_vault" / "live" / "group_members_full.json"
+    if not gf.exists():
+        return
+    try:
+        gdata = json.loads(gf.read_text())
+        members = gdata.get("members", gdata) if isinstance(gdata, dict) else gdata
+        for m in members:
+            uname = (m.get("username") or "").lstrip("@").lower()
+            uid = m.get("public_id", "")
+            if uname and uid:
+                _group_uid_map[uname] = uid
+                _uid_cache[uname] = uid
+    except Exception:
+        pass
+
 
 def _resolve_uid(username: str) -> str | None:
     """
-    Resolve @username → public_id via LekeeLekee API.
-    Tries multiple endpoint patterns in order.
+    Resolve @username → public_id.
+    1. Check local cache (pre-built from group_members_full.json)
+    2. Search API: GET /api/v1/search/users?q={username}
+       → filter results for exact username match (case-insensitive)
     """
     uname = username.lstrip("@").strip()
-    if uname in _uid_cache:
-        return _uid_cache[uname]
+    uname_lower = uname.lower()
 
-    endpoints = [
-        f"{BASE_URL}/users/{uname}",
-        f"{BASE_URL}/profile/{uname}",
-        f"{BASE_URL}/accounts/{uname}",
-        f"{BASE_URL}/users?username={uname}",
-    ]
+    if uname_lower in _uid_cache:
+        return _uid_cache[uname_lower]
 
-    for url in endpoints:
-        try:
-            resp = _session.get(url, timeout=15)
-            if resp.status_code != 200:
-                continue
-            data = _safe_json(resp)
-            # Try multiple paths to the user object
-            user = (
-                data.get("user")
-                or data.get("account")
-                or data.get("profile")
-                or data.get("data", {}).get("user")
-                or data.get("data", {})
-            )
-            # Handle list responses (search endpoints)
-            if isinstance(data.get("data"), list):
-                for u in data["data"]:
-                    if (u.get("username") or "").lower() == uname.lower():
-                        user = u
-                        break
-            uid = (
-                user.get("public_id")
-                or user.get("id")
-                or user.get("uuid")
-            )
-            if uid:
-                _uid_cache[uname] = str(uid)
-                return str(uid)
-        except Exception:
-            continue
+    try:
+        resp = _session.get(
+            f"{BASE_URL}/search/users",
+            params={"q": uname},
+            timeout=15,
+        )
+        if resp.status_code != 200:
+            return None
+        data = _safe_json(resp)
+        users = (
+            data.get("data", {}).get("users", {}).get("data")
+            or data.get("users", {}).get("data")
+            or []
+        )
+        for u in users:
+            if (u.get("username") or "").lower() == uname_lower:
+                uid = u.get("public_id") or u.get("id", "")
+                if uid:
+                    _uid_cache[uname_lower] = str(uid)
+                    return str(uid)
+    except Exception:
+        pass
 
     return None
 
@@ -285,6 +298,9 @@ def run_harvest(
         _log("🔐 Authenticating to LekeeLekee...")
         _auth()
         _log("✅ Auth OK")
+        _build_group_uid_map()
+        if _group_uid_map:
+            _log(f"📋 Pre-loaded {len(_group_uid_map)} UIDs from group_members_full.json")
 
     members = _load_followers(bio_sort=bio_sort)
     dm_dir  = _load_dm_directory()
