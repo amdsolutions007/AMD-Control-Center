@@ -169,7 +169,7 @@ def _send_dm(conv_id: str, text: str) -> bool:
 
 
 # ── Main blast ─────────────────────────────────────────────────────────────────
-def run_blast(dry_run: bool = False, limit: int | None = None, resume: bool = False) -> None:
+def run_blast(dry_run: bool = False, limit: int | None = None, resume: bool = False, start_index: int = 0) -> None:
     _log("=" * 72)
     _log("🛰️  007 WAKE-UP STRIKE — INITIATED")
     _log(f"   Mode: {'DRY RUN' if dry_run else 'LIVE FIRE'} | Batch: {BATCH_SIZE} | Jitter: {JITTER_MIN}–{JITTER_MAX}s")
@@ -186,6 +186,10 @@ def run_blast(dry_run: bool = False, limit: int | None = None, resume: bool = Fa
     if limit:
         members = members[:limit]
         _log(f"⚠️  Limit set: blasting first {limit} members only")
+
+    if start_index:
+        members = members[start_index:]
+        _log(f"⏩ start-index: skipping first {start_index} members, {len(members)} remain")
 
     if resume:
         blasted_usernames = set(dm_dir.keys())
@@ -285,8 +289,9 @@ def run_blast(dry_run: bool = False, limit: int | None = None, resume: bool = Fa
 # ── CLI ────────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description="007 Wake-Up Strike — DM blast tool")
-    ap.add_argument("--dry-run",  action="store_true", help="Preview only, no sends")
-    ap.add_argument("--limit",    type=int,            help="Blast first N members only")
-    ap.add_argument("--resume",   action="store_true", help="Skip already-blasted members")
+    ap.add_argument("--dry-run",    action="store_true", help="Preview only, no sends")
+    ap.add_argument("--limit",      type=int,            help="Blast first N members only")
+    ap.add_argument("--resume",     action="store_true", help="Skip already-blasted members (in dm_directory)")
+    ap.add_argument("--start-index",type=int, default=0, help="Skip first N members (resume from position)")
     args = ap.parse_args()
-    run_blast(dry_run=args.dry_run, limit=args.limit, resume=args.resume)
+    run_blast(dry_run=args.dry_run, limit=args.limit, resume=args.resume, start_index=args.start_index)

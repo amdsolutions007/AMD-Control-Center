@@ -111,13 +111,21 @@ const enableGraphics = false;           // LAW: NEVER set to true — DALL-E add
 mixedContent.slice(0, 20)              // LAW: NEVER remove — source pool cap (NOT output cap)
 // ONE-PER-HOUR DRIP:
 const hourIndex = Math.floor(Date.now() / (1000 * 60 * 60)); // LAW: NEVER remove
+// GUID CACHE-BUSTER (added 2026-03-04):
+const hourStampedId = `${hourlyItem.id}-h${hourIndex}`;       // LAW: NEVER revert to static post.id
 ```
+
+**The GUID Cache-Buster Law (added 2026-03-04):**
+The `<guid>` tag MUST be `${post.id}-h${hourIndex}` — never the raw static `post.id`.
+**Root cause of the original stall:** LekeeLekee deduplicates imports by GUID. The old `post.id` (e.g. `day27-evening`) was permanent — once imported, it was never imported again. Result: after the initial ~20-hour cycle, the feed silently stopped producing new LekeeLekee posts, appearing to only "work" on manual AC refresh.
+**Fix:** The `-h{hourIndex}` suffix guarantees a globally unique GUID every clock-hour, giving LekeeLekee a fresh unseen GUID to import each hour in perpetuity.
 
 ### How the One-Per-Hour Law works:
 1. `sourcePool = mixedContent.slice(0, 20)` — keeps the origin fetch fast (<10s), stays within the 30s cURL deadline
 2. `hourIndex` advances every real clock-hour → selects one item: `sourcePool[hourIndex % pool.length]`
-3. `pubDate` is locked to the **start of the current clock-hour** — same GUID+date means LekeeLekee de-dupes and will not re-import the same item
-4. `Cache-Control: public, max-age=3600, s-maxage=3600` — Vercel CDN caches the response for a full hour; LekeeLekee's poller gets a cached 304 on subsequent requests
+3. `hourStampedId = ${item.id}-h${hourIndex}` — produces a **unique GUID every hour** so LekeeLekee always imports it as new content
+4. `pubDate` is locked to the **start of the current clock-hour** — same GUID within the hour means LekeeLekee de-dupes and will not re-import the same item on repeated polls within the hour
+5. `Cache-Control: public, max-age=3600, s-maxage=3600` — Vercel CDN caches the response for a full hour; LekeeLekee's poller gets a cached 304 on subsequent requests within the hour
 
 ### Why these laws exist:
 - `forceFresh = true` bypasses the 1-hour Vercel cache → every request hits origin → slow → cURL 28
