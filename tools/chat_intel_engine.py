@@ -27,6 +27,8 @@ import os
 import sys
 import json
 import base64
+import hashlib
+import random
 import time
 import re
 import requests
@@ -82,6 +84,30 @@ MSG_FETCH_LIMIT   = 50   # messages per API call
 
 # DM directory — written by wake_up_strike.py
 DM_DIR_FILE = VAULT / "live" / "dm_directory.json"
+
+# ── GUARDIAN NOTIFICATION ENGINE ─────────────────────────────────────────────
+SEEN_NOTIF_FILE     = VAULT / "live" / "seen_notification_ids.json"
+LAST_POSTS_FILE     = VAULT / "live" / "last_posts.json"
+GUARDIAN_PAUSE_FILE = VAULT / "live" / "guardian_pause.json"
+
+_CTA_VARIANTS = [
+    "Drop your thoughts below 👇",
+    "What are you building? Share below 🚀",
+    "Who's solving this in Africa? Sound off 🌍",
+    "React if this resonates ⚡",
+    "Tag a builder who needs to see this 👀",
+]
+_GREETING_VARIANTS = [
+    "The ecosystem grows",
+    "Momentum builds",
+    "The architects are watching",
+    "Africa builds",
+    "Systems running",
+]
+
+# Module-level queue: fetch_guardian_notifications() fills this;
+# telegram_approval_bot._intel_poll_job() drains and clears it every 60s.
+_pending_guardian_alerts: list = []
 
 # ─────────────────────────────────────────────────────────────────────────────
 # AUTH
@@ -1111,6 +1137,153 @@ def check_ghost_guard() -> list:
     return overdue
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# GUARDIAN: NOTIFICATION ENGINE (Layer 1 + Layer 2 scoring)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _content_hash(text: str) -> str:
+    """SHA-256 fingerprint (first 16 hex chars) for duplicate-post detection."""
+    return hashlib.sha256(text.encode()).hexdigest()[:16]
+
+
+def _is_duplicate_post(text: str) -> bool:
+    """Return True if this post body was already published (anti-triple-post guard)."""
+    h = _content_hash(text)
+    if not LAST_POSTS_FILE.exists():
+        return False
+    try:
+        hashes = json.loads(LAST_POSTS_FILE.read_text())
+        return h in hashes
+    except Exception:
+        return False
+
+
+def _record_post_hash(text: str) -> None:
+    """Record a post hash to block future triple-posts. Caps at 100 entries."""
+    h = _content_hash(text)
+    hashes: list = []
+    if LAST_POSTS_FILE.exists():
+        try:
+            hashes = json.loads(LAST_POSTS_FILE.read_text())
+        except Exception:
+            hashes = []
+    if h not in hashes:
+        hashes.append(h)
+    LAST_POSTS_FILE.write_text(json.dumps(hashes[-100:], indent=2))
+
+
+def _guardian_score_notification(notif: dict) -> tuple:
+    """
+    Score a LekeeLekee notification into a Guardian tier.
+    Returns (tier: str, label: str, emoji: str).
+
+    Tiers:
+      CRITICAL  – ContentTakedownNotification → instant CEO alert + 2h auto-pause
+      VIP       – Founding Member activity OR professional bio signal → instant alert
+      STANDARD  – generic activity  → accumulate in 30-min digest
+      SUPPRESS  – bot-like / self-event → discard silently
+    """
+    ntype = notif.get("type", "")
+    data  = notif.get("data", {})
+    actor = data.get("actor", {})
+    uname = (data.get("username") or actor.get("username") or "").lower().strip()
+    bio   = (data.get("user_bio") or data.get("preview") or "").lower()
+
+    # CRITICAL — platform moderation
+    if "ContentTakedownNotification" in ntype:
+        return ("CRITICAL", "🚨 Content Takedown", "🚨")
+
+    # VIP — Founding Members (super-fans + charlie_pyper)
+    if uname in FOUNDING_HANDLES:
+        return ("VIP", f"🔥 Founding Member: @{uname}", "🔥")
+
+    # VIP — professional bio keywords
+    pro_kws = ("ceo", "founder", "investor", "startup", "cto", "director", "vp")
+    if any(kw in bio for kw in pro_kws):
+        return ("VIP", "🔥 Professional Signal", "🔥")
+
+    # SUPPRESS — numeric / bot-like handle, no real username
+    if not uname or (len(uname) > 4 and uname.replace("_", "").replace("-", "").isdigit()):
+        return ("SUPPRESS", "bot-like", "🤖")
+
+    # STANDARD — everything else
+    type_short = ntype.split("\\")[-1].replace("Notification", "")
+    return ("STANDARD", type_short, "📊")
+
+
+def fetch_guardian_notifications() -> list:
+    """
+    Fetch unread notifications from GET /api/v1/notifications.
+    • Deduplicates via intelligence_vault/live/seen_notification_ids.json
+    • HTTP 429 → sleep 900s back-off (Layer 3 rate-limit compliance)
+    • Annotates each new notification with _tier / _label / _emoji
+    Returns list of new, relevant notification dicts.
+    """
+    try:
+        resp = requests.get(
+            f"{BASE_URL}/api/v1/notifications",
+            headers=_headers(),
+            timeout=20,
+        )
+    except Exception as exc:
+        print(f"[GUARDIAN] ⚠️  Notification fetch error: {exc}")
+        return []
+
+    if resp.status_code == 429:
+        print("[GUARDIAN] 🚦 Rate-limited (HTTP 429) — sleeping 900s")
+        time.sleep(900)
+        return []
+
+    if resp.status_code not in (200, 201):
+        print(f"[GUARDIAN] ⚠️  Notification API HTTP {resp.status_code}")
+        return []
+
+    body = _safe_json(resp)
+    if not body:
+        return []
+
+    raw: list = (
+        body.get("notifications")
+        or body.get("data", {}).get("notifications")
+        or []
+    )
+
+    # Load previously seen IDs
+    seen: set = set()
+    if SEEN_NOTIF_FILE.exists():
+        try:
+            seen = set(json.loads(SEEN_NOTIF_FILE.read_text()))
+        except Exception:
+            seen = set()
+
+    new_alerts: list = []
+    for notif in raw:
+        nid = notif.get("id")
+        if not nid or nid in seen:
+            continue
+        tier, label, emoji = _guardian_score_notification(notif)
+        seen.add(nid)
+        if tier == "SUPPRESS":
+            continue
+        notif["_tier"]  = tier
+        notif["_label"] = label
+        notif["_emoji"] = emoji
+        new_alerts.append(notif)
+
+    # Persist seen IDs (cap at 2000 to limit file growth)
+    SEEN_NOTIF_FILE.parent.mkdir(parents=True, exist_ok=True)
+    SEEN_NOTIF_FILE.write_text(json.dumps(list(seen)[-2000:], indent=2))
+
+    if new_alerts:
+        critical = sum(1 for n in new_alerts if n["_tier"] == "CRITICAL")
+        vip      = sum(1 for n in new_alerts if n["_tier"] == "VIP")
+        std      = sum(1 for n in new_alerts if n["_tier"] == "STANDARD")
+        print(f"[GUARDIAN] 🔔 {len(new_alerts)} new notif(s): "
+              f"{critical} CRITICAL | {vip} VIP | {std} STANDARD")
+
+    return new_alerts
+
+
 def print_draft(draft: dict, index: int) -> None:
     """Pretty-print a single CEO draft reply."""
     tag   = draft.get("lead_tag", "📡 STANDARD")
@@ -1175,6 +1348,12 @@ def run_once(show_packets: int = 3, force_all: bool = False, gen_drafts: bool = 
     all_new_msgs = new_msgs + dm_msgs
 
     print(f"[POLLER] New messages found: {len(new_msgs)} #General + {len(dm_msgs)} DM = {len(all_new_msgs)} total")
+
+    # ── GUARDIAN: poll notifications every cycle regardless of message activity ──
+    _g_notifs = fetch_guardian_notifications()
+    if _g_notifs:
+        _pending_guardian_alerts.extend(_g_notifs)
+        print(f"[GUARDIAN] 🔔 {len(_g_notifs)} alert(s) queued for bot dispatch")
 
     if not all_new_msgs:
         print("[POLLER] No new messages. Vault is current.")

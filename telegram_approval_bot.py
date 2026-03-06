@@ -13,7 +13,7 @@ import time
 import urllib.request
 import urllib.parse
 from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime, time as dt_time, timezone
+from datetime import datetime, time as dt_time, timedelta, timezone
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
 from content_generator import ContentGenerator
@@ -177,6 +177,9 @@ class TelegramApprovalBot:
         self.graphic_gen = GraphicGenerator()
         self.app = None
         self._pending_registry: dict = self._load_registry()
+        # Guardian notification engine state
+        self._notif_digest_buffer: list = []
+        self._guardian_pause_until: "datetime | None" = None
 
     def _load_registry(self) -> dict:
         """Load persistent pending_posts.json from disk (survives redeploys)."""
@@ -1303,6 +1306,16 @@ Use /generate to create next post"""
         not yet posted (dedup via seen_feed_guids.json), builds a group caption,
         appends ARCHITECTS_SEAL, and publishes to African Tech Ecosystem group.
         """
+        # ── GUARDIAN auto-pause check (CRITICAL takedown triggers 2h block) ─────
+        if self._guardian_pause_until:
+            now_utc = datetime.now(timezone.utc)
+            if now_utc < self._guardian_pause_until:
+                remaining = int((self._guardian_pause_until - now_utc).total_seconds() / 60)
+                print(f"[FEED] ⛔ GUARDIAN auto-pause active — {remaining}min remaining. Skipping feed post.")
+                return
+            else:
+                self._guardian_pause_until = None   # Pause expired — resume normally
+        # ─────────────────────────────────────────────────────────────────────────
         import xml.etree.ElementTree as _ET
 
         FEED_URL  = "https://amd-signal-beacon.vercel.app/api/feed"
@@ -1401,6 +1414,96 @@ Use /generate to create next post"""
             json.dump(list(seen), open(seen_path, "w"), indent=2)
             print(f"[FEED] 💾 {posted} item(s) posted — seen_feed_guids.json updated")
 
+    # ─────────────────────────────────────────────────────────────────────────
+    # GUARDIAN: NOTIFICATION ALERT PIPELINE (Layers 2 + 3)
+    # ─────────────────────────────────────────────────────────────────────────
+
+    async def _telegram_guardian_alert(self, notif: dict) -> None:
+        """
+        Send an immediate Telegram alert for CRITICAL or VIP notifications.
+        CRITICAL tier also activates the 2-hour feed auto-pause.
+        """
+        chat_id = os.getenv("CEO_TELEGRAM_ID", "")
+        if not chat_id or not self.app:
+            return
+
+        tier  = notif.get("_tier", "STANDARD")
+        label = notif.get("_label", "Notification")
+        emoji = notif.get("_emoji", "📢")
+        data  = notif.get("data", {})
+        msg   = (data.get("message") or "").strip()
+        url   = (data.get("url") or "").strip()
+        uname = data.get("username") or data.get("user_name") or "?"
+        ts    = (notif.get("created_at") or "")[:19]
+
+        lines = [
+            f"{emoji} *GUARDIAN ALERT — {tier}*",
+            f"*Type:* {label}",
+            f"*From:* @{uname}",
+        ]
+        if msg:
+            lines.append(f"*Event:* {msg[:220]}")
+        if url:
+            lines.append(f"*Link:* {url}")
+        lines.append(f"*Time:* `{ts} UTC`")
+
+        if tier == "CRITICAL":
+            self._guardian_pause_until = datetime.now(timezone.utc) + timedelta(hours=2)
+            lines.append(
+                f"\n⛔ *AUTO\\-PAUSE ACTIVATED — 2 hours*\n"
+                f"_Feed posts suspended until_ `{self._guardian_pause_until.strftime('%H:%M UTC')}`"
+            )
+            print(f"[GUARDIAN] 🚨 CRITICAL TAKEDOWN — auto-pause until "
+                  f"{self._guardian_pause_until.isoformat()}")
+
+        text = "\n".join(lines)
+        try:
+            await self.app.bot.send_message(
+                chat_id=int(chat_id),
+                text=text,
+                parse_mode="Markdown",
+            )
+            print(f"[GUARDIAN] ✅ {tier} alert dispatched to CEO: {label}")
+        except Exception as exc:
+            print(f"[GUARDIAN] ⚠️  Alert send error: {exc}")
+
+    async def _notification_digest_job(self, context: ContextTypes.DEFAULT_TYPE) -> None:
+        """
+        30-minute digest job.
+        Drains accumulated STANDARD notification events and sends one
+        summary Telegram message to the CEO.
+        """
+        if not self._notif_digest_buffer:
+            return
+        chat_id = os.getenv("CEO_TELEGRAM_ID", "")
+        if not chat_id:
+            self._notif_digest_buffer.clear()
+            return
+
+        batch = self._notif_digest_buffer[:]
+        self._notif_digest_buffer.clear()
+
+        # Group by label
+        counts: dict = {}
+        for n in batch:
+            key = n.get("_label", "Activity")
+            counts[key] = counts.get(key, 0) + 1
+
+        lines = ["📊 *GUARDIAN DIGEST — 30-min Window*", ""]
+        for key, cnt in sorted(counts.items(), key=lambda x: -x[1]):
+            lines.append(f"• {key}: ×{cnt}")
+        lines.append(f"\n_Total: {len(batch)} events in this window_")
+
+        try:
+            await self.app.bot.send_message(
+                chat_id=int(chat_id),
+                text="\n".join(lines),
+                parse_mode="Markdown",
+            )
+            print(f"[GUARDIAN] 📊 Digest sent — {len(batch)} STANDARD events")
+        except Exception as exc:
+            print(f"[GUARDIAN] ⚠️  Digest send error: {exc}")
+
     async def _intel_poll_job(self, context: ContextTypes.DEFAULT_TYPE):
         """
         THE DOME — 60-second perpetual intel loop.
@@ -1423,10 +1526,24 @@ Use /generate to create next post"""
         if _tools_dir not in _sys.path:
             _sys.path.insert(0, _tools_dir)
         try:
-            from chat_intel_engine import run_once  # type: ignore
-            packets = run_once(gen_drafts=True)
+            import chat_intel_engine as _cie  # type: ignore
+            packets = _cie.run_once(gen_drafts=True)
             if packets:
                 print(f"[DOME] ✅ {len(packets)} packet(s) processed → drafts queued")
+
+            # ── GUARDIAN: drain pending notification alerts filled by run_once ──
+            alerts = _cie._pending_guardian_alerts[:]
+            _cie._pending_guardian_alerts.clear()
+            if alerts:
+                critical = [a for a in alerts if a.get("_tier") == "CRITICAL"]
+                vip      = [a for a in alerts if a.get("_tier") == "VIP"]
+                standard = [a for a in alerts if a.get("_tier") == "STANDARD"]
+                print(f"[GUARDIAN] Dispatching: {len(critical)} CRITICAL | "
+                      f"{len(vip)} VIP | {len(standard)} STANDARD")
+                for alert in critical + vip:
+                    await self._telegram_guardian_alert(alert)
+                if standard:
+                    self._notif_digest_buffer.extend(standard)
         except Exception as exc:
             print(f"[DOME] ⚠️  Intel poll error: {exc}")
 
@@ -1542,6 +1659,17 @@ Use /generate to create next post"""
                 name="feed_import_4h",
             )
             print("📡 Feed import armed — every 4h (first fire: +120s startup)")
+        # ─────────────────────────────────────────────────────────────────────
+
+        # ── GUARDIAN: 30-min notification digest job ─────────────────────────
+        if self.app.job_queue:
+            self.app.job_queue.run_repeating(
+                self._notification_digest_job,
+                interval=1800,   # 30 minutes
+                first=90,        # First check 90s after startup
+                name="notif_digest_30m",
+            )
+            print("🔔 Guardian digest armed — every 30m (CRITICAL/VIP = instant)")
         # ─────────────────────────────────────────────────────────────────────
 
         print("🤖 Telegram Approval Bot starting...")
