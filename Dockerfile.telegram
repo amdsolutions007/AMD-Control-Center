@@ -1,7 +1,8 @@
 # Telegram Approval Bot + Leke Leke Publisher — UNIFIED SERVICE
 # Single container: CEO approval UI + inline Selenium posting
 
-FROM python:3.9-slim
+# LOCKED: Python 3.11 — required for PEP 604 (X | Y) union syntax used across all tools
+FROM python:3.11-slim
 
 # Unbuffer Python output so logs are visible in Railway
 ENV PYTHONUNBUFFERED=1

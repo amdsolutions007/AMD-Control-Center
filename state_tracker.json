@@ -1,5 +1,5 @@
 {
-  "current_day": 4,
+  "current_day": 7,
   "campaign": "36_Nigerian_States",
   "group_id": "4d183887-2d5a-47b0-8226-dd6939d29694",
   "history": [
@@ -22,6 +22,27 @@
       "capital": "Kano",
       "post_id": "f0b4bd4d-1826-447b-8fb4-a7b6a566fed4",
       "posted_at": "2026-03-01T12:13:00.204529+00:00"
+    },
+    {
+      "day": 4,
+      "state": "Rivers",
+      "capital": "Port Harcourt",
+      "post_id": "51bb1fd2-bc4d-4dbe-ae68-6a1215d40e66",
+      "posted_at": "2026-03-06T07:15:51.556064+00:00"
+    },
+    {
+      "day": 5,
+      "state": "Oyo",
+      "capital": "Ibadan",
+      "post_id": "d524e2a9-b167-4470-b75a-86cd24b1b70e",
+      "posted_at": "2026-03-06T07:18:43.314777+00:00"
+    },
+    {
+      "day": 6,
+      "state": "Enugu",
+      "capital": "Enugu",
+      "post_id": "c5b37865-a237-4bc0-9a38-a97bf3e2b791",
+      "posted_at": "2026-03-06T07:30:44.974195+00:00"
     }
   ]
 }

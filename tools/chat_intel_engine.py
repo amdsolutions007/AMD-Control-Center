@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from __future__ import annotations  # PEP 604 unions on Python < 3.10 safety guard
 """
 tools/chat_intel_engine.py
 ==========================

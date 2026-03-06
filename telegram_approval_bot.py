@@ -2,6 +2,7 @@
 Telegram Approval Bot for Ghost Writer
 Human-in-the-Loop: CEO reviews and approves posts before they go live
 """
+from __future__ import annotations  # PEP 604 unions on Python < 3.10 safety guard
 
 import os
 import re
@@ -1457,6 +1458,36 @@ Use /generate to create next post"""
 
             print("⏳ Sleeping 8s to let old getUpdates connections die...")
             time.sleep(8)
+        # ─────────────────────────────────────────────────────────────────────
+
+        # ── DOME BOOT HEALTH PING ────────────────────────────────────────────
+        # Fires once at startup — CEO receives 🟢 DOME ONLINE within 30s of
+        # Railway container boot. No dashboard login needed to confirm uptime.
+        if token and CEO_TELEGRAM_ID:
+            try:
+                import sys as _sys
+                _py_ver = f"{_sys.version_info.major}.{_sys.version_info.minor}.{_sys.version_info.micro}"
+                _catchup_status = "FIRED" if (now_utc.hour >= 8 and last_fire_date != today_str) else "NOT NEEDED"
+                _ping_text = (
+                    f"🟢 DOME ONLINE\n"
+                    f"Python {_py_ver} | Railway container booted\n"
+                    f"\n"
+                    f"📅 09:00 WAT campaign  → ARMED\n"
+                    f"📡 07:00 WAT brief      → ARMED\n"
+                    f"🛰️  DOME intel poll 60s  → ARMED\n"
+                    f"🔔 Draft watchdog 60s   → ARMED\n"
+                    f"⚡ Startup catch-up     → {_catchup_status}"
+                )
+                _ping_payload = urllib.parse.urlencode({
+                    "chat_id": CEO_TELEGRAM_ID, "text": _ping_text
+                }).encode()
+                urllib.request.urlopen(
+                    urllib.request.Request(f"{base}/sendMessage", data=_ping_payload),
+                    timeout=10,
+                ).close()
+                print(f"📡 Boot health ping → CEO Telegram (Python {_py_ver})")
+            except Exception as _ping_err:
+                print(f"⚠️  Boot ping failed (non-fatal): {_ping_err}")
         # ─────────────────────────────────────────────────────────────────────
 
         self.app.run_polling(drop_pending_updates=True)

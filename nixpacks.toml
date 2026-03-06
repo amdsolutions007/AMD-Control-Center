@@ -1,0 +1,14 @@
+# nixpacks.toml — Railway build configuration
+# Locks Python version at the BUILD level for the AMD-Control-Center nixpacks service.
+# The telegram-approval-bot service uses Dockerfile.telegram (see railway.json)
+# which is separately locked to python:3.11-slim.
+#
+# LAW: NEVER change pythonVersion below 3.10 — PEP 604 (X | Y) unions are used
+# across chat_intel_engine.py, profile_harvest.py, telegram_approval_bot.py.
+
+[phases.setup]
+nixPkgs = ["python311"]
+
+[variables]
+PYTHONUNBUFFERED = "1"
+PYTHONDONTWRITEBYTECODE = "1"
