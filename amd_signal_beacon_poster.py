@@ -636,13 +636,12 @@ async def dry_run():
     twitter_post = format_twitter_post(video)
     linkedin_post = format_linkedin_post(video)
     
-    telegram_caption = f"""<b>🎯 {video.get('title', 'AI Intelligence Briefing')}</b>
-
-{video.get('take007', 'Essential AI insights.')[:200]}...
-
-📡 Watch Full Briefing: {SIGNAL_BEACON_URL}
-
-#AI #NaijaTech #AMD007"""
+    telegram_caption = (
+        f"<b>🎯 {video.get('title', 'AI Intelligence Briefing')}</b>\n\n"
+        f"{video.get('take007', 'Essential AI insights.')[:200]}...\n\n"
+        f"📡 Watch Full Briefing: {SIGNAL_BEACON_URL}"
+        + ARCHITECTS_SEAL
+    )
     
     print("\n📱 TWITTER/X POST PREVIEW:")
     print("="*60)
