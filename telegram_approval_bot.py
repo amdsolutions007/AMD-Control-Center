@@ -30,6 +30,13 @@ except ImportError:
 _BASE_URL = "https://www.lekeelekee.com"
 _GROUP_ID = "4d183887-2d5a-47b0-8226-dd6939d29694"   # African Tech Ecosystem 🌍
 
+# ── ARCHITECT'S SEAL — mandatory suffix on every outbound group/feed post ─────────
+ARCHITECTS_SEAL = (
+    "\n\nFollow the Architect: 👉 @amd\n"
+    "Join the War Room: 🌐 https://www.amdsolutions007.com/tech 🛰️🌍\n"
+    "#007Systems #BuildInAfrica #AfricanTech #AMDSolutions"
+)
+
 # ── LekeeBot Module 4+5 — Chat Approval Gate + Reply Dispatcher ──────────────────
 _LEKE_CONV_ID   = "019c12b7-0ef5-73c5-92ca-1e5609f5f5bf"  # #General channel
 _STATIC_IV      = "MDAwMDAwMDAwMDAwMDAwMA=="
@@ -1204,6 +1211,13 @@ Use /generate to create next post"""
 
         author   = draft.get("author", "unknown")
         ai_text  = draft.get("ai_draft", "").strip()
+        # ── ARCHITECT'S SEAL — mandatory footer on every outbound post ──────────
+        _SEAL = (
+            "\n\nFollow the Architect: 👉 @amd\n"
+            "Join the War Room: 🌐 https://www.amdsolutions007.com/tech 🛰️🌍\n"
+            "#007Systems #BuildInAfrica #AfricanTech #AMDSolutions"
+        )
+        ai_text = ai_text + _SEAL
         # v2: threaded reply — use the original message's public_id as parent_id
         parent_id = (draft.get("message_id") or "").strip() or None
 
@@ -1281,6 +1295,111 @@ Use /generate to create next post"""
             print("✅ Architect Brief sent to CEO")
         except Exception as exc:
             print(f"⚠️  Architect Brief send failed: {exc}")
+
+    async def _feed_import_job(self, context: ContextTypes.DEFAULT_TYPE):
+        """
+        Every 4h — Auto-Import Feed from AMD Signal Beacon RSS.
+        Fetches https://amd-signal-beacon.vercel.app/api/feed, identifies items
+        not yet posted (dedup via seen_feed_guids.json), builds a group caption,
+        appends ARCHITECTS_SEAL, and publishes to African Tech Ecosystem group.
+        """
+        import xml.etree.ElementTree as _ET
+
+        FEED_URL  = "https://amd-signal-beacon.vercel.app/api/feed"
+        seen_path = VAULT_LIVE_DIR / "seen_feed_guids.json"
+
+        # ── Load seen GUIDs ───────────────────────────────────────────────────────
+        try:
+            seen: set = set(json.load(open(seen_path)))
+        except Exception:
+            seen = set()
+
+        # ── Fetch RSS ───────────────────────────────────────────────────────────
+        try:
+            resp = _req.get(FEED_URL, timeout=20)
+            resp.raise_for_status()
+        except Exception as e:
+            print(f"[FEED] ⚠️ RSS fetch failed: {e}")
+            return
+
+        # ── Parse XML ───────────────────────────────────────────────────────────
+        try:
+            root = _ET.fromstring(resp.text)
+        except _ET.ParseError as e:
+            print(f"[FEED] ⚠️ RSS parse error: {e}")
+            return
+
+        _CONTENT_NS = "http://purl.org/rss/1.0/modules/content/"
+        items     = root.findall(".//item")
+        new_items = [it for it in items if (it.findtext("guid") or "") not in seen]
+
+        if not new_items:
+            print(f"[FEED] ✅ No new items ({len(items)} checked)")
+            return
+
+        print(f"[FEED] 📡 {len(new_items)} new item(s) → posting to group")
+        email    = os.getenv("LEKE_LEKE_EMAIL", "")
+        password = os.getenv("LEKE_LEKE_PASSWORD", "")
+        if not email or not password:
+            print("[FEED] ⚠️ Credentials not set — skipping feed import")
+            return
+
+        posted = 0
+        for item in new_items:
+            guid  = item.findtext("guid") or ""
+            title = item.findtext("title") or ""
+            content_el = item.find(f"{{{_CONTENT_NS}}}encoded")
+            body = (
+                content_el.text
+                if content_el is not None and content_el.text
+                else item.findtext("description") or ""
+            )
+            link = item.findtext("link") or ""
+
+            caption = (
+                f"📡 {title}\n\n"
+                f"{body.strip()}\n\n"
+                f"🔗 {link}"
+                + ARCHITECTS_SEAL
+            )
+            # Guard against platform length limit
+            if len(caption) > 3000:
+                trim = 2900 - len(title) - len(link) - len(ARCHITECTS_SEAL)
+                caption = (
+                    f"📡 {title}\n\n"
+                    f"{body.strip()[:trim]}…\n\n"
+                    f"🔗 {link}"
+                    + ARCHITECTS_SEAL
+                )
+
+            def _post_item(c=caption):
+                try:
+                    session, _, _ = _lekee_login(email, password)
+                    result  = _lekee_post_group(session, c)
+                    pid = (
+                        result.get("data", {}).get("post", {}).get("public_id", "")
+                        or result.get("data", {}).get("public_id", "unknown")
+                    )
+                    return True, pid
+                except Exception as exc:
+                    return False, str(exc)
+
+            loop = asyncio.get_event_loop()
+            with ThreadPoolExecutor(max_workers=1) as pool:
+                ok, info = await loop.run_in_executor(pool, _post_item)
+
+            if ok:
+                print(f"[FEED] ✅ '{title[:60]}' → post_id: {info}")
+                seen.add(guid)
+                posted += 1
+                await asyncio.sleep(5)   # Brief inter-post pause
+            else:
+                print(f"[FEED] ❌ '{title[:60]}' failed: {info}")
+
+        # ── Persist updated seen-GUIDs ──────────────────────────────────────────────
+        if posted:
+            json.dump(list(seen), open(seen_path, "w"), indent=2)
+            print(f"[FEED] 💾 {posted} item(s) posted — seen_feed_guids.json updated")
 
     async def _intel_poll_job(self, context: ContextTypes.DEFAULT_TYPE):
         """
@@ -1412,6 +1531,17 @@ Use /generate to create next post"""
                 name="dome_intel_poll",
             )
             print("🛰️  DOME intel poll armed — 60s cycle")
+        # ─────────────────────────────────────────────────────────────────────
+
+        # ── Feed Import: Signal Beacon RSS → Group post, every 4h ─────────
+        if self.app.job_queue:
+            self.app.job_queue.run_repeating(
+                self._feed_import_job,
+                interval=14400,  # 4 hours
+                first=120,       # First fire 2 min after startup
+                name="feed_import_4h",
+            )
+            print("📡 Feed import armed — every 4h (first fire: +120s startup)")
         # ─────────────────────────────────────────────────────────────────────
 
         print("🤖 Telegram Approval Bot starting...")

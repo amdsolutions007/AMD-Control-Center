@@ -32,6 +32,13 @@ except ImportError:
 SIGNAL_BEACON_URL = "https://amd-signal-beacon.vercel.app"
 VIDEOS_JSON_PATH = "apps/amd-signal-beacon/data/videos.json"
 
+# ── ARCHITECT'S SEAL — mandatory suffix for every outbound post ──────────────
+ARCHITECTS_SEAL = (
+    "\n\nFollow the Architect: 👉 @amd\n"
+    "Join the War Room: 🌐 https://www.amdsolutions007.com/tech 🛰️🌍\n"
+    "#007Systems #BuildInAfrica #AfricanTech #AMDSolutions"
+)
+
 # ==================== CREDENTIALS (AUTO-LOADED FROM .env) ====================
 
 # OpenAI (DALL-E 3 for image generation - DEPRECATED)
@@ -263,7 +270,7 @@ def format_twitter_post(video):
 
 📡 Full Briefing: {SIGNAL_BEACON_URL}
 
-#AI #NaijaTech #AMD007"""
+#007Systems #BuildInAfrica #AfricanTech #AMDSolutions 👉 @amd"""
     
     # Enforce Twitter limit
     if len(post) > 280:
@@ -276,7 +283,7 @@ def format_twitter_post(video):
 
 📡 Full Briefing: {SIGNAL_BEACON_URL}
 
-#AI #NaijaTech #AMD007"""
+#007Systems #BuildInAfrica #AfricanTech #AMDSolutions 👉 @amd"""
     
     return post
 
@@ -327,13 +334,7 @@ def format_linkedin_post(video):
 
 This is part of our Visual Intelligence initiative - curating world-class AI content and translating it into actionable insights for African tech builders.
 
-—
-
-🔧 AMD Solutions 007
-Building AI systems that generate real revenue.
-24 projects deployed. ₦2.5B+ for clients.
-
-#ArtificialIntelligence #AI #Nigeria #TechInAfrica #Startup #Innovation #AMD007"""
+{ARCHITECTS_SEAL}"""
     
     # LinkedIn allows 3000 chars, this should fit comfortably
     return post
@@ -528,13 +529,12 @@ async def post_featured_video():
     linkedin_post = format_linkedin_post(video)
     
     # Telegram caption (shorter, with HTML formatting)
-    telegram_caption = f"""<b>🎯 {video.get('title', 'AI Intelligence Briefing')}</b>
-
-{video.get('take007', 'Essential AI insights.')[:200]}...
-
-📡 <a href="{SIGNAL_BEACON_URL}">Watch Full Briefing at AMD Signal Beacon</a>
-
-#AI #NaijaTech #AMD007"""
+    telegram_caption = (
+        f"<b>🎯 {video.get('title', 'AI Intelligence Briefing')}</b>\n\n"
+        f"{video.get('take007', 'Essential AI insights.')[:200]}...\n\n"
+        f'📡 <a href="{SIGNAL_BEACON_URL}">Watch Full Briefing at AMD Signal Beacon</a>'
+        + ARCHITECTS_SEAL
+    )
     
     print("="*60)
     print("📱 TWITTER/X POST:")

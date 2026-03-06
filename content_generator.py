@@ -8,6 +8,13 @@ import os
 from datetime import datetime
 from typing import Dict, Optional
 
+# ── ARCHITECT'S SEAL — mandatory footer on every outbound post ────────────────
+ARCHITECTS_SEAL = (
+    "\n\nFollow the Architect: 👉 @amd\n"
+    "Join the War Room: 🌐 https://www.amdsolutions007.com/tech 🛰️🌍\n"
+    "#007Systems #BuildInAfrica #AfricanTech #AMDSolutions"
+)
+
 
 def _default_states_data() -> Dict:
     """Fallback dataset used when 36_states_data.json is unavailable."""
@@ -156,12 +163,7 @@ INTEL BRIEF:
 {state['did_you_know']}
 
 👥 WHO'S BUILDING IN {state['name'].upper()}?
-Drop your projects below 👇
-
-Join the Builders 👇
-www.amdsolutions007.com/tech
-
-#{state['name'].replace(' ', '')} #Africantech #007system #AMD007 #Solutions007 #AMDsolutions #NigeriaTech #BuildDontBeg #LekeeLekee"""
+Drop your projects below 👇{ARCHITECTS_SEAL}"""
 
         return caption
         
