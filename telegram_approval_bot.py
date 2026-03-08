@@ -1522,7 +1522,7 @@ Use /generate to create next post"""
           strict 120s compliance (set interval=60 on _draft_watchdog_job).
         """
         import sys as _sys
-        _tools_dir = str(Path(__file__).parent / "tools")
+        _tools_dir = str(_Path(__file__).parent / "tools")
         if _tools_dir not in _sys.path:
             _sys.path.insert(0, _tools_dir)
         try:
