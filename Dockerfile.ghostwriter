@@ -52,5 +52,14 @@ RUN mkdir -p pending_posts approved_posts rejected_posts posted_archive generate
 ENV CHROME_BIN=/usr/bin/chromium
 ENV CHROME_DRIVER=/usr/bin/chromedriver
 
-# Run Ghost Writer
-CMD ["python", "leke_leke_browser_automation.py"]
+# ── DECOMMISSIONED (2026-03-08) ──────────────────────────────────────────────
+# This service (ghost-writer-poster) is permanently retired.
+# Reason: Selenium/browser-based posting is blocked by Cloudflare on LekeeLekee.
+# Replacement: Direct API Strike in telegram_approval_bot.py (Service #1) via
+#              _lekee_login() + POST /api/v1/groups/{GROUP_ID}/posts.
+# The approved_posts/ trigger file mechanism also never worked on Railway because
+# each service runs in an isolated container with no shared filesystem.
+#
+# This CMD deliberately exits 0 immediately so Railway marks the deploy as
+# succeeded without consuming resources or conflicting with any other service.
+CMD ["python", "-c", "print('ghost-writer-poster: DECOMMISSIONED. See Dockerfile.ghostwriter for details.'); exit(0)"]

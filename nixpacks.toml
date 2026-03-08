@@ -5,6 +5,12 @@
 #
 # LAW: NEVER change pythonVersion below 3.10 — PEP 604 (X | Y) unions are used
 # across chat_intel_engine.py, profile_harvest.py, telegram_approval_bot.py.
+#
+# ── SOVEREIGN SEAL (2026-03-08) ───────────────────────────────────────────────
+# Start command explicitly locked to amd_nexus.py.
+# This prevents Nixpacks auto-detection from wandering to telegram_approval_bot.py.
+# telegram_approval_bot.py is EXCLUSIVELY the entry point for Service #1
+# (telegram-approval-bot), which uses Dockerfile.telegram — NOT Nixpacks.
 
 [phases.setup]
 nixPkgs = ["python311"]
@@ -12,3 +18,6 @@ nixPkgs = ["python311"]
 [variables]
 PYTHONUNBUFFERED = "1"
 PYTHONDONTWRITEBYTECODE = "1"
+
+[start]
+cmd = "python amd_nexus.py"
