@@ -1,7 +1,9 @@
 # Telegram Approval Bot + Leke Leke Publisher — UNIFIED SERVICE DEPENDENCIES
 
-# Telegram bot framework
-python-telegram-bot==20.7
+# Telegram bot framework — [job-queue] extra installs APScheduler which powers
+# ALL scheduled jobs: DOME 60s poll, Guardian digest, daily 36-State, feed import,
+# draft watchdog. Without it, job_queue is None and every scheduler is silent.
+python-telegram-bot[job-queue]==20.7
 
 # Image processing
 Pillow==10.1.0

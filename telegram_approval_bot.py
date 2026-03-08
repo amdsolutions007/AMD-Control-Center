@@ -1725,16 +1725,24 @@ Use /generate to create next post"""
             try:
                 import sys as _sys
                 _py_ver = f"{_sys.version_info.major}.{_sys.version_info.minor}.{_sys.version_info.micro}"
-                _catchup_status = "FIRED" if (now_utc.hour >= 8 and last_fire_date != today_str) else "NOT NEEDED"
+                # Redefine locally — now_utc/last_fire_date/today_str are scoped
+                # to the job_queue block above and not accessible here directly.
+                _now_utc = datetime.now(timezone.utc)
+                _fired_flag = os.path.join(os.path.dirname(__file__), ".last_daily_fire")
+                _last_fire = open(_fired_flag).read().strip() if os.path.exists(_fired_flag) else ""
+                _today_str = _now_utc.strftime("%Y-%m-%d")
+                _catchup_status = "FIRED" if (_now_utc.hour >= 8 and _last_fire != _today_str) else "NOT NEEDED"
                 _ping_text = (
-                    f"🟢 DOME ONLINE\n"
+                    f"🟢 DOME ONLINE — GUARDIAN ACTIVE\n"
                     f"Python {_py_ver} | Railway container booted\n"
                     f"\n"
-                    f"📅 09:00 WAT campaign  → ARMED\n"
-                    f"📡 07:00 WAT brief      → ARMED\n"
-                    f"🛰️  DOME intel poll 60s  → ARMED\n"
-                    f"🔔 Draft watchdog 60s   → ARMED\n"
-                    f"⚡ Startup catch-up     → {_catchup_status}"
+                    f"📅 09:00 WAT campaign   → ARMED\n"
+                    f"📡 07:00 WAT brief       → ARMED\n"
+                    f"🛰️  DOME intel poll 60s   → ARMED\n"
+                    f"🔔 Draft watchdog 60s    → ARMED\n"
+                    f"🔔 Guardian digest 30m   → ARMED\n"
+                    f"📡 Feed import 4h        → ARMED\n"
+                    f"⚡ Startup catch-up      → {_catchup_status}"
                 )
                 _ping_payload = urllib.parse.urlencode({
                     "chat_id": CEO_TELEGRAM_ID, "text": _ping_text
