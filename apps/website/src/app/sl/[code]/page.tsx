@@ -118,16 +118,11 @@ export default async function SmartLinkPage({ params }: PageProps) {
   const dspLinks = track.dsp_links || artist.dsp_profile_links || {};
 
   return (
-    <main className="min-h-screen bg-[#070710] text-gray-100 flex flex-col items-center justify-between p-2 sm:p-4 md:p-8 relative overflow-hidden font-sans">
-      {/* Dark Ambient Bokeh Glow Background */}
-      <div className="absolute inset-0 z-0 opacity-25 pointer-events-none overflow-hidden">
-        <img
-          src={heroArtworkUrl}
-          alt=""
-          className="w-full h-full object-cover blur-[100px] scale-150"
-          aria-hidden="true"
-        />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(147,51,234,0.25)_0%,_transparent_75%)]" />
+    <main className="min-h-screen bg-[#05050e] text-gray-100 flex flex-col items-center justify-start relative overflow-x-hidden font-sans select-none">
+      {/* Dark Cyberpunk Night Cityscape Atmosphere & Bokeh Glow */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,_rgba(0,229,255,0.14)_0%,_rgba(138,43,226,0.18)_35%,_transparent_75%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,_#05050e_0%,_transparent_20%,_transparent_80%,_#05050e_100%)]" />
       </div>
 
       <SmartLinkActionButtons
