@@ -94,7 +94,7 @@ export default function SmartLinkActionButtons({
     setIsPlaying(true);
   };
 
-  // Ten platform positions exactly matching the approved campaign poster ecosystem
+  // Ten streaming platform positions exactly matching the approved flagship poster
   const leftPlatforms = [
     { key: 'spotify', name: 'Spotify', icon: '🟢' },
     { key: 'apple_music', name: 'Apple Music', icon: '🎵' },
@@ -132,32 +132,32 @@ export default function SmartLinkActionButtons({
         {ready ? (
           <button
             onClick={() => handleDspClick(item.key, url)}
-            className="w-full max-w-[340px] md:max-w-none bg-[#080818]/95 hover:bg-[#12122e] border-[1.5px] border-[#8a2be2] hover:border-[#00E5FF] rounded-full py-3 sm:py-3.5 px-5 sm:px-6 flex items-center justify-between shadow-[0_0_25px_rgba(138,43,226,0.4)] hover:shadow-[0_0_35px_rgba(0,229,255,0.7)] transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer z-10 shrink-0"
+            className="w-full max-w-[340px] md:max-w-none bg-[#080818]/95 hover:bg-[#12122e] border-[1.5px] border-[#8a2be2] hover:border-[#00E5FF] rounded-full py-3 sm:py-3.5 px-5 sm:px-6 flex items-center justify-between shadow-[0_0_25px_rgba(138,43,226,0.4)] hover:shadow-[0_0_35px_rgba(0,229,255,0.7)] transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer z-10 shrink-0 font-sans"
             aria-label={`Listen on ${item.name}`}
           >
             <div className="flex items-center gap-3.5 truncate pr-2">
               <span className="text-xl filter drop-shadow group-hover:scale-110 transition-transform">{item.icon}</span>
-              <span className="text-sm sm:text-base font-extrabold tracking-wide text-white group-hover:text-[#00E5FF] transition-colors truncate font-sans">{item.name}</span>
+              <span className="text-sm sm:text-base font-extrabold tracking-wide text-white group-hover:text-[#00E5FF] transition-colors truncate">{item.name}</span>
             </div>
             <span className="w-2.5 h-2.5 rounded-full bg-[#ff003c] shadow-[0_0_12px_#ff003c] animate-pulse shrink-0" />
           </button>
         ) : (
           <button
             disabled={true}
-            className="w-full max-w-[340px] md:max-w-none bg-[#080816]/90 border border-gray-700/80 rounded-full py-3 sm:py-3.5 px-5 sm:px-6 flex items-center justify-between opacity-80 cursor-not-allowed select-none transition-none shadow-[0_0_15px_rgba(0,0,0,0.6)] z-10 shrink-0"
+            className="w-full max-w-[340px] md:max-w-none bg-[#080818]/95 border-[1.5px] border-[#7c3aed]/60 rounded-full py-3 sm:py-3.5 px-5 sm:px-6 flex items-center justify-between shadow-[0_0_20px_rgba(138,43,226,0.25)] cursor-not-allowed select-none z-10 shrink-0 font-sans"
             aria-label={`${item.name} coming soon`}
           >
             <div className="flex items-center gap-3.5 truncate pr-2">
-              <span className="text-xl opacity-75 grayscale">{item.icon}</span>
-              <span className="text-xs sm:text-sm font-bold text-gray-300 tracking-wider truncate">{item.name}</span>
+              <span className="text-xl opacity-80">{item.icon}</span>
+              <span className="text-sm sm:text-base font-extrabold tracking-wide text-gray-200 truncate">{item.name}</span>
             </div>
-            <span className="text-[9px] font-black tracking-widest uppercase bg-white/5 border border-white/10 text-gray-400 px-2.5 py-1 rounded-md shrink-0">
+            <span className="text-[9px] font-black tracking-widest uppercase bg-white/10 border border-white/20 text-cyan-200 px-2.5 py-1 rounded-md shrink-0">
               COMING SOON
             </span>
           </button>
         )}
 
-        {/* Desktop/Tablet Angled Circuit Connector Line */}
+        {/* Desktop/Tablet High-Precision Circuit Connector Line */}
         <div className="hidden md:block h-[2.5px] w-8 lg:w-16 xl:w-24 bg-gradient-to-r from-[#8a2be2] via-[#3b82f6] to-[#00E5FF] shadow-[0_0_12px_#00E5FF,0_0_20px_#8a2be2] relative shrink-0">
           <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#00E5FF] shadow-[0_0_10px_#00E5FF,0_0_15px_#00E5FF]" />
         </div>
@@ -171,7 +171,7 @@ export default function SmartLinkActionButtons({
 
     return (
       <div key={item.key} className="flex items-center w-full justify-center md:justify-end group">
-        {/* Desktop/Tablet Angled Circuit Connector Line */}
+        {/* Desktop/Tablet High-Precision Circuit Connector Line */}
         <div className="hidden md:block h-[2.5px] w-8 lg:w-16 xl:w-24 bg-gradient-to-l from-[#8a2be2] via-[#3b82f6] to-[#00E5FF] shadow-[0_0_12px_#00E5FF,0_0_20px_#8a2be2] relative shrink-0">
           <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#00E5FF] shadow-[0_0_10px_#00E5FF,0_0_15px_#00E5FF]" />
         </div>
@@ -179,7 +179,7 @@ export default function SmartLinkActionButtons({
         {ready ? (
           <button
             onClick={() => handleDspClick(item.key, url)}
-            className="w-full max-w-[340px] md:max-w-none bg-[#080818]/95 hover:bg-[#12122e] border-[1.5px] border-[#8a2be2] hover:border-[#00E5FF] rounded-full py-3 sm:py-3.5 px-5 sm:px-6 flex items-center justify-between shadow-[0_0_25px_rgba(138,43,226,0.4)] hover:shadow-[0_0_35px_rgba(0,229,255,0.7)] transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer z-10 shrink-0"
+            className="w-full max-w-[340px] md:max-w-none bg-[#080818]/95 hover:bg-[#12122e] border-[1.5px] border-[#8a2be2] hover:border-[#00E5FF] rounded-full py-3 sm:py-3.5 px-5 sm:px-6 flex items-center justify-between shadow-[0_0_25px_rgba(138,43,226,0.4)] hover:shadow-[0_0_35px_rgba(0,229,255,0.7)] transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer z-10 shrink-0 font-sans"
             aria-label={`Listen on ${item.name}`}
           >
             <div className="flex items-center gap-3.5 truncate pr-2">
@@ -191,14 +191,14 @@ export default function SmartLinkActionButtons({
         ) : (
           <button
             disabled={true}
-            className="w-full max-w-[340px] md:max-w-none bg-[#080816]/90 border border-gray-700/80 rounded-full py-3 sm:py-3.5 px-5 sm:px-6 flex items-center justify-between opacity-80 cursor-not-allowed select-none transition-none shadow-[0_0_15px_rgba(0,0,0,0.6)] z-10 shrink-0"
+            className="w-full max-w-[340px] md:max-w-none bg-[#080818]/95 border-[1.5px] border-[#7c3aed]/60 rounded-full py-3 sm:py-3.5 px-5 sm:px-6 flex items-center justify-between shadow-[0_0_20px_rgba(138,43,226,0.25)] cursor-not-allowed select-none z-10 shrink-0 font-sans"
             aria-label={`${item.name} coming soon`}
           >
             <div className="flex items-center gap-3.5 truncate pr-2">
-              <span className="text-xl opacity-75 grayscale">{item.icon}</span>
-              <span className="text-xs sm:text-sm font-bold text-gray-300 tracking-wider truncate">{item.name}</span>
+              <span className="text-xl opacity-80">{item.icon}</span>
+              <span className="text-sm sm:text-base font-extrabold tracking-wide text-gray-200 truncate">{item.name}</span>
             </div>
-            <span className="text-[9px] font-black tracking-widest uppercase bg-white/5 border border-white/10 text-gray-400 px-2.5 py-1 rounded-md shrink-0">
+            <span className="text-[9px] font-black tracking-widest uppercase bg-white/10 border border-white/20 text-cyan-200 px-2.5 py-1 rounded-md shrink-0">
               COMING SOON
             </span>
           </button>
@@ -208,29 +208,31 @@ export default function SmartLinkActionButtons({
   };
 
   return (
-    <div className="w-full flex flex-col items-center relative z-10 max-w-6xl mx-auto px-2 sm:px-4 pb-24">
-      {/* COMPOSITION 1: Master Hero Interactive Poster (contains Top Badge, Artists, Headline, and Subtitle) */}
-      <div className="w-full max-w-5xl mx-auto relative z-10 pt-2 sm:pt-4">
-        <img
-          src={heroArtworkUrl}
-          alt="Chrome AfroFusion Radio - Discover Africa's Biggest Hits - One Link Every Platform"
-          className="w-full h-auto max-h-[560px] sm:max-h-[700px] object-contain object-top mx-auto filter drop-shadow-[0_12px_40px_rgba(0,0,0,0.9)]"
-        />
-        {/* Seamless transition blending mask into circuit board ecosystem */}
-        <div className="absolute inset-x-0 bottom-0 h-24 sm:h-36 bg-gradient-to-t from-[#05050e] via-[#05050e]/60 to-transparent pointer-events-none" />
+    <div className="w-full flex flex-col items-center relative z-10 max-w-6xl mx-auto px-2 sm:px-4 pb-24 font-sans">
+      {/* SECTION 1: Master Hero Interactive Poster Top Crop (serves as top badge, artists, DISCOVER AFRICA'S BIGGEST HITS, and ONE LINK. EVERY PLATFORM.) */}
+      <div className="w-full max-w-5xl mx-auto relative z-10 pt-2 sm:pt-4 overflow-hidden select-none">
+        <div className="w-full relative aspect-[12/9] sm:aspect-[16/11] md:aspect-[16/10] overflow-hidden flex items-start justify-center">
+          <img
+            src={heroArtworkUrl}
+            alt="Chrome AfroFusion Radio - Discover Africa's Biggest Hits - One Link Every Platform"
+            className="w-full h-auto object-cover object-top filter drop-shadow-[0_12px_40px_rgba(0,0,0,0.9)]"
+          />
+        </div>
+        {/* Seamless dark blending overlay so live interactive HTML controls emerge directly out of the artwork */}
+        <div className="absolute inset-x-0 bottom-0 h-32 sm:h-48 md:h-56 bg-gradient-to-t from-[#05050e] via-[#05050e]/90 to-transparent pointer-events-none z-10" />
       </div>
 
-      {/* COMPOSITION 2: Flanking Interactive Streaming Ecosystem & Center Core Hub */}
-      <div className="w-full grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-3 sm:gap-4 md:gap-0 z-20 -mt-6 sm:-mt-12 md:-mt-16">
-        {/* Left Column Platforms (5) */}
+      {/* SECTION 2: Interactive Flanking Streaming Ecosystem & Core Center Hub (emerges directly from ONE LINK. EVERY PLATFORM.) */}
+      <div className="w-full grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-3 sm:gap-4 md:gap-0 z-20 -mt-16 sm:-mt-24 md:-mt-32 relative px-2 sm:px-4">
+        {/* Left Column Interactive Platforms (5) */}
         <div className="flex flex-col gap-3 sm:gap-3.5 order-2 md:order-1 w-full max-w-sm mx-auto md:max-w-none">
           {leftPlatforms.map(item => renderLeftButton(item))}
         </div>
 
-        {/* Center Neon Chrome AfroFusion Hub Ring & Equalizer */}
+        {/* Center Neon Chrome AfroFusion Hub Ring & Waveform Equalizer */}
         <div className="flex flex-col items-center justify-center order-1 md:order-2 my-2 md:my-0 relative shrink-0 px-2 md:px-0">
-          {/* High-Fidelity Neon Outer Ring */}
-          <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 rounded-full p-[3px] bg-gradient-to-tr from-[#00E5FF] via-[#3b82f6] via-[#8a2be2] to-[#00E5FF] shadow-[0_0_90px_rgba(0,229,255,0.75),0_0_140px_rgba(138,43,226,0.5),inset_0_0_45px_rgba(0,229,255,0.6)] flex items-center justify-center animate-pulse">
+          {/* Intense Neon Outer Ring */}
+          <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 rounded-full p-[3.5px] bg-gradient-to-tr from-[#00E5FF] via-[#3b82f6] via-[#8a2be2] to-[#00E5FF] shadow-[0_0_90px_rgba(0,229,255,0.75),0_0_140px_rgba(138,43,226,0.5),inset_0_0_45px_rgba(0,229,255,0.6)] flex items-center justify-center animate-pulse">
             <div className="w-full h-full rounded-full bg-[#050512] flex flex-col items-center justify-center text-center p-5 border-[2.5px] border-[#00E5FF]/60 relative overflow-hidden shadow-[inset_0_0_65px_rgba(0,0,0,0.95)]">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(138,43,226,0.55)_0%,_transparent_75%)] pointer-events-none" />
               <span className="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-[0.22em] z-10 drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] font-serif">CHROME</span>
@@ -241,7 +243,7 @@ export default function SmartLinkActionButtons({
             </div>
           </div>
 
-          {/* Equalizer Waveform Bars */}
+          {/* Waveform Equalizer Bars */}
           <div className="flex items-end justify-center gap-1.5 mt-5 sm:mt-6 h-8 sm:h-9">
             <div className="w-1.5 bg-[#00E5FF] h-4 rounded-full shadow-[0_0_10px_#00E5FF] animate-bounce" style={{ animationDelay: '0ms' }} />
             <div className="w-1.5 bg-[#3b82f6] h-7 rounded-full shadow-[0_0_10px_#3b82f6] animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -253,13 +255,13 @@ export default function SmartLinkActionButtons({
           </div>
         </div>
 
-        {/* Right Column Platforms (5) */}
+        {/* Right Column Interactive Platforms (5) */}
         <div className="flex flex-col gap-3 sm:gap-3.5 order-3 w-full max-w-sm mx-auto md:max-w-none">
           {rightPlatforms.map(item => renderRightButton(item))}
         </div>
       </div>
 
-      {/* COMPOSITION 3: Campaign Statistics Strip */}
+      {/* SECTION 3: Campaign Statistics Strip */}
       <div className="w-full max-w-3xl mx-auto my-6 sm:my-8 px-4 z-20">
         <div className="bg-[#080816]/95 backdrop-blur-2xl border border-[#8a2be2]/60 rounded-2xl py-4 px-6 shadow-[0_0_45px_rgba(138,43,226,0.35)]">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 divide-y sm:divide-y-0 sm:divide-x divide-[#8a2be2]/40 text-center font-sans">
@@ -283,7 +285,7 @@ export default function SmartLinkActionButtons({
         </div>
       </div>
 
-      {/* COMPOSITION 4: Giant Metallic Gold Conversion CTA Button */}
+      {/* SECTION 4: Giant Metallic Gold Conversion Strike Button */}
       <div className="w-full max-w-xl mx-auto z-20 my-3 sm:my-4 px-4">
         <button
           onClick={() => handleDspClick('spotify', dspLinks.spotify || dspLinks.apple_music)}
@@ -294,9 +296,9 @@ export default function SmartLinkActionButtons({
         </button>
       </div>
 
-      {/* COMPOSITION 5: Acoustic Master Audio Preview Banner (integrated naturally below CTA without interrupting poster flow) */}
+      {/* SECTION 5: Acoustic Master Audio Preview Bar (secondary feature integrated naturally below CTA without interrupting poster flow) */}
       {audioPreviewUrl && (
-        <div className="w-full max-w-md mx-auto mt-2 mb-6 px-4 z-20">
+        <div className="w-full max-w-md mx-auto mt-3 mb-6 px-4 z-20">
           <button
             onClick={toggleAudioPreview}
             className={`w-full py-3 px-6 rounded-full flex items-center justify-between border text-xs sm:text-sm font-bold transition-all duration-300 shadow-2xl backdrop-blur-xl ${
@@ -323,7 +325,7 @@ export default function SmartLinkActionButtons({
         </p>
       </div>
 
-      {/* COMPOSITION 6: Bottom 5 Value Pillars Grid */}
+      {/* SECTION 6: Bottom 5 Value Pillars Futuristic Strip */}
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 px-4 pb-16 z-20 text-left">
         <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-[#080816]/90 border border-white/15 hover:border-[#8a2be2]/60 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.8)] transition-colors">
           <span className="text-[#a855f7] text-xl shrink-0 mt-0.5">🧠</span>
