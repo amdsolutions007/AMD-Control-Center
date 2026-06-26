@@ -210,26 +210,26 @@ export default function SmartLinkActionButtons({
 
   /* Shared button class — identical for both ready and disabled */
   const btnBase =
-    'w-full bg-[#080818]/90 border-[1.5px] border-[#8a2be2] rounded-full py-2.5 sm:py-3 px-4 sm:px-5 flex items-center justify-between backdrop-blur-md shadow-[0_0_22px_rgba(138,43,226,0.38)] transition-all duration-300 font-sans select-none gap-2';
+    'w-full bg-[#080818]/90 border border-[#8a2be2] rounded-full py-1.5 sm:py-2.5 px-2 sm:px-4 flex items-center justify-between backdrop-blur-md shadow-[0_0_18px_rgba(138,43,226,0.35)] transition-all duration-300 font-sans select-none gap-1 sm:gap-2 min-w-0';
   const btnReady =
-    `${btnBase} hover:border-[#00E5FF] hover:bg-[#10102a] hover:shadow-[0_0_35px_rgba(0,229,255,0.65)] hover:-translate-y-0.5 cursor-pointer`;
+    `${btnBase} hover:border-[#00E5FF] hover:bg-[#10102a] hover:shadow-[0_0_30px_rgba(0,229,255,0.6)] hover:-translate-y-0.5 cursor-pointer`;
   const btnDisabled =
-    `${btnBase} border-[#6d28d9]/55 cursor-not-allowed`;
+    `${btnBase} border-[#6d28d9]/50 cursor-not-allowed`;
 
   /* Connector line — animated energy pulse */
   const connectorLeft = (
-    <div className="hidden lg:block relative h-[2px] w-14 xl:w-20 shrink-0 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-l from-[#00E5FF] via-[#4f46e5] to-[#7c3aed] shadow-[0_0_12px_#00E5FF]" />
+    <div className="hidden sm:block relative h-[2px] w-4 sm:w-8 lg:w-14 xl:w-20 shrink-0 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-l from-[#00E5FF] via-[#4f46e5] to-[#7c3aed]" style={{ boxShadow: '0 0 10px #00E5FF' }} />
       <div className="absolute inset-0 animate-[energyFlow_1.8s_linear_infinite] bg-gradient-to-l from-transparent via-white/90 to-transparent w-1/3" />
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#00E5FF] shadow-[0_0_10px_#00E5FF,0_0_20px_#00E5FF]" />
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#00E5FF]" style={{ boxShadow: '0 0 8px #00E5FF, 0 0 16px #00E5FF' }} />
     </div>
   );
 
   const connectorRight = (
-    <div className="hidden lg:block relative h-[2px] w-14 xl:w-20 shrink-0 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-[#00E5FF] via-[#4f46e5] to-[#7c3aed] shadow-[0_0_12px_#00E5FF]" />
+    <div className="hidden sm:block relative h-[2px] w-4 sm:w-8 lg:w-14 xl:w-20 shrink-0 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-r from-[#00E5FF] via-[#4f46e5] to-[#7c3aed]" style={{ boxShadow: '0 0 10px #00E5FF' }} />
       <div className="absolute inset-0 animate-[energyFlow_1.8s_linear_infinite] bg-gradient-to-r from-transparent via-white/90 to-transparent w-1/3" />
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#00E5FF] shadow-[0_0_10px_#00E5FF,0_0_20px_#00E5FF]" />
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#00E5FF]" style={{ boxShadow: '0 0 8px #00E5FF, 0 0 16px #00E5FF' }} />
     </div>
   );
 
@@ -240,19 +240,19 @@ export default function SmartLinkActionButtons({
       <div key={key} className="flex items-center gap-0 group w-full">
         {ready ? (
           <button onClick={() => handleClick(key, url)} className={btnReady} aria-label={`Listen on ${name}`}>
-            <div className="flex items-center gap-3 truncate min-w-0">
-              <span className="shrink-0"><BrandIcon id={key} /></span>
-              <span className="text-sm sm:text-[15px] font-extrabold tracking-wide text-white group-hover:text-[#00E5FF] transition-colors truncate">{name}</span>
+            <div className="flex items-center gap-1 sm:gap-2.5 truncate min-w-0">
+              <span className="shrink-0 scale-[0.6] sm:scale-90 lg:scale-100 origin-left"><BrandIcon id={key} /></span>
+              <span className="text-[9px] sm:text-xs lg:text-sm font-extrabold tracking-wide text-white group-hover:text-[#00E5FF] transition-colors truncate">{name}</span>
             </div>
-            <span className="w-2 h-2 rounded-full bg-[#ff003c] shadow-[0_0_10px_#ff003c,0_0_16px_#ff003c] animate-pulse shrink-0 ml-2" />
+            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#ff003c] shadow-[0_0_8px_#ff003c] animate-pulse shrink-0" />
           </button>
         ) : (
           <button disabled className={btnDisabled} aria-label={`${name} coming soon`}>
-            <div className="flex items-center gap-3 truncate min-w-0">
-              <span className="shrink-0 opacity-75"><BrandIcon id={key} /></span>
-              <span className="text-sm sm:text-[15px] font-extrabold tracking-wide text-gray-300 truncate">{name}</span>
+            <div className="flex items-center gap-1 sm:gap-2.5 truncate min-w-0">
+              <span className="shrink-0 opacity-75 scale-[0.6] sm:scale-90 lg:scale-100 origin-left"><BrandIcon id={key} /></span>
+              <span className="text-[9px] sm:text-xs lg:text-sm font-extrabold tracking-wide text-gray-300 truncate">{name}</span>
             </div>
-            <span className="text-[8px] font-black tracking-widest uppercase text-cyan-300/80 bg-white/8 border border-white/15 px-2 py-0.5 rounded shrink-0 ml-2 whitespace-nowrap">SOON</span>
+            <span className="hidden sm:inline text-[7px] sm:text-[8px] font-black tracking-widest uppercase text-cyan-300/80 bg-white/8 border border-white/15 px-1.5 py-0.5 rounded shrink-0 whitespace-nowrap">SOON</span>
           </button>
         )}
         {connectorLeft}
@@ -268,19 +268,19 @@ export default function SmartLinkActionButtons({
         {connectorRight}
         {ready ? (
           <button onClick={() => handleClick(key, url)} className={btnReady} aria-label={`Listen on ${name}`}>
-            <div className="flex items-center gap-3 truncate min-w-0">
-              <span className="shrink-0"><BrandIcon id={key} /></span>
-              <span className="text-sm sm:text-[15px] font-extrabold tracking-wide text-white group-hover:text-[#00E5FF] transition-colors truncate">{name}</span>
+            <div className="flex items-center gap-1 sm:gap-2.5 truncate min-w-0">
+              <span className="shrink-0 scale-[0.6] sm:scale-90 lg:scale-100 origin-left"><BrandIcon id={key} /></span>
+              <span className="text-[9px] sm:text-xs lg:text-sm font-extrabold tracking-wide text-white group-hover:text-[#00E5FF] transition-colors truncate">{name}</span>
             </div>
-            <span className="w-2 h-2 rounded-full bg-[#ff003c] shadow-[0_0_10px_#ff003c,0_0_16px_#ff003c] animate-pulse shrink-0 ml-2" />
+            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#ff003c] shadow-[0_0_8px_#ff003c] animate-pulse shrink-0" />
           </button>
         ) : (
           <button disabled className={btnDisabled} aria-label={`${name} coming soon`}>
-            <div className="flex items-center gap-3 truncate min-w-0">
-              <span className="shrink-0 opacity-75"><BrandIcon id={key} /></span>
-              <span className="text-sm sm:text-[15px] font-extrabold tracking-wide text-gray-300 truncate">{name}</span>
+            <div className="flex items-center gap-1 sm:gap-2.5 truncate min-w-0">
+              <span className="shrink-0 opacity-75 scale-[0.6] sm:scale-90 lg:scale-100 origin-left"><BrandIcon id={key} /></span>
+              <span className="text-[9px] sm:text-xs lg:text-sm font-extrabold tracking-wide text-gray-300 truncate">{name}</span>
             </div>
-            <span className="text-[8px] font-black tracking-widest uppercase text-cyan-300/80 bg-white/8 border border-white/15 px-2 py-0.5 rounded shrink-0 ml-2 whitespace-nowrap">SOON</span>
+            <span className="hidden sm:inline text-[7px] sm:text-[8px] font-black tracking-widest uppercase text-cyan-300/80 bg-white/8 border border-white/15 px-1.5 py-0.5 rounded shrink-0 whitespace-nowrap">SOON</span>
           </button>
         )}
       </div>
@@ -302,18 +302,19 @@ export default function SmartLinkActionButtons({
           src={heroArtworkUrl}
           alt="Chrome AfroFusion Radio — Discover Africa's Biggest Hits"
           className="w-full h-auto block"
-          style={{ maxHeight: '680px', objectFit: 'contain', objectPosition: 'top center' }}
+          style={{ objectFit: 'contain', objectPosition: 'top center' }}
           draggable={false}
         />
 
-        {/* Dark vignette over the BOTTOM half of the artwork —
-            hides the printed platform buttons / hub / stats / CTA
-            so the HTML interactive versions replace them seamlessly */}
+        {/* Dark vignette over the BOTTOM 45% of artwork —
+            hides printed platform buttons / hub / stats / CTA.
+            Starts dissolving from 45% up so DISCOVER, AFRICA'S BIGGEST HITS
+            and ONE LINK. EVERY PLATFORM. remain fully visible above the veil */}
         <div
           className="absolute inset-x-0 bottom-0 pointer-events-none"
           style={{
-            height: '54%',
-            background: 'linear-gradient(to top, #05050e 0%, #05050e 30%, rgba(5,5,14,0.96) 55%, rgba(5,5,14,0.82) 72%, transparent 100%)',
+            height: '45%',
+            background: 'linear-gradient(to top, #05050e 0%, #05050e 25%, rgba(5,5,14,0.97) 50%, rgba(5,5,14,0.8) 70%, transparent 100%)',
           }}
         />
       </div>
@@ -323,20 +324,20 @@ export default function SmartLinkActionButtons({
           Pulled up with negative margin so it sits directly over
           the artwork's lower half — completing the transformation
       ════════════════════════════════════════════════════════════ */}
-      <div className="w-full max-w-6xl mx-auto px-3 sm:px-5 relative z-10" style={{ marginTop: '-46%' }}>
+      <div className="w-full max-w-6xl mx-auto px-3 sm:px-5 relative z-10" style={{ marginTop: '-32%' }}>
 
-        {/* ── Platform Grid + Center Hub ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] items-center gap-3 lg:gap-0">
+        {/* ── Platform Grid + Center Hub — 3-col on ALL sizes so buttons always overlay the artwork ── */}
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-3 lg:gap-0">
 
-          {/* Left platforms */}
-          <div className="flex flex-col gap-2.5 sm:gap-3 order-2 lg:order-1 w-full max-w-[340px] mx-auto lg:max-w-none">
+          {/* Left platforms — always col-1 */}
+          <div className="flex flex-col gap-1.5 sm:gap-2.5 w-full min-w-0">
             {LEFT_PLATFORMS.map(renderLeft)}
           </div>
 
-          {/* Center Hub */}
-          <div className="flex flex-col items-center order-1 lg:order-2 py-3 lg:py-0 lg:px-2 shrink-0">
+          {/* Center Hub — always col-2 */}
+          <div className="flex flex-col items-center py-0 px-1 sm:px-2 shrink-0">
             {/* Outer glow ring */}
-            <div className="relative w-52 h-52 sm:w-60 sm:h-60 md:w-64 md:h-64 rounded-full p-[3px]"
+            <div className="relative w-28 h-28 sm:w-44 sm:h-44 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full p-[2px] sm:p-[3px]"
               style={{
                 background: 'linear-gradient(135deg, #00E5FF 0%, #3b82f6 30%, #8a2be2 60%, #00E5FF 100%)',
                 boxShadow: '0 0 80px rgba(0,229,255,0.72), 0 0 130px rgba(138,43,226,0.48), inset 0 0 40px rgba(0,229,255,0.55)',
@@ -350,18 +351,18 @@ export default function SmartLinkActionButtons({
                 <div className="absolute inset-0 pointer-events-none"
                   style={{ background: 'radial-gradient(circle at center, rgba(138,43,226,0.5) 0%, transparent 72%)' }}
                 />
-                <span className="relative z-10 text-lg sm:text-xl md:text-2xl font-black text-white tracking-[0.22em] drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]" style={{ fontFamily: 'Georgia, serif' }}>CHROME</span>
-                <span className="relative z-10 text-xl sm:text-2xl md:text-3xl font-black tracking-wider my-1"
+                <span className="relative z-10 text-[8px] sm:text-sm md:text-xl font-black text-white tracking-[0.18em] drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]" style={{ fontFamily: 'Georgia, serif' }}>CHROME</span>
+                <span className="relative z-10 text-[10px] sm:text-base md:text-2xl font-black tracking-wider my-0.5 sm:my-1"
                   style={{ background: 'linear-gradient(90deg,#FFF8D6,#D4AF37,#FFDF00,#AA771C)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', filter: 'drop-shadow(0 0 20px rgba(255,215,0,0.8))' }}
                 >AFROFUSION</span>
-                <span className="relative z-10 text-[10px] sm:text-xs font-black tracking-[0.35em] text-gray-100 mb-2">— RADIO —</span>
-                <span className="relative z-10 text-[8px] sm:text-[9px] font-black tracking-[0.28em] uppercase text-[#00E5FF] drop-shadow-[0_0_8px_#00E5FF]">POWERED BY</span>
-                <span className="relative z-10 text-[9px] sm:text-[10px] font-black tracking-[0.28em] uppercase text-[#E0F7FA] drop-shadow-[0_0_8px_#00E5FF]">MUSIC INTEL</span>
+                <span className="relative z-10 text-[6px] sm:text-[9px] font-black tracking-[0.3em] text-gray-100 mb-1">— RADIO —</span>
+                <span className="hidden sm:block relative z-10 text-[7px] sm:text-[8px] font-black tracking-[0.25em] uppercase text-[#00E5FF] drop-shadow-[0_0_8px_#00E5FF]">POWERED BY</span>
+                <span className="hidden sm:block relative z-10 text-[8px] sm:text-[9px] font-black tracking-[0.25em] uppercase text-[#E0F7FA] drop-shadow-[0_0_8px_#00E5FF]">MUSIC INTEL</span>
               </div>
             </div>
 
             {/* Equalizer waveform */}
-            <div className="flex items-end gap-1.5 mt-4 h-7 sm:h-8">
+            <div className="flex items-end gap-1 sm:gap-1.5 mt-2 sm:mt-4 h-4 sm:h-7">
               {[
                 { h: 'h-4', c: '#00E5FF', d: '0ms' },
                 { h: 'h-6', c: '#3b82f6', d: '120ms' },
@@ -377,8 +378,8 @@ export default function SmartLinkActionButtons({
             </div>
           </div>
 
-          {/* Right platforms */}
-          <div className="flex flex-col gap-2.5 sm:gap-3 order-3 w-full max-w-[340px] mx-auto lg:max-w-none">
+          {/* Right platforms — always col-3 */}
+          <div className="flex flex-col gap-1.5 sm:gap-2.5 w-full min-w-0">
             {RIGHT_PLATFORMS.map(renderRight)}
           </div>
         </div>
