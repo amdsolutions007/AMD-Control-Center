@@ -35,7 +35,7 @@ function BrandIcon({ id, size = 20 }: { id: string; size?: number }) {
     case 'boomplay':
       return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#00B4DB"/><path d="M8 7h5.5a3.5 3.5 0 010 7H8V7z" fill="white"/><circle cx="11" cy="17" r="2" fill="white"/><circle cx="16" cy="17" r="2" fill="white"/></svg>;
     case 'soundcloud':
-      return <svg width={size} height={size} viewBox="0 0 300 300" fill="#FF5500"><path d="M0 193q0 20 13.5 33.5T47 240t33.5-13.5T94 193q0-7-2-13 5 2 10 2 21 0 35.5-14.5T152 132t-14.5-35.5T102 82q-11 0-21 4-4-28-25-46T9 22Q0 22 0 30v163zm128-61q0 17-11.5 28.5T89 172h-1q1-4 1-8 0-25-17.5-44T28 100q2-1 5-1 20 0 36 12 3-6 8-10 12-9 27-9 12 0 22 5t16 14 6 21zm21 17q0-10 7-17t17-7 17 7 7 17-7 17-17 7-17-7-7-17zm34 0q0 4 3 7t7 3 7-3 3-7-3-7-7-3-7 3-3 7zm50-60q0-25-17.5-44T172 26q-11 0-21 4 4 10 4 21 0 25-17.5 44T95 119q1 3 1 7 0 25-17.5 44T35 189q6 26 27 43t47 17q20 0 38.5-8t32-21.5 21.5-32 8-38.5q0-15-4-29z"/></svg>;
+      return <svg width={size} height={size} viewBox="0 0 300 300" fill="#FF5500"><path d="M0 193q0 20 13.5 33.5T47 240t33.5-13.5T94 193q0-7-2-13 5 2 10 2 21 0 35.5-14.5T152 132t-14.5-35.5T102 82q-11 0-21 4-4-28-25-46T9 22Q0 22 0 30v163zm128-61q0 17-11.5 28.5T89 172h-1q1-4 1-8 0-25-17.5-44T28 100q2-1 5-1 20 0 36 12 3-6 8-10 12-9 27-9 12 0 22 5t16 14 6 21zm21 17q0-10 7-17t17-7 17 7 17-7 17-17 7-17-7-7-17zm34 0q0 4 3 7t7 3 7-3 3-7-3-7-7-3-7 3-3 7zm50-60q0-25-17.5-44T172 26q-11 0-21 4 4 10 4 21 0 25-17.5 44T95 119q1 3 1 7 0 25-17.5 44T35 189q6 26 27 43t47 17q20 0 38.5-8t32-21.5 21.5-32 8-38.5q0-15-4-29z"/></svg>;
     case 'tiktok':
       return <svg width={size} height={size} viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#010101"/><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.03a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.84 4.84 0 01-1.01-.07z" fill="white"/></svg>;
     case 'youtube_music':
@@ -61,160 +61,177 @@ const PLATFORM_LABELS: Record<string,string> = {
 };
 
 /* ──────────────────────────────────────────────────────────
-   PREMIUM PCB-STYLE ORGANIC CIRCUIT SVG — V3.2
+   PREMIUM PCB-STYLE ORGANIC CIRCUIT SVG — V3.3
+   PCB CONNECTIVITY PERFECTION
 
-   ViewBox: 0 0 1000 500  (preserveAspectRatio="none")
-   This maps 1:1 with container percentage dimensions:
-   - X: 0..1000 = 0%..100% width
-   - Y: 0..500  = 0%..100% height
-
-   HTML layout grid: 5 equal vertical rows (grid-rows-5).
-   Button centers are locked at exactly Y = 50, 150, 250, 350, 450 (10%, 30%, 50%, 70%, 90%).
-
-   Desktop coordinates (sm: and above):
-     Left buttons right-edge:  X = 290  (left-[7%] w-[22%])
-     Right buttons left-edge:  X = 710  (right-[7%] w-[22%])
-     Hub perimeter origin:     X ≈ 385 (left) / 615 (right)
-
-   Mobile coordinates (default below sm:):
-     Left buttons right-edge:  X = 330  (left-[3%] w-[30%])
-     Right buttons left-edge:  X = 670  (right-[3%] w-[30%])
-     Hub perimeter origin:     X ≈ 365 (left) / 635 (right)
+   1. Perfect Termination: Lines extend 4 units inside button borders
+      (X=286 on left desktop, X=714 on right desktop) with hardware sockets.
+   2. Identical Hub Connections: All 10 origins originate from exactly R=118
+      on desktop and R=105 on mobile around the hub center (500,250).
+   3. Identical Glow Specification: Solid uniform stroke intensity on all 4 layers.
+   4. Gold Junction Nodes: Identical 3-layer structure (bloom, inner glow, white core)
+      with synchronized 2.0s pulsing.
 ────────────────────────────────────────────────────────── */
 function CircuitSVG({ uid }: { uid: string }) {
-  // Desktop Paths (terminate at X=290 on left, X=710 on right)
+  // Desktop Paths (origins on R=118 circle, endpoints at X=286 / X=714)
   const lP_desk = [
-    `M 390,205 C 370,165 335,110 310,80 L 290,50`,
-    `M 384,230 C 355,200 325,170 305,155 L 290,150`,
-    `M 378,250 C 345,250 315,250 300,250 L 290,250`,
-    `M 384,270 C 355,300 325,330 305,345 L 290,350`,
-    `M 390,295 C 370,335 335,390 310,420 L 290,450`,
+    `M 404,181 C 375,181 350,135 330,100 C 310,65 300,50 286,50`,
+    `M 388,213 C 365,213 340,190 325,175 C 310,160 300,150 286,150`,
+    `M 382,250 L 286,250`,
+    `M 388,287 C 365,287 340,310 325,325 C 310,340 300,350 286,350`,
+    `M 404,319 C 375,319 350,365 330,400 C 310,435 300,450 286,450`,
   ];
   const rP_desk = [
-    `M 610,205 C 630,165 665,110 690,80 L 710,50`,
-    `M 616,230 C 645,200 675,170 695,155 L 710,150`,
-    `M 622,250 C 655,250 685,250 700,250 L 710,250`,
-    `M 616,270 C 645,300 675,330 695,345 L 710,350`,
-    `M 610,295 C 630,335 665,390 690,420 L 710,450`,
+    `M 596,181 C 625,181 650,135 670,100 C 690,65 700,50 714,50`,
+    `M 612,213 C 635,213 660,190 675,175 C 690,160 700,150 714,150`,
+    `M 618,250 L 714,250`,
+    `M 612,287 C 635,287 660,310 675,325 C 690,340 700,350 714,350`,
+    `M 596,319 C 625,319 650,365 670,400 C 690,435 700,450 714,450`,
   ];
-  const jL_desk = [[330,105], [315,175], [318,250], [315,325], [330,395]];
-  const jR_desk = [[670,105], [685,175], [682,250], [685,325], [670,395]];
-  const tL_desk = [[290,50], [290,150], [290,250], [290,350], [290,450]];
-  const tR_desk = [[710,50], [710,150], [710,250], [710,350], [710,450]];
+  const jL_desk = [[330,100], [325,175], [334,250], [325,325], [330,400]];
+  const jR_desk = [[670,100], [675,175], [666,250], [675,325], [670,400]];
+  const tL_desk = [[286,50], [286,150], [286,250], [286,350], [286,450]];
+  const tR_desk = [[714,50], [714,150], [714,250], [714,350], [714,450]];
+  const oL_desk = [[404,181], [388,213], [382,250], [388,287], [404,319]];
+  const oR_desk = [[596,181], [612,213], [618,250], [612,287], [596,319]];
 
-  // Mobile Paths (terminate at X=330 on left, X=670 on right)
+  // Mobile Paths (origins on R=105 circle, endpoints at X=326 / X=674)
   const lP_mob = [
-    `M 368,205 C 360,170 350,110 340,75 L 330,50`,
-    `M 362,230 C 354,200 346,170 338,155 L 330,150`,
-    `M 356,250 C 346,250 338,250 334,250 L 330,250`,
-    `M 362,270 C 354,300 346,330 338,345 L 330,350`,
-    `M 368,295 C 360,330 350,390 340,425 L 330,450`,
+    `M 415,188 C 395,188 375,140 360,110 C 345,80 335,50 326,50`,
+    `M 400,217 C 385,217 370,190 355,175 C 345,160 335,150 326,150`,
+    `M 395,250 L 326,250`,
+    `M 400,283 C 385,283 370,310 355,325 C 345,340 335,350 326,350`,
+    `M 415,312 C 395,312 375,360 360,390 C 345,420 335,450 326,450`,
   ];
   const rP_mob = [
-    `M 632,205 C 640,170 650,110 660,75 L 670,50`,
-    `M 638,230 C 646,200 654,170 662,155 L 670,150`,
-    `M 644,250 C 654,250 662,250 666,250 L 670,250`,
-    `M 638,270 C 646,300 654,330 662,345 L 670,350`,
-    `M 632,295 C 640,330 650,390 660,425 L 670,450`,
+    `M 585,188 C 605,188 625,140 640,110 C 655,80 665,50 674,50`,
+    `M 600,217 C 615,217 630,190 645,175 C 655,160 665,150 674,150`,
+    `M 605,250 L 674,250`,
+    `M 600,283 C 615,283 630,310 645,325 C 655,340 665,350 674,350`,
+    `M 585,312 C 605,312 625,360 640,390 C 655,420 665,450 674,450`,
   ];
-  const jL_mob = [[346,105], [342,175], [344,250], [342,325], [346,395]];
-  const jR_mob = [[654,105], [658,175], [656,250], [658,325], [654,395]];
-  const tL_mob = [[330,50], [330,150], [330,250], [330,350], [330,450]];
-  const tR_mob = [[670,50], [670,150], [670,250], [670,350], [670,450]];
+  const jL_mob = [[360,110], [355,175], [360,250], [355,325], [360,390]];
+  const jR_mob = [[640,110], [645,175], [640,250], [645,325], [640,390]];
+  const tL_mob = [[326,50], [326,150], [326,250], [326,350], [326,450]];
+  const tR_mob = [[674,50], [674,150], [674,250], [674,350], [674,450]];
+  const oL_mob = [[415,188], [400,217], [395,250], [400,283], [415,312]];
+  const oR_mob = [[585,188], [600,217], [605,250], [600,283], [585,312]];
 
-  const dashLen = [450, 380, 300, 380, 450];
+  const dashLen = [420, 350, 260, 350, 420];
 
-  const renderPaths = (lP: string[], rP: string[], jL: number[][], jR: number[][], tL: number[][], tR: number[][], prefix: string) => (
+  const renderPaths = (
+    lP: string[], rP: string[],
+    jL: number[][], jR: number[][],
+    tL: number[][], tR: number[][],
+    oL: number[][], oR: number[][],
+    prefix: string
+  ) => (
     <>
-      {/* Layer 1: Ambient purple bleed */}
+      {/* Layer 1: Uniform Outer Purple Ambient Glow */}
       {lP.map((d, i) => (
         <path key={`lb-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
-          stroke={`url(#${uid}-glg-l-${i})`} strokeWidth="12" strokeOpacity="0.22" filter={`url(#${uid}-blur)`}/>
+          stroke="#8a2be2" strokeWidth="12" strokeOpacity="0.25" filter={`url(#${uid}-blur)`}/>
       ))}
       {rP.map((d, i) => (
         <path key={`rb-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
-          stroke={`url(#${uid}-glg-r-${i})`} strokeWidth="12" strokeOpacity="0.22" filter={`url(#${uid}-blur)`}/>
+          stroke="#8a2be2" strokeWidth="12" strokeOpacity="0.25" filter={`url(#${uid}-blur)`}/>
       ))}
 
-      {/* Layer 2: Medium purple track */}
+      {/* Layer 2: Uniform Purple Neon Track */}
       {lP.map((d, i) => (
         <path key={`lm-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
-          stroke="#7c3aed" strokeWidth="3.5" strokeOpacity="0.4"/>
+          stroke="#7c3aed" strokeWidth="3.5" strokeOpacity="0.65" filter={`url(#${uid}-glow)`}/>
       ))}
       {rP.map((d, i) => (
         <path key={`rm-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
-          stroke="#7c3aed" strokeWidth="3.5" strokeOpacity="0.4"/>
+          stroke="#7c3aed" strokeWidth="3.5" strokeOpacity="0.65" filter={`url(#${uid}-glow)`}/>
       ))}
 
-      {/* Layer 3: Cyan core wire */}
+      {/* Layer 3: Uniform Bright Cyan Core Wire */}
       {lP.map((d, i) => (
         <path key={`lc-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
-          stroke={`url(#${uid}-glg-l-${i})`} strokeWidth="1.8" filter={`url(#${uid}-glow)`}/>
+          stroke="#00E5FF" strokeWidth="1.8" strokeOpacity="0.95" filter={`url(#${uid}-glow)`}/>
       ))}
       {rP.map((d, i) => (
         <path key={`rc-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
-          stroke={`url(#${uid}-glg-r-${i})`} strokeWidth="1.8" filter={`url(#${uid}-glow)`}/>
+          stroke="#00E5FF" strokeWidth="1.8" strokeOpacity="0.95" filter={`url(#${uid}-glow)`}/>
       ))}
 
-      {/* Layer 4: Animated energy packets */}
+      {/* Layer 4: Uniform Moving Cyan Energy Packets */}
       {lP.map((d, i) => (
         <path key={`lp-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round"
-          stroke="#00E5FF" strokeWidth="2.5" strokeOpacity="0"
+          stroke="#00FFFF" strokeWidth="2.8" strokeOpacity="0"
           style={{
-            strokeDasharray: `28 ${dashLen[i]}`,
-            animation: `pktL${i} 2.2s linear ${i * 0.44}s infinite`,
+            strokeDasharray: `32 ${dashLen[i]}`,
+            animation: `pktL${i} 2.0s linear ${i * 0.4}s infinite`,
           }}
           filter={`url(#${uid}-pkt)`}
         />
       ))}
       {rP.map((d, i) => (
         <path key={`rp-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round"
-          stroke="#00E5FF" strokeWidth="2.5" strokeOpacity="0"
+          stroke="#00FFFF" strokeWidth="2.8" strokeOpacity="0"
           style={{
-            strokeDasharray: `28 ${dashLen[i]}`,
-            animation: `pktR${i} 2.2s linear ${i * 0.44 + 0.22}s infinite`,
+            strokeDasharray: `32 ${dashLen[i]}`,
+            animation: `pktR${i} 2.0s linear ${i * 0.4 + 0.2}s infinite`,
           }}
           filter={`url(#${uid}-pkt)`}
         />
       ))}
 
-      {/* Junction Nodes at elbow bends */}
+      {/* Hub Origin Socket Nodes (visibly socketing out of the power generator) */}
+      {oL.map(([cx, cy], i) => (
+        <g key={`ol-${prefix}-${i}`}>
+          <circle cx={cx} cy={cy} r="6" fill="#00E5FF" fillOpacity="0.4" filter={`url(#${uid}-glow)`}/>
+          <circle cx={cx} cy={cy} r="3" fill="#FFFFFF" fillOpacity="0.9"/>
+        </g>
+      ))}
+      {oR.map(([cx, cy], i) => (
+        <g key={`or-${prefix}-${i}`}>
+          <circle cx={cx} cy={cy} r="6" fill="#00E5FF" fillOpacity="0.4" filter={`url(#${uid}-glow)`}/>
+          <circle cx={cx} cy={cy} r="3" fill="#FFFFFF" fillOpacity="0.9"/>
+        </g>
+      ))}
+
+      {/* Gold Junction Nodes at elbow bends (Identical specification & timing) */}
       {jL.map(([cx, cy], i) => (
         <g key={`jl-${prefix}-${i}`}>
-          <circle cx={cx} cy={cy} r="8" fill="#D4AF37" fillOpacity="0.18" filter={`url(#${uid}-bloom)`}>
-            <animate attributeName="r" values="6;10;6" dur={`${1.6+i*0.15}s`} repeatCount="indefinite"/>
+          <circle cx={cx} cy={cy} r="10" fill="#D4AF37" fillOpacity="0.25" filter={`url(#${uid}-bloom)`}>
+            <animate attributeName="r" values="8;13;8" dur="2s" repeatCount="indefinite"/>
+            <animate attributeName="fill-opacity" values="0.15;0.35;0.15" dur="2s" repeatCount="indefinite"/>
           </circle>
-          <circle cx={cx} cy={cy} r="4" fill="#D4AF37" fillOpacity="0.8" filter={`url(#${uid}-bloom)`}/>
-          <circle cx={cx} cy={cy} r="1.8" fill="white" fillOpacity="0.95"/>
+          <circle cx={cx} cy={cy} r="5" fill="#D4AF37" fillOpacity="0.85" filter={`url(#${uid}-glow)`}/>
+          <circle cx={cx} cy={cy} r="2.2" fill="#FFFFFF" fillOpacity="1"/>
         </g>
       ))}
       {jR.map(([cx, cy], i) => (
         <g key={`jr-${prefix}-${i}`}>
-          <circle cx={cx} cy={cy} r="8" fill="#D4AF37" fillOpacity="0.18" filter={`url(#${uid}-bloom)`}>
-            <animate attributeName="r" values="6;10;6" dur={`${1.6+i*0.15}s`} begin={`${i*0.18}s`} repeatCount="indefinite"/>
+          <circle cx={cx} cy={cy} r="10" fill="#D4AF37" fillOpacity="0.25" filter={`url(#${uid}-bloom)`}>
+            <animate attributeName="r" values="8;13;8" dur="2s" repeatCount="indefinite"/>
+            <animate attributeName="fill-opacity" values="0.15;0.35;0.15" dur="2s" repeatCount="indefinite"/>
           </circle>
-          <circle cx={cx} cy={cy} r="4" fill="#D4AF37" fillOpacity="0.8" filter={`url(#${uid}-bloom)`}/>
-          <circle cx={cx} cy={cy} r="1.8" fill="white" fillOpacity="0.95"/>
+          <circle cx={cx} cy={cy} r="5" fill="#D4AF37" fillOpacity="0.85" filter={`url(#${uid}-glow)`}/>
+          <circle cx={cx} cy={cy} r="2.2" fill="#FFFFFF" fillOpacity="1"/>
         </g>
       ))}
 
-      {/* Termination Sockets overlapping button edges */}
+      {/* Termination Hardware Sockets clamping onto button borders */}
       {tL.map(([cx, cy], i) => (
         <g key={`tl-${prefix}-${i}`}>
-          <circle cx={cx} cy={cy} r="10" fill="#00E5FF" fillOpacity="0.15" filter={`url(#${uid}-bloom)`}>
-            <animate attributeName="r" values="8;14;8" dur="2s" begin={`${i*0.3}s`} repeatCount="indefinite"/>
+          <circle cx={cx} cy={cy} r="9" fill="#00E5FF" fillOpacity="0.25" filter={`url(#${uid}-bloom)`}>
+            <animate attributeName="r" values="7;12;7" dur="2s" repeatCount="indefinite"/>
           </circle>
-          <circle cx={cx} cy={cy} r="5" fill="#00E5FF" fillOpacity="0.8" filter={`url(#${uid}-glow)`}/>
-          <circle cx={cx} cy={cy} r="2.2" fill="white"/>
+          <circle cx={cx} cy={cy} r="4.5" fill="#00E5FF" fillOpacity="0.9" filter={`url(#${uid}-glow)`}/>
+          <circle cx={cx} cy={cy} r="2" fill="#FFFFFF"/>
         </g>
       ))}
       {tR.map(([cx, cy], i) => (
         <g key={`tr-${prefix}-${i}`}>
-          <circle cx={cx} cy={cy} r="10" fill="#00E5FF" fillOpacity="0.15" filter={`url(#${uid}-bloom)`}>
-            <animate attributeName="r" values="8;14;8" dur="2s" begin={`${i*0.3+0.15}s`} repeatCount="indefinite"/>
+          <circle cx={cx} cy={cy} r="9" fill="#00E5FF" fillOpacity="0.25" filter={`url(#${uid}-bloom)`}>
+            <animate attributeName="r" values="7;12;7" dur="2s" repeatCount="indefinite"/>
           </circle>
-          <circle cx={cx} cy={cy} r="5" fill="#00E5FF" fillOpacity="0.8" filter={`url(#${uid}-glow)`}/>
-          <circle cx={cx} cy={cy} r="2.2" fill="white"/>
+          <circle cx={cx} cy={cy} r="4.5" fill="#00E5FF" fillOpacity="0.9" filter={`url(#${uid}-glow)`}/>
+          <circle cx={cx} cy={cy} r="2" fill="#FFFFFF"/>
         </g>
       ))}
     </>
@@ -228,24 +245,6 @@ function CircuitSVG({ uid }: { uid: string }) {
       aria-hidden="true"
     >
       <defs>
-        {[0,1,2,3,4].map(i => (
-          <linearGradient key={`glg-l-${i}`} id={`${uid}-glg-l-${i}`} gradientUnits="userSpaceOnUse"
-            x1="500" y1="250" x2="250" y2={[50,150,250,350,450][i]}>
-            <stop offset="0%"   stopColor="#00E5FF" stopOpacity="0.1"/>
-            <stop offset="15%"  stopColor="#00E5FF" stopOpacity="1"/>
-            <stop offset="55%"  stopColor="#7c3aed" stopOpacity="0.9"/>
-            <stop offset="100%" stopColor="#a855f7" stopOpacity="0.4"/>
-          </linearGradient>
-        ))}
-        {[0,1,2,3,4].map(i => (
-          <linearGradient key={`glg-r-${i}`} id={`${uid}-glg-r-${i}`} gradientUnits="userSpaceOnUse"
-            x1="500" y1="250" x2="750" y2={[50,150,250,350,450][i]}>
-            <stop offset="0%"   stopColor="#00E5FF" stopOpacity="0.1"/>
-            <stop offset="15%"  stopColor="#00E5FF" stopOpacity="1"/>
-            <stop offset="55%"  stopColor="#7c3aed" stopOpacity="0.9"/>
-            <stop offset="100%" stopColor="#a855f7" stopOpacity="0.4"/>
-          </linearGradient>
-        ))}
         <filter id={`${uid}-blur`} x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur stdDeviation="6"/>
         </filter>
@@ -265,12 +264,12 @@ function CircuitSVG({ uid }: { uid: string }) {
 
       {/* Render Desktop Circuitry */}
       <g className="hidden sm:block">
-        {renderPaths(lP_desk, rP_desk, jL_desk, jR_desk, tL_desk, tR_desk, 'desk')}
+        {renderPaths(lP_desk, rP_desk, jL_desk, jR_desk, tL_desk, tR_desk, oL_desk, oR_desk, 'desk')}
       </g>
 
       {/* Render Mobile Circuitry */}
       <g className="block sm:hidden">
-        {renderPaths(lP_mob, rP_mob, jL_mob, jR_mob, tL_mob, tR_mob, 'mob')}
+        {renderPaths(lP_mob, rP_mob, jL_mob, jR_mob, tL_mob, tR_mob, oL_mob, oR_mob, 'mob')}
       </g>
     </svg>
   );
@@ -312,7 +311,7 @@ export default function SmartLinkActionButtons({
   const ready = (k: string) => !dspLinks ? false : k === 'youtube_music' ? Boolean(dspLinks.youtube_music || dspLinks.youtube) : Boolean(dspLinks[k]);
   const href  = (k: string) => !dspLinks ? undefined : k === 'youtube_music' ? (dspLinks.youtube_music || dspLinks.youtube) : dspLinks[k];
 
-  /* ── Platform pill — sleeker width, modular PCB cartridge styling ── */
+  /* ── Platform pill — modular PCB cartridge styling ── */
   const PillBtn = ({ k }: { k: string }) => {
     const isReady = ready(k);
     const link = href(k);
@@ -350,9 +349,6 @@ export default function SmartLinkActionButtons({
     <div className="w-full max-w-[980px] mx-auto">
       {/* ════════════════════════════════════════════════════════════
           HERO ARTWORK — Capped width, balanced proportions
-          Crop: top 80% shows AMD badge, 8 artists, DISCOVER AFRICA'S
-          BIGGEST HITS, ONE LINK. EVERY PLATFORM.
-          Dissolve fades smoothly into #05050e.
       ════════════════════════════════════════════════════════════ */}
       <div
         className="w-full relative select-none overflow-hidden"
@@ -379,7 +375,7 @@ export default function SmartLinkActionButtons({
       </div>
 
       {/* ════════════════════════════════════════════════════════════
-          INTERACTIVE LIVING ECOSYSTEM — V3.2
+          INTERACTIVE LIVING ECOSYSTEM — V3.3
           Exact grid-rows-5 alignment locking circuits into buttons
       ════════════════════════════════════════════════════════════ */}
       <div
@@ -405,16 +401,16 @@ export default function SmartLinkActionButtons({
             {/* SVG PCB circuit lines */}
             <CircuitSVG uid={uid}/>
 
-            {/* LEFT BUTTONS COLUMN — sleek width, moved closer to hub */}
+            {/* LEFT BUTTONS COLUMN — zero inner padding ensuring exact X=290 alignment */}
             <div className="absolute left-[3%] sm:left-[7%] top-0 bottom-0 w-[30%] sm:w-[22%] grid grid-rows-5 z-10">
               {LEFT_PLATFORMS.map(k => (
-                <div key={k} className="flex items-center justify-center w-full px-0.5 sm:px-1">
+                <div key={k} className="flex items-center justify-center w-full">
                   <PillBtn k={k}/>
                 </div>
               ))}
             </div>
 
-            {/* CENTER POWER HUB — visual focus commanding the ecosystem */}
+            {/* CENTER POWER HUB — visual generator commanding the ecosystem */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[32%] sm:w-[26%] max-w-[220px] flex flex-col items-center justify-center z-20 pointer-events-none">
               <div className="relative flex items-center justify-center pointer-events-auto"
                 style={{
@@ -488,10 +484,10 @@ export default function SmartLinkActionButtons({
               </div>
             </div>
 
-            {/* RIGHT BUTTONS COLUMN */}
+            {/* RIGHT BUTTONS COLUMN — zero inner padding ensuring exact X=710 alignment */}
             <div className="absolute right-[3%] sm:right-[7%] top-0 bottom-0 w-[30%] sm:w-[22%] grid grid-rows-5 z-10">
               {RIGHT_PLATFORMS.map(k => (
-                <div key={k} className="flex items-center justify-center w-full px-0.5 sm:px-1">
+                <div key={k} className="flex items-center justify-center w-full">
                   <PillBtn k={k}/>
                 </div>
               ))}
@@ -636,13 +632,13 @@ export default function SmartLinkActionButtons({
         }
         ${[0,1,2,3,4].map(i=>`
           @keyframes pktL${i} {
-            0%   { stroke-dashoffset:${[480,410,330,410,480][i]}; stroke-opacity:0; }
+            0%   { stroke-dashoffset:${[452,382,292,382,452][i]}; stroke-opacity:0; }
             12%  { stroke-opacity:0.95; }
             88%  { stroke-opacity:0.95; }
             100% { stroke-dashoffset:0; stroke-opacity:0; }
           }
           @keyframes pktR${i} {
-            0%   { stroke-dashoffset:${[480,410,330,410,480][i]}; stroke-opacity:0; }
+            0%   { stroke-dashoffset:${[452,382,292,382,452][i]}; stroke-opacity:0; }
             12%  { stroke-opacity:0.95; }
             88%  { stroke-opacity:0.95; }
             100% { stroke-dashoffset:0; stroke-opacity:0; }
