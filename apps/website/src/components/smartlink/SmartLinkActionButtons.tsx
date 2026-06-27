@@ -338,7 +338,11 @@ export default function SmartLinkActionButtons({
           container height = 79.7% of image's natural rendered height
           With object-fit:cover + object-position:top, we crop bottom 20.3%
       ════════════════════════════════════════════════════ */}
-      {/* Hero artwork crop: 1024×1280 image, show top 79.7% → aspectRatio = 1024:(1280×0.797) = 1024:1020 */}
+      {/* Hero artwork crop: 1024×1280 image, show top 79.7%
+          Container aspect ratio = 1024 / (1280 × 0.797) = 1024 / 1020
+          Image renders at w-full h-auto = natural size, overflows below container
+          overflow:hidden on container clips the bottom 20.3% (pure dark bg)
+      */}
       <div
         className="w-full relative select-none overflow-hidden"
         style={{ aspectRatio: '1024 / 1020' }}
@@ -348,17 +352,17 @@ export default function SmartLinkActionButtons({
           <img
             src="/sl_hero.png"
             alt="Chrome AfroFusion Radio — Discover Africa's Biggest Hits"
-            className="absolute inset-0 w-full"
-            style={{ objectFit: 'cover', objectPosition: 'top center', height: '125.5%' }}
+            className="absolute top-0 left-0 w-full"
+            style={{ height: 'auto' }}
             draggable={false}
             fetchPriority="high"
           />
         </picture>
-        {/* Seamless dissolve — blends the artwork base color into the section below */}
+        {/* Seamless bottom dissolve — covers only the dark background at image bottom */}
         <div className="absolute inset-x-0 bottom-0 pointer-events-none"
           style={{
-            height: '18%',
-            background: 'linear-gradient(to top, #05050e 0%, rgba(5,5,14,0.92) 35%, rgba(5,5,14,0.5) 70%, transparent 100%)',
+            height: '22%',
+            background: 'linear-gradient(to top, #05050e 0%, rgba(5,5,14,0.94) 30%, rgba(5,5,14,0.6) 65%, transparent 100%)',
           }}
         />
       </div>
