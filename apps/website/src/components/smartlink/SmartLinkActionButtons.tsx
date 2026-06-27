@@ -349,8 +349,9 @@ export default function SmartLinkActionButtons({
   return (
     <div className="w-full max-w-[980px] mx-auto">
       {/* ════════════════════════════════════════════════════════════
-          HERO ARTWORK — V3.4.2 Final Visual Polish
-          Crisp bold HTML slogan overlay & perfected PCB terminations
+          HERO ARTWORK — V3.4.3 Final Hero Slogan Refinement
+          Increased HTML/CSS slogan font size (+30%) & weight with
+          opaque bottom masking band concealing embedded text underneath.
       ════════════════════════════════════════════════════════════ */}
       <div
         className="w-full relative select-none overflow-hidden"
@@ -370,15 +371,15 @@ export default function SmartLinkActionButtons({
         <div
           className="absolute inset-x-0 bottom-0 pointer-events-none"
           style={{
-            height: '3.8%',
-            background: 'linear-gradient(to top, #05050e 15%, rgba(5,5,14,0.95) 75%, transparent 100%)',
+            height: '4.8%',
+            background: 'linear-gradient(to top, #05050e 0%, #05050e 65%, rgba(5,5,14,0.88) 85%, transparent 100%)',
           }}
         />
-        <div className="absolute inset-x-0 bottom-[0.8%] flex justify-center items-center pointer-events-none select-none z-10 px-2">
+        <div className="absolute inset-x-0 bottom-[1.1%] flex justify-center items-center pointer-events-none select-none z-10 px-2">
           <p
-            className="font-black uppercase tracking-[0.18em] sm:tracking-[0.25em] text-center drop-shadow-[0_2px_10px_rgba(0,229,255,0.4)]"
+            className="font-black uppercase tracking-[0.16em] sm:tracking-[0.24em] text-center drop-shadow-[0_2px_14px_rgba(0,229,255,0.65)] drop-shadow-[0_4px_24px_rgba(124,58,237,0.55)]"
             style={{
-              fontSize: 'clamp(11px, 2.1vw, 20px)',
+              fontSize: 'clamp(14.5px, 2.75vw, 26px)',
               background: 'linear-gradient(90deg, #00E5FF 0%, #3b82f6 50%, #a855f7 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
