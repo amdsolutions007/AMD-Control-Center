@@ -60,62 +60,51 @@ const PLATFORM_LABELS: Record<string,string> = {
 
 /* ─────────────────── ORGANIC CURVED SVG CIRCUIT ─────────────────── */
 /*
-  The SVG uses a responsive viewBox (0 0 1000 680) laid over the full ecosystem.
-  Hub center: (500, 340)
-  Left button anchor points (right edge of button → circuit terminus at hub perimeter):
-    Spotify (row 0):      (220, 80)
-    Apple Music (row 1):  (220, 190)
-    Audiomack (row 2):    (220, 300)
-    Boomplay (row 3):     (220, 410)
-    SoundCloud (row 4):   (220, 520)
-  Right button anchor points (left edge of button → circuit terminus at hub perimeter):
-    TikTok (row 0):       (780, 80)
-    YouTube Music (row 1):(780, 190)
-    Instagram (row 2):    (780, 300)
-    Amazon Music (row 3): (780, 410)
-    Deezer (row 4):       (780, 520)
-  Hub radius: ~110 units
-  Circuit style: curved bezier paths with angular mid-points matching artwork geometry
+  ViewBox: 0 0 1000 580
+  Hub center: (500, 290) — center of button zone
+  Button rows are evenly spaced vertically:
+    Row 0 (Spotify/TikTok):       Y=60
+    Row 1 (AppleMusic/YTMusic):   Y=160
+    Row 2 (Audiomack/Instagram):  Y=260
+    Row 3 (Boomplay/Amazon):      Y=360
+    Row 4 (SoundCloud/Deezer):    Y=460
+  Button right edge (left col):  X=220
+  Button left edge (right col):  X=780
+  Hub perimeter radius ~110 → origin points at X=390-610, Y=230-350
+  Paths: cubic bezier arcing outward from hub to each button row.
 */
 function CircuitSVG({ uid }: { uid: string }) {
-  // Left circuits: from hub perimeter to each left button
-  // Each path goes: hub edge → horizontal segment → 45° angular bend → button edge
+  // ViewBox: 1000 wide × 580 tall — exactly the button zone, no empty space above
+  // Hub center: (500, 290)
+  // Button Y rows: 55, 145, 235, 325, 415  (tight spacing matching 5 rows)
+  // Left button right edge: X=218  |  Right button left edge: X=782
+  // Hub perimeter left side origin (X≈385-395, Y=230-350)
+  // Hub perimeter right side origin (X≈605-615, Y=230-350)
   const leftPaths = [
-    // Spotify - curves upward from hub
-    `M 390,280 C 360,240 300,120 220,90`,
-    // Apple Music
-    `M 380,310 C 340,285 290,225 220,200`,
-    // Audiomack - straight horizontal with slight curve
-    `M 375,330 C 330,320 280,310 220,308`,
-    // Boomplay - curves downward
-    `M 378,358 C 335,375 285,395 220,410`,
-    // SoundCloud
-    `M 390,375 C 355,415 300,490 220,518`,
+    `M 390,248 C 365,210 295,100 218,62`,   // Spotify — arc up-left
+    `M 382,268 C 348,240 290,185 218,150`,  // Apple Music
+    `M 376,290 C 335,285 278,278 218,272`,  // Audiomack — near horizontal with slight curve
+    `M 380,314 C 342,336 285,352 218,360`,  // Boomplay — arc down-left
+    `M 392,332 C 360,380 295,410 218,430`,  // SoundCloud — arc down-left
   ];
   const rightPaths = [
-    // TikTok - curves upward
-    `M 610,280 C 640,240 700,120 780,90`,
-    // YouTube Music
-    `M 620,310 C 660,285 710,225 780,200`,
-    // Instagram - straight with slight curve
-    `M 625,330 C 670,320 720,310 780,308`,
-    // Amazon Music
-    `M 622,358 C 665,375 715,395 780,410`,
-    // Deezer
-    `M 610,375 C 645,415 700,490 780,518`,
+    `M 610,248 C 635,210 705,100 782,62`,   // TikTok — arc up-right
+    `M 618,268 C 652,240 710,185 782,150`,  // YouTube Music
+    `M 624,290 C 665,285 722,278 782,272`,  // Instagram — near horizontal
+    `M 620,314 C 658,336 715,352 782,360`,  // Amazon Music — arc down-right
+    `M 608,332 C 640,380 705,410 782,430`,  // Deezer — arc down-right
   ];
 
-  // Node positions (left button right edge termination)
-  const leftNodes = [[220,90],[220,200],[220,308],[220,410],[220,518]];
-  // Node positions (right button left edge termination)
-  const rightNodes = [[780,90],[780,200],[780,308],[780,410],[780,518]];
-  // Hub perimeter nodes
-  const hubLeftNodes = [[390,280],[380,310],[375,330],[378,358],[390,375]];
-  const hubRightNodes = [[610,280],[620,310],[625,330],[622,358],[610,375]];
+  // Termination nodes (where circuits meet platform buttons)
+  const leftNodes  = [[218,62],[218,150],[218,272],[218,360],[218,430]];
+  const rightNodes = [[782,62],[782,150],[782,272],[782,360],[782,430]];
+  // Hub origin nodes
+  const hubLeftNodes  = [[390,248],[382,268],[376,290],[380,314],[392,332]];
+  const hubRightNodes = [[610,248],[618,268],[624,290],[620,314],[608,332]];
 
   return (
     <svg
-      viewBox="0 0 1000 620"
+      viewBox="0 0 1000 500"
       className="absolute inset-0 w-full h-full pointer-events-none"
       preserveAspectRatio="xMidYMid meet"
       aria-hidden="true"
@@ -124,7 +113,7 @@ function CircuitSVG({ uid }: { uid: string }) {
         {/* Animated energy gradient for left paths */}
         {leftPaths.map((_, i) => (
           <linearGradient key={`lg-l-${i}`} id={`${uid}-lg-l-${i}`} gradientUnits="userSpaceOnUse"
-            x1="500" y1="340" x2="220" y2={[90,200,308,410,518][i]}>
+            x1="500" y1="290" x2="218" y2={[62,150,272,360,430][i]}>
             <stop offset="0%" stopColor="#00E5FF" stopOpacity="0"/>
             <stop offset="20%" stopColor="#00E5FF" stopOpacity="0.9"/>
             <stop offset="60%" stopColor="#8a2be2" stopOpacity="0.8"/>
@@ -134,7 +123,7 @@ function CircuitSVG({ uid }: { uid: string }) {
         {/* Animated energy gradient for right paths */}
         {rightPaths.map((_, i) => (
           <linearGradient key={`lg-r-${i}`} id={`${uid}-lg-r-${i}`} gradientUnits="userSpaceOnUse"
-            x1="500" y1="340" x2="780" y2={[90,200,308,410,518][i]}>
+            x1="500" y1="290" x2="782" y2={[62,150,272,360,430][i]}>
             <stop offset="0%" stopColor="#00E5FF" stopOpacity="0"/>
             <stop offset="20%" stopColor="#00E5FF" stopOpacity="0.9"/>
             <stop offset="60%" stopColor="#8a2be2" stopOpacity="0.8"/>
@@ -199,30 +188,30 @@ function CircuitSVG({ uid }: { uid: string }) {
         />
       ))}
 
-      {/* ── Branch intersection nodes along left paths ── */}
+      {/* ── Branch junction nodes along left paths ── */}
       {[
-        [310,190],[260,150],  // Spotify branch
-        [295,255],[250,228],  // Apple Music branch
-        [300,319],[255,314],  // Audiomack branch
-        [298,383],[255,397],  // Boomplay branch
-        [310,430],[265,475],  // SoundCloud branch
+        [306,165],[262,115],  // Spotify
+        [300,207],[258,180],  // Apple Music
+        [298,282],[255,277],  // Audiomack
+        [300,333],[258,347],  // Boomplay
+        [308,380],[265,405],  // SoundCloud
       ].map(([cx, cy], i) => (
-        <circle key={`bn-l-${i}`} cx={cx} cy={cy} r="4" fill="#a855f7" fillOpacity="0.8"
+        <circle key={`bn-l-${i}`} cx={cx} cy={cy} r="3.5" fill="#a855f7" fillOpacity="0.8"
           filter={`url(#${uid}-glow)`}>
-          <animate attributeName="fill-opacity" values="0.5;1;0.5" dur={`${1.5 + i*0.2}s`} repeatCount="indefinite"/>
+          <animate attributeName="fill-opacity" values="0.4;1;0.4" dur={`${1.5 + i*0.2}s`} repeatCount="indefinite"/>
         </circle>
       ))}
-      {/* Branch intersection nodes along right paths */}
+      {/* Branch junction nodes along right paths */}
       {[
-        [690,190],[740,150],
-        [705,255],[750,228],
-        [700,319],[745,314],
-        [702,383],[745,397],
-        [690,430],[735,475],
+        [694,165],[738,115],
+        [700,207],[742,180],
+        [702,282],[745,277],
+        [700,333],[742,347],
+        [692,380],[735,405],
       ].map(([cx, cy], i) => (
-        <circle key={`bn-r-${i}`} cx={cx} cy={cy} r="4" fill="#a855f7" fillOpacity="0.8"
+        <circle key={`bn-r-${i}`} cx={cx} cy={cy} r="3.5" fill="#a855f7" fillOpacity="0.8"
           filter={`url(#${uid}-glow)`}>
-          <animate attributeName="fill-opacity" values="0.5;1;0.5" dur={`${1.5 + i*0.2}s`} repeatCount="indefinite"/>
+          <animate attributeName="fill-opacity" values="0.4;1;0.4" dur={`${1.5 + i*0.2}s`} repeatCount="indefinite"/>
         </circle>
       ))}
 
@@ -349,26 +338,27 @@ export default function SmartLinkActionButtons({
           container height = 79.7% of image's natural rendered height
           With object-fit:cover + object-position:top, we crop bottom 20.3%
       ════════════════════════════════════════════════════ */}
+      {/* Hero artwork crop: 1024×1280 image, show top 79.7% → aspectRatio = 1024:(1280×0.797) = 1024:1020 */}
       <div
         className="w-full relative select-none overflow-hidden"
-        style={{ aspectRatio: '1024 / 1022' }}
+        style={{ aspectRatio: '1024 / 1020' }}
       >
         <picture>
           <source srcSet="/sl_hero.webp" type="image/webp"/>
           <img
             src="/sl_hero.png"
             alt="Chrome AfroFusion Radio — Discover Africa's Biggest Hits"
-            className="absolute inset-0 w-full h-auto"
-            style={{ objectFit: 'cover', objectPosition: 'top center' }}
+            className="absolute inset-0 w-full"
+            style={{ objectFit: 'cover', objectPosition: 'top center', height: '125.5%' }}
             draggable={false}
             fetchPriority="high"
           />
         </picture>
-        {/* Seamless dissolve at the crop point — only covers the dark region below ONE LINK */}
+        {/* Seamless dissolve — blends the artwork base color into the section below */}
         <div className="absolute inset-x-0 bottom-0 pointer-events-none"
           style={{
-            height: '10%',
-            background: 'linear-gradient(to top, #05050e 0%, rgba(5,5,14,0.85) 50%, transparent 100%)',
+            height: '18%',
+            background: 'linear-gradient(to top, #05050e 0%, rgba(5,5,14,0.92) 35%, rgba(5,5,14,0.5) 70%, transparent 100%)',
           }}
         />
       </div>
@@ -399,14 +389,14 @@ export default function SmartLinkActionButtons({
         <div className="w-full max-w-[1200px] mx-auto px-1 sm:px-3 lg:px-6 relative">
 
           {/* ── ECOSYSTEM GRID: Left buttons | SVG circuit | Hub | SVG circuit | Right buttons ── */}
-          <div className="relative w-full" style={{ minHeight: 'clamp(260px, 52vw, 620px)', paddingTop: 'clamp(16px, 3vw, 32px)', paddingBottom: 'clamp(8px, 2vw, 20px)' }}>
+          <div className="relative w-full" style={{ minHeight: 'clamp(230px, 44vw, 520px)', paddingTop: 'clamp(8px, 1.5vw, 16px)', paddingBottom: 'clamp(4px, 1vw, 12px)' }}>
 
             {/* SVG Organic Circuitry — absolute, covers the full ecosystem area */}
             <CircuitSVG uid={uid} />
 
             {/* Three-column layout: Left | Hub | Right — SVG is behind everything */}
             <div className="relative z-10 flex items-center h-full w-full"
-              style={{ minHeight: 'clamp(260px, 52vw, 620px)' }}
+              style={{ minHeight: 'clamp(230px, 44vw, 520px)' }}
             >
               {/* LEFT PLATFORM COLUMN */}
               <div className="flex flex-col justify-center gap-1.5 sm:gap-2.5 flex-1 min-w-0"
