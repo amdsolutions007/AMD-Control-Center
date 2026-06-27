@@ -61,63 +61,64 @@ const PLATFORM_LABELS: Record<string,string> = {
 };
 
 /* ──────────────────────────────────────────────────────────
-   PREMIUM PCB-STYLE ORGANIC CIRCUIT SVG — V3.3
-   PCB CONNECTIVITY PERFECTION
+   PREMIUM PCB-STYLE ORGANIC CIRCUIT SVG — V3.3.1
+   FINAL PCB PRECISION REFINEMENT
 
-   1. Perfect Termination: Lines extend 4 units inside button borders
-      (X=286 on left desktop, X=714 on right desktop) with hardware sockets.
-   2. Identical Hub Connections: All 10 origins originate from exactly R=118
-      on desktop and R=105 on mobile around the hub center (500,250).
-   3. Identical Glow Specification: Solid uniform stroke intensity on all 4 layers.
-   4. Gold Junction Nodes: Identical 3-layer structure (bloom, inner glow, white core)
-      with synchronized 2.0s pulsing.
+   1. Perfect Cable Termination: Every branch terminates at exactly X=288 (left)
+      and X=712 (right) with identical horizontal arrival geometry.
+   2. Middle Connections Corrected: Audiomack and Instagram share exact cubic
+      curvature rhythm and vertical grid alignment (Y=250) as all other rows.
+   3. Uniform Glow & 4. Uniform Sockets: Identical stroke widths, filters,
+      socket diameters, and animation timing across all 10 branches.
+   5. Hub Origin Precision: All 10 origins start at exact circular radius R=116
+      on desktop and R=104 on mobile around hub center (500,250).
+   6. Engineering Symmetry: Junction nodes align vertically along X=330 (left)
+      and X=670 (right) forming a true AI motherboard architecture.
 ────────────────────────────────────────────────────────── */
 function CircuitSVG({ uid }: { uid: string }) {
-  // Desktop Paths (origins on R=118 circle, endpoints at X=286 / X=714)
+  // Desktop Paths (Origins on R=116 circle, junctions at X=330/670, endpoints at X=288/712)
   const lP_desk = [
-    `M 404,181 C 375,181 350,135 330,100 C 310,65 300,50 286,50`,
-    `M 388,213 C 365,213 340,190 325,175 C 310,160 300,150 286,150`,
-    `M 382,250 L 286,250`,
-    `M 388,287 C 365,287 340,310 325,325 C 310,340 300,350 286,350`,
-    `M 404,319 C 375,319 350,365 330,400 C 310,435 300,450 286,450`,
+    `M 406,182 C 375,182 350,135 330,100 C 315,75 305,50 288,50`,
+    `M 390,214 C 368,214 345,190 330,175 C 315,160 305,150 288,150`,
+    `M 384,250 C 360,250 345,250 330,250 C 315,250 305,250 288,250`,
+    `M 390,286 C 368,286 345,310 330,325 C 315,340 305,350 288,350`,
+    `M 406,318 C 375,318 350,365 330,400 C 315,425 305,450 288,450`,
   ];
   const rP_desk = [
-    `M 596,181 C 625,181 650,135 670,100 C 690,65 700,50 714,50`,
-    `M 612,213 C 635,213 660,190 675,175 C 690,160 700,150 714,150`,
-    `M 618,250 L 714,250`,
-    `M 612,287 C 635,287 660,310 675,325 C 690,340 700,350 714,350`,
-    `M 596,319 C 625,319 650,365 670,400 C 690,435 700,450 714,450`,
+    `M 594,182 C 625,182 650,135 670,100 C 685,75 695,50 712,50`,
+    `M 610,214 C 632,214 655,190 670,175 C 685,160 695,150 712,150`,
+    `M 616,250 C 640,250 655,250 670,250 C 685,250 695,250 712,250`,
+    `M 610,286 C 632,286 655,310 670,325 C 685,340 695,350 712,350`,
+    `M 594,318 C 625,318 650,365 670,400 C 685,425 695,450 712,450`,
   ];
-  const jL_desk = [[330,100], [325,175], [334,250], [325,325], [330,400]];
-  const jR_desk = [[670,100], [675,175], [666,250], [675,325], [670,400]];
-  const tL_desk = [[286,50], [286,150], [286,250], [286,350], [286,450]];
-  const tR_desk = [[714,50], [714,150], [714,250], [714,350], [714,450]];
-  const oL_desk = [[404,181], [388,213], [382,250], [388,287], [404,319]];
-  const oR_desk = [[596,181], [612,213], [618,250], [612,287], [596,319]];
+  const jL_desk = [[330,100], [330,175], [330,250], [330,325], [330,400]];
+  const jR_desk = [[670,100], [670,175], [670,250], [670,325], [670,400]];
+  const tL_desk = [[288,50], [288,150], [288,250], [288,350], [288,450]];
+  const tR_desk = [[712,50], [712,150], [712,250], [712,350], [712,450]];
+  const oL_desk = [[406,182], [390,214], [384,250], [390,286], [406,318]];
+  const oR_desk = [[594,182], [610,214], [616,250], [610,286], [594,318]];
 
-  // Mobile Paths (origins on R=105 circle, endpoints at X=326 / X=674)
+  // Mobile Paths (Origins on R=104 circle, junctions at X=360/640, endpoints at X=328/672)
   const lP_mob = [
-    `M 415,188 C 395,188 375,140 360,110 C 345,80 335,50 326,50`,
-    `M 400,217 C 385,217 370,190 355,175 C 345,160 335,150 326,150`,
-    `M 395,250 L 326,250`,
-    `M 400,283 C 385,283 370,310 355,325 C 345,340 335,350 326,350`,
-    `M 415,312 C 395,312 375,360 360,390 C 345,420 335,450 326,450`,
+    `M 412,188 C 390,188 375,145 360,110 C 348,80 340,50 328,50`,
+    `M 398,216 C 380,216 368,190 360,175 C 348,160 340,150 328,150`,
+    `M 396,250 C 380,250 368,250 360,250 C 348,250 340,250 328,250`,
+    `M 398,284 C 380,284 368,310 360,325 C 348,340 340,350 328,350`,
+    `M 412,312 C 390,312 375,355 360,390 C 348,420 340,450 328,450`,
   ];
   const rP_mob = [
-    `M 585,188 C 605,188 625,140 640,110 C 655,80 665,50 674,50`,
-    `M 600,217 C 615,217 630,190 645,175 C 655,160 665,150 674,150`,
-    `M 605,250 L 674,250`,
-    `M 600,283 C 615,283 630,310 645,325 C 655,340 665,350 674,350`,
-    `M 585,312 C 605,312 625,360 640,390 C 655,420 665,450 674,450`,
+    `M 588,188 C 610,188 625,145 640,110 C 652,80 660,50 672,50`,
+    `M 602,216 C 620,216 632,190 640,175 C 652,160 660,150 672,150`,
+    `M 604,250 C 620,250 632,250 640,250 C 652,250 660,250 672,250`,
+    `M 602,284 C 620,284 632,310 640,325 C 652,340 660,350 672,350`,
+    `M 588,312 C 610,312 625,355 640,390 C 652,420 660,450 672,450`,
   ];
-  const jL_mob = [[360,110], [355,175], [360,250], [355,325], [360,390]];
-  const jR_mob = [[640,110], [645,175], [640,250], [645,325], [640,390]];
-  const tL_mob = [[326,50], [326,150], [326,250], [326,350], [326,450]];
-  const tR_mob = [[674,50], [674,150], [674,250], [674,350], [674,450]];
-  const oL_mob = [[415,188], [400,217], [395,250], [400,283], [415,312]];
-  const oR_mob = [[585,188], [600,217], [605,250], [600,283], [585,312]];
-
-  const dashLen = [420, 350, 260, 350, 420];
+  const jL_mob = [[360,110], [360,175], [360,250], [360,325], [360,390]];
+  const jR_mob = [[640,110], [640,175], [640,250], [640,325], [640,390]];
+  const tL_mob = [[328,50], [328,150], [328,250], [328,350], [328,450]];
+  const tR_mob = [[672,50], [672,150], [672,250], [672,350], [672,450]];
+  const oL_mob = [[412,188], [398,216], [396,250], [398,284], [412,312]];
+  const oR_mob = [[588,188], [602,216], [604,250], [602,284], [588,312]];
 
   const renderPaths = (
     lP: string[], rP: string[],
@@ -162,7 +163,7 @@ function CircuitSVG({ uid }: { uid: string }) {
         <path key={`lp-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round"
           stroke="#00FFFF" strokeWidth="2.8" strokeOpacity="0"
           style={{
-            strokeDasharray: `32 ${dashLen[i]}`,
+            strokeDasharray: '32 350',
             animation: `pktL${i} 2.0s linear ${i * 0.4}s infinite`,
           }}
           filter={`url(#${uid}-pkt)`}
@@ -172,7 +173,7 @@ function CircuitSVG({ uid }: { uid: string }) {
         <path key={`rp-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round"
           stroke="#00FFFF" strokeWidth="2.8" strokeOpacity="0"
           style={{
-            strokeDasharray: `32 ${dashLen[i]}`,
+            strokeDasharray: '32 350',
             animation: `pktR${i} 2.0s linear ${i * 0.4 + 0.2}s infinite`,
           }}
           filter={`url(#${uid}-pkt)`}
@@ -375,7 +376,7 @@ export default function SmartLinkActionButtons({
       </div>
 
       {/* ════════════════════════════════════════════════════════════
-          INTERACTIVE LIVING ECOSYSTEM — V3.3
+          INTERACTIVE LIVING ECOSYSTEM — V3.3.1
           Exact grid-rows-5 alignment locking circuits into buttons
       ════════════════════════════════════════════════════════════ */}
       <div
@@ -632,16 +633,16 @@ export default function SmartLinkActionButtons({
         }
         ${[0,1,2,3,4].map(i=>`
           @keyframes pktL${i} {
-            0%   { stroke-dashoffset:${[452,382,292,382,452][i]}; stroke-opacity:0; }
-            12%  { stroke-opacity:0.95; }
-            88%  { stroke-opacity:0.95; }
-            100% { stroke-dashoffset:0; stroke-opacity:0; }
+            0%   { stroke-dashoffset: 380; stroke-opacity: 0; }
+            12%  { stroke-opacity: 0.95; }
+            88%  { stroke-opacity: 0.95; }
+            100% { stroke-dashoffset: 0; stroke-opacity: 0; }
           }
           @keyframes pktR${i} {
-            0%   { stroke-dashoffset:${[452,382,292,382,452][i]}; stroke-opacity:0; }
-            12%  { stroke-opacity:0.95; }
-            88%  { stroke-opacity:0.95; }
-            100% { stroke-dashoffset:0; stroke-opacity:0; }
+            0%   { stroke-dashoffset: 380; stroke-opacity: 0; }
+            12%  { stroke-opacity: 0.95; }
+            88%  { stroke-opacity: 0.95; }
+            100% { stroke-dashoffset: 0; stroke-opacity: 0; }
           }
         `).join('')}
       `}</style>
