@@ -21,7 +21,9 @@ interface ActionButtonsProps {
   artistName?: string;
 }
 
-/* ─────────────────── BRAND SVG ICONS ─────────────────── */
+/* ──────────────────────────────────────────────────────────
+   BRAND ICONS
+────────────────────────────────────────────────────────── */
 function BrandIcon({ id, size = 20 }: { id: string; size?: number }) {
   switch (id) {
     case 'spotify':
@@ -39,7 +41,7 @@ function BrandIcon({ id, size = 20 }: { id: string; size?: number }) {
     case 'youtube_music':
       return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="5" fill="#FF0000"/><circle cx="12" cy="12" r="5" fill="white"/><path d="M10.5 10l4 2-4 2V10z" fill="#FF0000"/></svg>;
     case 'instagram':
-      return <svg width={size} height={size} viewBox="0 0 24 24"><defs><radialGradient id="ig3" cx="30%" cy="107%" r="150%"><stop offset="0%" stopColor="#fdf497"/><stop offset="45%" stopColor="#fd5949"/><stop offset="60%" stopColor="#d6249f"/><stop offset="90%" stopColor="#285AEB"/></radialGradient></defs><rect width="24" height="24" rx="6" fill="url(#ig3)"/><path d="M12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9zm0 7.5a3 3 0 110-6 3 3 0 010 6zm4.7-8.1a1.05 1.05 0 110 2.1 1.05 1.05 0 010-2.1z" fill="white"/></svg>;
+      return <svg width={size} height={size} viewBox="0 0 24 24"><defs><radialGradient id="ig-v31" cx="30%" cy="107%" r="150%"><stop offset="0%" stopColor="#fdf497"/><stop offset="45%" stopColor="#fd5949"/><stop offset="60%" stopColor="#d6249f"/><stop offset="90%" stopColor="#285AEB"/></radialGradient></defs><rect width="24" height="24" rx="6" fill="url(#ig-v31)"/><path d="M12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9zm0 7.5a3 3 0 110-6 3 3 0 010 6zm4.7-8.1a1.05 1.05 0 110 2.1 1.05 1.05 0 010-2.1z" fill="white"/></svg>;
     case 'amazon_music':
       return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#232F3E"/><path d="M5 15.5s3.5 2 7 2 7-2 7-2" stroke="#FF9900" strokeWidth="1.8" strokeLinecap="round"/><path d="M7 9.5a5 5 0 0110 0v2.5a5 5 0 01-10 0V9.5z" fill="none" stroke="white" strokeWidth="1.2"/><path d="M10 11.5L12 13l2-1.5" stroke="#FF9900" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>;
     case 'deezer':
@@ -58,209 +60,286 @@ const PLATFORM_LABELS: Record<string,string> = {
   amazon_music: 'Amazon Music', deezer: 'Deezer',
 };
 
-/* ─────────────────── ORGANIC CURVED SVG CIRCUIT ─────────────────── */
-/*
-  ViewBox: 0 0 1000 580
-  Hub center: (500, 290) — center of button zone
-  Button rows are evenly spaced vertically:
-    Row 0 (Spotify/TikTok):       Y=60
-    Row 1 (AppleMusic/YTMusic):   Y=160
-    Row 2 (Audiomack/Instagram):  Y=260
-    Row 3 (Boomplay/Amazon):      Y=360
-    Row 4 (SoundCloud/Deezer):    Y=460
-  Button right edge (left col):  X=220
-  Button left edge (right col):  X=780
-  Hub perimeter radius ~110 → origin points at X=390-610, Y=230-350
-  Paths: cubic bezier arcing outward from hub to each button row.
-*/
+/* ──────────────────────────────────────────────────────────
+   PREMIUM PCB-STYLE ORGANIC CIRCUIT SVG — V3.1
+
+   ViewBox: 0 0 1000 520
+   Hub center: (500, 260) — hub radius ≈ 115
+
+   Circuit design matches master artwork:
+   - Angular routing with smooth bezier joins (not straight lines)
+   - Layered: wide purple bleed → narrow cyan core → animated packet
+   - Gold/pink glowing junction nodes at every bend
+   - Cyan energy packets travel from hub outward
+   - Hub perimeter origin nodes pulse cyan
+
+   Left button right edge: X = 215
+   Right button left edge: X = 785
+   Button Y rows (5 rows × 100px apart, centered at 260):
+     Row 0: Y = 60   (Spotify / TikTok)
+     Row 1: Y = 160  (Apple Music / YouTube Music)
+     Row 2: Y = 260  (Audiomack / Instagram)   ← hub midline
+     Row 3: Y = 360  (Boomplay / Amazon Music)
+     Row 4: Y = 460  (SoundCloud / Deezer)
+────────────────────────────────────────────────────────── */
 function CircuitSVG({ uid }: { uid: string }) {
-  // ViewBox: 1000 wide × 580 tall — exactly the button zone, no empty space above
-  // Hub center: (500, 290)
-  // Button Y rows: 55, 145, 235, 325, 415  (tight spacing matching 5 rows)
-  // Left button right edge: X=218  |  Right button left edge: X=782
-  // Hub perimeter left side origin (X≈385-395, Y=230-350)
-  // Hub perimeter right side origin (X≈605-615, Y=230-350)
-  const leftPaths = [
-    `M 390,248 C 365,210 295,100 218,62`,   // Spotify — arc up-left
-    `M 382,268 C 348,240 290,185 218,150`,  // Apple Music
-    `M 376,290 C 335,285 278,278 218,272`,  // Audiomack — near horizontal with slight curve
-    `M 380,314 C 342,336 285,352 218,360`,  // Boomplay — arc down-left
-    `M 392,332 C 360,380 295,410 218,430`,  // SoundCloud — arc down-left
-  ];
-  const rightPaths = [
-    `M 610,248 C 635,210 705,100 782,62`,   // TikTok — arc up-right
-    `M 618,268 C 652,240 710,185 782,150`,  // YouTube Music
-    `M 624,290 C 665,285 722,278 782,272`,  // Instagram — near horizontal
-    `M 620,314 C 658,336 715,352 782,360`,  // Amazon Music — arc down-right
-    `M 608,332 C 640,380 705,410 782,430`,  // Deezer — arc down-right
+  /*
+   Circuit paths — PCB angular routing:
+   Each path: M hub_origin → first horizontal/diagonal segment
+              → angular bend (using smooth bezier control points)
+              → final route to button edge
+
+   The master artwork shows paths that:
+   1. Exit the hub perimeter radially
+   2. Route with a 90° angular bend (elbow)
+   3. Travel horizontally to the button
+   Captured with cubic bezier for smooth corners (not hard 90°).
+  */
+
+  // LEFT PATHS — exit hub left side, route to left column buttons
+  const lP = [
+    // Spotify (row 0) — sweeps up-left from hub top-left perimeter
+    `M 388,215 C 370,175 330,110 278,80 L 215,62`,
+    // Apple Music (row 1) — arc up-left from hub left-upper
+    `M 382,240 C 355,210 310,178 260,165 L 215,160`,
+    // Audiomack (row 2) — straight left from hub midpoint (slight arc)
+    `M 375,258 C 340,256 295,258 260,260 L 215,260`,
+    // Boomplay (row 3) — arc down-left
+    `M 382,280 C 355,308 310,338 260,352 L 215,360`,
+    // SoundCloud (row 4) — sweep down-left from hub bottom-left
+    `M 388,305 C 368,345 328,400 278,432 L 215,460`,
   ];
 
-  // Termination nodes (where circuits meet platform buttons)
-  const leftNodes  = [[218,62],[218,150],[218,272],[218,360],[218,430]];
-  const rightNodes = [[782,62],[782,150],[782,272],[782,360],[782,430]];
-  // Hub origin nodes
-  const hubLeftNodes  = [[390,248],[382,268],[376,290],[380,314],[392,332]];
-  const hubRightNodes = [[610,248],[618,268],[624,290],[620,314],[608,332]];
+  // RIGHT PATHS — symmetric mirror
+  const rP = [
+    `M 612,215 C 630,175 670,110 722,80 L 785,62`,
+    `M 618,240 C 645,210 690,178 740,165 L 785,160`,
+    `M 625,258 C 660,256 705,258 740,260 L 785,260`,
+    `M 618,280 C 645,308 690,338 740,352 L 785,360`,
+    `M 612,305 C 632,345 672,400 722,432 L 785,460`,
+  ];
+
+  // Hub origin nodes (where paths leave the hub ring)
+  const hL = [[388,215],[382,240],[375,258],[382,280],[388,305]];
+  const hR = [[612,215],[618,240],[625,258],[618,280],[612,305]];
+
+  // Mid-path junction nodes (at the "elbow" bends) — approximate positions along each curve
+  const jL = [[310,108],[295,182],[298,258],[300,336],[310,410]];
+  const jR = [[690,108],[705,182],[702,258],[700,336],[690,410]];
+
+  // Termination nodes (where circuits touch platform buttons)
+  const tL = [[215,62],[215,160],[215,260],[215,360],[215,460]];
+  const tR = [[785,62],[785,160],[785,260],[785,360],[785,460]];
+
+  // Energy packet dash lengths — sized to match path visual lengths
+  const dashLen = [520, 440, 360, 440, 520];
 
   return (
     <svg
-      viewBox="0 0 1000 500"
+      viewBox="0 0 1000 520"
       className="absolute inset-0 w-full h-full pointer-events-none"
       preserveAspectRatio="xMidYMid meet"
       aria-hidden="true"
     >
       <defs>
-        {/* Animated energy gradient for left paths */}
-        {leftPaths.map((_, i) => (
-          <linearGradient key={`lg-l-${i}`} id={`${uid}-lg-l-${i}`} gradientUnits="userSpaceOnUse"
-            x1="500" y1="290" x2="218" y2={[62,150,272,360,430][i]}>
-            <stop offset="0%" stopColor="#00E5FF" stopOpacity="0"/>
-            <stop offset="20%" stopColor="#00E5FF" stopOpacity="0.9"/>
-            <stop offset="60%" stopColor="#8a2be2" stopOpacity="0.8"/>
-            <stop offset="100%" stopColor="#8a2be2" stopOpacity="0.3"/>
+        {/* ── Per-path gradient: cyan at hub, purple toward platform ── */}
+        {lP.map((_, i) => (
+          <linearGradient key={`glg-l${i}`} id={`${uid}-glg-l${i}`} gradientUnits="userSpaceOnUse"
+            x1="500" y1="260" x2="215" y2={[62,160,260,360,460][i]}>
+            <stop offset="0%"   stopColor="#00E5FF" stopOpacity="0.1"/>
+            <stop offset="12%"  stopColor="#00E5FF" stopOpacity="1"/>
+            <stop offset="55%"  stopColor="#7c3aed" stopOpacity="0.9"/>
+            <stop offset="85%"  stopColor="#9333ea" stopOpacity="0.6"/>
+            <stop offset="100%" stopColor="#a855f7" stopOpacity="0.35"/>
           </linearGradient>
         ))}
-        {/* Animated energy gradient for right paths */}
-        {rightPaths.map((_, i) => (
-          <linearGradient key={`lg-r-${i}`} id={`${uid}-lg-r-${i}`} gradientUnits="userSpaceOnUse"
-            x1="500" y1="290" x2="782" y2={[62,150,272,360,430][i]}>
-            <stop offset="0%" stopColor="#00E5FF" stopOpacity="0"/>
-            <stop offset="20%" stopColor="#00E5FF" stopOpacity="0.9"/>
-            <stop offset="60%" stopColor="#8a2be2" stopOpacity="0.8"/>
-            <stop offset="100%" stopColor="#8a2be2" stopOpacity="0.3"/>
+        {rP.map((_, i) => (
+          <linearGradient key={`glg-r${i}`} id={`${uid}-glg-r${i}`} gradientUnits="userSpaceOnUse"
+            x1="500" y1="260" x2="785" y2={[62,160,260,360,460][i]}>
+            <stop offset="0%"   stopColor="#00E5FF" stopOpacity="0.1"/>
+            <stop offset="12%"  stopColor="#00E5FF" stopOpacity="1"/>
+            <stop offset="55%"  stopColor="#7c3aed" stopOpacity="0.9"/>
+            <stop offset="85%"  stopColor="#9333ea" stopOpacity="0.6"/>
+            <stop offset="100%" stopColor="#a855f7" stopOpacity="0.35"/>
           </linearGradient>
         ))}
-        {/* Pulse gradient - for animated energy packet */}
-        <linearGradient id={`${uid}-pulse`} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="transparent"/>
-          <stop offset="40%" stopColor="white" stopOpacity="0.95"/>
-          <stop offset="100%" stopColor="transparent"/>
-        </linearGradient>
-        {/* Glow filter */}
-        <filter id={`${uid}-glow`} x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="3" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+
+        {/* ── Filters ── */}
+        {/* Soft glow — for path bleed */}
+        <filter id={`${uid}-blur`} x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="5"/>
         </filter>
-        {/* Strong glow for nodes */}
-        <filter id={`${uid}-node-glow`} x="-100%" y="-100%" width="300%" height="300%">
-          <feGaussianBlur stdDeviation="5" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        {/* Tight glow — for core line */}
+        <filter id={`${uid}-glow`} x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="2.5" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        {/* Node bloom */}
+        <filter id={`${uid}-bloom`} x="-120%" y="-120%" width="340%" height="340%">
+          <feGaussianBlur stdDeviation="7" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        {/* Packet glow */}
+        <filter id={`${uid}-pkt`} x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="3.5" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
       </defs>
 
-      {/* ── Base circuit paths (permanent glow lines) ── */}
-      {leftPaths.map((d, i) => (
-        <g key={`l-${i}`}>
-          {/* Outer glow */}
-          <path d={d} stroke="#8a2be2" strokeWidth="4" fill="none" strokeOpacity="0.25" strokeLinecap="round"/>
-          {/* Core line */}
-          <path d={d} stroke={`url(#${uid}-lg-l-${i})`} strokeWidth="1.8" fill="none" strokeLinecap="round"
-            filter={`url(#${uid}-glow)`}/>
-        </g>
+      {/* ══════════════ LAYER 1: Wide purple bleed (background glow) ══════════════ */}
+      {lP.map((d, i) => (
+        <path key={`lb${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
+          stroke={`url(#${uid}-glg-l${i})`} strokeWidth="14" strokeOpacity="0.18"
+          filter={`url(#${uid}-blur)`}/>
       ))}
-      {rightPaths.map((d, i) => (
-        <g key={`r-${i}`}>
-          <path d={d} stroke="#8a2be2" strokeWidth="4" fill="none" strokeOpacity="0.25" strokeLinecap="round"/>
-          <path d={d} stroke={`url(#${uid}-lg-r-${i})`} strokeWidth="1.8" fill="none" strokeLinecap="round"
-            filter={`url(#${uid}-glow)`}/>
-        </g>
+      {rP.map((d, i) => (
+        <path key={`rb${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
+          stroke={`url(#${uid}-glg-r${i})`} strokeWidth="14" strokeOpacity="0.18"
+          filter={`url(#${uid}-blur)`}/>
       ))}
 
-      {/* ── Animated energy packets travelling along each path ── */}
-      {leftPaths.map((d, i) => (
-        <path key={`pulse-l-${i}`} d={d} stroke="white" strokeWidth="3" fill="none"
-          strokeLinecap="round" strokeOpacity="0.9"
+      {/* ══════════════ LAYER 2: Medium purple outer line ══════════════ */}
+      {lP.map((d, i) => (
+        <path key={`lm${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
+          stroke="#7c3aed" strokeWidth="4" strokeOpacity="0.35"/>
+      ))}
+      {rP.map((d, i) => (
+        <path key={`rm${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
+          stroke="#7c3aed" strokeWidth="4" strokeOpacity="0.35"/>
+      ))}
+
+      {/* ══════════════ LAYER 3: Thin cyan core line ══════════════ */}
+      {lP.map((d, i) => (
+        <path key={`lc${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
+          stroke={`url(#${uid}-glg-l${i})`} strokeWidth="1.6"
+          filter={`url(#${uid}-glow)`}/>
+      ))}
+      {rP.map((d, i) => (
+        <path key={`rc${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
+          stroke={`url(#${uid}-glg-r${i})`} strokeWidth="1.6"
+          filter={`url(#${uid}-glow)`}/>
+      ))}
+
+      {/* ══════════════ LAYER 4: Animated energy packets ══════════════ */}
+      {lP.map((d, i) => (
+        <path key={`lp${i}`} d={d} fill="none" strokeLinecap="round"
+          stroke="#00E5FF" strokeWidth="2.5" strokeOpacity="0"
           style={{
-            strokeDasharray: '40 1000',
-            animation: `dashL${i} 2.5s linear ${i * 0.5}s infinite`,
-            filter: 'drop-shadow(0 0 6px #00E5FF)',
+            strokeDasharray: `32 ${dashLen[i]}`,
+            animation: `pktL${i} 2.2s linear ${i * 0.44}s infinite`,
           }}
+          filter={`url(#${uid}-pkt)`}
         />
       ))}
-      {rightPaths.map((d, i) => (
-        <path key={`pulse-r-${i}`} d={d} stroke="white" strokeWidth="3" fill="none"
-          strokeLinecap="round" strokeOpacity="0.9"
+      {rP.map((d, i) => (
+        <path key={`rp${i}`} d={d} fill="none" strokeLinecap="round"
+          stroke="#00E5FF" strokeWidth="2.5" strokeOpacity="0"
           style={{
-            strokeDasharray: '40 1000',
-            animation: `dashR${i} 2.5s linear ${i * 0.5 + 0.25}s infinite`,
-            filter: 'drop-shadow(0 0 6px #00E5FF)',
+            strokeDasharray: `32 ${dashLen[i]}`,
+            animation: `pktR${i} 2.2s linear ${i * 0.44 + 0.22}s infinite`,
           }}
+          filter={`url(#${uid}-pkt)`}
         />
       ))}
 
-      {/* ── Branch junction nodes along left paths ── */}
-      {[
-        [306,165],[262,115],  // Spotify
-        [300,207],[258,180],  // Apple Music
-        [298,282],[255,277],  // Audiomack
-        [300,333],[258,347],  // Boomplay
-        [308,380],[265,405],  // SoundCloud
-      ].map(([cx, cy], i) => (
-        <circle key={`bn-l-${i}`} cx={cx} cy={cy} r="3.5" fill="#a855f7" fillOpacity="0.8"
-          filter={`url(#${uid}-glow)`}>
-          <animate attributeName="fill-opacity" values="0.4;1;0.4" dur={`${1.5 + i*0.2}s`} repeatCount="indefinite"/>
-        </circle>
-      ))}
-      {/* Branch junction nodes along right paths */}
-      {[
-        [694,165],[738,115],
-        [700,207],[742,180],
-        [702,282],[745,277],
-        [700,333],[742,347],
-        [692,380],[735,405],
-      ].map(([cx, cy], i) => (
-        <circle key={`bn-r-${i}`} cx={cx} cy={cy} r="3.5" fill="#a855f7" fillOpacity="0.8"
-          filter={`url(#${uid}-glow)`}>
-          <animate attributeName="fill-opacity" values="0.4;1;0.4" dur={`${1.5 + i*0.2}s`} repeatCount="indefinite"/>
-        </circle>
-      ))}
-
-      {/* ── Left platform termination nodes (glowing energy arrival) ── */}
-      {leftNodes.map(([cx, cy], i) => (
-        <g key={`tn-l-${i}`}>
+      {/* ══════════════ JUNCTION NODES — gold-pink dots at elbow bends ══════════════ */}
+      {jL.map(([cx, cy], i) => (
+        <g key={`jl${i}`}>
           {/* Outer bloom */}
-          <circle cx={cx} cy={cy} r="10" fill="#00E5FF" fillOpacity="0.15">
-            <animate attributeName="r" values="8;14;8" dur="2s" begin={`${i*0.4}s`} repeatCount="indefinite"/>
-            <animate attributeName="fill-opacity" values="0.1;0.3;0.1" dur="2s" begin={`${i*0.4}s`} repeatCount="indefinite"/>
+          <circle cx={cx} cy={cy} r="7" fill="#D4AF37" fillOpacity="0.15"
+            filter={`url(#${uid}-bloom)`}>
+            <animate attributeName="r" values="5;9;5" dur={`${1.6+i*0.15}s`} repeatCount="indefinite"/>
+            <animate attributeName="fill-opacity" values="0.1;0.28;0.1" dur={`${1.6+i*0.15}s`} repeatCount="indefinite"/>
           </circle>
-          {/* Inner core */}
-          <circle cx={cx} cy={cy} r="5" fill="#00E5FF" filter={`url(#${uid}-node-glow)`}>
-            <animate attributeName="fill-opacity" values="0.7;1;0.7" dur="2s" begin={`${i*0.4}s`} repeatCount="indefinite"/>
+          {/* Inner glow */}
+          <circle cx={cx} cy={cy} r="4" fill="#D4AF37" fillOpacity="0.7"
+            filter={`url(#${uid}-bloom)`}>
+            <animate attributeName="fill-opacity" values="0.5;1;0.5" dur={`${1.6+i*0.15}s`} repeatCount="indefinite"/>
           </circle>
-          {/* Bright center */}
-          <circle cx={cx} cy={cy} r="2.5" fill="white"/>
+          {/* Core */}
+          <circle cx={cx} cy={cy} r="2" fill="white" fillOpacity="0.95"/>
         </g>
       ))}
-      {/* ── Right platform termination nodes ── */}
-      {rightNodes.map(([cx, cy], i) => (
-        <g key={`tn-r-${i}`}>
-          <circle cx={cx} cy={cy} r="10" fill="#00E5FF" fillOpacity="0.15">
-            <animate attributeName="r" values="8;14;8" dur="2s" begin={`${i*0.4+0.2}s`} repeatCount="indefinite"/>
-            <animate attributeName="fill-opacity" values="0.1;0.3;0.1" dur="2s" begin={`${i*0.4+0.2}s`} repeatCount="indefinite"/>
+      {jR.map(([cx, cy], i) => (
+        <g key={`jr${i}`}>
+          <circle cx={cx} cy={cy} r="7" fill="#D4AF37" fillOpacity="0.15"
+            filter={`url(#${uid}-bloom)`}>
+            <animate attributeName="r" values="5;9;5" dur={`${1.6+i*0.15}s`} begin={`${i*0.18}s`} repeatCount="indefinite"/>
+            <animate attributeName="fill-opacity" values="0.1;0.28;0.1" dur={`${1.6+i*0.15}s`} begin={`${i*0.18}s`} repeatCount="indefinite"/>
           </circle>
-          <circle cx={cx} cy={cy} r="5" fill="#00E5FF" filter={`url(#${uid}-node-glow)`}>
-            <animate attributeName="fill-opacity" values="0.7;1;0.7" dur="2s" begin={`${i*0.4+0.2}s`} repeatCount="indefinite"/>
+          <circle cx={cx} cy={cy} r="4" fill="#D4AF37" fillOpacity="0.7"
+            filter={`url(#${uid}-bloom)`}>
+            <animate attributeName="fill-opacity" values="0.5;1;0.5" dur={`${1.6+i*0.15}s`} begin={`${i*0.18}s`} repeatCount="indefinite"/>
           </circle>
-          <circle cx={cx} cy={cy} r="2.5" fill="white"/>
+          <circle cx={cx} cy={cy} r="2" fill="white" fillOpacity="0.95"/>
         </g>
       ))}
 
-      {/* ── Hub perimeter nodes (where circuits begin) ── */}
-      {hubLeftNodes.map(([cx, cy], i) => (
-        <circle key={`hn-l-${i}`} cx={cx} cy={cy} r="4" fill="#00E5FF" filter={`url(#${uid}-glow)`}>
-          <animate attributeName="r" values="3;5;3" dur="1.8s" begin={`${i*0.3}s`} repeatCount="indefinite"/>
-        </circle>
+      {/* ══════════════ HUB PERIMETER ORIGIN NODES ══════════════ */}
+      {hL.map(([cx, cy], i) => (
+        <g key={`hl${i}`}>
+          <circle cx={cx} cy={cy} r="6" fill="#00E5FF" fillOpacity="0.2"
+            filter={`url(#${uid}-bloom)`}>
+            <animate attributeName="r" values="4;8;4" dur="1.9s" begin={`${i*0.28}s`} repeatCount="indefinite"/>
+          </circle>
+          <circle cx={cx} cy={cy} r="3.5" fill="#00E5FF" fillOpacity="0.9">
+            <animate attributeName="fill-opacity" values="0.6;1;0.6" dur="1.9s" begin={`${i*0.28}s`} repeatCount="indefinite"/>
+          </circle>
+          <circle cx={cx} cy={cy} r="1.5" fill="white"/>
+        </g>
       ))}
-      {hubRightNodes.map(([cx, cy], i) => (
-        <circle key={`hn-r-${i}`} cx={cx} cy={cy} r="4" fill="#00E5FF" filter={`url(#${uid}-glow)`}>
-          <animate attributeName="r" values="3;5;3" dur="1.8s" begin={`${i*0.3+0.15}s`} repeatCount="indefinite"/>
-        </circle>
+      {hR.map(([cx, cy], i) => (
+        <g key={`hr${i}`}>
+          <circle cx={cx} cy={cy} r="6" fill="#00E5FF" fillOpacity="0.2"
+            filter={`url(#${uid}-bloom)`}>
+            <animate attributeName="r" values="4;8;4" dur="1.9s" begin={`${i*0.28+0.14}s`} repeatCount="indefinite"/>
+          </circle>
+          <circle cx={cx} cy={cy} r="3.5" fill="#00E5FF" fillOpacity="0.9">
+            <animate attributeName="fill-opacity" values="0.6;1;0.6" dur="1.9s" begin={`${i*0.28+0.14}s`} repeatCount="indefinite"/>
+          </circle>
+          <circle cx={cx} cy={cy} r="1.5" fill="white"/>
+        </g>
+      ))}
+
+      {/* ══════════════ PLATFORM TERMINATION NODES — energy arrival bloom ══════════════ */}
+      {tL.map(([cx, cy], i) => (
+        <g key={`tl${i}`}>
+          {/* Outer bloom ring */}
+          <circle cx={cx} cy={cy} r="12" fill="#00E5FF" fillOpacity="0.08"
+            filter={`url(#${uid}-bloom)`}>
+            <animate attributeName="r" values="9;16;9" dur="2.4s" begin={`${i*0.38}s`} repeatCount="indefinite"/>
+            <animate attributeName="fill-opacity" values="0.05;0.22;0.05" dur="2.4s" begin={`${i*0.38}s`} repeatCount="indefinite"/>
+          </circle>
+          {/* Inner ring */}
+          <circle cx={cx} cy={cy} r="6" fill="#00E5FF" fillOpacity="0.6"
+            filter={`url(#${uid}-glow)`}>
+            <animate attributeName="fill-opacity" values="0.4;0.95;0.4" dur="2.4s" begin={`${i*0.38}s`} repeatCount="indefinite"/>
+          </circle>
+          {/* Core dot */}
+          <circle cx={cx} cy={cy} r="2.8" fill="white" fillOpacity="0.95"/>
+        </g>
+      ))}
+      {tR.map(([cx, cy], i) => (
+        <g key={`tr${i}`}>
+          <circle cx={cx} cy={cy} r="12" fill="#00E5FF" fillOpacity="0.08"
+            filter={`url(#${uid}-bloom)`}>
+            <animate attributeName="r" values="9;16;9" dur="2.4s" begin={`${i*0.38+0.19}s`} repeatCount="indefinite"/>
+            <animate attributeName="fill-opacity" values="0.05;0.22;0.05" dur="2.4s" begin={`${i*0.38+0.19}s`} repeatCount="indefinite"/>
+          </circle>
+          <circle cx={cx} cy={cy} r="6" fill="#00E5FF" fillOpacity="0.6"
+            filter={`url(#${uid}-glow)`}>
+            <animate attributeName="fill-opacity" values="0.4;0.95;0.4" dur="2.4s" begin={`${i*0.38+0.19}s`} repeatCount="indefinite"/>
+          </circle>
+          <circle cx={cx} cy={cy} r="2.8" fill="white" fillOpacity="0.95"/>
+        </g>
       ))}
     </svg>
   );
 }
 
-/* ─────────────────── MAIN COMPONENT ─────────────────── */
+/* ──────────────────────────────────────────────────────────
+   MAIN COMPONENT
+────────────────────────────────────────────────────────── */
 export default function SmartLinkActionButtons({
   smartLinkId, hubId, artistId, trackId, playlistId,
   dspLinks, audioPreviewUrl, whatsappJoinUrl,
@@ -294,7 +373,7 @@ export default function SmartLinkActionButtons({
   const ready = (k: string) => !dspLinks ? false : k === 'youtube_music' ? Boolean(dspLinks.youtube_music || dspLinks.youtube) : Boolean(dspLinks[k]);
   const href  = (k: string) => !dspLinks ? undefined : k === 'youtube_music' ? (dspLinks.youtube_music || dspLinks.youtube) : dspLinks[k];
 
-  /* ── Platform pill button — identical for all 10 platforms ── */
+  /* ── Platform pill — identical appearance for all 10, only interaction & badge differ ── */
   const PillBtn = ({ k }: { k: string }) => {
     const isReady = ready(k);
     const link = href(k);
@@ -304,24 +383,25 @@ export default function SmartLinkActionButtons({
         onClick={isReady ? () => go(k, link) : undefined}
         disabled={!isReady}
         className={[
-          'w-full flex items-center justify-between gap-2 rounded-full border transition-all duration-300 select-none',
-          'bg-[#07071a]/90 backdrop-blur-xl',
+          'w-full flex items-center justify-between gap-2 rounded-full border',
+          'transition-all duration-300 select-none backdrop-blur-xl',
+          'bg-[#050512]/88',
           isReady
-            ? 'border-[#8a2be2] shadow-[0_0_20px_rgba(138,43,226,0.45),inset_0_0_12px_rgba(0,0,0,0.7)] hover:border-[#00E5FF] hover:shadow-[0_0_32px_rgba(0,229,255,0.65)] hover:-translate-y-0.5 cursor-pointer'
-            : 'border-[#8a2be2]/70 shadow-[0_0_14px_rgba(138,43,226,0.25),inset_0_0_8px_rgba(0,0,0,0.7)] cursor-not-allowed',
+            ? 'border-[#7c3aed]/80 shadow-[0_0_22px_rgba(124,58,237,0.4),inset_0_0_14px_rgba(0,0,0,0.75)] hover:border-[#00E5FF] hover:shadow-[0_0_36px_rgba(0,229,255,0.7),inset_0_0_20px_rgba(0,0,0,0.8)] hover:-translate-y-0.5 cursor-pointer'
+            : 'border-[#7c3aed]/45 shadow-[0_0_14px_rgba(124,58,237,0.2),inset_0_0_10px_rgba(0,0,0,0.7)] cursor-not-allowed opacity-95',
         ].join(' ')}
         style={{ padding: 'clamp(5px,1.1vw,9px) clamp(8px,1.6vw,14px)' }}
         aria-label={isReady ? `Listen on ${label}` : `${label} coming soon`}
       >
         <span className="flex items-center gap-1.5 sm:gap-2 min-w-0 shrink">
-          <BrandIcon id={k} size={18} />
+          <BrandIcon id={k} size={18}/>
           <span className="font-bold tracking-wide text-white/95 truncate"
-            style={{ fontSize: 'clamp(9px, 1.7vw, 13px)' }}>{label}</span>
+            style={{ fontSize: 'clamp(9px,1.7vw,13px)' }}>{label}</span>
         </span>
         {isReady
-          ? <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full flex-shrink-0 bg-[#ff003c] shadow-[0_0_8px_#ff003c,0_0_14px_#ff003c] animate-pulse"/>
+          ? <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full flex-shrink-0 bg-[#ff003c] shadow-[0_0_8px_#ff003c,0_0_16px_#ff003c] animate-pulse"/>
           : <span className="flex-shrink-0 rounded-full font-black uppercase tracking-wider text-[#00E5FF] border border-[#00E5FF]/50 shadow-[0_0_8px_rgba(0,229,255,0.3)]"
-              style={{ fontSize: 'clamp(6px,1.1vw,8px)', padding: '2px 5px' }}>SOON</span>
+              style={{ fontSize: 'clamp(5.5px,1vw,8px)', padding: '2px 5px' }}>SOON</span>
         }
       </button>
     );
@@ -329,20 +409,14 @@ export default function SmartLinkActionButtons({
 
   return (
     <>
-      {/* ════════════════════════════════════════════════════
-          HERO ARTWORK — simplified poster showing:
-          AMD badge · 8 artists · DISCOVER AFRICA'S BIGGEST HITS · ONE LINK. EVERY PLATFORM.
-          Cropped to exactly 79.7% height (where ONE LINK text ends)
-          Aspect ratio: 1024w × 1020h visible = 1024/1020 ≈ 1/0.996 portrait
-          But we contain the image inside a clipped box for responsive layout:
-          container height = 79.7% of image's natural rendered height
-          With object-fit:cover + object-position:top, we crop bottom 20.3%
-      ════════════════════════════════════════════════════ */}
-      {/* Hero artwork crop: 1024×1280 image, show top 79.7%
-          Container aspect ratio = 1024 / (1280 × 0.797) = 1024 / 1020
-          Image renders at w-full h-auto = natural size, overflows below container
-          overflow:hidden on container clips the bottom 20.3% (pure dark bg)
-      */}
+      {/* ════════════════════════════════════════════════════════════
+          HERO ARTWORK — 1024×1280 simplified poster
+          Crop: show exactly top 79.7% (Y=0 to Y≈1020)
+          This reveals: AMD badge + 8 artists + DISCOVER AFRICA'S
+          BIGGEST HITS + ONE LINK. EVERY PLATFORM.
+          Pure dark background below that is clipped by overflow:hidden.
+          Container aspectRatio = width:visible_height = 1024:1020
+      ════════════════════════════════════════════════════════════ */}
       <div
         className="w-full relative select-none overflow-hidden"
         style={{ aspectRatio: '1024 / 1020' }}
@@ -351,136 +425,184 @@ export default function SmartLinkActionButtons({
           <source srcSet="/sl_hero.webp" type="image/webp"/>
           <img
             src="/sl_hero.png"
-            alt="Chrome AfroFusion Radio — Discover Africa's Biggest Hits"
+            alt="Chrome AfroFusion Radio — Discover Africa's Biggest Hits. One Link. Every Platform."
             className="absolute top-0 left-0 w-full"
             style={{ height: 'auto' }}
             draggable={false}
             fetchPriority="high"
           />
         </picture>
-        {/* Seamless bottom dissolve — covers only the dark background at image bottom */}
-        <div className="absolute inset-x-0 bottom-0 pointer-events-none"
+        {/*
+          Dissolve — starts at bottom 20% of container.
+          The artwork's base color at the "ONE LINK" zone is very dark navy/black (#03030C).
+          We dissolve into the EXACT same color as the section below: #05050e
+          Gradient: from #05050e solid → semi → transparent
+          Height of 20% ensures "ONE LINK. EVERY PLATFORM." text above it is NOT covered.
+        */}
+        <div
+          className="absolute inset-x-0 bottom-0 pointer-events-none"
           style={{
-            height: '22%',
-            background: 'linear-gradient(to top, #05050e 0%, rgba(5,5,14,0.94) 30%, rgba(5,5,14,0.6) 65%, transparent 100%)',
+            height: '20%',
+            background: 'linear-gradient(to top, #05050e 0%, rgba(5,5,14,0.96) 25%, rgba(5,5,14,0.7) 55%, rgba(5,5,14,0.2) 80%, transparent 100%)',
           }}
         />
       </div>
 
-      {/* ════════════════════════════════════════════════════
-          INTERACTIVE LIVING POSTER — begins exactly where the
-          artwork's ONE LINK. EVERY PLATFORM. text ends.
-          This section IS the artwork's platform ecosystem — made interactive.
-      ════════════════════════════════════════════════════ */}
+      {/* ════════════════════════════════════════════════════════════
+          INTERACTIVE LIVING ECOSYSTEM
+          Begins directly where ONE LINK. EVERY PLATFORM. ends.
+          Background matches the artwork's dark base: #05050e
+      ════════════════════════════════════════════════════════════ */}
       <div
         className="w-full relative"
         style={{
-          background: 'linear-gradient(to bottom, #05050e 0%, #060616 30%, #050510 100%)',
-          marginTop: '-2px',
+          background: 'linear-gradient(180deg, #05050e 0%, #060618 40%, #05050f 100%)',
+          marginTop: '-1px',
         }}
       >
-        {/* Ambient glow backdrop — matches artwork's central purple/cyan glow */}
+        {/* Ambient radial glow — matches artwork's central purple/cyan atmosphere */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 rounded-full"
+          <div className="absolute top-0 left-1/2 -translate-x-1/2"
             style={{
-              width: '80%', height: '60%',
-              background: 'radial-gradient(ellipse, rgba(138,43,226,0.18) 0%, rgba(0,229,255,0.08) 40%, transparent 70%)',
-              filter: 'blur(40px)',
-            }}
-          />
+              width: '90%', height: '55%',
+              background: 'radial-gradient(ellipse at center top, rgba(124,58,237,0.22) 0%, rgba(0,229,255,0.07) 45%, transparent 70%)',
+              filter: 'blur(35px)',
+            }}/>
         </div>
 
         <div className="w-full max-w-[1200px] mx-auto px-1 sm:px-3 lg:px-6 relative">
 
-          {/* ── ECOSYSTEM GRID: Left buttons | SVG circuit | Hub | SVG circuit | Right buttons ── */}
-          <div className="relative w-full" style={{ minHeight: 'clamp(230px, 44vw, 520px)', paddingTop: 'clamp(8px, 1.5vw, 16px)', paddingBottom: 'clamp(4px, 1vw, 12px)' }}>
+          {/* ── PLATFORM ECOSYSTEM ── */}
+          <div
+            className="relative w-full"
+            style={{
+              minHeight: 'clamp(240px,46vw,540px)',
+              paddingTop:    'clamp(6px,1.2vw,14px)',
+              paddingBottom: 'clamp(4px,0.8vw,10px)',
+            }}
+          >
+            {/* SVG circuit — absolute, covers entire zone */}
+            <CircuitSVG uid={uid}/>
 
-            {/* SVG Organic Circuitry — absolute, covers the full ecosystem area */}
-            <CircuitSVG uid={uid} />
-
-            {/* Three-column layout: Left | Hub | Right — SVG is behind everything */}
-            <div className="relative z-10 flex items-center h-full w-full"
-              style={{ minHeight: 'clamp(230px, 44vw, 520px)' }}
+            {/* Three-column grid: Left | Hub | Right */}
+            <div
+              className="relative z-10 flex items-center h-full w-full"
+              style={{ minHeight: 'clamp(240px,46vw,540px)' }}
             >
-              {/* LEFT PLATFORM COLUMN */}
-              <div className="flex flex-col justify-center gap-1.5 sm:gap-2.5 flex-1 min-w-0"
-                style={{ paddingRight: 'clamp(4px, 1.5vw, 16px)' }}>
-                {LEFT_PLATFORMS.map(k => <PillBtn key={k} k={k} />)}
+              {/* LEFT COLUMN */}
+              <div
+                className="flex flex-col justify-center gap-1.5 sm:gap-2.5 flex-1 min-w-0"
+                style={{ paddingRight: 'clamp(4px,1.5vw,18px)' }}
+              >
+                {LEFT_PLATFORMS.map(k => <PillBtn key={k} k={k}/>)}
               </div>
 
-              {/* CENTER HUB */}
-              <div className="flex-shrink-0 flex flex-col items-center justify-center"
-                style={{ width: 'clamp(90px, 22vw, 220px)', padding: '0 clamp(4px, 1vw, 12px)' }}>
-                {/* Outer animated ring */}
-                <div className="relative rounded-full flex items-center justify-center"
+              {/* CENTER HUB — enhanced power-core styling v3.1 */}
+              <div
+                className="flex-shrink-0 flex flex-col items-center justify-center"
+                style={{ width: 'clamp(92px,22vw,220px)', padding: '0 clamp(4px,1vw,12px)' }}
+              >
+                {/* Triple-ring outer glow */}
+                <div className="relative flex items-center justify-center"
                   style={{
-                    width: 'clamp(86px, 21vw, 210px)',
-                    height: 'clamp(86px, 21vw, 210px)',
-                    padding: '3px',
-                    background: 'linear-gradient(135deg, #00E5FF 0%, #3b82f6 25%, #8a2be2 55%, #00E5FF 100%)',
-                    boxShadow: '0 0 60px rgba(0,229,255,0.7), 0 0 100px rgba(138,43,226,0.45)',
-                    animation: 'hubPulse 3s ease-in-out infinite',
+                    width:  'clamp(88px,21vw,215px)',
+                    height: 'clamp(88px,21vw,215px)',
+                    borderRadius: '50%',
+                    background: 'radial-gradient(circle, rgba(0,229,255,0.18) 0%, rgba(124,58,237,0.35) 45%, transparent 70%)',
+                    animation: 'hubAura 3.5s ease-in-out infinite',
                   }}
                 >
-                  {/* Inner core */}
-                  <div className="w-full h-full rounded-full flex flex-col items-center justify-center text-center relative overflow-hidden"
-                    style={{ background: '#030310', border: '2px solid rgba(0,229,255,0.4)', boxShadow: 'inset 0 0 40px rgba(0,0,0,0.95)' }}>
-                    <div className="absolute inset-0 pointer-events-none"
-                      style={{ background: 'radial-gradient(circle, rgba(138,43,226,0.5) 0%, transparent 70%)' }}/>
-                    <span className="relative z-10 font-black text-white"
-                      style={{ fontSize: 'clamp(7px, 1.8vw, 14px)', letterSpacing: '0.2em', fontFamily: 'Georgia, serif', textShadow: '0 0 10px rgba(0,229,255,0.6)' }}>CHROME</span>
-                    <span className="relative z-10 font-black"
+                  {/* Outer ring */}
+                  <div className="absolute inset-0 rounded-full"
+                    style={{
+                      border: '1.5px solid rgba(0,229,255,0.25)',
+                      boxShadow: '0 0 30px rgba(0,229,255,0.2)',
+                      animation: 'ringPulse 3.5s ease-in-out infinite',
+                    }}/>
+
+                  {/* Main hub circle — gradient border + dark glass core */}
+                  <div className="rounded-full flex items-center justify-center"
+                    style={{
+                      width:  'clamp(82px,20vw,204px)',
+                      height: 'clamp(82px,20vw,204px)',
+                      padding: '3px',
+                      background: 'linear-gradient(135deg,#00E5FF 0%,#3b82f6 22%,#7c3aed 50%,#a855f7 72%,#00E5FF 100%)',
+                      boxShadow: '0 0 70px rgba(0,229,255,0.8), 0 0 120px rgba(124,58,237,0.5), 0 0 200px rgba(0,229,255,0.2)',
+                      animation: 'hubPulse 3.5s ease-in-out infinite',
+                    }}
+                  >
+                    {/* Inner glass core */}
+                    <div className="w-full h-full rounded-full flex flex-col items-center justify-center text-center relative overflow-hidden"
                       style={{
-                        fontSize: 'clamp(9px, 2.4vw, 19px)', letterSpacing: '0.12em',
-                        background: 'linear-gradient(90deg,#FFF8D6,#D4AF37,#FFDF00,#AA771C)',
-                        WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                        filter: 'drop-shadow(0 0 16px rgba(255,215,0,0.9))',
-                      }}>AFROFUSION</span>
-                    <span className="relative z-10 font-black text-white/80"
-                      style={{ fontSize: 'clamp(6px, 1.4vw, 10px)', letterSpacing: '0.32em', margin: '1px 0' }}>— RADIO —</span>
-                    <span className="relative z-10 font-black text-[#00E5FF]"
-                      style={{ fontSize: 'clamp(5px, 1.1vw, 8.5px)', letterSpacing: '0.22em', filter: 'drop-shadow(0 0 6px #00E5FF)' }}>POWERED BY</span>
-                    <span className="relative z-10 font-black text-white/90"
-                      style={{ fontSize: 'clamp(5px, 1.2vw, 9.5px)', letterSpacing: '0.22em', filter: 'drop-shadow(0 0 8px #00E5FF)' }}>MUSIC INTEL</span>
+                        background: 'radial-gradient(circle at 40% 35%, #0a0a22, #030310 70%)',
+                        border: '1.5px solid rgba(0,229,255,0.3)',
+                        boxShadow: 'inset 0 0 50px rgba(0,0,0,0.95), inset 0 0 20px rgba(124,58,237,0.3)',
+                      }}
+                    >
+                      {/* Inner purple radial glow */}
+                      <div className="absolute inset-0 pointer-events-none"
+                        style={{ background: 'radial-gradient(circle at 50% 60%, rgba(124,58,237,0.55) 0%, transparent 65%)' }}/>
+                      {/* Top specular highlight */}
+                      <div className="absolute top-0 left-1/4 right-1/4 pointer-events-none"
+                        style={{ height: '35%', background: 'radial-gradient(ellipse, rgba(0,229,255,0.12) 0%, transparent 80%)', filter: 'blur(4px)' }}/>
+
+                      <span className="relative z-10 font-black text-white"
+                        style={{ fontSize: 'clamp(7px,1.8vw,14px)', letterSpacing: '0.22em', fontFamily: 'Georgia,serif', textShadow: '0 0 12px rgba(0,229,255,0.7)' }}>CHROME</span>
+                      <span className="relative z-10 font-black leading-tight"
+                        style={{
+                          fontSize: 'clamp(8.5px,2.2vw,18px)', letterSpacing: '0.1em',
+                          background: 'linear-gradient(90deg,#FFF8D6,#D4AF37,#FFDF00,#D4AF37,#AA771C)',
+                          WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                          filter: 'drop-shadow(0 0 18px rgba(255,215,0,1))',
+                        }}>AFROFUSION</span>
+                      <span className="relative z-10 font-black text-white/75"
+                        style={{ fontSize: 'clamp(5.5px,1.3vw,10px)', letterSpacing: '0.35em', margin: '1px 0' }}>— RADIO —</span>
+                      <span className="relative z-10 font-bold text-[#00E5FF]"
+                        style={{ fontSize: 'clamp(4.5px,1vw,8px)', letterSpacing: '0.2em', filter: 'drop-shadow(0 0 5px #00E5FF)' }}>POWERED BY</span>
+                      <span className="relative z-10 font-bold text-white/85"
+                        style={{ fontSize: 'clamp(4.5px,1.1vw,9px)', letterSpacing: '0.2em', filter: 'drop-shadow(0 0 8px rgba(0,229,255,0.8))' }}>MUSIC INTEL</span>
+                    </div>
                   </div>
                 </div>
 
                 {/* Equalizer bars */}
                 <div className="flex items-end justify-center gap-0.5 sm:gap-1 mt-2"
-                  style={{ height: 'clamp(12px, 2.5vw, 22px)' }}>
-                  {[['#00E5FF','60%','0ms'],['#3b82f6','90%','120ms'],['#8a2be2','100%','240ms'],
-                    ['#00E5FF','70%','80ms'],['#60a5fa','85%','200ms'],['#a855f7','50%','40ms'],
-                    ['#00E5FF','75%','160ms']].map(([c,h,d], i) => (
+                  style={{ height: 'clamp(12px,2.4vw,22px)' }}>
+                  {[['#00E5FF','58%','0ms'],['#3b82f6','88%','110ms'],['#7c3aed','100%','220ms'],
+                    ['#00E5FF','68%','75ms'],['#60a5fa','82%','185ms'],['#a855f7','48%','35ms'],
+                    ['#00E5FF','73%','150ms']].map(([c,h,d],i) => (
                     <div key={i} className="rounded-full animate-bounce"
-                      style={{ width: 'clamp(2px,0.45vw,4.5px)', height: h, backgroundColor: c, boxShadow: `0 0 5px ${c}`, animationDelay: d }}/>
+                      style={{ width:'clamp(2px,0.45vw,4.5px)', height:h, backgroundColor:c, boxShadow:`0 0 6px ${c}`, animationDelay:d }}/>
                   ))}
                 </div>
               </div>
 
-              {/* RIGHT PLATFORM COLUMN */}
-              <div className="flex flex-col justify-center gap-1.5 sm:gap-2.5 flex-1 min-w-0"
-                style={{ paddingLeft: 'clamp(4px, 1.5vw, 16px)' }}>
-                {RIGHT_PLATFORMS.map(k => <PillBtn key={k} k={k} />)}
+              {/* RIGHT COLUMN */}
+              <div
+                className="flex flex-col justify-center gap-1.5 sm:gap-2.5 flex-1 min-w-0"
+                style={{ paddingLeft: 'clamp(4px,1.5vw,18px)' }}
+              >
+                {RIGHT_PLATFORMS.map(k => <PillBtn key={k} k={k}/>)}
               </div>
             </div>
           </div>
 
           {/* ── STATS BAR ── */}
           <div className="mt-1 sm:mt-3">
-            <div className="rounded-2xl border border-[#8a2be2]/55 py-3 px-4 sm:py-4 sm:px-8"
-              style={{ background: 'rgba(7,7,20,0.9)', backdropFilter: 'blur(24px)', boxShadow: '0 0 40px rgba(138,43,226,0.28)' }}>
-              <div className="grid grid-cols-4 text-center divide-x divide-[#8a2be2]/30">
+            <div className="rounded-2xl border border-[#7c3aed]/55 py-3 px-4 sm:py-4 sm:px-8"
+              style={{ background: 'rgba(5,5,18,0.92)', backdropFilter: 'blur(28px)', boxShadow: '0 0 44px rgba(124,58,237,0.28), inset 0 0 0 1px rgba(0,229,255,0.06)' }}>
+              <div className="grid grid-cols-4 text-center divide-x divide-[#7c3aed]/30">
                 {[
-                  { icon: '🎵', color: '#a855f7', num: '50', lbl: 'TRACKS' },
-                  { icon: '👥', color: '#00E5FF', num: '40+', lbl: 'ARTISTS' },
-                  { icon: '🌐', color: '#D4AF37', num: '10', lbl: 'PLATFORMS' },
-                  { icon: '📅', color: '#34d399', num: '', lbl: 'UPDATED\nWEEKLY' },
+                  { icon:'🎵', color:'#a855f7', num:'50',  lbl:'TRACKS' },
+                  { icon:'👥', color:'#00E5FF', num:'40+', lbl:'ARTISTS' },
+                  { icon:'🌐', color:'#D4AF37', num:'10',  lbl:'PLATFORMS' },
+                  { icon:'📅', color:'#34d399', num:'',    lbl:'UPDATED\nWEEKLY' },
                 ].map(({ icon, color, num, lbl }) => (
                   <div key={lbl} className="flex flex-col items-center px-1 sm:px-3 gap-0.5">
-                    <span style={{ color, fontSize: 'clamp(13px,2.5vw,21px)', filter: `drop-shadow(0 0 6px ${color})` }}>{icon}</span>
-                    {num && <span className="font-black text-white" style={{ fontSize: 'clamp(11px,2.1vw,20px)', textShadow: `0 0 12px ${color}` }}>{num}</span>}
+                    <span style={{ color, fontSize:'clamp(13px,2.5vw,21px)', filter:`drop-shadow(0 0 8px ${color})` }}>{icon}</span>
+                    {num && <span className="font-black text-white" style={{ fontSize:'clamp(11px,2.1vw,20px)', textShadow:`0 0 14px ${color}` }}>{num}</span>}
                     <span className="font-black text-gray-300 uppercase leading-tight text-center"
-                      style={{ fontSize: 'clamp(6px,1.15vw,10px)', letterSpacing: '0.1em', whiteSpace: 'pre-line' }}>{lbl}</span>
+                      style={{ fontSize:'clamp(6px,1.15vw,10px)', letterSpacing:'0.1em', whiteSpace:'pre-line' }}>{lbl}</span>
                   </div>
                 ))}
               </div>
@@ -496,15 +618,15 @@ export default function SmartLinkActionButtons({
                 padding: 'clamp(14px,3vw,22px) 24px',
                 fontSize: 'clamp(22px,5vw,48px)',
                 letterSpacing: '0.16em',
-                background: 'linear-gradient(90deg, #BF953F 0%, #FCF6BA 28%, #B38728 52%, #FBF5B7 74%, #AA771C 100%)',
+                background: 'linear-gradient(90deg,#BF953F 0%,#FCF6BA 26%,#B38728 50%,#FBF5B7 74%,#AA771C 100%)',
                 color: '#000',
                 border: '2px solid rgba(255,248,214,0.9)',
-                boxShadow: '0 0 55px rgba(255,215,0,0.75), 0 0 100px rgba(255,215,0,0.3)',
+                boxShadow: '0 0 60px rgba(255,215,0,0.8), 0 0 110px rgba(255,215,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4)',
               }}
             >
-              <span style={{ fontFamily: 'Georgia, "Times New Roman", serif', textShadow: '0 1px 3px rgba(255,255,255,0.4)' }}>LISTEN NOW</span>
+              <span style={{ fontFamily:'Georgia,"Times New Roman",serif', textShadow:'0 1px 3px rgba(255,255,255,0.35)' }}>LISTEN NOW</span>
               <span className="rounded-full bg-black text-[#FFD700] flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0"
-                style={{ width: 'clamp(32px,6vw,54px)', height: 'clamp(32px,6vw,54px)', fontSize: 'clamp(14px,2.5vw,24px)', boxShadow: '0 0 20px rgba(255,215,0,0.5)' }}>▸</span>
+                style={{ width:'clamp(32px,6vw,54px)', height:'clamp(32px,6vw,54px)', fontSize:'clamp(14px,2.5vw,24px)', boxShadow:'0 0 22px rgba(255,215,0,0.55)' }}>▸</span>
             </button>
           </div>
 
@@ -514,11 +636,11 @@ export default function SmartLinkActionButtons({
               <button onClick={toggleAudio}
                 className="w-full max-w-md mx-auto flex items-center justify-between gap-3 rounded-full font-bold text-xs sm:text-sm transition-all duration-300"
                 style={{
-                  display: 'flex', padding: '10px 20px',
-                  background: isPlaying ? 'rgba(0,229,255,0.08)' : 'rgba(7,7,20,0.8)',
-                  border: `1px solid ${isPlaying ? '#00E5FF' : 'rgba(138,43,226,0.5)'}`,
-                  backdropFilter: 'blur(20px)',
-                  boxShadow: isPlaying ? '0 0 24px rgba(0,229,255,0.35)' : 'none',
+                  display:'flex', padding:'10px 20px',
+                  background: isPlaying ? 'rgba(0,229,255,0.08)' : 'rgba(5,5,18,0.82)',
+                  border: `1px solid ${isPlaying ? '#00E5FF' : 'rgba(124,58,237,0.5)'}`,
+                  backdropFilter: 'blur(24px)',
+                  boxShadow: isPlaying ? '0 0 26px rgba(0,229,255,0.38)' : 'none',
                 }}
               >
                 <span className="flex items-center gap-2.5 text-gray-200">
@@ -526,7 +648,7 @@ export default function SmartLinkActionButtons({
                   <span className="tracking-wide">{isPlaying ? 'Playing VaB Flagship Audio...' : 'Preview 30s Master Audio'}</span>
                 </span>
                 <span className="px-3 py-1 rounded-full font-black tracking-wider flex-shrink-0"
-                  style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(0,229,255,0.4)', color: '#00E5FF', fontSize: '10px' }}>
+                  style={{ background:'rgba(255,255,255,0.07)', border:'1px solid rgba(0,229,255,0.4)', color:'#00E5FF', fontSize:'10px' }}>
                   {isPlaying ? 'PAUSE' : 'PLAY'}
                 </span>
               </button>
@@ -535,33 +657,34 @@ export default function SmartLinkActionButtons({
 
           {/* ── TAGLINE ── */}
           <div className="text-center mt-4 mb-2">
-            <p className="font-black tracking-[0.25em] uppercase" style={{ fontSize: 'clamp(9px,2vw,13px)' }}>
-              <span style={{ color: '#D4AF37', textShadow: '0 0 12px rgba(212,175,55,0.6)' }}>AFRICA&apos;S MUSIC.</span>{' '}
-              <span style={{ color: '#8a2be2', textShadow: '0 0 12px rgba(138,43,226,0.6)' }}>POWERED BY INTELLIGENCE.</span>
+            <p className="font-black tracking-[0.25em] uppercase" style={{ fontSize:'clamp(9px,2vw,13px)' }}>
+              <span style={{ color:'#D4AF37', textShadow:'0 0 14px rgba(212,175,55,0.65)' }}>AFRICA&apos;S MUSIC.</span>{' '}
+              <span style={{ color:'#7c3aed', textShadow:'0 0 14px rgba(124,58,237,0.7)' }}>POWERED BY INTELLIGENCE.</span>
             </p>
           </div>
 
           {/* ── VALUE CARDS ── */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 mt-4 pb-24">
             {[
-              { icon: '🧠', color: '#a855f7', title: 'MUSIC INTELLIGENCE', sub: 'Smart curation. Smarter listening.' },
-              { icon: '🌐', color: '#00E5FF', title: 'GLOBAL REACH', sub: 'One link. Worldwide.' },
-              { icon: '⭐', color: '#D4AF37', title: 'SMART RECS', sub: 'Discover more. Love more.' },
-              { icon: '📈', color: '#34d399', title: 'DATA GROWTH', sub: 'Real insights. Real results.' },
-              { icon: '👑', color: '#facc15', title: 'ARTIST POWER', sub: 'More visibility. More opportunities.' },
+              { icon:'🧠', color:'#a855f7', title:'MUSIC INTELLIGENCE', sub:'Smart curation. Smarter listening.' },
+              { icon:'🌐', color:'#00E5FF', title:'GLOBAL REACH',        sub:'One link. Worldwide.' },
+              { icon:'⭐', color:'#D4AF37', title:'SMART RECS',          sub:'Discover more. Love more.' },
+              { icon:'📈', color:'#34d399', title:'DATA GROWTH',         sub:'Real insights. Real results.' },
+              { icon:'👑', color:'#facc15', title:'ARTIST POWER',        sub:'More visibility. More opportunities.' },
             ].map(({ icon, color, title, sub }) => (
               <div key={title} className="flex items-start gap-2 sm:gap-3 rounded-xl sm:rounded-2xl"
                 style={{
                   padding: 'clamp(10px,2vw,16px)',
-                  background: 'rgba(7,7,20,0.9)', backdropFilter: 'blur(24px)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  boxShadow: `0 8px 30px rgba(0,0,0,0.8), 0 0 20px ${color}18`,
-                }}>
-                <span className="flex-shrink-0 mt-0.5" style={{ color, fontSize: 'clamp(14px,2.5vw,20px)', filter: `drop-shadow(0 0 8px ${color})` }}>{icon}</span>
+                  background: 'rgba(5,5,18,0.92)', backdropFilter:'blur(28px)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  boxShadow: `0 8px 32px rgba(0,0,0,0.82), 0 0 20px ${color}14`,
+                }}
+              >
+                <span className="flex-shrink-0 mt-0.5" style={{ color, fontSize:'clamp(14px,2.5vw,20px)', filter:`drop-shadow(0 0 9px ${color})` }}>{icon}</span>
                 <div>
                   <h4 className="font-black uppercase text-gray-100 leading-tight"
-                    style={{ fontSize: 'clamp(7px,1.4vw,11px)', letterSpacing: '0.06em' }}>{title}</h4>
-                  <p className="text-gray-400 leading-snug mt-1" style={{ fontSize: 'clamp(7px,1.2vw,10px)' }}>{sub}</p>
+                    style={{ fontSize:'clamp(7px,1.4vw,11px)', letterSpacing:'0.06em' }}>{title}</h4>
+                  <p className="text-gray-400 leading-snug mt-1" style={{ fontSize:'clamp(7px,1.2vw,10px)' }}>{sub}</p>
                 </div>
               </div>
             ))}
@@ -575,38 +698,47 @@ export default function SmartLinkActionButtons({
           <button
             onClick={() => go('whatsapp', whatsappJoinUrl)}
             className="w-full flex items-center justify-between rounded-2xl font-black cursor-pointer transition-all hover:brightness-110 hover:-translate-y-0.5"
-            style={{ padding: '14px 20px', background: 'linear-gradient(90deg, #059669, #16a34a)', color: 'white', border: '1px solid rgba(52,211,153,0.5)', boxShadow: '0 4px 24px rgba(5,150,105,0.5)' }}
+            style={{ padding:'14px 20px', background:'linear-gradient(90deg,#059669,#16a34a)', color:'white', border:'1px solid rgba(52,211,153,0.5)', boxShadow:'0 4px 26px rgba(5,150,105,0.55)' }}
           >
             <div className="flex items-center gap-3">
               <span className="text-xl">💬</span>
               <span className="text-xs sm:text-sm tracking-tight">VaB VIP WhatsApp Community Gate</span>
             </div>
-            <span className="text-[10px] uppercase tracking-wider px-3 py-1.5 rounded-lg" style={{ background: 'rgba(0,0,0,0.3)' }}>JOIN FREE</span>
+            <span className="text-[10px] uppercase tracking-wider px-3 py-1.5 rounded-lg" style={{ background:'rgba(0,0,0,0.3)' }}>JOIN FREE</span>
           </button>
         </div>
       )}
 
       {/* ── KEYFRAME ANIMATIONS ── */}
       <style>{`
-        /* Hub breathing pulse */
-        @keyframes hubPulse {
-          0%, 100% { box-shadow: 0 0 60px rgba(0,229,255,0.7), 0 0 100px rgba(138,43,226,0.45); }
-          50%       { box-shadow: 0 0 90px rgba(0,229,255,0.95), 0 0 140px rgba(138,43,226,0.65); }
+        /* Hub outer aura breathe */
+        @keyframes hubAura {
+          0%,100% { opacity: 0.7; transform: scale(1); }
+          50%      { opacity: 1;   transform: scale(1.04); }
         }
-        /* Stroke-dash animation for energy packets travelling along SVG circuit paths */
-        /* Each left path dash travels from hub (high dashoffset) to platform (low dashoffset) */
-        ${[0,1,2,3,4].map(i => `
-          @keyframes dashL${i} {
-            0%   { stroke-dashoffset: 600; stroke-opacity: 0; }
-            15%  { stroke-opacity: 0.95; }
-            85%  { stroke-opacity: 0.95; }
-            100% { stroke-dashoffset: 0; stroke-opacity: 0; }
+        /* Hub gradient ring pulse */
+        @keyframes hubPulse {
+          0%,100% { box-shadow: 0 0 70px rgba(0,229,255,0.8), 0 0 120px rgba(124,58,237,0.5), 0 0 200px rgba(0,229,255,0.2); }
+          50%      { box-shadow: 0 0 100px rgba(0,229,255,1),  0 0 170px rgba(124,58,237,0.75),0 0 260px rgba(0,229,255,0.35); }
+        }
+        /* Outer ring pulse */
+        @keyframes ringPulse {
+          0%,100% { box-shadow: 0 0 30px rgba(0,229,255,0.2); opacity: 0.6; }
+          50%      { box-shadow: 0 0 55px rgba(0,229,255,0.5); opacity: 1; }
+        }
+        /* Energy packets — left paths (hub → platform, high dashoffset → low) */
+        ${[0,1,2,3,4].map(i=>`
+          @keyframes pktL${i} {
+            0%   { stroke-dashoffset:${[560,480,400,480,560][i]}; stroke-opacity:0; }
+            12%  { stroke-opacity:0.95; }
+            88%  { stroke-opacity:0.95; }
+            100% { stroke-dashoffset:0; stroke-opacity:0; }
           }
-          @keyframes dashR${i} {
-            0%   { stroke-dashoffset: 600; stroke-opacity: 0; }
-            15%  { stroke-opacity: 0.95; }
-            85%  { stroke-opacity: 0.95; }
-            100% { stroke-dashoffset: 0; stroke-opacity: 0; }
+          @keyframes pktR${i} {
+            0%   { stroke-dashoffset:${[560,480,400,480,560][i]}; stroke-opacity:0; }
+            12%  { stroke-opacity:0.95; }
+            88%  { stroke-opacity:0.95; }
+            100% { stroke-dashoffset:0; stroke-opacity:0; }
           }
         `).join('')}
       `}</style>
