@@ -349,30 +349,34 @@ export default function SmartLinkActionButtons({
   return (
     <div className="w-full max-w-[980px] mx-auto">
       {/* ════════════════════════════════════════════════════════════
-          HERO ARTWORK — Capped width, balanced proportions
+          HERO ARTWORK — V3.4 Hero Safe Area Refinement
+          Reserves vertical safe space on mobile so browser UI bars
+          never overlap the slogan. 100% unchanged on desktop.
       ════════════════════════════════════════════════════════════ */}
-      <div
-        className="w-full relative select-none overflow-hidden"
-        style={{ aspectRatio: '1024 / 1010' }}
-      >
-        <picture>
-          <source srcSet="/sl_hero.webp" type="image/webp"/>
-          <img
-            src="/sl_hero.png"
-            alt="Chrome AfroFusion Radio — Discover Africa's Biggest Hits. One Link. Every Platform."
-            className="absolute top-0 left-0 w-full"
-            style={{ height: 'auto' }}
-            draggable={false}
-            fetchPriority="high"
-          />
-        </picture>
+      <div className="w-full hero-safe-area">
         <div
-          className="absolute inset-x-0 bottom-0 pointer-events-none"
-          style={{
-            height: '18%',
-            background: 'linear-gradient(to top, #05050e 0%, rgba(5,5,14,0.96) 25%, rgba(5,5,14,0.65) 55%, transparent 100%)',
-          }}
-        />
+          className="w-full relative select-none overflow-hidden"
+          style={{ aspectRatio: '1024 / 1010' }}
+        >
+          <picture>
+            <source srcSet="/sl_hero.webp" type="image/webp"/>
+            <img
+              src="/sl_hero.png"
+              alt="Chrome AfroFusion Radio — Discover Africa's Biggest Hits. One Link. Every Platform."
+              className="absolute top-0 left-0 w-full"
+              style={{ height: 'auto' }}
+              draggable={false}
+              fetchPriority="high"
+            />
+          </picture>
+          <div
+            className="absolute inset-x-0 bottom-0 pointer-events-none"
+            style={{
+              height: '18%',
+              background: 'linear-gradient(to top, #05050e 0%, rgba(5,5,14,0.96) 25%, rgba(5,5,14,0.65) 55%, transparent 100%)',
+            }}
+          />
+        </div>
       </div>
 
       {/* ════════════════════════════════════════════════════════════
@@ -617,8 +621,16 @@ export default function SmartLinkActionButtons({
         </div>
       )}
 
-      {/* ── KEYFRAME ANIMATIONS ── */}
+      {/* ── KEYFRAME ANIMATIONS & HERO SAFE AREA ── */}
       <style>{`
+        .hero-safe-area {
+          padding-bottom: calc(3.5rem + env(safe-area-inset-bottom, 0px));
+        }
+        @media (min-width: 640px) {
+          .hero-safe-area {
+            padding-bottom: 0 !important;
+          }
+        }
         @keyframes hubAura {
           0%,100% { opacity: 0.75; transform: scale(1); }
           50%      { opacity: 1;    transform: scale(1.04); }
