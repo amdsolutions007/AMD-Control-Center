@@ -83,7 +83,6 @@ function CircuitSVG({ uid }: { uid: string }) {
     `M 384,250 C 360,250 345,250 330,250 C 315,250 295,250 274,250`,
     `M 390,286 C 368,286 345,310 330,325 C 312,340 292,350 271,350`,
     `M 406,318 C 375,318 350,365 330,400 C 312,425 292,450 271,450`,
-    `M 330,365 C 360,365 390,385 425,385`,
   ];
   const rP_desk = [
     `M 594,182 C 625,182 650,135 670,100 C 685,75 705,50 726,50`,
@@ -91,14 +90,21 @@ function CircuitSVG({ uid }: { uid: string }) {
     `M 616,250 C 640,250 655,250 670,250 C 685,250 705,250 726,250`,
     `M 610,286 C 632,286 655,310 670,325 C 688,340 708,350 729,350`,
     `M 594,318 C 625,318 650,365 670,400 C 688,425 708,450 729,450`,
-    `M 670,365 C 640,365 610,385 575,385`,
   ];
-  const jL_desk = [[330,100], [330,175], [330,250], [330,325], [330,400], [330,365]];
-  const jR_desk = [[670,100], [670,175], [670,250], [670,325], [670,400], [670,365]];
-  const tL_desk = [[288,50], [288,150], [288,250], [285,350], [285,450], [425,385]];
-  const tR_desk = [[712,50], [712,150], [712,250], [715,350], [715,450], [575,385]];
+  const jL_desk = [[330,100], [330,175], [330,250], [330,325], [330,400]];
+  const jR_desk = [[670,100], [670,175], [670,250], [670,325], [670,400]];
+  const tL_desk = [[288,50], [288,150], [288,250], [285,350], [285,450]];
+  const tR_desk = [[712,50], [712,150], [712,250], [715,350], [715,450]];
   const oL_desk = [[406,182], [390,214], [384,250], [390,286], [406,318]];
   const oR_desk = [[594,182], [610,214], [616,250], [610,286], [594,318]];
+
+  // V3.6.1 Dedicated Supporting Feeder Traces (Desktop)
+  const fL_desk = [`M 330,365 C 360,365 390,385 425,385`];
+  const fR_desk = [`M 670,365 C 640,365 610,385 575,385`];
+  const fjL_desk = [[330,365]];
+  const fjR_desk = [[670,365]];
+  const ftL_desk = [[425,385]];
+  const ftR_desk = [[575,385]];
 
   // Mobile Paths (Origins on R=104 circle, junctions at X=360/640, endpoints at X=314/686)
   const lP_mob = [
@@ -107,7 +113,6 @@ function CircuitSVG({ uid }: { uid: string }) {
     `M 396,250 C 380,250 368,250 360,250 C 348,250 335,250 314,250`,
     `M 398,284 C 380,284 368,310 360,325 C 345,340 332,350 311,350`,
     `M 412,312 C 390,312 375,355 360,390 C 345,420 332,450 311,450`,
-    `M 360,365 C 380,365 400,385 420,385`,
   ];
   const rP_mob = [
     `M 588,188 C 610,188 625,145 640,110 C 652,80 665,50 686,50`,
@@ -115,20 +120,30 @@ function CircuitSVG({ uid }: { uid: string }) {
     `M 604,250 C 620,250 632,250 640,250 C 652,250 665,250 686,250`,
     `M 602,284 C 620,284 632,310 640,325 C 655,340 668,350 689,350`,
     `M 588,312 C 610,312 625,355 640,390 C 655,420 668,450 689,450`,
-    `M 640,365 C 620,365 600,385 580,385`,
   ];
-  const jL_mob = [[360,110], [360,175], [360,250], [360,325], [360,390], [360,365]];
-  const jR_mob = [[640,110], [640,175], [640,250], [640,325], [640,390], [640,365]];
-  const tL_mob = [[328,50], [328,150], [328,250], [325,350], [325,450], [420,385]];
-  const tR_mob = [[672,50], [672,150], [672,250], [675,350], [675,450], [580,385]];
+  const jL_mob = [[360,110], [360,175], [360,250], [360,325], [360,390]];
+  const jR_mob = [[640,110], [640,175], [640,250], [640,325], [640,390]];
+  const tL_mob = [[328,50], [328,150], [328,250], [325,350], [325,450]];
+  const tR_mob = [[672,50], [672,150], [672,250], [675,350], [675,450]];
   const oL_mob = [[412,188], [398,216], [396,250], [398,284], [412,312]];
   const oR_mob = [[588,188], [602,216], [604,250], [602,284], [588,312]];
+
+  // V3.6.1 Dedicated Supporting Feeder Traces (Mobile)
+  const fL_mob = [`M 360,365 C 380,365 400,385 420,385`];
+  const fR_mob = [`M 640,365 C 620,365 600,385 580,385`];
+  const fjL_mob = [[360,365]];
+  const fjR_mob = [[640,365]];
+  const ftL_mob = [[420,385]];
+  const ftR_mob = [[580,385]];
 
   const renderPaths = (
     lP: string[], rP: string[],
     jL: number[][], jR: number[][],
     tL: number[][], tR: number[][],
     oL: number[][], oR: number[][],
+    fL: string[], fR: string[],
+    fjL: number[][], fjR: number[][],
+    ftL: number[][], ftR: number[][],
     prefix: string
   ) => (
     <>
@@ -239,6 +254,91 @@ function CircuitSVG({ uid }: { uid: string }) {
           <circle cx={cx} cy={cy} r="2" fill="#FFFFFF"/>
         </g>
       ))}
+
+      {/* ── Feeder Traces (V3.6.1 Supporting Motherboard Circuitry - Reduced Dominance) ── */}
+      {/* Feeder Layer 1: Softer Outer Purple Glow (-35% visual weight) */}
+      {fL.map((d, i) => (
+        <path key={`flb-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
+          stroke="#8a2be2" strokeWidth="8" strokeOpacity="0.15" filter={`url(#${uid}-blur)`}/>
+      ))}
+      {fR.map((d, i) => (
+        <path key={`frb-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
+          stroke="#8a2be2" strokeWidth="8" strokeOpacity="0.15" filter={`url(#${uid}-blur)`}/>
+      ))}
+
+      {/* Feeder Layer 2: Lighter Purple Track */}
+      {fL.map((d, i) => (
+        <path key={`flm-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
+          stroke="#7c3aed" strokeWidth="2.2" strokeOpacity="0.45" filter={`url(#${uid}-glow)`}/>
+      ))}
+      {fR.map((d, i) => (
+        <path key={`frm-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
+          stroke="#7c3aed" strokeWidth="2.2" strokeOpacity="0.45" filter={`url(#${uid}-glow)`}/>
+      ))}
+
+      {/* Feeder Layer 3: Thinner Cyan Core Wire */}
+      {fL.map((d, i) => (
+        <path key={`flc-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
+          stroke="#00E5FF" strokeWidth="1.2" strokeOpacity="0.70" filter={`url(#${uid}-glow)`}/>
+      ))}
+      {fR.map((d, i) => (
+        <path key={`frc-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
+          stroke="#00E5FF" strokeWidth="1.2" strokeOpacity="0.70" filter={`url(#${uid}-glow)`}/>
+      ))}
+
+      {/* Feeder Layer 4: Subtle Current Packets */}
+      {fL.map((d, i) => (
+        <path key={`flp-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round"
+          stroke="#00FFFF" strokeWidth="1.8" strokeOpacity="0"
+          style={{
+            strokeDasharray: '24 350',
+            animation: `pktL5 2.2s linear 0.5s infinite`,
+          }}
+          filter={`url(#${uid}-glow)`}
+        />
+      ))}
+      {fR.map((d, i) => (
+        <path key={`frp-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round"
+          stroke="#00FFFF" strokeWidth="1.8" strokeOpacity="0"
+          style={{
+            strokeDasharray: '24 350',
+            animation: `pktR5 2.2s linear 0.7s infinite`,
+          }}
+          filter={`url(#${uid}-glow)`}
+        />
+      ))}
+
+      {/* Feeder Junction Nodes (Supporting Scale) */}
+      {fjL.map(([cx, cy], i) => (
+        <g key={`fjl-${prefix}-${i}`}>
+          <circle cx={cx} cy={cy} r="7" fill="#D4AF37" fillOpacity="0.18" filter={`url(#${uid}-glow)`}/>
+          <circle cx={cx} cy={cy} r="3.5" fill="#D4AF37" fillOpacity="0.75"/>
+          <circle cx={cx} cy={cy} r="1.5" fill="#FFFFFF" fillOpacity="0.9"/>
+        </g>
+      ))}
+      {fjR.map(([cx, cy], i) => (
+        <g key={`fjr-${prefix}-${i}`}>
+          <circle cx={cx} cy={cy} r="7" fill="#D4AF37" fillOpacity="0.18" filter={`url(#${uid}-glow)`}/>
+          <circle cx={cx} cy={cy} r="3.5" fill="#D4AF37" fillOpacity="0.75"/>
+          <circle cx={cx} cy={cy} r="1.5" fill="#FFFFFF" fillOpacity="0.9"/>
+        </g>
+      ))}
+
+      {/* Feeder Termination Sockets into AI Energy Core (Supporting Scale) */}
+      {ftL.map(([cx, cy], i) => (
+        <g key={`ftl-${prefix}-${i}`}>
+          <circle cx={cx} cy={cy} r="6.5" fill="#00E5FF" fillOpacity="0.18" filter={`url(#${uid}-glow)`}/>
+          <circle cx={cx} cy={cy} r="3.2" fill="#00E5FF" fillOpacity="0.8"/>
+          <circle cx={cx} cy={cy} r="1.5" fill="#FFFFFF"/>
+        </g>
+      ))}
+      {ftR.map(([cx, cy], i) => (
+        <g key={`ftr-${prefix}-${i}`}>
+          <circle cx={cx} cy={cy} r="6.5" fill="#00E5FF" fillOpacity="0.18" filter={`url(#${uid}-glow)`}/>
+          <circle cx={cx} cy={cy} r="3.2" fill="#00E5FF" fillOpacity="0.8"/>
+          <circle cx={cx} cy={cy} r="1.5" fill="#FFFFFF"/>
+        </g>
+      ))}
     </>
   );
 
@@ -269,12 +369,12 @@ function CircuitSVG({ uid }: { uid: string }) {
 
       {/* Render Desktop Circuitry */}
       <g className="hidden sm:block">
-        {renderPaths(lP_desk, rP_desk, jL_desk, jR_desk, tL_desk, tR_desk, oL_desk, oR_desk, 'desk')}
+        {renderPaths(lP_desk, rP_desk, jL_desk, jR_desk, tL_desk, tR_desk, oL_desk, oR_desk, fL_desk, fR_desk, fjL_desk, fjR_desk, ftL_desk, ftR_desk, 'desk')}
       </g>
 
       {/* Render Mobile Circuitry */}
       <g className="block sm:hidden">
-        {renderPaths(lP_mob, rP_mob, jL_mob, jR_mob, tL_mob, tR_mob, oL_mob, oR_mob, 'mob')}
+        {renderPaths(lP_mob, rP_mob, jL_mob, jR_mob, tL_mob, tR_mob, oL_mob, oR_mob, fL_mob, fR_mob, fjL_mob, fjR_mob, ftL_mob, ftR_mob, 'mob')}
       </g>
     </svg>
   );
@@ -670,12 +770,14 @@ export default function SmartLinkActionButtons({
         }
         @keyframes eqCoreContainerPulse {
           0%, 100% {
-            background: radial-gradient(ellipse at center, rgba(124,58,237,0.22) 0%, rgba(0,229,255,0.12) 50%, transparent 80%);
-            box-shadow: 0 0 15px rgba(0,229,255,0.15);
+            background: radial-gradient(ellipse at center, rgba(124,58,237,0.35) 0%, rgba(0,229,255,0.20) 45%, transparent 80%);
+            box-shadow: 0 0 25px rgba(0,229,255,0.25), 0 0 45px rgba(124,58,237,0.20);
+            border: 1px solid rgba(0,229,255,0.18);
           }
           50% {
-            background: radial-gradient(ellipse at center, rgba(124,58,237,0.45) 0%, rgba(0,229,255,0.30) 60%, transparent 85%);
-            box-shadow: 0 0 35px rgba(0,229,255,0.45), 0 0 50px rgba(124,58,237,0.35);
+            background: radial-gradient(ellipse at center, rgba(124,58,237,0.55) 0%, rgba(0,229,255,0.38) 55%, transparent 85%);
+            box-shadow: 0 0 45px rgba(0,229,255,0.55), 0 0 75px rgba(124,58,237,0.45);
+            border: 1px solid rgba(0,229,255,0.40);
           }
         }
         @keyframes eqSine1 {
