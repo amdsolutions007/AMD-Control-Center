@@ -488,11 +488,11 @@ export default function SmartLinkActionButtons({
                 </div>
               </div>
 
-              {/* AI Energy Core Equalizer — V3.5 Flagship Visualization */}
-              <div className="flex items-end justify-center gap-[3px] sm:gap-[4.5px] mt-3 sm:mt-3.5 pointer-events-auto px-3 py-1.5 rounded-full"
+              {/* AI Energy Core Equalizer — V3.5.1 Final Flagship Refinement */}
+              <div className="flex items-end justify-center gap-[3.6px] sm:gap-[5.5px] mt-3 sm:mt-3.5 pointer-events-auto px-3.5 sm:px-4 py-1.5 rounded-full"
                 style={{
-                  height: 'clamp(17px,3.2vw,29px)',
-                  background: 'radial-gradient(ellipse at center, rgba(124,58,237,0.18) 0%, rgba(0,229,255,0.08) 50%, transparent 80%)',
+                  height: 'clamp(21px,4.0vw,36px)',
+                  background: 'radial-gradient(ellipse at center, rgba(124,58,237,0.22) 0%, rgba(0,229,255,0.12) 50%, transparent 80%)',
                 }}>
                 {[
                   ['#00E5FF', '85%',  'eqCore1 1.8s ease-in-out infinite'],
@@ -507,10 +507,10 @@ export default function SmartLinkActionButtons({
                 ].map(([color, height, anim], i) => (
                   <div key={i} className="rounded-full origin-bottom transition-all"
                     style={{
-                      width: 'clamp(2.8px,0.55vw,4.5px)',
+                      width: 'clamp(3.3px,0.65vw,5.3px)',
                       height,
                       backgroundColor: color,
-                      boxShadow: `0 0 8px ${color}, 0 0 16px ${color}`,
+                      boxShadow: `0 0 10px ${color}, 0 0 20px ${color}, 0 0 28px ${color}`,
                       animation: anim,
                     }}/>
                 ))}
