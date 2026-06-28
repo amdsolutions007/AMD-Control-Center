@@ -488,22 +488,22 @@ export default function SmartLinkActionButtons({
                 </div>
               </div>
 
-              {/* AI Energy Core Equalizer — V3.5.1 Final Flagship Refinement */}
+              {/* AI Energy Core Equalizer — V3.5.2 Final Animation Polish */}
               <div className="flex items-end justify-center gap-[3.6px] sm:gap-[5.5px] mt-3 sm:mt-3.5 pointer-events-auto px-3.5 sm:px-4 py-1.5 rounded-full"
                 style={{
                   height: 'clamp(21px,4.0vw,36px)',
-                  background: 'radial-gradient(ellipse at center, rgba(124,58,237,0.22) 0%, rgba(0,229,255,0.12) 50%, transparent 80%)',
+                  animation: 'eqCoreContainerPulse 3.5s ease-in-out infinite',
                 }}>
                 {[
-                  ['#00E5FF', '85%',  'eqCore1 1.8s ease-in-out infinite'],
-                  ['#00C4FF', '95%',  'eqCore2 2.1s ease-in-out 0.2s infinite'],
-                  ['#0099FF', '75%',  'eqCore3 1.7s ease-in-out 0.4s infinite'],
-                  ['#3b82f6', '100%', 'eqCore1 2.2s ease-in-out 0.1s infinite'],
-                  ['#6366f1', '90%',  'eqCore2 1.9s ease-in-out 0.3s infinite'],
-                  ['#8b5cf6', '100%', 'eqCore3 2.0s ease-in-out 0.5s infinite'],
-                  ['#a855f7', '80%',  'eqCore1 1.75s ease-in-out 0.25s infinite'],
-                  ['#d946ef', '95%',  'eqCore2 2.3s ease-in-out 0.15s infinite'],
-                  ['#ff007f', '85%',  'eqCore3 1.85s ease-in-out 0.35s infinite'],
+                  ['#00E5FF', '80%',  'eqSine1 2.1s ease-in-out 0.75s infinite'],
+                  ['#00C4FF', '90%',  'eqSine4 2.0s ease-in-out 0.55s infinite'],
+                  ['#0099FF', '85%',  'eqSine3 1.9s ease-in-out 0.35s infinite'],
+                  ['#3b82f6', '95%',  'eqSine2 1.8s ease-in-out 0.15s infinite'],
+                  ['#6366f1', '100%', 'eqSine1 1.6s ease-in-out 0.0s infinite'],
+                  ['#8b5cf6', '95%',  'eqSine4 1.75s ease-in-out 0.20s infinite'],
+                  ['#a855f7', '85%',  'eqSine2 1.85s ease-in-out 0.40s infinite'],
+                  ['#d946ef', '90%',  'eqSine3 1.95s ease-in-out 0.60s infinite'],
+                  ['#ff007f', '80%',  'eqSine4 2.15s ease-in-out 0.80s infinite'],
                 ].map(([color, height, anim], i) => (
                   <div key={i} className="rounded-full origin-bottom transition-all"
                     style={{
@@ -512,6 +512,7 @@ export default function SmartLinkActionButtons({
                       backgroundColor: color,
                       boxShadow: `0 0 10px ${color}, 0 0 20px ${color}, 0 0 28px ${color}`,
                       animation: anim,
+                      willChange: 'transform',
                     }}/>
                 ))}
               </div>
@@ -663,20 +664,36 @@ export default function SmartLinkActionButtons({
           0%,100% { box-shadow: 0 0 35px rgba(0,229,255,0.25); opacity: 0.65; }
           50%      { box-shadow: 0 0 60px rgba(0,229,255,0.55); opacity: 1; }
         }
-        @keyframes eqCore1 {
-          0%, 100% { transform: scaleY(0.35); opacity: 0.7; }
-          35%      { transform: scaleY(0.95); opacity: 1; }
-          70%      { transform: scaleY(0.60); opacity: 0.85; }
+        @keyframes eqCoreContainerPulse {
+          0%, 100% {
+            background: radial-gradient(ellipse at center, rgba(124,58,237,0.22) 0%, rgba(0,229,255,0.12) 50%, transparent 80%);
+            box-shadow: 0 0 15px rgba(0,229,255,0.15);
+          }
+          50% {
+            background: radial-gradient(ellipse at center, rgba(124,58,237,0.45) 0%, rgba(0,229,255,0.30) 60%, transparent 85%);
+            box-shadow: 0 0 35px rgba(0,229,255,0.45), 0 0 50px rgba(124,58,237,0.35);
+          }
         }
-        @keyframes eqCore2 {
-          0%, 100% { transform: scaleY(0.65); opacity: 0.85; }
-          45%      { transform: scaleY(0.30); opacity: 0.65; }
-          80%      { transform: scaleY(1.00); opacity: 1; }
+        @keyframes eqSine1 {
+          0%, 100% { transform: scaleY(0.35); opacity: 0.70; }
+          30%      { transform: scaleY(0.95); opacity: 1.00; }
+          65%      { transform: scaleY(0.55); opacity: 0.85; }
         }
-        @keyframes eqCore3 {
+        @keyframes eqSine2 {
+          0%, 100% { transform: scaleY(0.60); opacity: 0.85; }
+          40%      { transform: scaleY(0.28); opacity: 0.65; }
+          75%      { transform: scaleY(1.00); opacity: 1.00; }
+        }
+        @keyframes eqSine3 {
           0%, 100% { transform: scaleY(0.85); opacity: 0.95; }
-          30%      { transform: scaleY(0.45); opacity: 0.75; }
-          65%      { transform: scaleY(0.90); opacity: 1; }
+          35%      { transform: scaleY(0.40); opacity: 0.75; }
+          70%      { transform: scaleY(0.90); opacity: 1.00; }
+        }
+        @keyframes eqSine4 {
+          0%, 100% { transform: scaleY(0.50); opacity: 0.80; }
+          25%      { transform: scaleY(0.88); opacity: 0.95; }
+          60%      { transform: scaleY(0.32); opacity: 0.70; }
+          85%      { transform: scaleY(0.78); opacity: 0.90; }
         }
         ${[0,1,2,3,4].map(i=>`
           @keyframes pktL${i} {
