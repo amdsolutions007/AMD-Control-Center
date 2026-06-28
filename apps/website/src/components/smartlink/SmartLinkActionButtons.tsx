@@ -61,74 +61,105 @@ const PLATFORM_LABELS: Record<string,string> = {
 };
 
 /* ──────────────────────────────────────────────────────────
-   PREMIUM PCB-STYLE ORGANIC CIRCUIT SVG — V3.3.1
-   FINAL PCB PRECISION REFINEMENT
-
-   1. Perfect Cable Termination: Every branch terminates at exactly X=288 (left)
-      and X=712 (right) with identical horizontal arrival geometry.
-   2. Middle Connections Corrected: Audiomack and Instagram share exact cubic
-      curvature rhythm and vertical grid alignment (Y=250) as all other rows.
-   3. Uniform Glow & 4. Uniform Sockets: Identical stroke widths, filters,
-      socket diameters, and animation timing across all 10 branches.
-   5. Hub Origin Precision: All 10 origins start at exact circular radius R=116
-      on desktop and R=104 on mobile around hub center (500,250).
-   6. Engineering Symmetry: Junction nodes align vertically along X=330 (left)
-      and X=670 (right) forming a true AI motherboard architecture.
+   PCB MOTHERBOARD SVG — shared geometry model
+   One mirrored route builder drives desktop and mobile so the
+   platform endpoints, junction rhythm, and Energy Core rails stay
+   symmetrical across breakpoints.
 ────────────────────────────────────────────────────────── */
 function CircuitSVG({ uid }: { uid: string }) {
-  // Desktop Paths (Origins on R=116 circle, junctions at X=330/670, endpoints at X=288/712)
-  const lP_desk = [
-    `M 406,182 C 375,182 350,135 330,100 C 315,75 295,50 274,50`,
-    `M 390,214 C 368,214 345,190 330,175 C 315,160 295,150 274,150`,
-    `M 384,250 C 360,250 345,250 330,250 C 315,250 295,250 274,250`,
-    `M 406,318 C 406,340 370,350 330,350 C 310,350 295,350 285,350`,
-    `M 406,318 C 406,340 370,350 330,350 C 330,380 330,420 330,450 C 310,450 295,450 285,450`,
-    `M 406,318 C 406,340 370,350 330,350 C 330,365 330,385 330,385 C 360,385 390,385 425,385`,
-  ];
-  const rP_desk = [
-    `M 594,182 C 625,182 650,135 670,100 C 685,75 705,50 726,50`,
-    `M 610,214 C 632,214 655,190 670,175 C 685,160 705,150 726,150`,
-    `M 616,250 C 640,250 655,250 670,250 C 685,250 705,250 726,250`,
-    `M 594,318 C 594,340 630,350 670,350 C 690,350 705,350 715,350`,
-    `M 594,318 C 594,340 630,350 670,350 C 670,380 670,420 670,450 C 690,450 705,450 715,450`,
-    `M 594,318 C 594,340 630,350 670,350 C 670,365 670,385 670,385 C 640,385 610,385 575,385`,
-  ];
-  const jL_desk = [[330,100], [330,175], [330,250], [330,350], [330,450], [330,385]];
-  const jR_desk = [[670,100], [670,175], [670,250], [670,350], [670,450], [670,385]];
-  const tL_desk = [[288,50], [288,150], [288,250], [285,350], [285,450], [425,385]];
-  const tR_desk = [[712,50], [712,150], [712,250], [715,350], [715,450], [575,385]];
-  const oL_desk = [[406,182], [390,214], [384,250], [390,286], [406,318]];
-  const oR_desk = [[594,182], [610,214], [616,250], [610,286], [594,318]];
+  type Geometry = {
+    lP: string[];
+    rP: string[];
+    jL: number[][];
+    jR: number[][];
+    tL: number[][];
+    tR: number[][];
+    oL: number[][];
+    oR: number[][];
+    coreFrame: string;
+    coreRail: string;
+    bottomAnchor: number[];
+  };
 
-  // Mobile Paths (Origins on R=104 circle, junctions at X=360/640, endpoints at X=314/686)
-  const lP_mob = [
-    `M 412,188 C 390,188 375,145 360,110 C 348,80 335,50 314,50`,
-    `M 398,216 C 380,216 368,190 360,175 C 348,160 335,150 314,150`,
-    `M 396,250 C 380,250 368,250 360,250 C 348,250 335,250 314,250`,
-    `M 412,312 C 412,335 385,350 360,350 C 345,350 335,350 325,350`,
-    `M 412,312 C 412,335 385,350 360,350 C 360,380 360,420 360,450 C 345,450 335,450 325,450`,
-    `M 412,312 C 412,335 385,350 360,350 C 360,365 360,385 360,385 C 380,385 400,385 420,385`,
+  const platformRows = [42, 148, 250, 352, 458];
+  const hubOrigins = [
+    { x: 408, y: 170 },
+    { x: 392, y: 210 },
+    { x: 384, y: 250 },
+    { x: 392, y: 290 },
+    { x: 408, y: 330 },
   ];
-  const rP_mob = [
-    `M 588,188 C 610,188 625,145 640,110 C 652,80 665,50 686,50`,
-    `M 602,216 C 620,216 632,190 640,175 C 652,160 665,150 686,150`,
-    `M 604,250 C 620,250 632,250 640,250 C 652,250 665,250 686,250`,
-    `M 588,312 C 588,335 615,350 640,350 C 655,350 665,350 675,350`,
-    `M 588,312 C 588,335 615,350 640,350 C 640,380 640,420 640,450 C 655,450 665,450 675,450`,
-    `M 588,312 C 588,335 615,350 640,350 C 640,365 640,385 640,385 C 620,385 600,385 580,385`,
-  ];
-  const jL_mob = [[360,110], [360,175], [360,250], [360,350], [360,450], [360,385]];
-  const jR_mob = [[640,110], [640,175], [640,250], [640,350], [640,450], [640,385]];
-  const tL_mob = [[328,50], [328,150], [328,250], [325,350], [325,450], [420,385]];
-  const tR_mob = [[672,50], [672,150], [672,250], [675,350], [675,450], [580,385]];
-  const oL_mob = [[412,188], [398,216], [396,250], [398,284], [412,312]];
-  const oR_mob = [[588,188], [602,216], [604,250], [602,284], [588,312]];
+
+  const mirrorX = (x: number) => 1000 - x;
+  const point = (x: number, y: number, side: 'left' | 'right') =>
+    side === 'left' ? [x, y] : [mirrorX(x), y];
+
+  const pathForSide = (
+    side: 'left' | 'right',
+    terminalX: number,
+    junctionX: number,
+    coreX: number,
+  ) => {
+    const h = (x: number) => (side === 'left' ? x : mirrorX(x));
+    const origins = hubOrigins.map(({ x, y }) => point(x, y, side));
+    const terminals = platformRows.map((y) => [terminalX, y]);
+    const junctions = [
+      [junctionX, 86],
+      [junctionX, 168],
+      [junctionX, 250],
+      [junctionX, 352],
+      [junctionX, 458],
+      [junctionX, 398],
+    ];
+    const coreShoulder = [coreX, 398];
+
+    const paths = [
+      `M ${origins[0][0]},${origins[0][1]} L ${h(382)},170 L ${junctionX},86 L ${h(304)},42 L ${terminalX},42`,
+      `M ${origins[1][0]},${origins[1][1]} L ${h(372)},210 L ${junctionX},168 L ${h(302)},148 L ${terminalX},148`,
+      `M ${origins[2][0]},${origins[2][1]} L ${junctionX},250 L ${terminalX},250`,
+      `M ${origins[3][0]},${origins[3][1]} L ${h(370)},318 L ${junctionX},352 L ${terminalX},352`,
+      `M ${origins[4][0]},${origins[4][1]} L ${h(370)},342 L ${junctionX},352 L ${junctionX},458 L ${terminalX},458`,
+      `M ${junctionX},352 L ${junctionX},398 L ${coreShoulder[0]},398`,
+    ];
+
+    return {
+      paths,
+      junctions,
+      terminals: [...terminals, coreShoulder],
+      origins,
+      coreShoulder,
+    };
+  };
+
+  const buildGeometry = (terminalLeftX: number, junctionLeftX: number, coreLeftX: number): Geometry => {
+    const left = pathForSide('left', terminalLeftX, junctionLeftX, coreLeftX);
+    const right = pathForSide('right', mirrorX(terminalLeftX), mirrorX(junctionLeftX), mirrorX(coreLeftX));
+
+    return {
+      lP: left.paths,
+      rP: right.paths,
+      jL: left.junctions,
+      jR: right.junctions,
+      tL: left.terminals,
+      tR: right.terminals,
+      oL: left.origins,
+      oR: right.origins,
+      coreFrame: `M ${coreLeftX},398 L ${coreLeftX},438 L ${mirrorX(coreLeftX)},438 L ${mirrorX(coreLeftX)},398`,
+      coreRail: `M ${coreLeftX + 24},438 L ${mirrorX(coreLeftX + 24)},438`,
+      bottomAnchor: [500, 438],
+    };
+  };
+
+  const desktop = buildGeometry(274, 322, 394);
+  const mobile = buildGeometry(328, 360, 396);
 
   const renderPaths = (
     lP: string[], rP: string[],
     jL: number[][], jR: number[][],
     tL: number[][], tR: number[][],
     oL: number[][], oR: number[][],
+    coreFrame: string, coreRail: string,
+    bottomAnchor: number[],
     prefix: string
   ) => (
     <>
@@ -141,8 +172,10 @@ function CircuitSVG({ uid }: { uid: string }) {
         <path key={`rb-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
           stroke="#8a2be2" strokeWidth="12" strokeOpacity="0.25" filter={`url(#${uid}-blur)`}/>
       ))}
-      <path d="M 420,435 L 580,435" fill="none" strokeLinecap="round" strokeLinejoin="round"
+      <path d={coreFrame} fill="none" strokeLinecap="round" strokeLinejoin="round"
         stroke="#8a2be2" strokeWidth="12" strokeOpacity="0.25" filter={`url(#${uid}-blur)`}/>
+      <path d={coreRail} fill="none" strokeLinecap="round" strokeLinejoin="round"
+        stroke="#8a2be2" strokeWidth="12" strokeOpacity="0.18" filter={`url(#${uid}-blur)`}/>
 
       {/* Layer 2: Uniform Purple Neon Track */}
       {lP.map((d, i) => (
@@ -153,8 +186,10 @@ function CircuitSVG({ uid }: { uid: string }) {
         <path key={`rm-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
           stroke="#7c3aed" strokeWidth="3.5" strokeOpacity="0.65" filter={`url(#${uid}-glow)`}/>
       ))}
-      <path d="M 420,435 L 580,435" fill="none" strokeLinecap="round" strokeLinejoin="round"
+      <path d={coreFrame} fill="none" strokeLinecap="round" strokeLinejoin="round"
         stroke="#7c3aed" strokeWidth="3.5" strokeOpacity="0.65" filter={`url(#${uid}-glow)`}/>
+      <path d={coreRail} fill="none" strokeLinecap="round" strokeLinejoin="round"
+        stroke="#7c3aed" strokeWidth="3.5" strokeOpacity="0.55" filter={`url(#${uid}-glow)`}/>
 
       {/* Layer 3: Uniform Bright Cyan Core Wire */}
       {lP.map((d, i) => (
@@ -165,8 +200,10 @@ function CircuitSVG({ uid }: { uid: string }) {
         <path key={`rc-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
           stroke="#00E5FF" strokeWidth="1.8" strokeOpacity="0.95" filter={`url(#${uid}-glow)`}/>
       ))}
-      <path d="M 420,435 L 580,435" fill="none" strokeLinecap="round" strokeLinejoin="round"
+      <path d={coreFrame} fill="none" strokeLinecap="round" strokeLinejoin="round"
         stroke="#00E5FF" strokeWidth="1.8" strokeOpacity="0.95" filter={`url(#${uid}-glow)`}/>
+      <path d={coreRail} fill="none" strokeLinecap="round" strokeLinejoin="round"
+        stroke="#00E5FF" strokeWidth="1.8" strokeOpacity="0.82" filter={`url(#${uid}-glow)`}/>
 
       {/* Layer 4: Uniform Moving Cyan Energy Packets */}
       {lP.map((d, i) => (
@@ -189,11 +226,19 @@ function CircuitSVG({ uid }: { uid: string }) {
           filter={`url(#${uid}-pkt)`}
         />
       ))}
-      <path d="M 420,435 L 580,435" fill="none" strokeLinecap="round"
+      <path d={coreFrame} fill="none" strokeLinecap="round"
         stroke="#00FFFF" strokeWidth="2.8" strokeOpacity="0"
         style={{
           strokeDasharray: '32 350',
           animation: `pktL5 2.0s linear 0s infinite`,
+        }}
+        filter={`url(#${uid}-pkt)`}
+      />
+      <path d={coreRail} fill="none" strokeLinecap="round"
+        stroke="#00FFFF" strokeWidth="2.8" strokeOpacity="0"
+        style={{
+          strokeDasharray: '32 350',
+          animation: `pktR5 2.0s linear 0.4s infinite`,
         }}
         filter={`url(#${uid}-pkt)`}
       />
@@ -236,12 +281,12 @@ function CircuitSVG({ uid }: { uid: string }) {
 
       {/* Bottom Grounding Anchor Node beneath AI Energy Core */}
       <g key={`bot-anchor-${prefix}`}>
-        <circle cx="500" cy="435" r="10" fill="#D4AF37" fillOpacity="0.25" filter={`url(#${uid}-bloom)`}>
+        <circle cx={bottomAnchor[0]} cy={bottomAnchor[1]} r="10" fill="#D4AF37" fillOpacity="0.25" filter={`url(#${uid}-bloom)`}>
           <animate attributeName="r" values="8;13;8" dur="2s" repeatCount="indefinite"/>
           <animate attributeName="fill-opacity" values="0.15;0.35;0.15" dur="2s" repeatCount="indefinite"/>
         </circle>
-        <circle cx="500" cy="435" r="5" fill="#D4AF37" fillOpacity="0.85" filter={`url(#${uid}-glow)`}/>
-        <circle cx="500" cy="435" r="2.2" fill="#FFFFFF" fillOpacity="1"/>
+        <circle cx={bottomAnchor[0]} cy={bottomAnchor[1]} r="5" fill="#D4AF37" fillOpacity="0.85" filter={`url(#${uid}-glow)`}/>
+        <circle cx={bottomAnchor[0]} cy={bottomAnchor[1]} r="2.2" fill="#FFFFFF" fillOpacity="1"/>
       </g>
 
       {/* Gold Termination Hardware Sockets clamping onto button borders & equalizer shoulders */}
@@ -295,12 +340,28 @@ function CircuitSVG({ uid }: { uid: string }) {
 
       {/* Render Desktop Circuitry */}
       <g className="hidden sm:block">
-        {renderPaths(lP_desk, rP_desk, jL_desk, jR_desk, tL_desk, tR_desk, oL_desk, oR_desk, 'desk')}
+        {renderPaths(
+          desktop.lP, desktop.rP,
+          desktop.jL, desktop.jR,
+          desktop.tL, desktop.tR,
+          desktop.oL, desktop.oR,
+          desktop.coreFrame, desktop.coreRail,
+          desktop.bottomAnchor,
+          'desk'
+        )}
       </g>
 
       {/* Render Mobile Circuitry */}
       <g className="block sm:hidden">
-        {renderPaths(lP_mob, rP_mob, jL_mob, jR_mob, tL_mob, tR_mob, oL_mob, oR_mob, 'mob')}
+        {renderPaths(
+          mobile.lP, mobile.rP,
+          mobile.jL, mobile.jR,
+          mobile.tL, mobile.tR,
+          mobile.oL, mobile.oR,
+          mobile.coreFrame, mobile.coreRail,
+          mobile.bottomAnchor,
+          'mob'
+        )}
       </g>
     </svg>
   );
@@ -443,12 +504,12 @@ export default function SmartLinkActionButtons({
 
         <div className="relative w-full">
           {/* Stage box: explicit height ensuring consistent 5-row geometry */}
-          <div className="relative w-full h-[360px] sm:h-[460px] my-2 sm:my-4">
+          <div className="relative w-full h-[390px] sm:h-[500px] my-2 sm:my-4">
             {/* SVG PCB circuit lines */}
             <CircuitSVG uid={uid}/>
 
             {/* LEFT BUTTONS COLUMN — zero inner padding ensuring exact X=290 alignment */}
-            <div className="absolute left-[3%] sm:left-[7%] top-0 bottom-0 w-[30%] sm:w-[22%] grid grid-rows-5 z-10">
+            <div className="absolute left-[3%] sm:left-[2.5%] top-0 bottom-0 w-[31%] sm:w-[25%] grid grid-rows-5 z-10">
               {LEFT_PLATFORMS.map(k => (
                 <div key={k} className="flex items-center justify-center w-full">
                   <PillBtn k={k}/>
@@ -457,11 +518,11 @@ export default function SmartLinkActionButtons({
             </div>
 
             {/* CENTER POWER HUB — visual generator commanding the ecosystem */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[32%] sm:w-[26%] max-w-[220px] flex flex-col items-center justify-center z-20 pointer-events-none">
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[35%] sm:w-[28%] max-w-[240px] flex flex-col items-center justify-center z-20 pointer-events-none">
               <div className="relative flex items-center justify-center pointer-events-auto"
                 style={{
-                  width:  'clamp(86px,21vw,210px)',
-                  height: 'clamp(86px,21vw,210px)',
+                  width:  'clamp(96px,23vw,230px)',
+                  height: 'clamp(96px,23vw,230px)',
                   borderRadius: '50%',
                   background: 'radial-gradient(circle, rgba(0,229,255,0.22) 0%, rgba(124,58,237,0.4) 45%, transparent 70%)',
                   animation: 'hubAura 3.5s ease-in-out infinite',
@@ -478,8 +539,8 @@ export default function SmartLinkActionButtons({
                 {/* Main hub circle */}
                 <div className="rounded-full flex items-center justify-center"
                   style={{
-                    width:  'clamp(80px,19.5vw,198px)',
-                    height: 'clamp(80px,19.5vw,198px)',
+                    width:  'clamp(90px,21.5vw,218px)',
+                    height: 'clamp(90px,21.5vw,218px)',
                     padding: '3px',
                     background: 'linear-gradient(135deg,#00E5FF 0%,#3b82f6 22%,#7c3aed 50%,#a855f7 72%,#00E5FF 100%)',
                     boxShadow: '0 0 70px rgba(0,229,255,0.85), 0 0 130px rgba(124,58,237,0.6), 0 0 220px rgba(0,229,255,0.25)',
@@ -518,38 +579,52 @@ export default function SmartLinkActionButtons({
                 </div>
               </div>
 
-              {/* AI Energy Core Equalizer — V3.6 Final Architectural Integration */}
-              <div className="flex items-end justify-center gap-[4.8px] sm:gap-[7.2px] mt-6 sm:mt-8 pointer-events-auto px-5 sm:px-6 py-2 rounded-full"
+              {/* AI Energy Core Equalizer — integrated into the lower motherboard rails */}
+              <div className="flex flex-col items-center justify-center mt-6 sm:mt-8 pointer-events-auto px-3 sm:px-6 py-2 rounded-xl"
                 style={{
-                  height: 'clamp(26px,5.0vw,45px)',
+                  width: 'clamp(116px,20vw,180px)',
+                  minHeight: 'clamp(42px,7.0vw,64px)',
                   animation: 'eqCoreContainerPulse 3.5s ease-in-out infinite',
                 }}>
-                {[
-                  ['#00E5FF', '80%',  'eqSine1 2.1s ease-in-out 0.75s infinite'],
-                  ['#00C4FF', '90%',  'eqSine4 2.0s ease-in-out 0.55s infinite'],
-                  ['#0099FF', '85%',  'eqSine3 1.9s ease-in-out 0.35s infinite'],
-                  ['#3b82f6', '95%',  'eqSine2 1.8s ease-in-out 0.15s infinite'],
-                  ['#6366f1', '100%', 'eqSine1 1.6s ease-in-out 0.0s infinite'],
-                  ['#8b5cf6', '95%',  'eqSine4 1.75s ease-in-out 0.20s infinite'],
-                  ['#a855f7', '85%',  'eqSine2 1.85s ease-in-out 0.40s infinite'],
-                  ['#d946ef', '90%',  'eqSine3 1.95s ease-in-out 0.60s infinite'],
-                  ['#ff007f', '80%',  'eqSine4 2.15s ease-in-out 0.80s infinite'],
-                ].map(([color, height, anim], i) => (
-                  <div key={i} className="rounded-full origin-bottom transition-all"
-                    style={{
-                      width: 'clamp(3.8px,0.75vw,6.1px)',
-                      height,
-                      backgroundColor: color,
-                      boxShadow: `0 0 12px ${color}, 0 0 24px ${color}, 0 0 36px ${color}`,
-                      animation: anim,
-                      willChange: 'transform',
-                    }}/>
-                ))}
+                <div className="flex items-end justify-center gap-[3.8px] sm:gap-[7.2px]"
+                  style={{ height: 'clamp(26px,5.0vw,45px)' }}>
+                  {[
+                    ['#00E5FF', '80%',  'eqSine1 2.1s ease-in-out 0.75s infinite'],
+                    ['#00C4FF', '90%',  'eqSine4 2.0s ease-in-out 0.55s infinite'],
+                    ['#0099FF', '85%',  'eqSine3 1.9s ease-in-out 0.35s infinite'],
+                    ['#3b82f6', '95%',  'eqSine2 1.8s ease-in-out 0.15s infinite'],
+                    ['#6366f1', '100%', 'eqSine1 1.6s ease-in-out 0.0s infinite'],
+                    ['#8b5cf6', '95%',  'eqSine4 1.75s ease-in-out 0.20s infinite'],
+                    ['#a855f7', '85%',  'eqSine2 1.85s ease-in-out 0.40s infinite'],
+                    ['#d946ef', '90%',  'eqSine3 1.95s ease-in-out 0.60s infinite'],
+                    ['#ff007f', '80%',  'eqSine4 2.15s ease-in-out 0.80s infinite'],
+                  ].map(([color, height, anim], i) => (
+                    <div key={i} className="rounded-full origin-bottom transition-all"
+                      style={{
+                        width: 'clamp(3.2px,0.75vw,6.1px)',
+                        height,
+                        backgroundColor: color,
+                        boxShadow: `0 0 12px ${color}, 0 0 24px ${color}, 0 0 36px ${color}`,
+                        animation: anim,
+                        willChange: 'transform',
+                      }}/>
+                  ))}
+                </div>
+                <div className="mt-1 text-center leading-none">
+                  <div className="font-black uppercase text-[#00E5FF]"
+                    style={{ fontSize: 'clamp(4.5px,0.95vw,7.5px)', letterSpacing: '0.18em', textShadow: '0 0 8px rgba(0,229,255,0.75)' }}>
+                    AI ENERGY CORE
+                  </div>
+                  <div className="mt-0.5 font-bold uppercase text-white/55"
+                    style={{ fontSize: 'clamp(3.5px,0.75vw,6px)', letterSpacing: '0.14em' }}>
+                    INTELLIGENT AUDIO POWER ENGINE
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* RIGHT BUTTONS COLUMN — zero inner padding ensuring exact X=710 alignment */}
-            <div className="absolute right-[3%] sm:right-[7%] top-0 bottom-0 w-[30%] sm:w-[22%] grid grid-rows-5 z-10">
+            <div className="absolute right-[3%] sm:right-[2.5%] top-0 bottom-0 w-[31%] sm:w-[25%] grid grid-rows-5 z-10">
               {RIGHT_PLATFORMS.map(k => (
                 <div key={k} className="flex items-center justify-center w-full">
                   <PillBtn k={k}/>

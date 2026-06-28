@@ -1,10 +1,8 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { Navbar } from '@/components/navbar'
 import { SnapPixel } from '@/components/SnapPixel'
-import { ChatWidget } from '@/components/ChatWidget'
 import { GoogleAnalytics } from '@/components/GoogleAnalytics'
-import { TawkToChat } from '@/components/TawkToChat'
+import { SiteChrome } from '@/components/SiteChrome'
 
 export const metadata: Metadata = {
   title:
@@ -81,10 +79,8 @@ export default function RootLayout({
       </head>
       <body>
         <SnapPixel />
-        <Navbar />
+        <SiteChrome />
         {children}
-        <ChatWidget />
-        <TawkToChat />
       </body>
     </html>
   )
