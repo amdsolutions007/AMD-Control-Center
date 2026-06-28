@@ -488,14 +488,31 @@ export default function SmartLinkActionButtons({
                 </div>
               </div>
 
-              {/* Equalizer bars */}
-              <div className="flex items-end justify-center gap-0.5 sm:gap-1 mt-2.5 pointer-events-auto"
-                style={{ height: 'clamp(12px,2.2vw,20px)' }}>
-                {[['#00E5FF','58%','0ms'],['#3b82f6','88%','110ms'],['#7c3aed','100%','220ms'],
-                  ['#00E5FF','68%','75ms'],['#60a5fa','82%','185ms'],['#a855f7','48%','35ms'],
-                  ['#00E5FF','73%','150ms']].map(([c,h,d],i) => (
-                  <div key={i} className="rounded-full animate-bounce"
-                    style={{ width:'clamp(2px,0.45vw,4px)', height:h, backgroundColor:c, boxShadow:`0 0 6px ${c}`, animationDelay:d }}/>
+              {/* AI Energy Core Equalizer — V3.5 Flagship Visualization */}
+              <div className="flex items-end justify-center gap-[3px] sm:gap-[4.5px] mt-3 sm:mt-3.5 pointer-events-auto px-3 py-1.5 rounded-full"
+                style={{
+                  height: 'clamp(17px,3.2vw,29px)',
+                  background: 'radial-gradient(ellipse at center, rgba(124,58,237,0.18) 0%, rgba(0,229,255,0.08) 50%, transparent 80%)',
+                }}>
+                {[
+                  ['#00E5FF', '85%',  'eqCore1 1.8s ease-in-out infinite'],
+                  ['#00C4FF', '95%',  'eqCore2 2.1s ease-in-out 0.2s infinite'],
+                  ['#0099FF', '75%',  'eqCore3 1.7s ease-in-out 0.4s infinite'],
+                  ['#3b82f6', '100%', 'eqCore1 2.2s ease-in-out 0.1s infinite'],
+                  ['#6366f1', '90%',  'eqCore2 1.9s ease-in-out 0.3s infinite'],
+                  ['#8b5cf6', '100%', 'eqCore3 2.0s ease-in-out 0.5s infinite'],
+                  ['#a855f7', '80%',  'eqCore1 1.75s ease-in-out 0.25s infinite'],
+                  ['#d946ef', '95%',  'eqCore2 2.3s ease-in-out 0.15s infinite'],
+                  ['#ff007f', '85%',  'eqCore3 1.85s ease-in-out 0.35s infinite'],
+                ].map(([color, height, anim], i) => (
+                  <div key={i} className="rounded-full origin-bottom transition-all"
+                    style={{
+                      width: 'clamp(2.8px,0.55vw,4.5px)',
+                      height,
+                      backgroundColor: color,
+                      boxShadow: `0 0 8px ${color}, 0 0 16px ${color}`,
+                      animation: anim,
+                    }}/>
                 ))}
               </div>
             </div>
@@ -645,6 +662,21 @@ export default function SmartLinkActionButtons({
         @keyframes ringPulse {
           0%,100% { box-shadow: 0 0 35px rgba(0,229,255,0.25); opacity: 0.65; }
           50%      { box-shadow: 0 0 60px rgba(0,229,255,0.55); opacity: 1; }
+        }
+        @keyframes eqCore1 {
+          0%, 100% { transform: scaleY(0.35); opacity: 0.7; }
+          35%      { transform: scaleY(0.95); opacity: 1; }
+          70%      { transform: scaleY(0.60); opacity: 0.85; }
+        }
+        @keyframes eqCore2 {
+          0%, 100% { transform: scaleY(0.65); opacity: 0.85; }
+          45%      { transform: scaleY(0.30); opacity: 0.65; }
+          80%      { transform: scaleY(1.00); opacity: 1; }
+        }
+        @keyframes eqCore3 {
+          0%, 100% { transform: scaleY(0.85); opacity: 0.95; }
+          30%      { transform: scaleY(0.45); opacity: 0.75; }
+          65%      { transform: scaleY(0.90); opacity: 1; }
         }
         ${[0,1,2,3,4].map(i=>`
           @keyframes pktL${i} {
