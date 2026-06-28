@@ -81,20 +81,20 @@ function CircuitSVG({ uid }: { uid: string }) {
     `M 406,182 C 375,182 350,135 330,100 C 315,75 295,50 274,50`,
     `M 390,214 C 368,214 345,190 330,175 C 315,160 295,150 274,150`,
     `M 384,250 C 360,250 345,250 330,250 C 315,250 295,250 274,250`,
-    `M 390,286 C 368,286 345,310 330,325 C 312,340 292,350 271,350`,
-    `M 390,286 C 368,286 345,310 330,325 C 330,345 330,365 330,365 C 330,380 330,400 330,400 C 312,425 292,450 271,450`,
-    `M 390,286 C 368,286 345,310 330,325 C 330,345 330,365 330,365 C 360,365 390,385 425,385`,
+    `M 406,318 C 406,340 370,350 330,350 C 310,350 295,350 285,350`,
+    `M 406,318 C 406,340 370,350 330,350 C 330,380 330,420 330,450 C 310,450 295,450 285,450`,
+    `M 406,318 C 406,340 370,350 330,350 C 330,365 330,385 330,385 C 360,385 390,385 425,385`,
   ];
   const rP_desk = [
     `M 594,182 C 625,182 650,135 670,100 C 685,75 705,50 726,50`,
     `M 610,214 C 632,214 655,190 670,175 C 685,160 705,150 726,150`,
     `M 616,250 C 640,250 655,250 670,250 C 685,250 705,250 726,250`,
-    `M 610,286 C 632,286 655,310 670,325 C 688,340 708,350 729,350`,
-    `M 610,286 C 632,286 655,310 670,325 C 670,345 670,365 670,365 C 670,380 670,400 670,400 C 688,425 708,450 729,450`,
-    `M 610,286 C 632,286 655,310 670,325 C 670,345 670,365 670,365 C 640,365 610,385 575,385`,
+    `M 594,318 C 594,340 630,350 670,350 C 690,350 705,350 715,350`,
+    `M 594,318 C 594,340 630,350 670,350 C 670,380 670,420 670,450 C 690,450 705,450 715,450`,
+    `M 594,318 C 594,340 630,350 670,350 C 670,365 670,385 670,385 C 640,385 610,385 575,385`,
   ];
-  const jL_desk = [[330,100], [330,175], [330,250], [330,325], [330,400], [330,365]];
-  const jR_desk = [[670,100], [670,175], [670,250], [670,325], [670,400], [670,365]];
+  const jL_desk = [[330,100], [330,175], [330,250], [330,350], [330,450], [330,385]];
+  const jR_desk = [[670,100], [670,175], [670,250], [670,350], [670,450], [670,385]];
   const tL_desk = [[288,50], [288,150], [288,250], [285,350], [285,450], [425,385]];
   const tR_desk = [[712,50], [712,150], [712,250], [715,350], [715,450], [575,385]];
   const oL_desk = [[406,182], [390,214], [384,250], [390,286], [406,318]];
@@ -105,20 +105,20 @@ function CircuitSVG({ uid }: { uid: string }) {
     `M 412,188 C 390,188 375,145 360,110 C 348,80 335,50 314,50`,
     `M 398,216 C 380,216 368,190 360,175 C 348,160 335,150 314,150`,
     `M 396,250 C 380,250 368,250 360,250 C 348,250 335,250 314,250`,
-    `M 398,284 C 380,284 368,310 360,325 C 345,340 332,350 311,350`,
-    `M 398,284 C 380,284 368,310 360,325 C 360,345 360,365 360,365 C 360,378 360,390 360,390 C 345,420 332,450 311,450`,
-    `M 398,284 C 380,284 368,310 360,325 C 360,345 360,365 360,365 C 380,365 400,385 420,385`,
+    `M 412,312 C 412,335 385,350 360,350 C 345,350 335,350 325,350`,
+    `M 412,312 C 412,335 385,350 360,350 C 360,380 360,420 360,450 C 345,450 335,450 325,450`,
+    `M 412,312 C 412,335 385,350 360,350 C 360,365 360,385 360,385 C 380,385 400,385 420,385`,
   ];
   const rP_mob = [
     `M 588,188 C 610,188 625,145 640,110 C 652,80 665,50 686,50`,
     `M 602,216 C 620,216 632,190 640,175 C 652,160 665,150 686,150`,
     `M 604,250 C 620,250 632,250 640,250 C 652,250 665,250 686,250`,
-    `M 602,284 C 620,284 632,310 640,325 C 655,340 668,350 689,350`,
-    `M 602,284 C 620,284 632,310 640,325 C 640,345 640,365 640,365 C 640,378 640,390 640,390 C 655,420 668,450 689,450`,
-    `M 602,284 C 620,284 632,310 640,325 C 640,345 640,365 640,365 C 620,365 600,385 580,385`,
+    `M 588,312 C 588,335 615,350 640,350 C 655,350 665,350 675,350`,
+    `M 588,312 C 588,335 615,350 640,350 C 640,380 640,420 640,450 C 655,450 665,450 675,450`,
+    `M 588,312 C 588,335 615,350 640,350 C 640,365 640,385 640,385 C 620,385 600,385 580,385`,
   ];
-  const jL_mob = [[360,110], [360,175], [360,250], [360,325], [360,390], [360,365]];
-  const jR_mob = [[640,110], [640,175], [640,250], [640,325], [640,390], [640,365]];
+  const jL_mob = [[360,110], [360,175], [360,250], [360,350], [360,450], [360,385]];
+  const jR_mob = [[640,110], [640,175], [640,250], [640,350], [640,450], [640,385]];
   const tL_mob = [[328,50], [328,150], [328,250], [325,350], [325,450], [420,385]];
   const tR_mob = [[672,50], [672,150], [672,250], [675,350], [675,450], [580,385]];
   const oL_mob = [[412,188], [398,216], [396,250], [398,284], [412,312]];
@@ -141,6 +141,8 @@ function CircuitSVG({ uid }: { uid: string }) {
         <path key={`rb-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
           stroke="#8a2be2" strokeWidth="12" strokeOpacity="0.25" filter={`url(#${uid}-blur)`}/>
       ))}
+      <path d="M 420,435 L 580,435" fill="none" strokeLinecap="round" strokeLinejoin="round"
+        stroke="#8a2be2" strokeWidth="12" strokeOpacity="0.25" filter={`url(#${uid}-blur)`}/>
 
       {/* Layer 2: Uniform Purple Neon Track */}
       {lP.map((d, i) => (
@@ -151,6 +153,8 @@ function CircuitSVG({ uid }: { uid: string }) {
         <path key={`rm-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
           stroke="#7c3aed" strokeWidth="3.5" strokeOpacity="0.65" filter={`url(#${uid}-glow)`}/>
       ))}
+      <path d="M 420,435 L 580,435" fill="none" strokeLinecap="round" strokeLinejoin="round"
+        stroke="#7c3aed" strokeWidth="3.5" strokeOpacity="0.65" filter={`url(#${uid}-glow)`}/>
 
       {/* Layer 3: Uniform Bright Cyan Core Wire */}
       {lP.map((d, i) => (
@@ -161,6 +165,8 @@ function CircuitSVG({ uid }: { uid: string }) {
         <path key={`rc-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
           stroke="#00E5FF" strokeWidth="1.8" strokeOpacity="0.95" filter={`url(#${uid}-glow)`}/>
       ))}
+      <path d="M 420,435 L 580,435" fill="none" strokeLinecap="round" strokeLinejoin="round"
+        stroke="#00E5FF" strokeWidth="1.8" strokeOpacity="0.95" filter={`url(#${uid}-glow)`}/>
 
       {/* Layer 4: Uniform Moving Cyan Energy Packets */}
       {lP.map((d, i) => (
@@ -183,6 +189,14 @@ function CircuitSVG({ uid }: { uid: string }) {
           filter={`url(#${uid}-pkt)`}
         />
       ))}
+      <path d="M 420,435 L 580,435" fill="none" strokeLinecap="round"
+        stroke="#00FFFF" strokeWidth="2.8" strokeOpacity="0"
+        style={{
+          strokeDasharray: '32 350',
+          animation: `pktL5 2.0s linear 0s infinite`,
+        }}
+        filter={`url(#${uid}-pkt)`}
+      />
 
       {/* Hub Origin Socket Nodes (visibly socketing out of the power generator) */}
       {oL.map(([cx, cy], i) => (
@@ -220,23 +234,35 @@ function CircuitSVG({ uid }: { uid: string }) {
         </g>
       ))}
 
-      {/* Termination Hardware Sockets clamping onto button borders */}
+      {/* Bottom Grounding Anchor Node beneath AI Energy Core */}
+      <g key={`bot-anchor-${prefix}`}>
+        <circle cx="500" cy="435" r="10" fill="#D4AF37" fillOpacity="0.25" filter={`url(#${uid}-bloom)`}>
+          <animate attributeName="r" values="8;13;8" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="fill-opacity" values="0.15;0.35;0.15" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="500" cy="435" r="5" fill="#D4AF37" fillOpacity="0.85" filter={`url(#${uid}-glow)`}/>
+        <circle cx="500" cy="435" r="2.2" fill="#FFFFFF" fillOpacity="1"/>
+      </g>
+
+      {/* Gold Termination Hardware Sockets clamping onto button borders & equalizer shoulders */}
       {tL.map(([cx, cy], i) => (
         <g key={`tl-${prefix}-${i}`}>
-          <circle cx={cx} cy={cy} r="9" fill="#00E5FF" fillOpacity="0.25" filter={`url(#${uid}-bloom)`}>
-            <animate attributeName="r" values="7;12;7" dur="2s" repeatCount="indefinite"/>
+          <circle cx={cx} cy={cy} r="10" fill="#D4AF37" fillOpacity="0.25" filter={`url(#${uid}-bloom)`}>
+            <animate attributeName="r" values="8;13;8" dur="2s" repeatCount="indefinite"/>
+            <animate attributeName="fill-opacity" values="0.15;0.35;0.15" dur="2s" repeatCount="indefinite"/>
           </circle>
-          <circle cx={cx} cy={cy} r="4.5" fill="#00E5FF" fillOpacity="0.9" filter={`url(#${uid}-glow)`}/>
-          <circle cx={cx} cy={cy} r="2" fill="#FFFFFF"/>
+          <circle cx={cx} cy={cy} r="5" fill="#D4AF37" fillOpacity="0.85" filter={`url(#${uid}-glow)`}/>
+          <circle cx={cx} cy={cy} r="2.2" fill="#FFFFFF" fillOpacity="1"/>
         </g>
       ))}
       {tR.map(([cx, cy], i) => (
         <g key={`tr-${prefix}-${i}`}>
-          <circle cx={cx} cy={cy} r="9" fill="#00E5FF" fillOpacity="0.25" filter={`url(#${uid}-bloom)`}>
-            <animate attributeName="r" values="7;12;7" dur="2s" repeatCount="indefinite"/>
+          <circle cx={cx} cy={cy} r="10" fill="#D4AF37" fillOpacity="0.25" filter={`url(#${uid}-bloom)`}>
+            <animate attributeName="r" values="8;13;8" dur="2s" repeatCount="indefinite"/>
+            <animate attributeName="fill-opacity" values="0.15;0.35;0.15" dur="2s" repeatCount="indefinite"/>
           </circle>
-          <circle cx={cx} cy={cy} r="4.5" fill="#00E5FF" fillOpacity="0.9" filter={`url(#${uid}-glow)`}/>
-          <circle cx={cx} cy={cy} r="2" fill="#FFFFFF"/>
+          <circle cx={cx} cy={cy} r="5" fill="#D4AF37" fillOpacity="0.85" filter={`url(#${uid}-glow)`}/>
+          <circle cx={cx} cy={cy} r="2.2" fill="#FFFFFF" fillOpacity="1"/>
         </g>
       ))}
     </>
