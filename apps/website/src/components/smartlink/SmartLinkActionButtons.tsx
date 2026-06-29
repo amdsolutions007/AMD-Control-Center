@@ -61,261 +61,191 @@ const PLATFORM_LABELS: Record<string,string> = {
 };
 
 /* ──────────────────────────────────────────────────────────
-   PCB MOTHERBOARD SVG — shared geometry model
-   One mirrored route builder drives desktop and mobile so the
-   platform endpoints, junction rhythm, and Energy Core rails stay
-   symmetrical across breakpoints.
+   MASTER BLUEPRINT MOTHERBOARD MODEL
+   Static coordinate map for the approved motherboard artwork:
+   platform pills, sockets, stepped PCB routes, hub, Energy Core,
+   gold junctions, and lower U-shaped chassis.
 ────────────────────────────────────────────────────────── */
-function CircuitSVG({ uid }: { uid: string }) {
-  type Geometry = {
-    lP: string[];
-    rP: string[];
-    jL: number[][];
-    jR: number[][];
-    tL: number[][];
-    tR: number[][];
-    oL: number[][];
-    oR: number[][];
-    coreFrame: string;
-    coreRail: string;
-    bottomAnchor: number[];
+const MOTHERBOARD = {
+  width: 1024,
+  height: 382,
+  button: { w: 244, h: 39 },
+  leftX: 132,
+  rightX: 892,
+  hub: { x: 512, y: 154, size: 158 },
+  core: { x: 512, y: 292, w: 292, h: 82 },
+  rows: [
+    {
+      left: 'spotify',
+      right: 'tiktok',
+      y: 42,
+      path: [[254, 42], [294, 42], [324, 70], [358, 70], [358, 96], [434, 96]],
+      nodes: [[292, 42], [324, 70]],
+      hub: [434, 96],
+    },
+    {
+      left: 'apple_music',
+      right: 'youtube_music',
+      y: 102,
+      path: [[254, 102], [294, 102], [326, 130], [374, 130], [374, 126], [432, 126]],
+      nodes: [[292, 102], [326, 130]],
+      hub: [432, 126],
+    },
+    {
+      left: 'audiomack',
+      right: 'instagram',
+      y: 162,
+      path: [[254, 162], [318, 162], [358, 162], [430, 162]],
+      nodes: [[300, 162], [356, 162]],
+      hub: [430, 162],
+    },
+    {
+      left: 'boomplay',
+      right: 'amazon_music',
+      y: 222,
+      path: [[254, 222], [294, 222], [328, 194], [376, 194], [432, 192]],
+      nodes: [[292, 222], [328, 194]],
+      hub: [432, 192],
+    },
+    {
+      left: 'soundcloud',
+      right: 'deezer',
+      y: 282,
+      path: [[254, 282], [316, 282], [346, 282], [346, 336], [410, 336], [410, 352], [466, 352]],
+      nodes: [[292, 282], [346, 282], [410, 352]],
+      hub: [466, 352],
+    },
+  ],
+  lowerRail: [[346, 242], [346, 352], [466, 352], [466, 366], [558, 366], [558, 352], [678, 352], [678, 242]],
+  coreRail: [[366, 244], [402, 244], [402, 242], [622, 242], [622, 244], [658, 244]],
+  coreFeeds: [
+    [[430, 246], [430, 268]],
+    [[512, 246], [512, 268]],
+    [[594, 246], [594, 268]],
+  ],
+} as const;
+
+type BoardSide = 'left' | 'right';
+type BoardRow = typeof MOTHERBOARD.rows[number];
+type BoardPoint = readonly [number, number];
+
+const mirrorBoardX = (x: number) => MOTHERBOARD.width - x;
+const boardPctX = (x: number) => `${(x / MOTHERBOARD.width) * 100}%`;
+const boardPctY = (y: number) => `${(y / MOTHERBOARD.height) * 100}%`;
+
+function sidePoint([x, y]: BoardPoint, side: BoardSide): [number, number] {
+  return [side === 'left' ? x : mirrorBoardX(x), y];
+}
+
+function rowPlatformKey(row: BoardRow, side: BoardSide) {
+  return side === 'left' ? row.left : row.right;
+}
+
+function platformCenter(side: BoardSide) {
+  return side === 'left' ? MOTHERBOARD.leftX : MOTHERBOARD.rightX;
+}
+
+function coordBoxStyle(x: number, y: number, w: number, h: number): React.CSSProperties {
+  return {
+    left: boardPctX(x - w / 2),
+    top: boardPctY(y - h / 2),
+    width: boardPctX(w),
+    height: boardPctY(h),
   };
+}
 
-  const platformRows = [42, 148, 250, 352, 458];
-  const hubOrigins = [
-    { x: 408, y: 170 },
-    { x: 392, y: 210 },
-    { x: 384, y: 250 },
-    { x: 392, y: 290 },
-    { x: 408, y: 330 },
-  ];
+function platformBoxStyle(side: BoardSide, y: number): React.CSSProperties {
+  return coordBoxStyle(platformCenter(side), y, MOTHERBOARD.button.w, MOTHERBOARD.button.h);
+}
 
-  const mirrorX = (x: number) => 1000 - x;
-  const point = (x: number, y: number, side: 'left' | 'right') =>
-    side === 'left' ? [x, y] : [mirrorX(x), y];
+function hubBoxStyle(): React.CSSProperties {
+  return coordBoxStyle(MOTHERBOARD.hub.x, MOTHERBOARD.hub.y, MOTHERBOARD.hub.size, MOTHERBOARD.hub.size);
+}
 
-  const pathForSide = (
-    side: 'left' | 'right',
-    terminalX: number,
-    junctionX: number,
-    coreX: number,
-  ) => {
-    const h = (x: number) => (side === 'left' ? x : mirrorX(x));
-    const origins = hubOrigins.map(({ x, y }) => point(x, y, side));
-    const terminals = platformRows.map((y) => [terminalX, y]);
-    const junctions = [
-      [junctionX, 86],
-      [junctionX, 168],
-      [junctionX, 250],
-      [junctionX, 352],
-      [junctionX, 458],
-      [junctionX, 398],
-    ];
-    const coreShoulder = [coreX, 398];
+function coreBoxStyle(): React.CSSProperties {
+  return coordBoxStyle(MOTHERBOARD.core.x, MOTHERBOARD.core.y, MOTHERBOARD.core.w, MOTHERBOARD.core.h);
+}
 
-    const paths = [
-      `M ${origins[0][0]},${origins[0][1]} L ${h(382)},170 L ${junctionX},86 L ${h(304)},42 L ${terminalX},42`,
-      `M ${origins[1][0]},${origins[1][1]} L ${h(372)},210 L ${junctionX},168 L ${h(302)},148 L ${terminalX},148`,
-      `M ${origins[2][0]},${origins[2][1]} L ${junctionX},250 L ${terminalX},250`,
-      `M ${origins[3][0]},${origins[3][1]} L ${h(370)},318 L ${junctionX},352 L ${terminalX},352`,
-      `M ${origins[4][0]},${origins[4][1]} L ${h(370)},342 L ${junctionX},352 L ${junctionX},458 L ${terminalX},458`,
-      `M ${junctionX},352 L ${junctionX},398 L ${coreShoulder[0]},398`,
-    ];
+function pathFromPoints(points: readonly BoardPoint[], side: BoardSide = 'left') {
+  return points.map((point, index) => {
+    const [x, y] = sidePoint(point, side);
+    return `${index === 0 ? 'M' : 'L'} ${x},${y}`;
+  }).join(' ');
+}
 
-    return {
-      paths,
-      junctions,
-      terminals: [...terminals, coreShoulder],
-      origins,
-      coreShoulder,
-    };
-  };
+function mirroredRows(side: BoardSide) {
+  return MOTHERBOARD.rows.map((row) => pathFromPoints(row.path, side));
+}
 
-  const buildGeometry = (terminalLeftX: number, junctionLeftX: number, coreLeftX: number): Geometry => {
-    const left = pathForSide('left', terminalLeftX, junctionLeftX, coreLeftX);
-    const right = pathForSide('right', mirrorX(terminalLeftX), mirrorX(junctionLeftX), mirrorX(coreLeftX));
+function mirroredNodePoints(side: BoardSide) {
+  return MOTHERBOARD.rows.flatMap((row) => [
+    sidePoint(row.path[0], side),
+    ...row.nodes.map((point) => sidePoint(point, side)),
+  ]);
+}
 
-    return {
-      lP: left.paths,
-      rP: right.paths,
-      jL: left.junctions,
-      jR: right.junctions,
-      tL: left.terminals,
-      tR: right.terminals,
-      oL: left.origins,
-      oR: right.origins,
-      coreFrame: `M ${coreLeftX},398 L ${coreLeftX},438 L ${mirrorX(coreLeftX)},438 L ${mirrorX(coreLeftX)},398`,
-      coreRail: `M ${coreLeftX + 24},438 L ${mirrorX(coreLeftX + 24)},438`,
-      bottomAnchor: [500, 438],
-    };
-  };
+function mirroredHubSockets(side: BoardSide) {
+  return MOTHERBOARD.rows.map((row) => sidePoint(row.hub, side));
+}
 
-  const desktop = buildGeometry(274, 322, 394);
-  const mobile = buildGeometry(328, 360, 396);
+function lowerRailPath(side: BoardSide) {
+  return pathFromPoints(MOTHERBOARD.lowerRail, side);
+}
 
-  const renderPaths = (
-    lP: string[], rP: string[],
-    jL: number[][], jR: number[][],
-    tL: number[][], tR: number[][],
-    oL: number[][], oR: number[][],
-    coreFrame: string, coreRail: string,
-    bottomAnchor: number[],
-    prefix: string
-  ) => (
-    <>
-      {/* Layer 1: Uniform Outer Purple Ambient Glow */}
-      {lP.map((d, i) => (
-        <path key={`lb-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
-          stroke="#8a2be2" strokeWidth="12" strokeOpacity="0.25" filter={`url(#${uid}-blur)`}/>
-      ))}
-      {rP.map((d, i) => (
-        <path key={`rb-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
-          stroke="#8a2be2" strokeWidth="12" strokeOpacity="0.25" filter={`url(#${uid}-blur)`}/>
-      ))}
-      <path d={coreFrame} fill="none" strokeLinecap="round" strokeLinejoin="round"
-        stroke="#8a2be2" strokeWidth="12" strokeOpacity="0.25" filter={`url(#${uid}-blur)`}/>
-      <path d={coreRail} fill="none" strokeLinecap="round" strokeLinejoin="round"
-        stroke="#8a2be2" strokeWidth="12" strokeOpacity="0.18" filter={`url(#${uid}-blur)`}/>
+function coreRailPath() {
+  return pathFromPoints(MOTHERBOARD.coreRail);
+}
 
-      {/* Layer 2: Uniform Purple Neon Track */}
-      {lP.map((d, i) => (
-        <path key={`lm-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
-          stroke="#7c3aed" strokeWidth="3.5" strokeOpacity="0.65" filter={`url(#${uid}-glow)`}/>
-      ))}
-      {rP.map((d, i) => (
-        <path key={`rm-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
-          stroke="#7c3aed" strokeWidth="3.5" strokeOpacity="0.65" filter={`url(#${uid}-glow)`}/>
-      ))}
-      <path d={coreFrame} fill="none" strokeLinecap="round" strokeLinejoin="round"
-        stroke="#7c3aed" strokeWidth="3.5" strokeOpacity="0.65" filter={`url(#${uid}-glow)`}/>
-      <path d={coreRail} fill="none" strokeLinecap="round" strokeLinejoin="round"
-        stroke="#7c3aed" strokeWidth="3.5" strokeOpacity="0.55" filter={`url(#${uid}-glow)`}/>
+function coreFramePath() {
+  const left = MOTHERBOARD.core.x - MOTHERBOARD.core.w / 2;
+  const right = MOTHERBOARD.core.x + MOTHERBOARD.core.w / 2;
+  const top = MOTHERBOARD.core.y - MOTHERBOARD.core.h / 2;
+  const bottom = MOTHERBOARD.core.y + MOTHERBOARD.core.h / 2;
+  return `M ${left},${top} L ${left},${bottom} L ${right},${bottom} L ${right},${top} L ${left},${top}`;
+}
 
-      {/* Layer 3: Uniform Bright Cyan Core Wire */}
-      {lP.map((d, i) => (
-        <path key={`lc-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
-          stroke="#00E5FF" strokeWidth="1.8" strokeOpacity="0.95" filter={`url(#${uid}-glow)`}/>
-      ))}
-      {rP.map((d, i) => (
-        <path key={`rc-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
-          stroke="#00E5FF" strokeWidth="1.8" strokeOpacity="0.95" filter={`url(#${uid}-glow)`}/>
-      ))}
-      <path d={coreFrame} fill="none" strokeLinecap="round" strokeLinejoin="round"
-        stroke="#00E5FF" strokeWidth="1.8" strokeOpacity="0.95" filter={`url(#${uid}-glow)`}/>
-      <path d={coreRail} fill="none" strokeLinecap="round" strokeLinejoin="round"
-        stroke="#00E5FF" strokeWidth="1.8" strokeOpacity="0.82" filter={`url(#${uid}-glow)`}/>
-
-      {/* Layer 4: Uniform Moving Cyan Energy Packets */}
-      {lP.map((d, i) => (
-        <path key={`lp-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round"
-          stroke="#00FFFF" strokeWidth="2.8" strokeOpacity="0"
-          style={{
-            strokeDasharray: '32 350',
-            animation: `pktL${i} 2.0s linear ${i * 0.4}s infinite`,
-          }}
-          filter={`url(#${uid}-pkt)`}
-        />
-      ))}
-      {rP.map((d, i) => (
-        <path key={`rp-${prefix}-${i}`} d={d} fill="none" strokeLinecap="round"
-          stroke="#00FFFF" strokeWidth="2.8" strokeOpacity="0"
-          style={{
-            strokeDasharray: '32 350',
-            animation: `pktR${i} 2.0s linear ${i * 0.4 + 0.2}s infinite`,
-          }}
-          filter={`url(#${uid}-pkt)`}
-        />
-      ))}
-      <path d={coreFrame} fill="none" strokeLinecap="round"
-        stroke="#00FFFF" strokeWidth="2.8" strokeOpacity="0"
-        style={{
-          strokeDasharray: '32 350',
-          animation: `pktL5 2.0s linear 0s infinite`,
-        }}
-        filter={`url(#${uid}-pkt)`}
-      />
-      <path d={coreRail} fill="none" strokeLinecap="round"
-        stroke="#00FFFF" strokeWidth="2.8" strokeOpacity="0"
-        style={{
-          strokeDasharray: '32 350',
-          animation: `pktR5 2.0s linear 0.4s infinite`,
-        }}
-        filter={`url(#${uid}-pkt)`}
-      />
-
-      {/* Hub Origin Socket Nodes (visibly socketing out of the power generator) */}
-      {oL.map(([cx, cy], i) => (
-        <g key={`ol-${prefix}-${i}`}>
-          <circle cx={cx} cy={cy} r="6" fill="#00E5FF" fillOpacity="0.4" filter={`url(#${uid}-glow)`}/>
-          <circle cx={cx} cy={cy} r="3" fill="#FFFFFF" fillOpacity="0.9"/>
-        </g>
-      ))}
-      {oR.map(([cx, cy], i) => (
-        <g key={`or-${prefix}-${i}`}>
-          <circle cx={cx} cy={cy} r="6" fill="#00E5FF" fillOpacity="0.4" filter={`url(#${uid}-glow)`}/>
-          <circle cx={cx} cy={cy} r="3" fill="#FFFFFF" fillOpacity="0.9"/>
-        </g>
-      ))}
-
-      {/* Gold Junction Nodes at elbow bends (Identical specification & timing) */}
-      {jL.map(([cx, cy], i) => (
-        <g key={`jl-${prefix}-${i}`}>
-          <circle cx={cx} cy={cy} r="10" fill="#D4AF37" fillOpacity="0.25" filter={`url(#${uid}-bloom)`}>
-            <animate attributeName="r" values="8;13;8" dur="2s" repeatCount="indefinite"/>
-            <animate attributeName="fill-opacity" values="0.15;0.35;0.15" dur="2s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx={cx} cy={cy} r="5" fill="#D4AF37" fillOpacity="0.85" filter={`url(#${uid}-glow)`}/>
-          <circle cx={cx} cy={cy} r="2.2" fill="#FFFFFF" fillOpacity="1"/>
-        </g>
-      ))}
-      {jR.map(([cx, cy], i) => (
-        <g key={`jr-${prefix}-${i}`}>
-          <circle cx={cx} cy={cy} r="10" fill="#D4AF37" fillOpacity="0.25" filter={`url(#${uid}-bloom)`}>
-            <animate attributeName="r" values="8;13;8" dur="2s" repeatCount="indefinite"/>
-            <animate attributeName="fill-opacity" values="0.15;0.35;0.15" dur="2s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx={cx} cy={cy} r="5" fill="#D4AF37" fillOpacity="0.85" filter={`url(#${uid}-glow)`}/>
-          <circle cx={cx} cy={cy} r="2.2" fill="#FFFFFF" fillOpacity="1"/>
-        </g>
-      ))}
-
-      {/* Bottom Grounding Anchor Node beneath AI Energy Core */}
-      <g key={`bot-anchor-${prefix}`}>
-        <circle cx={bottomAnchor[0]} cy={bottomAnchor[1]} r="10" fill="#D4AF37" fillOpacity="0.25" filter={`url(#${uid}-bloom)`}>
-          <animate attributeName="r" values="8;13;8" dur="2s" repeatCount="indefinite"/>
-          <animate attributeName="fill-opacity" values="0.15;0.35;0.15" dur="2s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx={bottomAnchor[0]} cy={bottomAnchor[1]} r="5" fill="#D4AF37" fillOpacity="0.85" filter={`url(#${uid}-glow)`}/>
-        <circle cx={bottomAnchor[0]} cy={bottomAnchor[1]} r="2.2" fill="#FFFFFF" fillOpacity="1"/>
-      </g>
-
-      {/* Gold Termination Hardware Sockets clamping onto button borders & equalizer shoulders */}
-      {tL.map(([cx, cy], i) => (
-        <g key={`tl-${prefix}-${i}`}>
-          <circle cx={cx} cy={cy} r="10" fill="#D4AF37" fillOpacity="0.25" filter={`url(#${uid}-bloom)`}>
-            <animate attributeName="r" values="8;13;8" dur="2s" repeatCount="indefinite"/>
-            <animate attributeName="fill-opacity" values="0.15;0.35;0.15" dur="2s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx={cx} cy={cy} r="5" fill="#D4AF37" fillOpacity="0.85" filter={`url(#${uid}-glow)`}/>
-          <circle cx={cx} cy={cy} r="2.2" fill="#FFFFFF" fillOpacity="1"/>
-        </g>
-      ))}
-      {tR.map(([cx, cy], i) => (
-        <g key={`tr-${prefix}-${i}`}>
-          <circle cx={cx} cy={cy} r="10" fill="#D4AF37" fillOpacity="0.25" filter={`url(#${uid}-bloom)`}>
-            <animate attributeName="r" values="8;13;8" dur="2s" repeatCount="indefinite"/>
-            <animate attributeName="fill-opacity" values="0.15;0.35;0.15" dur="2s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx={cx} cy={cy} r="5" fill="#D4AF37" fillOpacity="0.85" filter={`url(#${uid}-glow)`}/>
-          <circle cx={cx} cy={cy} r="2.2" fill="#FFFFFF" fillOpacity="1"/>
-        </g>
-      ))}
-    </>
+function GoldNode({ cx, cy }: { cx: number; cy: number }) {
+  return (
+    <g>
+      <circle cx={cx} cy={cy} r="10" fill="#D4AF37" fillOpacity="0.25" filter="url(#gold-bloom)">
+        <animate attributeName="r" values="8;13;8" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="fill-opacity" values="0.15;0.35;0.15" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx={cx} cy={cy} r="5" fill="#D4AF37" fillOpacity="0.85" filter="url(#cyan-glow)"/>
+      <circle cx={cx} cy={cy} r="2.2" fill="#FFFFFF" fillOpacity="1"/>
+    </g>
   );
+}
+
+function HubSocket({ cx, cy }: { cx: number; cy: number }) {
+  return (
+    <g>
+      <circle cx={cx} cy={cy} r="6" fill="#00E5FF" fillOpacity="0.4" filter="url(#cyan-glow)"/>
+      <circle cx={cx} cy={cy} r="3" fill="#FFFFFF" fillOpacity="0.9"/>
+    </g>
+  );
+}
+
+function CircuitSVG({ uid }: { uid: string }) {
+  const paths = [
+    ...mirroredRows('left'),
+    ...mirroredRows('right'),
+    lowerRailPath('left'),
+    lowerRailPath('right'),
+    coreRailPath(),
+    coreFramePath(),
+    ...MOTHERBOARD.coreFeeds.map((feed) => pathFromPoints(feed)),
+  ];
+  const nodes = [
+    ...mirroredNodePoints('left'),
+    ...mirroredNodePoints('right'),
+    [MOTHERBOARD.core.x, 366],
+  ];
+  const sockets = [...mirroredHubSockets('left'), ...mirroredHubSockets('right')];
 
   return (
     <svg
-      viewBox="0 0 1000 500"
+      viewBox={`0 0 ${MOTHERBOARD.width} ${MOTHERBOARD.height}`}
       className="absolute inset-0 w-full h-full pointer-events-none"
       preserveAspectRatio="none"
       aria-hidden="true"
@@ -336,33 +266,40 @@ function CircuitSVG({ uid }: { uid: string }) {
           <feGaussianBlur stdDeviation="3.5" result="b"/>
           <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
+        <filter id="cyan-glow" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="2.5" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="gold-bloom" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation="6" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
       </defs>
 
-      {/* Render Desktop Circuitry */}
-      <g className="hidden sm:block">
-        {renderPaths(
-          desktop.lP, desktop.rP,
-          desktop.jL, desktop.jR,
-          desktop.tL, desktop.tR,
-          desktop.oL, desktop.oR,
-          desktop.coreFrame, desktop.coreRail,
-          desktop.bottomAnchor,
-          'desk'
-        )}
-      </g>
-
-      {/* Render Mobile Circuitry */}
-      <g className="block sm:hidden">
-        {renderPaths(
-          mobile.lP, mobile.rP,
-          mobile.jL, mobile.jR,
-          mobile.tL, mobile.tR,
-          mobile.oL, mobile.oR,
-          mobile.coreFrame, mobile.coreRail,
-          mobile.bottomAnchor,
-          'mob'
-        )}
-      </g>
+      {paths.map((d, i) => (
+        <path key={`blur-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
+          stroke="#00E5FF" strokeWidth="14" strokeOpacity="0.22" filter={`url(#${uid}-blur)`}/>
+      ))}
+      {paths.map((d, i) => (
+        <path key={`mid-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
+          stroke="#7c3aed" strokeWidth="5" strokeOpacity="0.75" filter={`url(#${uid}-glow)`}/>
+      ))}
+      {paths.map((d, i) => (
+        <path key={`core-${i}`} d={d} fill="none" strokeLinecap="round" strokeLinejoin="round"
+          stroke="#00E5FF" strokeWidth="2.5" strokeOpacity="0.98" filter={`url(#${uid}-glow)`}/>
+      ))}
+      {paths.map((d, i) => (
+        <path key={`pkt-${i}`} d={d} fill="none" strokeLinecap="round"
+          stroke="#00FFFF" strokeWidth="2.8" strokeOpacity="0"
+          style={{
+            strokeDasharray: '32 350',
+            animation: `${i < 5 ? 'pktL' : 'pktR'}${i % 6} 2.0s linear ${(i % 6) * 0.35}s infinite`,
+          }}
+          filter={`url(#${uid}-pkt)`}
+        />
+      ))}
+      {sockets.map(([cx, cy], i) => <HubSocket key={`socket-${i}`} cx={cx} cy={cy}/>)}
+      {nodes.map(([cx, cy], i) => <GoldNode key={`node-${i}`} cx={cx} cy={cy}/>)}
     </svg>
   );
 }
@@ -503,26 +440,27 @@ export default function SmartLinkActionButtons({
         </div>
 
         <div className="relative w-full">
-          {/* Stage box: explicit height ensuring consistent 5-row geometry */}
-          <div className="relative w-full h-[390px] sm:h-[500px] my-2 sm:my-4">
+          {/* Stage box: every motherboard element is positioned by the Master Blueprint coordinate plane */}
+          <div
+            className="relative w-full my-2 sm:my-4"
+            style={{ aspectRatio: `${MOTHERBOARD.width} / ${MOTHERBOARD.height}` }}
+          >
             {/* SVG PCB circuit lines */}
             <CircuitSVG uid={uid}/>
 
-            {/* LEFT BUTTONS COLUMN — zero inner padding ensuring exact X=290 alignment */}
-            <div className="absolute left-[3%] sm:left-[2.5%] top-0 bottom-0 w-[31%] sm:w-[25%] grid grid-rows-5 z-10">
-              {LEFT_PLATFORMS.map(k => (
-                <div key={k} className="flex items-center justify-center w-full">
-                  <PillBtn k={k}/>
-                </div>
-              ))}
-            </div>
+            {MOTHERBOARD.rows.flatMap((row) => ([
+              <div key={row.left} className="absolute z-10 flex items-center justify-center" style={platformBoxStyle('left', row.y)}>
+                <PillBtn k={rowPlatformKey(row, 'left')}/>
+              </div>,
+              <div key={row.right} className="absolute z-10 flex items-center justify-center" style={platformBoxStyle('right', row.y)}>
+                <PillBtn k={rowPlatformKey(row, 'right')}/>
+              </div>,
+            ]))}
 
             {/* CENTER POWER HUB — visual generator commanding the ecosystem */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[35%] sm:w-[28%] max-w-[240px] flex flex-col items-center justify-center z-20 pointer-events-none">
-              <div className="relative flex items-center justify-center pointer-events-auto"
+            <div className="absolute z-20 flex items-center justify-center pointer-events-none" style={hubBoxStyle()}>
+              <div className="relative flex h-full w-full items-center justify-center pointer-events-auto"
                 style={{
-                  width:  'clamp(96px,23vw,230px)',
-                  height: 'clamp(96px,23vw,230px)',
                   borderRadius: '50%',
                   background: 'radial-gradient(circle, rgba(0,229,255,0.22) 0%, rgba(124,58,237,0.4) 45%, transparent 70%)',
                   animation: 'hubAura 3.5s ease-in-out infinite',
@@ -537,10 +475,8 @@ export default function SmartLinkActionButtons({
                   }}/>
 
                 {/* Main hub circle */}
-                <div className="rounded-full flex items-center justify-center"
+                <div className="h-[94%] w-[94%] rounded-full flex items-center justify-center"
                   style={{
-                    width:  'clamp(90px,21.5vw,218px)',
-                    height: 'clamp(90px,21.5vw,218px)',
                     padding: '3px',
                     background: 'linear-gradient(135deg,#00E5FF 0%,#3b82f6 22%,#7c3aed 50%,#a855f7 72%,#00E5FF 100%)',
                     boxShadow: '0 0 70px rgba(0,229,255,0.85), 0 0 130px rgba(124,58,237,0.6), 0 0 220px rgba(0,229,255,0.25)',
@@ -578,58 +514,47 @@ export default function SmartLinkActionButtons({
                   </div>
                 </div>
               </div>
-
-              {/* AI Energy Core Equalizer — integrated into the lower motherboard rails */}
-              <div className="flex flex-col items-center justify-center mt-6 sm:mt-8 pointer-events-auto px-3 sm:px-6 py-2 rounded-xl"
-                style={{
-                  width: 'clamp(116px,20vw,180px)',
-                  minHeight: 'clamp(42px,7.0vw,64px)',
-                  animation: 'eqCoreContainerPulse 3.5s ease-in-out infinite',
-                }}>
-                <div className="flex items-end justify-center gap-[3.8px] sm:gap-[7.2px]"
-                  style={{ height: 'clamp(26px,5.0vw,45px)' }}>
-                  {[
-                    ['#00E5FF', '80%',  'eqSine1 2.1s ease-in-out 0.75s infinite'],
-                    ['#00C4FF', '90%',  'eqSine4 2.0s ease-in-out 0.55s infinite'],
-                    ['#0099FF', '85%',  'eqSine3 1.9s ease-in-out 0.35s infinite'],
-                    ['#3b82f6', '95%',  'eqSine2 1.8s ease-in-out 0.15s infinite'],
-                    ['#6366f1', '100%', 'eqSine1 1.6s ease-in-out 0.0s infinite'],
-                    ['#8b5cf6', '95%',  'eqSine4 1.75s ease-in-out 0.20s infinite'],
-                    ['#a855f7', '85%',  'eqSine2 1.85s ease-in-out 0.40s infinite'],
-                    ['#d946ef', '90%',  'eqSine3 1.95s ease-in-out 0.60s infinite'],
-                    ['#ff007f', '80%',  'eqSine4 2.15s ease-in-out 0.80s infinite'],
-                  ].map(([color, height, anim], i) => (
-                    <div key={i} className="rounded-full origin-bottom transition-all"
-                      style={{
-                        width: 'clamp(3.2px,0.75vw,6.1px)',
-                        height,
-                        backgroundColor: color,
-                        boxShadow: `0 0 12px ${color}, 0 0 24px ${color}, 0 0 36px ${color}`,
-                        animation: anim,
-                        willChange: 'transform',
-                      }}/>
-                  ))}
-                </div>
-                <div className="mt-1 text-center leading-none">
-                  <div className="font-black uppercase text-[#00E5FF]"
-                    style={{ fontSize: 'clamp(4.5px,0.95vw,7.5px)', letterSpacing: '0.18em', textShadow: '0 0 8px rgba(0,229,255,0.75)' }}>
-                    AI ENERGY CORE
-                  </div>
-                  <div className="mt-0.5 font-bold uppercase text-white/55"
-                    style={{ fontSize: 'clamp(3.5px,0.75vw,6px)', letterSpacing: '0.14em' }}>
-                    INTELLIGENT AUDIO POWER ENGINE
-                  </div>
-                </div>
-              </div>
             </div>
 
-            {/* RIGHT BUTTONS COLUMN — zero inner padding ensuring exact X=710 alignment */}
-            <div className="absolute right-[3%] sm:right-[2.5%] top-0 bottom-0 w-[31%] sm:w-[25%] grid grid-rows-5 z-10">
-              {RIGHT_PLATFORMS.map(k => (
-                <div key={k} className="flex items-center justify-center w-full">
-                  <PillBtn k={k}/>
+            {/* AI Energy Core Equalizer — physically mounted inside the shared board rails */}
+            <div className="absolute z-20 flex flex-col items-center justify-center pointer-events-auto px-3 sm:px-6 py-2 rounded-xl"
+              style={{
+                ...coreBoxStyle(),
+                animation: 'eqCoreContainerPulse 3.5s ease-in-out infinite',
+              }}>
+              <div className="flex h-[58%] items-end justify-center gap-[3.8px] sm:gap-[7.2px]">
+                {[
+                  ['#00E5FF', '80%',  'eqSine1 2.1s ease-in-out 0.75s infinite'],
+                  ['#00C4FF', '90%',  'eqSine4 2.0s ease-in-out 0.55s infinite'],
+                  ['#0099FF', '85%',  'eqSine3 1.9s ease-in-out 0.35s infinite'],
+                  ['#3b82f6', '95%',  'eqSine2 1.8s ease-in-out 0.15s infinite'],
+                  ['#6366f1', '100%', 'eqSine1 1.6s ease-in-out 0.0s infinite'],
+                  ['#8b5cf6', '95%',  'eqSine4 1.75s ease-in-out 0.20s infinite'],
+                  ['#a855f7', '85%',  'eqSine2 1.85s ease-in-out 0.40s infinite'],
+                  ['#d946ef', '90%',  'eqSine3 1.95s ease-in-out 0.60s infinite'],
+                  ['#ff007f', '80%',  'eqSine4 2.15s ease-in-out 0.80s infinite'],
+                ].map(([color, height, anim], i) => (
+                  <div key={i} className="rounded-full origin-bottom transition-all"
+                    style={{
+                      width: 'clamp(3.2px,0.75vw,6.1px)',
+                      height,
+                      backgroundColor: color,
+                      boxShadow: `0 0 12px ${color}, 0 0 24px ${color}, 0 0 36px ${color}`,
+                      animation: anim,
+                      willChange: 'transform',
+                    }}/>
+                ))}
+              </div>
+              <div className="mt-1 text-center leading-none">
+                <div className="font-black uppercase text-[#00E5FF]"
+                  style={{ fontSize: 'clamp(4.5px,0.95vw,7.5px)', letterSpacing: '0.18em', textShadow: '0 0 8px rgba(0,229,255,0.75)' }}>
+                  AI ENERGY CORE
                 </div>
-              ))}
+                <div className="mt-0.5 font-bold uppercase text-white/55"
+                  style={{ fontSize: 'clamp(3.5px,0.75vw,6px)', letterSpacing: '0.14em' }}>
+                  INTELLIGENT AUDIO POWER ENGINE
+                </div>
+              </div>
             </div>
           </div>
 
