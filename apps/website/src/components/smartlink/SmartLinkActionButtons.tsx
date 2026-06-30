@@ -69,59 +69,71 @@ const PLATFORM_LABELS: Record<string,string> = {
 const MOTHERBOARD = {
   width: 1024,
   height: 382,
-  button: { w: 244, h: 39 },
+  svg: { x: -16, y: -6, width: 1056, height: 394 },
+  button: { w: 244, h: 35 },
   leftX: 132,
   rightX: 892,
-  hub: { x: 512, y: 154, size: 158 },
-  core: { x: 512, y: 292, w: 292, h: 82 },
+  hub: { x: 512, y: 154, size: 168 },
+  core: { x: 512, y: 318, w: 292, h: 82 },
   rows: [
     {
       left: 'spotify',
       right: 'tiktok',
       y: 42,
-      path: [[254, 42], [294, 42], [324, 70], [358, 70], [358, 96], [434, 96]],
-      nodes: [[292, 42], [324, 70]],
-      hub: [434, 96],
+      path: [[254, 42], [294, 42], [324, 70], [358, 70], [358, 108], [428, 108]],
+      nodes: [[324, 70], [358, 108], [428, 108]],
+      hub: [428, 108],
     },
     {
       left: 'apple_music',
       right: 'youtube_music',
       y: 102,
-      path: [[254, 102], [294, 102], [326, 130], [374, 130], [374, 126], [432, 126]],
-      nodes: [[292, 102], [326, 130]],
-      hub: [432, 126],
+      path: [[254, 102], [294, 102], [326, 130], [374, 130], [392, 142], [424, 142]],
+      nodes: [[292, 102], [392, 142], [424, 142]],
+      hub: [424, 142],
     },
     {
       left: 'audiomack',
       right: 'instagram',
       y: 162,
-      path: [[254, 162], [318, 162], [358, 162], [430, 162]],
-      nodes: [[300, 162], [356, 162]],
-      hub: [430, 162],
+      path: [[254, 162], [304, 162], [332, 174], [374, 174], [398, 184], [424, 184]],
+      nodes: [[304, 162], [374, 174], [424, 184]],
+      hub: [424, 184],
     },
     {
       left: 'boomplay',
       right: 'amazon_music',
-      y: 222,
-      path: [[254, 222], [294, 222], [328, 194], [376, 194], [432, 192]],
-      nodes: [[292, 222], [328, 194]],
-      hub: [432, 192],
+      y: 234,
+      path: [[254, 234], [294, 234], [328, 206], [374, 206], [398, 218], [438, 218]],
+      nodes: [[292, 234], [398, 218], [438, 218]],
+      hub: [438, 218],
     },
     {
       left: 'soundcloud',
       right: 'deezer',
-      y: 282,
-      path: [[254, 282], [316, 282], [346, 282], [346, 336], [410, 336], [410, 352], [466, 352]],
-      nodes: [[292, 282], [346, 282], [410, 352]],
-      hub: [466, 352],
+      y: 306,
+      path: [[254, 306], [316, 306], [346, 306], [346, 360], [410, 360], [410, 364], [466, 364]],
+      nodes: [[292, 306], [346, 306], [410, 364]],
+      hub: [466, 364],
     },
   ],
-  lowerRail: [[346, 242], [346, 352], [466, 352], [466, 366], [558, 366], [558, 352], [678, 352], [678, 242]],
-  coreRail: [[366, 244], [402, 244], [402, 242], [622, 242], [622, 244], [658, 244]],
+  lowerRail: [[346, 254], [346, 364], [466, 364], [466, 378], [558, 378], [558, 364], [678, 364], [678, 254]],
+  coreRail: [[366, 256], [402, 256], [402, 254], [622, 254], [622, 256], [658, 256]],
   coreFeeds: [
-    [[430, 246], [430, 268]],
-    [[512, 246], [512, 268]],
-    [[594, 246], [594, 268]],
+    [[430, 272], [430, 294]],
+    [[512, 272], [512, 294]],
+    [[594, 272], [594, 294]],
+  ],
+  coreBusLinks: [
+    [[466, 359], [558, 359]],
+    [[466, 359], [466, 378]],
+    [[512, 359], [512, 378]],
+    [[558, 359], [558, 378]],
+  ],
+  coreBusNodes: [
+    [466, 359],
+    [512, 359],
+    [558, 359],
   ],
 } as const;
 
@@ -235,17 +247,19 @@ function CircuitSVG({ uid }: { uid: string }) {
     coreRailPath(),
     coreFramePath(),
     ...MOTHERBOARD.coreFeeds.map((feed) => pathFromPoints(feed)),
+    ...MOTHERBOARD.coreBusLinks.map((link) => pathFromPoints(link)),
   ];
   const nodes = [
     ...mirroredNodePoints('left'),
     ...mirroredNodePoints('right'),
-    [MOTHERBOARD.core.x, 366],
+    ...MOTHERBOARD.coreBusNodes,
+    [MOTHERBOARD.core.x, 378],
   ];
   const sockets = [...mirroredHubSockets('left'), ...mirroredHubSockets('right')];
 
   return (
     <svg
-      viewBox={`0 0 ${MOTHERBOARD.width} ${MOTHERBOARD.height}`}
+      viewBox={`${MOTHERBOARD.svg.x} ${MOTHERBOARD.svg.y} ${MOTHERBOARD.svg.width} ${MOTHERBOARD.svg.height}`}
       className="absolute inset-0 w-full h-full pointer-events-none"
       preserveAspectRatio="none"
       aria-hidden="true"
@@ -357,7 +371,7 @@ export default function SmartLinkActionButtons({
             ? 'border-[#7c3aed]/85 shadow-[0_0_20px_rgba(124,58,237,0.45),inset_0_0_12px_rgba(0,0,0,0.8)] hover:border-[#00E5FF] hover:shadow-[0_0_32px_rgba(0,229,255,0.75),inset_0_0_16px_rgba(0,0,0,0.85)] hover:-translate-y-0.5 cursor-pointer'
             : 'border-[#7c3aed]/45 shadow-[0_0_12px_rgba(124,58,237,0.2),inset_0_0_10px_rgba(0,0,0,0.7)] cursor-not-allowed opacity-90',
         ].join(' ')}
-        style={{ padding: 'clamp(5px,1vw,8px) clamp(8px,1.4vw,14px)' }}
+        style={{ padding: 'clamp(4px,0.85vw,6px) clamp(8px,1.4vw,14px)' }}
         aria-label={isReady ? `Listen on ${label}` : `${label} coming soon`}
       >
         <span className="flex items-center gap-1.5 sm:gap-2 min-w-0 shrink">
@@ -443,7 +457,12 @@ export default function SmartLinkActionButtons({
           {/* Stage box: every motherboard element is positioned by the Master Blueprint coordinate plane */}
           <div
             className="relative w-full my-2 sm:my-4"
-            style={{ aspectRatio: `${MOTHERBOARD.width} / ${MOTHERBOARD.height}` }}
+            style={{
+              aspectRatio: `${MOTHERBOARD.width} / ${MOTHERBOARD.height}`,
+              width: 'calc(100% + clamp(18px, 3.5vw, 38px))',
+              marginLeft: '50%',
+              transform: 'translateX(-50%)',
+            }}
           >
             {/* SVG PCB circuit lines */}
             <CircuitSVG uid={uid}/>
@@ -462,7 +481,7 @@ export default function SmartLinkActionButtons({
               <div className="relative flex h-full w-full items-center justify-center pointer-events-auto"
                 style={{
                   borderRadius: '50%',
-                  background: 'radial-gradient(circle, rgba(0,229,255,0.22) 0%, rgba(124,58,237,0.4) 45%, transparent 70%)',
+                  background: 'radial-gradient(circle, rgba(0,229,255,0.12) 0%, rgba(124,58,237,0.22) 45%, transparent 70%)',
                   animation: 'hubAura 3.5s ease-in-out infinite',
                 }}
               >
@@ -470,7 +489,7 @@ export default function SmartLinkActionButtons({
                 <div className="absolute inset-0 rounded-full"
                   style={{
                     border: '1.5px solid rgba(0,229,255,0.3)',
-                    boxShadow: '0 0 35px rgba(0,229,255,0.25)',
+                    boxShadow: '0 0 22px rgba(0,229,255,0.18)',
                     animation: 'ringPulse 3.5s ease-in-out infinite',
                   }}/>
 
@@ -479,38 +498,40 @@ export default function SmartLinkActionButtons({
                   style={{
                     padding: '3px',
                     background: 'linear-gradient(135deg,#00E5FF 0%,#3b82f6 22%,#7c3aed 50%,#a855f7 72%,#00E5FF 100%)',
-                    boxShadow: '0 0 70px rgba(0,229,255,0.85), 0 0 130px rgba(124,58,237,0.6), 0 0 220px rgba(0,229,255,0.25)',
+                    boxShadow: '0 0 42px rgba(0,229,255,0.52), 0 0 78px rgba(124,58,237,0.34), 0 0 118px rgba(0,229,255,0.12)',
                     animation: 'hubPulse 3.5s ease-in-out infinite',
                   }}
                 >
                   {/* Inner glass core */}
                   <div className="w-full h-full rounded-full flex flex-col items-center justify-center text-center relative overflow-hidden"
                     style={{
-                      background: 'radial-gradient(circle at 40% 35%, #0a0a22, #030310 70%)',
+                      background: 'radial-gradient(circle at 40% 35%, #07071a 0%, #020208 72%)',
                       border: '1.5px solid rgba(0,229,255,0.35)',
-                      boxShadow: 'inset 0 0 50px rgba(0,0,0,0.95), inset 0 0 20px rgba(124,58,237,0.35)',
+                      boxShadow: 'inset 0 0 58px rgba(0,0,0,0.98), inset 0 0 14px rgba(124,58,237,0.18)',
                     }}
                   >
                     <div className="absolute inset-0 pointer-events-none"
-                      style={{ background: 'radial-gradient(circle at 50% 60%, rgba(124,58,237,0.6) 0%, transparent 65%)' }}/>
+                      style={{ background: 'radial-gradient(circle at 50% 60%, rgba(124,58,237,0.24) 0%, transparent 62%)' }}/>
                     <div className="absolute top-0 left-1/4 right-1/4 pointer-events-none"
-                      style={{ height: '35%', background: 'radial-gradient(ellipse, rgba(0,229,255,0.15) 0%, transparent 80%)', filter: 'blur(4px)' }}/>
+                      style={{ height: '35%', background: 'radial-gradient(ellipse, rgba(0,229,255,0.06) 0%, transparent 80%)', filter: 'blur(4px)' }}/>
+                    <div className="absolute inset-x-[8%] inset-y-[20%] pointer-events-none z-[8] rounded-full"
+                      style={{ background: 'radial-gradient(ellipse at center, rgba(2,2,8,0.78) 0%, rgba(2,2,8,0.42) 58%, transparent 88%)' }}/>
 
                     <span className="relative z-10 font-black text-white"
-                      style={{ fontSize: 'clamp(6.5px,1.6vw,13.5px)', letterSpacing: '0.22em', fontFamily: 'Georgia,serif', textShadow: '0 0 12px rgba(0,229,255,0.7)' }}>CHROME</span>
+                      style={{ fontSize: 'clamp(6.5px,1.6vw,13.5px)', letterSpacing: '0.22em', fontFamily: 'Georgia,serif', textShadow: '0 1px 2px rgba(0,0,0,0.92), 0 0 8px rgba(0,229,255,0.38)' }}>CHROME</span>
                     <span className="relative z-10 font-black leading-tight"
                       style={{
                         fontSize: 'clamp(8px,2vw,17px)', letterSpacing: '0.1em',
                         background: 'linear-gradient(90deg,#FFF8D6,#D4AF37,#FFDF00,#D4AF37,#AA771C)',
                         WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                        filter: 'drop-shadow(0 0 18px rgba(255,215,0,1))',
+                        filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.88)) drop-shadow(0 0 12px rgba(255,215,0,0.72))',
                       }}>AFROFUSION</span>
-                    <span className="relative z-10 font-black text-white/75"
-                      style={{ fontSize: 'clamp(5px,1.2vw,9.5px)', letterSpacing: '0.35em', margin: '1px 0' }}>— RADIO —</span>
+                    <span className="relative z-10 font-black text-white/95"
+                      style={{ fontSize: 'clamp(5px,1.2vw,9.5px)', letterSpacing: '0.35em', margin: '1px 0', textShadow: '0 1px 2px rgba(0,0,0,0.85)' }}>— RADIO —</span>
                     <span className="relative z-10 font-bold text-[#00E5FF]"
-                      style={{ fontSize: 'clamp(4.5px,0.95vw,7.5px)', letterSpacing: '0.2em', filter: 'drop-shadow(0 0 5px #00E5FF)' }}>POWERED BY</span>
-                    <span className="relative z-10 font-bold text-white/85"
-                      style={{ fontSize: 'clamp(4.5px,1vw,8.5px)', letterSpacing: '0.2em', filter: 'drop-shadow(0 0 8px rgba(0,229,255,0.8))' }}>MUSIC INTEL</span>
+                      style={{ fontSize: 'clamp(4.5px,0.95vw,7.5px)', letterSpacing: '0.2em', filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.82)) drop-shadow(0 0 4px #00E5FF)' }}>POWERED BY</span>
+                    <span className="relative z-10 font-bold text-white"
+                      style={{ fontSize: 'clamp(4.5px,1vw,8.5px)', letterSpacing: '0.2em', filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.88)) drop-shadow(0 0 6px rgba(0,229,255,0.55))' }}>MUSIC INTEL</span>
                   </div>
                 </div>
               </div>
@@ -683,16 +704,16 @@ export default function SmartLinkActionButtons({
       {/* ── KEYFRAME ANIMATIONS ── */}
       <style>{`
         @keyframes hubAura {
-          0%,100% { opacity: 0.75; transform: scale(1); }
-          50%      { opacity: 1;    transform: scale(1.04); }
+          0%,100% { opacity: 0.62; transform: scale(1); }
+          50%      { opacity: 0.82; transform: scale(1.03); }
         }
         @keyframes hubPulse {
-          0%,100% { box-shadow: 0 0 70px rgba(0,229,255,0.85), 0 0 130px rgba(124,58,237,0.6), 0 0 220px rgba(0,229,255,0.25); }
-          50%      { box-shadow: 0 0 100px rgba(0,229,255,1),  0 0 180px rgba(124,58,237,0.8), 0 0 280px rgba(0,229,255,0.4); }
+          0%,100% { box-shadow: 0 0 42px rgba(0,229,255,0.52), 0 0 78px rgba(124,58,237,0.34), 0 0 118px rgba(0,229,255,0.12); }
+          50%      { box-shadow: 0 0 58px rgba(0,229,255,0.68), 0 0 98px rgba(124,58,237,0.48), 0 0 148px rgba(0,229,255,0.2); }
         }
         @keyframes ringPulse {
-          0%,100% { box-shadow: 0 0 35px rgba(0,229,255,0.25); opacity: 0.65; }
-          50%      { box-shadow: 0 0 60px rgba(0,229,255,0.55); opacity: 1; }
+          0%,100% { box-shadow: 0 0 22px rgba(0,229,255,0.18); opacity: 0.62; }
+          50%      { box-shadow: 0 0 36px rgba(0,229,255,0.32); opacity: 0.88; }
         }
         @keyframes eqCoreContainerPulse {
           0%, 100% {
