@@ -370,7 +370,14 @@ export default function SmartLinkActionButtons({
 
   const openGateway = () => {
     fire('smart_link_gateway', window.location.href);
-    document.getElementById('smart-link-gateway')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    requestAnimationFrame(() => {
+      const gateway = document.getElementById('smart-link-gateway');
+      if (!gateway) return;
+      const rect = gateway.getBoundingClientRect();
+      const absoluteTop = rect.top + window.scrollY;
+      const targetY = absoluteTop - (window.innerHeight - gateway.offsetHeight) / 2;
+      window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+    });
   };
 
   /* ── Platform pill — modular PCB cartridge styling ── */
@@ -476,12 +483,13 @@ export default function SmartLinkActionButtons({
           {/* Stage box: every motherboard element is positioned by the Master Blueprint coordinate plane */}
           <div
             id="smart-link-gateway"
-            className="relative w-full my-2 sm:my-4"
+            className="relative w-full my-2 sm:my-4 scroll-mt-6"
             style={{
               aspectRatio: `${MOTHERBOARD.width} / ${MOTHERBOARD.height}`,
               width: 'calc(100% + clamp(18px, 3.5vw, 38px))',
               marginLeft: '50%',
               transform: 'translateX(-50%)',
+              scrollMarginTop: '24px',
             }}
           >
             {/* SVG PCB circuit lines */}
@@ -624,6 +632,7 @@ export default function SmartLinkActionButtons({
           {/* ── LISTEN NOW CTA ── */}
           <div className="mt-4 sm:mt-6">
             <button
+              type="button"
               onClick={openGateway}
               aria-label="Choose your streaming platform"
               className="w-full flex items-center justify-center gap-3 sm:gap-5 rounded-full font-black uppercase cursor-pointer group transition-all duration-300 hover:-translate-y-1 hover:brightness-110"
