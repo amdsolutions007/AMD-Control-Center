@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useId } from 'react';
+import React, { useState, useId, useEffect } from 'react';
 
 interface DSPLinks { [key: string]: string; }
 
@@ -64,6 +64,17 @@ const BOOMPLAY_PLAYLIST_URL =
   'https://www.boomplay.com/share/playlist/134774932?share_platform=an&srList=ANDROID&srModel=COPYLINK&share_channel=copylink&share_content=playlist';
 
 const COMING_SOON_PLATFORMS = new Set(['amazon_music', 'deezer']);
+
+const GATEWAY_PLATFORMS = [
+  'spotify',
+  'apple_music',
+  'audiomack',
+  'boomplay',
+  'soundcloud',
+  'youtube_music',
+  'amazon_music',
+  'deezer',
+] as const;
 
 /* ──────────────────────────────────────────────────────────
    MASTER BLUEPRINT MOTHERBOARD MODEL
@@ -334,6 +345,7 @@ export default function SmartLinkActionButtons({
 }: ActionButtonsProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioEl, setAudioEl] = useState<HTMLAudioElement | null>(null);
+  const [gatewayOpen, setGatewayOpen] = useState(false);
   const uid = useId().replace(/:/g, '');
 
   const fire = (key: string, url: string) => {
@@ -370,15 +382,32 @@ export default function SmartLinkActionButtons({
 
   const openGateway = () => {
     fire('smart_link_gateway', window.location.href);
-    requestAnimationFrame(() => {
-      const gateway = document.getElementById('smart-link-gateway');
-      if (!gateway) return;
-      const rect = gateway.getBoundingClientRect();
-      const absoluteTop = rect.top + window.scrollY;
-      const targetY = absoluteTop - (window.innerHeight - gateway.offsetHeight) / 2;
-      window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
-    });
+    setGatewayOpen(true);
   };
+
+  const closeGateway = () => setGatewayOpen(false);
+
+  const selectPlatform = (k: string) => {
+    if (!ready(k)) return;
+    const link = href(k);
+    if (!link) return;
+    setGatewayOpen(false);
+    go(k, link);
+  };
+
+  useEffect(() => {
+    if (!gatewayOpen) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setGatewayOpen(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [gatewayOpen]);
 
   /* ── Platform pill — modular PCB cartridge styling ── */
   const PillBtn = ({ k }: { k: string }) => {
@@ -714,6 +743,76 @@ export default function SmartLinkActionButtons({
         </div>
       </div>
 
+      {/* ── PREMIUM STREAMING PLATFORM GATEWAY ── */}
+      {gatewayOpen && (
+        <div className="fixed inset-0 z-[200] flex items-end justify-center sm:items-center sm:p-4">
+          <button
+            type="button"
+            aria-label="Close platform gateway"
+            className="absolute inset-0 border-0 bg-[#05050e]/78 backdrop-blur-md cursor-pointer animate-[gatewayFadeIn_0.28s_ease-out]"
+            onClick={closeGateway}
+          />
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="gateway-title"
+            className="relative z-[201] w-full max-h-[88vh] overflow-y-auto rounded-t-[28px] border border-[#00E5FF]/25 bg-[rgba(5,5,18,0.94)] shadow-[0_0_48px_rgba(0,229,255,0.22),0_0_80px_rgba(124,58,237,0.28),inset_0_0_0_1px_rgba(124,58,237,0.18)] backdrop-blur-2xl animate-[gatewaySheetUp_0.34s_cubic-bezier(0.22,1,0.36,1)] sm:max-w-[480px] sm:rounded-2xl sm:animate-[gatewayModalIn_0.3s_ease-out]"
+            style={{ padding: 'clamp(18px,4vw,28px) clamp(16px,3.5vw,24px) calc(18px + env(safe-area-inset-bottom))' }}
+          >
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#00E5FF]/70 to-transparent" />
+            <div className="mb-4 flex items-start justify-between gap-3 sm:mb-5">
+              <div>
+                <h2 id="gateway-title" className="font-black uppercase tracking-[0.12em] text-white"
+                  style={{ fontSize: 'clamp(16px,3.2vw,22px)', textShadow: '0 0 18px rgba(0,229,255,0.35)' }}>
+                  Choose Your Streaming Platform
+                </h2>
+                <p className="mt-1 font-bold uppercase tracking-[0.22em] text-[#00E5FF]/85"
+                  style={{ fontSize: 'clamp(9px,1.6vw,11px)' }}>
+                  One Link. Every Platform.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={closeGateway}
+                aria-label="Close"
+                className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-[#7c3aed]/50 bg-[#050512]/90 text-[#00E5FF] transition hover:border-[#00E5FF] hover:shadow-[0_0_16px_rgba(0,229,255,0.45)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+              {GATEWAY_PLATFORMS.map((k) => {
+                const isReady = ready(k);
+                const label = PLATFORM_LABELS[k] ?? k;
+                return (
+                  <button
+                    key={k}
+                    type="button"
+                    disabled={!isReady}
+                    onClick={() => selectPlatform(k)}
+                    aria-label={isReady ? `Listen on ${label}` : `${label} coming soon`}
+                    className={[
+                      'flex min-h-[72px] flex-col items-center justify-center gap-2 rounded-xl border px-2 py-3 text-center transition-all duration-300',
+                      isReady
+                        ? 'cursor-pointer border-[#7c3aed]/70 bg-[#050512]/88 shadow-[0_0_18px_rgba(124,58,237,0.28),inset_0_0_12px_rgba(0,0,0,0.75)] hover:border-[#00E5FF] hover:shadow-[0_0_28px_rgba(0,229,255,0.45)] hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]'
+                        : 'cursor-not-allowed border-[#7c3aed]/35 bg-[#050512]/65 opacity-80',
+                    ].join(' ')}
+                  >
+                    <BrandIcon id={k} size={24}/>
+                    <span className="font-bold leading-tight text-white/95"
+                      style={{ fontSize: 'clamp(10px,1.8vw,12.5px)' }}>{label}</span>
+                    {isReady
+                      ? <span className="h-1.5 w-1.5 rounded-full bg-[#ff003c] shadow-[0_0_8px_#ff003c,0_0_14px_#ff003c] animate-pulse"/>
+                      : <span className="rounded-full border border-[#00E5FF]/45 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-[#00E5FF] shadow-[0_0_8px_rgba(0,229,255,0.25)]">Coming Soon</span>
+                    }
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ── WHATSAPP STICKY CTA ── */}
       {whatsappJoinUrl && (
         <div className="fixed bottom-4 left-4 right-4 max-w-md mx-auto z-50">
@@ -792,6 +891,18 @@ export default function SmartLinkActionButtons({
             100% { stroke-dashoffset: 0; stroke-opacity: 0; }
           }
         `).join('')}
+        @keyframes gatewayFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes gatewaySheetUp {
+          from { opacity: 0; transform: translateY(100%); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes gatewayModalIn {
+          from { opacity: 0; transform: translateY(14px) scale(0.96); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
       `}</style>
     </div>
   );
