@@ -60,6 +60,11 @@ const PLATFORM_LABELS: Record<string,string> = {
   amazon_music: 'Amazon Music', deezer: 'Deezer',
 };
 
+const BOOMPLAY_PLAYLIST_URL =
+  'https://www.boomplay.com/share/playlist/134774932?share_platform=an&srList=ANDROID&srModel=COPYLINK&share_channel=copylink&share_content=playlist';
+
+const COMING_SOON_PLATFORMS = new Set(['amazon_music', 'deezer']);
+
 /* ──────────────────────────────────────────────────────────
    MASTER BLUEPRINT MOTHERBOARD MODEL
    Static coordinate map for the approved motherboard artwork:
@@ -351,8 +356,22 @@ export default function SmartLinkActionButtons({
     a.play(); setIsPlaying(true);
   };
 
-  const ready = (k: string) => !dspLinks ? false : k === 'youtube_music' ? Boolean(dspLinks.youtube_music || dspLinks.youtube) : Boolean(dspLinks[k]);
-  const href  = (k: string) => !dspLinks ? undefined : k === 'youtube_music' ? (dspLinks.youtube_music || dspLinks.youtube) : dspLinks[k];
+  const ready = (k: string) => {
+    if (COMING_SOON_PLATFORMS.has(k)) return false;
+    if (k === 'boomplay') return true;
+    if (!dspLinks) return false;
+    return k === 'youtube_music' ? Boolean(dspLinks.youtube_music || dspLinks.youtube) : Boolean(dspLinks[k]);
+  };
+  const href = (k: string) => {
+    if (k === 'boomplay') return dspLinks?.boomplay || BOOMPLAY_PLAYLIST_URL;
+    if (!dspLinks) return undefined;
+    return k === 'youtube_music' ? (dspLinks.youtube_music || dspLinks.youtube) : dspLinks[k];
+  };
+
+  const openGateway = () => {
+    fire('smart_link_gateway', window.location.href);
+    document.getElementById('smart-link-gateway')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   /* ── Platform pill — modular PCB cartridge styling ── */
   const PillBtn = ({ k }: { k: string }) => {
@@ -456,6 +475,7 @@ export default function SmartLinkActionButtons({
         <div className="relative w-full">
           {/* Stage box: every motherboard element is positioned by the Master Blueprint coordinate plane */}
           <div
+            id="smart-link-gateway"
             className="relative w-full my-2 sm:my-4"
             style={{
               aspectRatio: `${MOTHERBOARD.width} / ${MOTHERBOARD.height}`,
@@ -604,7 +624,8 @@ export default function SmartLinkActionButtons({
           {/* ── LISTEN NOW CTA ── */}
           <div className="mt-4 sm:mt-6">
             <button
-              onClick={() => go('spotify', dspLinks?.spotify || dspLinks?.apple_music)}
+              onClick={openGateway}
+              aria-label="Choose your streaming platform"
               className="w-full flex items-center justify-center gap-3 sm:gap-5 rounded-full font-black uppercase cursor-pointer group transition-all duration-300 hover:-translate-y-1 hover:brightness-110"
               style={{
                 padding: 'clamp(14px,2.8vw,20px) 24px',
