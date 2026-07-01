@@ -63,6 +63,9 @@ const PLATFORM_LABELS: Record<string,string> = {
 const BOOMPLAY_PLAYLIST_URL =
   'https://www.boomplay.com/share/playlist/134774932?share_platform=an&srList=ANDROID&srModel=COPYLINK&share_channel=copylink&share_content=playlist';
 
+const AUDIOMACK_PLAYLIST_URL =
+  'https://audiomack.com/amdmusicintel/playlist/chrome-afrofusion-radio-6a4572fac3400?share-user-id=60313132';
+
 const COMING_SOON_PLATFORMS = new Set(['amazon_music', 'deezer']);
 
 const GATEWAY_PLATFORMS = [
@@ -370,12 +373,13 @@ export default function SmartLinkActionButtons({
 
   const ready = (k: string) => {
     if (COMING_SOON_PLATFORMS.has(k)) return false;
-    if (k === 'boomplay') return true;
+    if (k === 'boomplay' || k === 'audiomack') return true;
     if (!dspLinks) return false;
     return k === 'youtube_music' ? Boolean(dspLinks.youtube_music || dspLinks.youtube) : Boolean(dspLinks[k]);
   };
   const href = (k: string) => {
     if (k === 'boomplay') return dspLinks?.boomplay || BOOMPLAY_PLAYLIST_URL;
+    if (k === 'audiomack') return AUDIOMACK_PLAYLIST_URL;
     if (!dspLinks) return undefined;
     return k === 'youtube_music' ? (dspLinks.youtube_music || dspLinks.youtube) : dspLinks[k];
   };
