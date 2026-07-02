@@ -92,7 +92,7 @@ const MOTHERBOARD = {
   button: { w: 244, h: 35 },
   leftX: 132,
   rightX: 892,
-  hub: { x: 512, y: 154, size: 168 },
+  hub: { x: 512, y: 154, size: 184 },
   core: { x: 512, y: 318, w: 292, h: 82 },
   rows: [
     {
@@ -538,16 +538,20 @@ export default function SmartLinkActionButtons({
             ]))}
 
             {/* CENTER POWER HUB — visual generator commanding the ecosystem */}
-            <div className="absolute z-20 flex items-center justify-center pointer-events-none" style={hubBoxStyle()}>
-              <div className="relative flex h-full w-full items-center justify-center pointer-events-auto"
+            <div className="absolute z-20 flex items-center justify-center" style={hubBoxStyle()}>
+              <button
+                type="button"
+                onClick={openGateway}
+                aria-label="Choose your streaming platform"
+                className="relative flex h-full w-full items-center justify-center cursor-pointer border-0 bg-transparent p-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]"
                 style={{
                   borderRadius: '50%',
-                  background: 'radial-gradient(circle, rgba(0,229,255,0.12) 0%, rgba(124,58,237,0.22) 45%, transparent 70%)',
+                  background: 'radial-gradient(circle, rgba(0,229,255,0.1) 0%, rgba(124,58,237,0.18) 45%, transparent 70%)',
                   animation: 'hubAura 3.5s ease-in-out infinite',
                 }}
               >
                 {/* Outer pulsing ring */}
-                <div className="absolute inset-0 rounded-full"
+                <div className="absolute inset-0 rounded-full pointer-events-none"
                   style={{
                     border: '1.5px solid rgba(0,229,255,0.3)',
                     boxShadow: '0 0 22px rgba(0,229,255,0.18)',
@@ -555,7 +559,7 @@ export default function SmartLinkActionButtons({
                   }}/>
 
                 {/* Main hub circle */}
-                <div className="h-[94%] w-[94%] rounded-full flex items-center justify-center"
+                <div className="h-[94%] w-[94%] rounded-full flex items-center justify-center pointer-events-none"
                   style={{
                     padding: '3px',
                     background: 'linear-gradient(135deg,#00E5FF 0%,#3b82f6 22%,#7c3aed 50%,#a855f7 72%,#00E5FF 100%)',
@@ -564,7 +568,7 @@ export default function SmartLinkActionButtons({
                   }}
                 >
                   {/* Inner glass core */}
-                  <div className="w-full h-full rounded-full flex flex-col items-center justify-center text-center relative overflow-hidden"
+                  <div className="w-full h-full rounded-full flex flex-col items-center justify-center text-center relative overflow-hidden gap-[2px] sm:gap-1 px-1"
                     style={{
                       background: 'radial-gradient(circle at 40% 35%, #07071a 0%, #020208 72%)',
                       border: '1.5px solid rgba(0,229,255,0.35)',
@@ -572,30 +576,30 @@ export default function SmartLinkActionButtons({
                     }}
                   >
                     <div className="absolute inset-0 pointer-events-none"
-                      style={{ background: 'radial-gradient(circle at 50% 60%, rgba(124,58,237,0.24) 0%, transparent 62%)' }}/>
+                      style={{ background: 'radial-gradient(circle at 50% 60%, rgba(124,58,237,0.14) 0%, transparent 62%)' }}/>
                     <div className="absolute top-0 left-1/4 right-1/4 pointer-events-none"
-                      style={{ height: '35%', background: 'radial-gradient(ellipse, rgba(0,229,255,0.06) 0%, transparent 80%)', filter: 'blur(4px)' }}/>
-                    <div className="absolute inset-x-[8%] inset-y-[20%] pointer-events-none z-[8] rounded-full"
-                      style={{ background: 'radial-gradient(ellipse at center, rgba(2,2,8,0.78) 0%, rgba(2,2,8,0.42) 58%, transparent 88%)' }}/>
+                      style={{ height: '35%', background: 'radial-gradient(ellipse, rgba(0,229,255,0.03) 0%, transparent 80%)', filter: 'blur(4px)' }}/>
+                    <div className="absolute inset-x-[6%] inset-y-[16%] pointer-events-none z-[8] rounded-full"
+                      style={{ background: 'radial-gradient(ellipse at center, rgba(2,2,8,0.9) 0%, rgba(2,2,8,0.55) 58%, transparent 88%)' }}/>
 
                     <span className="relative z-10 font-black text-white"
-                      style={{ fontSize: 'clamp(6.5px,1.6vw,13.5px)', letterSpacing: '0.22em', fontFamily: 'Georgia,serif', textShadow: '0 1px 2px rgba(0,0,0,0.92), 0 0 8px rgba(0,229,255,0.38)' }}>CHROME</span>
+                      style={{ fontSize: 'clamp(7px,1.75vw,14.8px)', letterSpacing: '0.22em', fontFamily: 'Georgia,serif', textShadow: '0 1px 2px rgba(0,0,0,0.95), 0 0 4px rgba(0,229,255,0.22)' }}>CHROME</span>
                     <span className="relative z-10 font-black leading-tight"
                       style={{
-                        fontSize: 'clamp(8px,2vw,17px)', letterSpacing: '0.1em',
+                        fontSize: 'clamp(8.8px,2.2vw,18.5px)', letterSpacing: '0.1em',
                         background: 'linear-gradient(90deg,#FFF8D6,#D4AF37,#FFDF00,#D4AF37,#AA771C)',
                         WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                        filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.88)) drop-shadow(0 0 12px rgba(255,215,0,0.72))',
+                        filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.92)) drop-shadow(0 0 8px rgba(255,215,0,0.55))',
                       }}>AFROFUSION</span>
                     <span className="relative z-10 font-black text-white/95"
-                      style={{ fontSize: 'clamp(5px,1.2vw,9.5px)', letterSpacing: '0.35em', margin: '1px 0', textShadow: '0 1px 2px rgba(0,0,0,0.85)' }}>— RADIO —</span>
+                      style={{ fontSize: 'clamp(5.5px,1.32vw,10.5px)', letterSpacing: '0.35em', margin: '1px 0 2px', textShadow: '0 1px 2px rgba(0,0,0,0.9)' }}>— RADIO —</span>
                     <span className="relative z-10 font-bold text-[#00E5FF]"
-                      style={{ fontSize: 'clamp(4.5px,0.95vw,7.5px)', letterSpacing: '0.2em', filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.82)) drop-shadow(0 0 4px #00E5FF)' }}>POWERED BY</span>
+                      style={{ fontSize: 'clamp(5px,1.05vw,8.2px)', letterSpacing: '0.2em', filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.88)) drop-shadow(0 0 3px rgba(0,229,255,0.35))' }}>POWERED BY</span>
                     <span className="relative z-10 font-bold text-white"
-                      style={{ fontSize: 'clamp(4.5px,1vw,8.5px)', letterSpacing: '0.2em', filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.88)) drop-shadow(0 0 6px rgba(0,229,255,0.55))' }}>MUSIC INTEL</span>
+                      style={{ fontSize: 'clamp(5px,1.1vw,9.3px)', letterSpacing: '0.2em', filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.92)) drop-shadow(0 0 4px rgba(0,229,255,0.35))' }}>MUSIC INTEL</span>
                   </div>
                 </div>
-              </div>
+              </button>
             </div>
 
             {/* AI Energy Core Equalizer — physically mounted inside the shared board rails */}
