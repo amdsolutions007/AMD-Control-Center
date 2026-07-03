@@ -737,73 +737,89 @@ export default function SmartLinkActionButtons({
           )}
 
           {/* ── TAGLINE ── */}
-          <div className="text-center mt-4 mb-2">
-            <p className="font-black tracking-[0.25em] uppercase" style={{ fontSize:'clamp(9px,1.8vw,12.5px)' }}>
-              <span style={{ color:'#D4AF37', textShadow:'0 0 14px rgba(212,175,55,0.65)' }}>AFRICA&apos;S MUSIC.</span>{' '}
-              <span style={{ color:'#7c3aed', textShadow:'0 0 14px rgba(124,58,237,0.7)' }}>POWERED BY INTELLIGENCE.</span>
+          <div className="text-center mt-4 mb-3">
+            <p className="font-black tracking-[0.25em] uppercase leading-snug"
+              style={{ fontSize:'clamp(10px,2vw,14px)', fontWeight: 900 }}>
+              <span style={{ color:'#E8C547', textShadow:'0 1px 3px rgba(0,0,0,0.92), 0 0 16px rgba(212,175,55,0.75)' }}>AFRICA&apos;S MUSIC.</span>{' '}
+              <span style={{ color:'#9d6ef7', textShadow:'0 1px 3px rgba(0,0,0,0.92), 0 0 16px rgba(124,58,237,0.8)' }}>POWERED BY INTELLIGENCE.</span>
             </p>
           </div>
 
           {/* ── AMD MUSIC INTELLIGENCE FEATURE GRID (Platform Capabilities) ── */}
-          <div className="mx-auto mt-4 max-w-6xl border-b border-white/[0.06] pb-5 sm:pb-6">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-3.5 items-stretch">
-            {FEATURE_CARDS.map(({ icon, color, title, sub, href }) => (
-              <Link
-                key={title}
-                href={href}
-                aria-label={`${title} — ${sub}`}
-                className="group flex h-full min-h-[52px] items-start gap-2.5 sm:gap-3 rounded-xl sm:rounded-2xl transition-all duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]"
-                style={{
-                  padding: 'clamp(12px,2vw,16px)',
-                  background: 'rgba(5,5,18,0.92)', backdropFilter:'blur(28px)',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                  boxShadow: `0 8px 32px rgba(0,0,0,0.82), 0 0 20px ${color}14`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = `${color}66`;
-                  e.currentTarget.style.boxShadow = `0 12px 36px rgba(0,0,0,0.88), 0 0 28px ${color}33`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
-                  e.currentTarget.style.boxShadow = `0 8px 32px rgba(0,0,0,0.82), 0 0 20px ${color}14`;
-                }}
-              >
-                <span className="flex-shrink-0 mt-0.5 transition-transform duration-300 group-hover:scale-110" style={{ color, fontSize:'clamp(14px,2.4vw,19px)', filter:`drop-shadow(0 0 9px ${color})` }}>{icon}</span>
-                <div className="min-w-0">
-                  <h4 className="font-black uppercase text-gray-100 leading-tight"
-                    style={{ fontSize:'clamp(7px,1.3vw,10.5px)', letterSpacing:'0.06em' }}>{title}</h4>
-                  <p className="text-gray-400 leading-snug mt-1" style={{ fontSize:'clamp(7px,1.1vw,9.5px)' }}>{sub}</p>
+          <div className="mx-auto mt-4 max-w-4xl border-b border-white/[0.06] pb-6 sm:pb-7">
+            <div className="grid grid-cols-2 md:grid-cols-6 gap-3 md:gap-4 auto-rows-fr items-stretch">
+            {FEATURE_CARDS.map(({ icon, color, title, sub, href }, index) => {
+              const placement =
+                index === 3 ? 'md:col-start-2 md:col-span-2' :
+                index === 4 ? 'col-span-2 flex justify-center md:col-start-4 md:col-span-2 md:block' :
+                'md:col-span-2';
+              const card = (
+                <Link
+                  href={href}
+                  aria-label={`${title} — ${sub}`}
+                  className="group flex h-full min-h-[64px] md:min-h-[72px] w-full items-start gap-3 rounded-xl md:rounded-2xl transition-all duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]"
+                  style={{
+                    padding: 'clamp(13px,2.1vw,17px)',
+                    background: 'rgba(5,5,18,0.92)', backdropFilter:'blur(28px)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.82), 0 0 20px rgba(124,58,237,0.08)',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = `${color}66`;
+                    e.currentTarget.style.boxShadow = `0 12px 36px rgba(0,0,0,0.88), 0 0 28px ${color}33`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.82), 0 0 20px rgba(124,58,237,0.08)';
+                  }}
+                >
+                  <span className="flex h-[clamp(16px,2.5vw,20px)] w-[clamp(16px,2.5vw,20px)] flex-shrink-0 items-center justify-center transition-transform duration-300 group-hover:scale-110 mt-0.5"
+                    style={{ color, fontSize:'clamp(16px,2.5vw,20px)', filter:`drop-shadow(0 0 9px ${color})` }}>{icon}</span>
+                  <div className="min-w-0 flex-1">
+                    <h4 className="font-black uppercase text-gray-50 leading-tight"
+                      style={{ fontSize:'clamp(8px,1.45vw,11.5px)', letterSpacing:'0.07em', fontWeight: 900, textShadow: '0 1px 2px rgba(0,0,0,0.85)' }}>{title}</h4>
+                    <p className="text-gray-300/95 leading-relaxed mt-1.5"
+                      style={{ fontSize:'clamp(8px,1.2vw,10.5px)', lineHeight: 1.5 }}>{sub}</p>
+                  </div>
+                </Link>
+              );
+              return (
+                <div key={title} className={`${placement} h-full`}>
+                  {index === 4 ? (
+                    <div className="w-[calc(50%-6px)] md:w-full h-full">{card}</div>
+                  ) : card}
                 </div>
-              </Link>
-            ))}
+              );
+            })}
             </div>
           </div>
 
           {/* ── OFFICIAL BRAND POSITIONING ── */}
-          <div className="text-center mt-6 sm:mt-8 px-2">
-            <p className="font-black uppercase tracking-[0.22em] sm:tracking-[0.28em] leading-relaxed"
+          <div className="text-center mt-7 sm:mt-9 px-2">
+            <p className="font-black uppercase tracking-[0.22em] sm:tracking-[0.28em] leading-snug"
               style={{
-                fontSize: 'clamp(10px,2vw,14px)',
-                background: 'linear-gradient(90deg,#00E5FF,#7c3aed,#D4AF37,#00E5FF)',
+                fontSize: 'clamp(11px,2.25vw,15.5px)',
+                fontWeight: 900,
+                background: 'linear-gradient(90deg,#00E5FF,#9d6ef7,#E8C547,#00E5FF)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                filter: 'drop-shadow(0 0 12px rgba(0,229,255,0.25))',
+                filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.88)) drop-shadow(0 0 16px rgba(0,229,255,0.35))',
               }}>
               ONE SYSTEM. ONE INTELLIGENCE. INFINITE CONNECTIONS.
             </p>
           </div>
 
           {/* ── CUSTOMER JOURNEY TIMELINE ── */}
-          <div className="mt-6 sm:mt-8 pb-20">
-            <p className="text-center mb-5 sm:mb-7 font-bold uppercase tracking-[0.26em] text-[#00E5FF]/55"
-              style={{ fontSize: 'clamp(9px,1.5vw,10px)' }}>
+          <div className="mt-7 sm:mt-9 pb-20">
+            <p className="text-center mb-6 sm:mb-8 font-black uppercase tracking-[0.26em] text-[#00E5FF]/70"
+              style={{ fontSize: 'clamp(10px,1.6vw,11px)', fontWeight: 900, textShadow: '0 1px 2px rgba(0,0,0,0.85)' }}>
               How It Works
             </p>
-            <div className="mx-auto max-w-5xl">
+            <div className="mx-auto max-w-5xl px-1">
               {/* Desktop / tablet — connected horizontal journey */}
-              <div className="relative hidden md:block px-2">
-                <div className="pointer-events-none absolute top-[18px] left-[5%] right-[5%] h-px bg-gradient-to-r from-transparent via-[#00E5FF]/40 to-transparent" />
-                <div className="flex items-start justify-between gap-2 lg:gap-3">
+              <div className="relative hidden md:block">
+                <div className="pointer-events-none absolute top-[18px] left-[4%] right-[4%] h-px bg-gradient-to-r from-transparent via-[#00E5FF]/45 to-transparent" />
+                <div className="flex items-start justify-evenly gap-3 lg:gap-4">
                   {WORKFLOW_STAGES.map((stage, index) => {
                     const node = (
                       <>
@@ -811,13 +827,13 @@ export default function SmartLinkActionButtons({
                           style={{ boxShadow: '0 0 14px rgba(0,229,255,0.22)' }}>
                           {stage.icon}
                         </span>
-                        <h4 className="mt-2.5 font-black uppercase text-[#00E5FF] tracking-[0.12em] leading-tight"
-                          style={{ fontSize: 'clamp(9px,1.25vw,11.5px)' }}>{stage.title}</h4>
-                        <p className="mt-1.5 text-gray-300/90 leading-relaxed px-1"
-                          style={{ fontSize: 'clamp(8px,1.05vw,10.5px)', lineHeight: 1.45 }}>{stage.desc}</p>
+                        <h4 className="mt-3 font-black uppercase text-[#00E5FF] tracking-[0.12em] leading-tight"
+                          style={{ fontSize: 'clamp(9px,1.25vw,11.5px)', fontWeight: 900 }}>{stage.title}</h4>
+                        <p className="mt-2 text-gray-200/90 leading-relaxed px-0.5"
+                          style={{ fontSize: 'clamp(8px,1.05vw,10.5px)', lineHeight: 1.5 }}>{stage.desc}</p>
                       </>
                     );
-                    const nodeClass = 'group flex-1 min-w-0 max-w-[140px] flex flex-col items-center text-center px-1 py-2 transition-all duration-200 hover:opacity-100 opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]';
+                    const nodeClass = 'group flex-1 min-w-0 max-w-[148px] flex flex-col items-center text-center px-1.5 py-2.5 transition-all duration-200 hover:opacity-100 opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]';
                     return (
                       <React.Fragment key={stage.title}>
                         {stage.action === 'gateway' ? (
@@ -830,7 +846,7 @@ export default function SmartLinkActionButtons({
                           </Link>
                         )}
                         {index < WORKFLOW_STAGES.length - 1 && (
-                          <span className="flex-shrink-0 pt-[12px] text-[#00E5FF]/50 select-none" style={{ fontSize: '11px' }} aria-hidden="true">→</span>
+                          <span className="flex-shrink-0 pt-[13px] text-[#00E5FF]/55 select-none px-0.5" style={{ fontSize: '12px' }} aria-hidden="true">→</span>
                         )}
                       </React.Fragment>
                     );
@@ -839,21 +855,21 @@ export default function SmartLinkActionButtons({
               </div>
 
               {/* Mobile — premium vertical journey timeline */}
-              <div className="md:hidden relative px-1">
+              <div className="md:hidden relative">
                 <div className="pointer-events-none absolute left-[21px] top-5 bottom-5 w-px bg-gradient-to-b from-[#00E5FF]/45 via-[#7c3aed]/35 to-[#00E5FF]/45" aria-hidden="true" />
-                <div className="flex flex-col gap-0">
+                <div className="flex flex-col">
                   {WORKFLOW_STAGES.map((stage, index) => {
                     const row = (
-                      <div className="relative flex items-start gap-4 py-3.5">
+                      <div className="relative flex items-start gap-4 py-4">
                         <span className="relative z-10 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#00E5FF]/40 bg-[#050512] text-lg"
                           style={{ boxShadow: '0 0 16px rgba(0,229,255,0.28)' }}>
                           {stage.icon}
                         </span>
                         <div className="min-w-0 flex-1 pt-0.5 text-left">
                           <h4 className="font-black uppercase text-[#00E5FF] tracking-[0.1em] leading-tight"
-                            style={{ fontSize: 'clamp(12px,3.2vw,15px)' }}>{stage.title}</h4>
-                          <p className="mt-1.5 text-gray-300 leading-relaxed"
-                            style={{ fontSize: 'clamp(11px,2.8vw,13px)', lineHeight: 1.5 }}>{stage.desc}</p>
+                            style={{ fontSize: 'clamp(12px,3.2vw,15px)', fontWeight: 900 }}>{stage.title}</h4>
+                          <p className="mt-2 text-gray-200 leading-relaxed"
+                            style={{ fontSize: 'clamp(11px,2.8vw,13px)', lineHeight: 1.52 }}>{stage.desc}</p>
                         </div>
                       </div>
                     );
@@ -870,8 +886,8 @@ export default function SmartLinkActionButtons({
                           </Link>
                         )}
                         {index < WORKFLOW_STAGES.length - 1 && (
-                          <div className="flex items-center pl-[18px] py-1" aria-hidden="true">
-                            <span className="text-[#00E5FF]/55 font-bold" style={{ fontSize: '12px' }}>↓</span>
+                          <div className="flex items-center pl-[18px] py-1.5" aria-hidden="true">
+                            <span className="text-[#00E5FF]/60 font-bold" style={{ fontSize: '13px' }}>↓</span>
                           </div>
                         )}
                       </React.Fragment>
