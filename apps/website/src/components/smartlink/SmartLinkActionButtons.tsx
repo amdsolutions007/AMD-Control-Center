@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useId, useEffect } from 'react';
+import Link from 'next/link';
 
 interface DSPLinks { [key: string]: string; }
 
@@ -78,6 +79,22 @@ const GATEWAY_PLATFORMS = [
   'amazon_music',
   'deezer',
 ] as const;
+
+const FEATURE_CARDS = [
+  { icon: '🧠', color: '#a855f7', title: 'MUSIC INTELLIGENCE', sub: 'Smart curation. Smarter listening.', href: '/music-intelligence' },
+  { icon: '🌐', color: '#00E5FF', title: 'GLOBAL REACH', sub: 'One link. Worldwide.', href: '/music-intelligence/platforms' },
+  { icon: '⭐', color: '#D4AF37', title: 'SMART RECS', sub: 'Discover more. Love more.', href: '/music-intelligence/coming-soon/discovery-engine' },
+  { icon: '📈', color: '#34d399', title: 'DATA GROWTH', sub: 'Real insights. Real results.', href: '/music-intelligence/coming-soon/analytics-dashboard' },
+  { icon: '👑', color: '#facc15', title: 'ARTIST POWER', sub: 'More visibility. More opportunities.', href: '/music-intelligence/coming-soon/artist-services' },
+] as const;
+
+const WORKFLOW_STAGES = [
+  { icon: '🔍', title: 'DISCOVER', desc: 'We curate the biggest hits.', href: '/music-intelligence/coming-soon/discovery-engine', action: 'navigate' as const },
+  { icon: '🔗', title: 'CONNECT', desc: 'One link connects every platform.', href: '/music-intelligence/coming-soon/smart-link-technology', action: 'navigate' as const },
+  { icon: '▶', title: 'STREAM', desc: 'Stream anywhere, anytime.', action: 'gateway' as const },
+  { icon: '🧠', title: 'AI POWER', desc: 'AI engine optimizes your experience.', href: '/music-intelligence/coming-soon/agent-007', action: 'navigate' as const },
+  { icon: '📈', title: 'GROW', desc: 'More reach. More impact. More success.', href: '/music-intelligence/coming-soon/analytics-platform', action: 'navigate' as const },
+];
 
 /* ──────────────────────────────────────────────────────────
    MASTER BLUEPRINT MOTHERBOARD MODEL
@@ -727,31 +744,95 @@ export default function SmartLinkActionButtons({
             </p>
           </div>
 
-          {/* ── VALUE CARDS ── */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 mt-4 pb-24">
-            {[
-              { icon:'🧠', color:'#a855f7', title:'MUSIC INTELLIGENCE', sub:'Smart curation. Smarter listening.' },
-              { icon:'🌐', color:'#00E5FF', title:'GLOBAL REACH',        sub:'One link. Worldwide.' },
-              { icon:'⭐', color:'#D4AF37', title:'SMART RECS',          sub:'Discover more. Love more.' },
-              { icon:'📈', color:'#34d399', title:'DATA GROWTH',         sub:'Real insights. Real results.' },
-              { icon:'👑', color:'#facc15', title:'ARTIST POWER',        sub:'More visibility. More opportunities.' },
-            ].map(({ icon, color, title, sub }) => (
-              <div key={title} className="flex items-start gap-2 sm:gap-3 rounded-xl sm:rounded-2xl"
+          {/* ── AMD MUSIC INTELLIGENCE FEATURE GRID ── */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3 mt-4">
+            {FEATURE_CARDS.map(({ icon, color, title, sub, href }) => (
+              <Link
+                key={title}
+                href={href}
+                aria-label={`${title} — ${sub}`}
+                className="group flex items-start gap-2 sm:gap-3 rounded-xl sm:rounded-2xl transition-all duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]"
                 style={{
                   padding: 'clamp(10px,1.8vw,15px)',
                   background: 'rgba(5,5,18,0.92)', backdropFilter:'blur(28px)',
                   border: '1px solid rgba(255,255,255,0.08)',
                   boxShadow: `0 8px 32px rgba(0,0,0,0.82), 0 0 20px ${color}14`,
                 }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = `${color}66`;
+                  e.currentTarget.style.boxShadow = `0 12px 36px rgba(0,0,0,0.88), 0 0 28px ${color}33`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
+                  e.currentTarget.style.boxShadow = `0 8px 32px rgba(0,0,0,0.82), 0 0 20px ${color}14`;
+                }}
               >
-                <span className="flex-shrink-0 mt-0.5" style={{ color, fontSize:'clamp(14px,2.4vw,19px)', filter:`drop-shadow(0 0 9px ${color})` }}>{icon}</span>
-                <div>
+                <span className="flex-shrink-0 mt-0.5 transition-transform duration-300 group-hover:scale-110" style={{ color, fontSize:'clamp(14px,2.4vw,19px)', filter:`drop-shadow(0 0 9px ${color})` }}>{icon}</span>
+                <div className="min-w-0">
                   <h4 className="font-black uppercase text-gray-100 leading-tight"
                     style={{ fontSize:'clamp(7px,1.3vw,10.5px)', letterSpacing:'0.06em' }}>{title}</h4>
                   <p className="text-gray-400 leading-snug mt-1" style={{ fontSize:'clamp(7px,1.1vw,9.5px)' }}>{sub}</p>
                 </div>
-              </div>
+              </Link>
             ))}
+          </div>
+
+          {/* ── OFFICIAL BRAND POSITIONING ── */}
+          <div className="text-center mt-6 sm:mt-8 px-2">
+            <p className="font-black uppercase tracking-[0.22em] sm:tracking-[0.28em] leading-relaxed"
+              style={{
+                fontSize: 'clamp(10px,2vw,14px)',
+                background: 'linear-gradient(90deg,#00E5FF,#7c3aed,#D4AF37,#00E5FF)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                filter: 'drop-shadow(0 0 12px rgba(0,229,255,0.25))',
+              }}>
+              ONE SYSTEM. ONE INTELLIGENCE. INFINITE CONNECTIONS.
+            </p>
+          </div>
+
+          {/* ── MASTER BLUEPRINT WORKFLOW ── */}
+          <div className="mt-6 sm:mt-8 pb-24">
+            <h3 className="text-center font-black uppercase tracking-[0.22em] text-[#D4AF37] mb-4 sm:mb-5"
+              style={{ fontSize: 'clamp(10px,1.8vw,13px)', textShadow: '0 0 14px rgba(212,175,55,0.45)' }}>
+              Master Blueprint
+            </h3>
+            <div className="flex flex-col lg:flex-row lg:items-stretch lg:justify-center gap-3 lg:gap-2">
+              {WORKFLOW_STAGES.map((stage, index) => {
+                const cardInner = (
+                  <>
+                    <span className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-[#00E5FF]/35 bg-[#050512]/90 text-lg sm:text-xl"
+                      style={{ boxShadow: '0 0 16px rgba(0,229,255,0.2)' }}>
+                      {stage.icon}
+                    </span>
+                    <h4 className="mt-2 font-black uppercase text-[#00E5FF] tracking-[0.14em]"
+                      style={{ fontSize: 'clamp(9px,1.6vw,11px)' }}>{stage.title}</h4>
+                    <p className="mt-1 text-gray-400 leading-snug max-w-[180px]"
+                      style={{ fontSize: 'clamp(8px,1.2vw,10px)' }}>{stage.desc}</p>
+                  </>
+                );
+                const cardClass = 'group flex flex-col items-center text-center rounded-2xl border border-[#7c3aed]/40 bg-[rgba(5,5,18,0.92)] px-3 py-4 sm:px-4 sm:py-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#00E5FF]/55 hover:shadow-[0_0_24px_rgba(0,229,255,0.18)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF] lg:flex-1 lg:max-w-[160px]';
+                return (
+                  <React.Fragment key={stage.title}>
+                    {stage.action === 'gateway' ? (
+                      <button type="button" onClick={openGateway} aria-label={`${stage.title} — open streaming gateway`} className={cardClass}>
+                        {cardInner}
+                      </button>
+                    ) : (
+                      <Link href={stage.href!} aria-label={`${stage.title} — ${stage.desc}`} className={cardClass}>
+                        {cardInner}
+                      </Link>
+                    )}
+                    {index < WORKFLOW_STAGES.length - 1 && (
+                      <>
+                        <div className="hidden lg:flex items-center justify-center text-[#00E5FF]/70 px-0.5" aria-hidden="true">→</div>
+                        <div className="flex lg:hidden items-center justify-center text-[#00E5FF]/70 py-0.5" aria-hidden="true">↓</div>
+                      </>
+                    )}
+                  </React.Fragment>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
