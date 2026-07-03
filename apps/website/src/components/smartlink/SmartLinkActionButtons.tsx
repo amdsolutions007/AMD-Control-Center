@@ -93,7 +93,7 @@ const WORKFLOW_STAGES = [
   { icon: '🔗', title: 'CONNECT', desc: 'One link connects every platform.', href: '/music-intelligence/coming-soon/smart-link-technology', action: 'navigate' as const },
   { icon: '▶', title: 'STREAM', desc: 'Stream anywhere, anytime.', action: 'gateway' as const },
   { icon: '🧠', title: 'AI POWER', desc: 'AI engine optimizes your experience.', href: '/music-intelligence/coming-soon/agent-007', action: 'navigate' as const },
-  { icon: '📈', title: 'AUDIENCE GROWTH', desc: 'Grow your audience using AI-powered intelligence, optimization, and platform insights.', href: '/music-intelligence/coming-soon/analytics-platform', action: 'navigate' as const },
+  { icon: '📈', title: 'AUDIENCE GROWTH', desc: 'Grow your audience with AI-powered insights.', href: '/music-intelligence/coming-soon/analytics-platform', action: 'navigate' as const },
 ];
 
 /* ──────────────────────────────────────────────────────────
@@ -744,16 +744,17 @@ export default function SmartLinkActionButtons({
             </p>
           </div>
 
-          {/* ── AMD MUSIC INTELLIGENCE FEATURE GRID ── */}
-          <div className="mx-auto grid max-w-6xl grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mt-4 items-stretch">
+          {/* ── AMD MUSIC INTELLIGENCE FEATURE GRID (Platform Capabilities) ── */}
+          <div className="mx-auto mt-4 max-w-6xl border-b border-white/[0.06] pb-5 sm:pb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-3.5 items-stretch">
             {FEATURE_CARDS.map(({ icon, color, title, sub, href }) => (
               <Link
                 key={title}
                 href={href}
                 aria-label={`${title} — ${sub}`}
-                className="group flex h-full items-start gap-2.5 sm:gap-3 rounded-xl sm:rounded-2xl transition-all duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]"
+                className="group flex h-full min-h-[52px] items-start gap-2.5 sm:gap-3 rounded-xl sm:rounded-2xl transition-all duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]"
                 style={{
-                  padding: 'clamp(10px,1.8vw,15px)',
+                  padding: 'clamp(12px,2vw,16px)',
                   background: 'rgba(5,5,18,0.92)', backdropFilter:'blur(28px)',
                   border: '1px solid rgba(255,255,255,0.08)',
                   boxShadow: `0 8px 32px rgba(0,0,0,0.82), 0 0 20px ${color}14`,
@@ -775,10 +776,11 @@ export default function SmartLinkActionButtons({
                 </div>
               </Link>
             ))}
+            </div>
           </div>
 
           {/* ── OFFICIAL BRAND POSITIONING ── */}
-          <div className="text-center mt-5 sm:mt-6 px-2">
+          <div className="text-center mt-6 sm:mt-8 px-2">
             <p className="font-black uppercase tracking-[0.22em] sm:tracking-[0.28em] leading-relaxed"
               style={{
                 fontSize: 'clamp(10px,2vw,14px)',
@@ -791,27 +793,31 @@ export default function SmartLinkActionButtons({
             </p>
           </div>
 
-          {/* ── INTELLIGENCE JOURNEY TIMELINE ── */}
-          <div className="mt-4 sm:mt-5 pb-20">
-            <div className="mx-auto max-w-4xl">
-              {/* Desktop / tablet — connected horizontal timeline */}
-              <div className="relative hidden md:block">
-                <div className="pointer-events-none absolute top-[13px] left-[6%] right-[6%] h-px bg-gradient-to-r from-transparent via-[#00E5FF]/35 to-transparent" />
-                <div className="flex items-start justify-between gap-1">
+          {/* ── CUSTOMER JOURNEY TIMELINE ── */}
+          <div className="mt-6 sm:mt-8 pb-20">
+            <p className="text-center mb-5 sm:mb-7 font-bold uppercase tracking-[0.26em] text-[#00E5FF]/55"
+              style={{ fontSize: 'clamp(9px,1.5vw,10px)' }}>
+              How It Works
+            </p>
+            <div className="mx-auto max-w-5xl">
+              {/* Desktop / tablet — connected horizontal journey */}
+              <div className="relative hidden md:block px-2">
+                <div className="pointer-events-none absolute top-[18px] left-[5%] right-[5%] h-px bg-gradient-to-r from-transparent via-[#00E5FF]/40 to-transparent" />
+                <div className="flex items-start justify-between gap-2 lg:gap-3">
                   {WORKFLOW_STAGES.map((stage, index) => {
                     const node = (
                       <>
-                        <span className="mx-auto flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border border-[#00E5FF]/30 bg-[#050512]/95 text-sm"
-                          style={{ boxShadow: '0 0 10px rgba(0,229,255,0.18)' }}>
+                        <span className="mx-auto flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-[#00E5FF]/35 bg-[#050512]/95 text-base"
+                          style={{ boxShadow: '0 0 14px rgba(0,229,255,0.22)' }}>
                           {stage.icon}
                         </span>
-                        <h4 className="mt-1.5 font-black uppercase text-[#00E5FF] tracking-[0.12em] leading-none"
-                          style={{ fontSize: 'clamp(8px,1.1vw,10px)' }}>{stage.title}</h4>
-                        <p className="mt-1 text-gray-400 leading-snug px-0.5"
-                          style={{ fontSize: 'clamp(7px,0.95vw,9px)' }}>{stage.desc}</p>
+                        <h4 className="mt-2.5 font-black uppercase text-[#00E5FF] tracking-[0.12em] leading-tight"
+                          style={{ fontSize: 'clamp(9px,1.25vw,11.5px)' }}>{stage.title}</h4>
+                        <p className="mt-1.5 text-gray-300/90 leading-relaxed px-1"
+                          style={{ fontSize: 'clamp(8px,1.05vw,10.5px)', lineHeight: 1.45 }}>{stage.desc}</p>
                       </>
                     );
-                    const nodeClass = 'group flex-1 min-w-0 max-w-[120px] flex flex-col items-center text-center px-0.5 py-1 transition-all duration-200 hover:opacity-100 opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]';
+                    const nodeClass = 'group flex-1 min-w-0 max-w-[140px] flex flex-col items-center text-center px-1 py-2 transition-all duration-200 hover:opacity-100 opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]';
                     return (
                       <React.Fragment key={stage.title}>
                         {stage.action === 'gateway' ? (
@@ -824,7 +830,7 @@ export default function SmartLinkActionButtons({
                           </Link>
                         )}
                         {index < WORKFLOW_STAGES.length - 1 && (
-                          <span className="flex-shrink-0 pt-[9px] text-[#00E5FF]/45 select-none" style={{ fontSize: '10px' }} aria-hidden="true">→</span>
+                          <span className="flex-shrink-0 pt-[12px] text-[#00E5FF]/50 select-none" style={{ fontSize: '11px' }} aria-hidden="true">→</span>
                         )}
                       </React.Fragment>
                     );
@@ -832,40 +838,46 @@ export default function SmartLinkActionButtons({
                 </div>
               </div>
 
-              {/* Mobile — compact vertical timeline */}
-              <div className="md:hidden flex flex-col">
-                {WORKFLOW_STAGES.map((stage, index) => {
-                  const row = (
-                    <div className="flex items-center gap-3 py-1">
-                      <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border border-[#00E5FF]/30 bg-[#050512]/95 text-sm"
-                        style={{ boxShadow: '0 0 10px rgba(0,229,255,0.18)' }}>
-                        {stage.icon}
-                      </span>
-                      <div className="min-w-0 text-left">
-                        <h4 className="font-black uppercase text-[#00E5FF] tracking-[0.12em] leading-none"
-                          style={{ fontSize: 'clamp(9px,2.2vw,11px)' }}>{stage.title}</h4>
-                        <p className="mt-0.5 text-gray-400 leading-snug" style={{ fontSize: 'clamp(8px,1.8vw,10px)' }}>{stage.desc}</p>
+              {/* Mobile — premium vertical journey timeline */}
+              <div className="md:hidden relative px-1">
+                <div className="pointer-events-none absolute left-[21px] top-5 bottom-5 w-px bg-gradient-to-b from-[#00E5FF]/45 via-[#7c3aed]/35 to-[#00E5FF]/45" aria-hidden="true" />
+                <div className="flex flex-col gap-0">
+                  {WORKFLOW_STAGES.map((stage, index) => {
+                    const row = (
+                      <div className="relative flex items-start gap-4 py-3.5">
+                        <span className="relative z-10 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#00E5FF]/40 bg-[#050512] text-lg"
+                          style={{ boxShadow: '0 0 16px rgba(0,229,255,0.28)' }}>
+                          {stage.icon}
+                        </span>
+                        <div className="min-w-0 flex-1 pt-0.5 text-left">
+                          <h4 className="font-black uppercase text-[#00E5FF] tracking-[0.1em] leading-tight"
+                            style={{ fontSize: 'clamp(12px,3.2vw,15px)' }}>{stage.title}</h4>
+                          <p className="mt-1.5 text-gray-300 leading-relaxed"
+                            style={{ fontSize: 'clamp(11px,2.8vw,13px)', lineHeight: 1.5 }}>{stage.desc}</p>
+                        </div>
                       </div>
-                    </div>
-                  );
-                  const rowClass = 'w-full rounded-lg transition-opacity duration-200 hover:opacity-100 opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]';
-                  return (
-                    <React.Fragment key={stage.title}>
-                      {stage.action === 'gateway' ? (
-                        <button type="button" onClick={openGateway} aria-label={`${stage.title} — ${stage.desc}`} className={`${rowClass} text-left`}>
-                          {row}
-                        </button>
-                      ) : (
-                        <Link href={stage.href!} aria-label={`${stage.title} — ${stage.desc}`} className={rowClass}>
-                          {row}
-                        </Link>
-                      )}
-                      {index < WORKFLOW_STAGES.length - 1 && (
-                        <div className="pl-3.5 py-0.5 text-[#00E5FF]/40 select-none" style={{ fontSize: '10px' }} aria-hidden="true">↓</div>
-                      )}
-                    </React.Fragment>
-                  );
-                })}
+                    );
+                    const rowClass = 'w-full text-left transition-opacity duration-200 hover:opacity-100 opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF] rounded-lg';
+                    return (
+                      <React.Fragment key={stage.title}>
+                        {stage.action === 'gateway' ? (
+                          <button type="button" onClick={openGateway} aria-label={`${stage.title} — ${stage.desc}`} className={rowClass}>
+                            {row}
+                          </button>
+                        ) : (
+                          <Link href={stage.href!} aria-label={`${stage.title} — ${stage.desc}`} className={rowClass}>
+                            {row}
+                          </Link>
+                        )}
+                        {index < WORKFLOW_STAGES.length - 1 && (
+                          <div className="flex items-center pl-[18px] py-1" aria-hidden="true">
+                            <span className="text-[#00E5FF]/55 font-bold" style={{ fontSize: '12px' }}>↓</span>
+                          </div>
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
