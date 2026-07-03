@@ -93,7 +93,7 @@ const WORKFLOW_STAGES = [
   { icon: '🔗', title: 'CONNECT', desc: 'One link connects every platform.', href: '/music-intelligence/coming-soon/smart-link-technology', action: 'navigate' as const },
   { icon: '▶', title: 'STREAM', desc: 'Stream anywhere, anytime.', action: 'gateway' as const },
   { icon: '🧠', title: 'AI POWER', desc: 'AI engine optimizes your experience.', href: '/music-intelligence/coming-soon/agent-007', action: 'navigate' as const },
-  { icon: '📈', title: 'GROW', desc: 'More reach. More impact. More success.', href: '/music-intelligence/coming-soon/analytics-platform', action: 'navigate' as const },
+  { icon: '📈', title: 'AUDIENCE GROWTH', desc: 'Grow your audience using AI-powered intelligence, optimization, and platform insights.', href: '/music-intelligence/coming-soon/analytics-platform', action: 'navigate' as const },
 ];
 
 /* ──────────────────────────────────────────────────────────
@@ -745,13 +745,13 @@ export default function SmartLinkActionButtons({
           </div>
 
           {/* ── AMD MUSIC INTELLIGENCE FEATURE GRID ── */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3 mt-4">
+          <div className="mx-auto grid max-w-6xl grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mt-4 items-stretch">
             {FEATURE_CARDS.map(({ icon, color, title, sub, href }) => (
               <Link
                 key={title}
                 href={href}
                 aria-label={`${title} — ${sub}`}
-                className="group flex items-start gap-2 sm:gap-3 rounded-xl sm:rounded-2xl transition-all duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]"
+                className="group flex h-full items-start gap-2.5 sm:gap-3 rounded-xl sm:rounded-2xl transition-all duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]"
                 style={{
                   padding: 'clamp(10px,1.8vw,15px)',
                   background: 'rgba(5,5,18,0.92)', backdropFilter:'blur(28px)',
@@ -778,7 +778,7 @@ export default function SmartLinkActionButtons({
           </div>
 
           {/* ── OFFICIAL BRAND POSITIONING ── */}
-          <div className="text-center mt-6 sm:mt-8 px-2">
+          <div className="text-center mt-5 sm:mt-6 px-2">
             <p className="font-black uppercase tracking-[0.22em] sm:tracking-[0.28em] leading-relaxed"
               style={{
                 fontSize: 'clamp(10px,2vw,14px)',
@@ -791,47 +791,82 @@ export default function SmartLinkActionButtons({
             </p>
           </div>
 
-          {/* ── MASTER BLUEPRINT WORKFLOW ── */}
-          <div className="mt-6 sm:mt-8 pb-24">
-            <h3 className="text-center font-black uppercase tracking-[0.22em] text-[#D4AF37] mb-4 sm:mb-5"
-              style={{ fontSize: 'clamp(10px,1.8vw,13px)', textShadow: '0 0 14px rgba(212,175,55,0.45)' }}>
-              Master Blueprint
-            </h3>
-            <div className="flex flex-col lg:flex-row lg:items-stretch lg:justify-center gap-3 lg:gap-2">
-              {WORKFLOW_STAGES.map((stage, index) => {
-                const cardInner = (
-                  <>
-                    <span className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-[#00E5FF]/35 bg-[#050512]/90 text-lg sm:text-xl"
-                      style={{ boxShadow: '0 0 16px rgba(0,229,255,0.2)' }}>
-                      {stage.icon}
-                    </span>
-                    <h4 className="mt-2 font-black uppercase text-[#00E5FF] tracking-[0.14em]"
-                      style={{ fontSize: 'clamp(9px,1.6vw,11px)' }}>{stage.title}</h4>
-                    <p className="mt-1 text-gray-400 leading-snug max-w-[180px]"
-                      style={{ fontSize: 'clamp(8px,1.2vw,10px)' }}>{stage.desc}</p>
-                  </>
-                );
-                const cardClass = 'group flex flex-col items-center text-center rounded-2xl border border-[#7c3aed]/40 bg-[rgba(5,5,18,0.92)] px-3 py-4 sm:px-4 sm:py-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#00E5FF]/55 hover:shadow-[0_0_24px_rgba(0,229,255,0.18)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF] lg:flex-1 lg:max-w-[160px]';
-                return (
-                  <React.Fragment key={stage.title}>
-                    {stage.action === 'gateway' ? (
-                      <button type="button" onClick={openGateway} aria-label={`${stage.title} — open streaming gateway`} className={cardClass}>
-                        {cardInner}
-                      </button>
-                    ) : (
-                      <Link href={stage.href!} aria-label={`${stage.title} — ${stage.desc}`} className={cardClass}>
-                        {cardInner}
-                      </Link>
-                    )}
-                    {index < WORKFLOW_STAGES.length - 1 && (
+          {/* ── INTELLIGENCE JOURNEY TIMELINE ── */}
+          <div className="mt-4 sm:mt-5 pb-20">
+            <div className="mx-auto max-w-4xl">
+              {/* Desktop / tablet — connected horizontal timeline */}
+              <div className="relative hidden md:block">
+                <div className="pointer-events-none absolute top-[13px] left-[6%] right-[6%] h-px bg-gradient-to-r from-transparent via-[#00E5FF]/35 to-transparent" />
+                <div className="flex items-start justify-between gap-1">
+                  {WORKFLOW_STAGES.map((stage, index) => {
+                    const node = (
                       <>
-                        <div className="hidden lg:flex items-center justify-center text-[#00E5FF]/70 px-0.5" aria-hidden="true">→</div>
-                        <div className="flex lg:hidden items-center justify-center text-[#00E5FF]/70 py-0.5" aria-hidden="true">↓</div>
+                        <span className="mx-auto flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border border-[#00E5FF]/30 bg-[#050512]/95 text-sm"
+                          style={{ boxShadow: '0 0 10px rgba(0,229,255,0.18)' }}>
+                          {stage.icon}
+                        </span>
+                        <h4 className="mt-1.5 font-black uppercase text-[#00E5FF] tracking-[0.12em] leading-none"
+                          style={{ fontSize: 'clamp(8px,1.1vw,10px)' }}>{stage.title}</h4>
+                        <p className="mt-1 text-gray-400 leading-snug px-0.5"
+                          style={{ fontSize: 'clamp(7px,0.95vw,9px)' }}>{stage.desc}</p>
                       </>
-                    )}
-                  </React.Fragment>
-                );
-              })}
+                    );
+                    const nodeClass = 'group flex-1 min-w-0 max-w-[120px] flex flex-col items-center text-center px-0.5 py-1 transition-all duration-200 hover:opacity-100 opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]';
+                    return (
+                      <React.Fragment key={stage.title}>
+                        {stage.action === 'gateway' ? (
+                          <button type="button" onClick={openGateway} aria-label={`${stage.title} — ${stage.desc}`} className={nodeClass}>
+                            {node}
+                          </button>
+                        ) : (
+                          <Link href={stage.href!} aria-label={`${stage.title} — ${stage.desc}`} className={nodeClass}>
+                            {node}
+                          </Link>
+                        )}
+                        {index < WORKFLOW_STAGES.length - 1 && (
+                          <span className="flex-shrink-0 pt-[9px] text-[#00E5FF]/45 select-none" style={{ fontSize: '10px' }} aria-hidden="true">→</span>
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Mobile — compact vertical timeline */}
+              <div className="md:hidden flex flex-col">
+                {WORKFLOW_STAGES.map((stage, index) => {
+                  const row = (
+                    <div className="flex items-center gap-3 py-1">
+                      <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border border-[#00E5FF]/30 bg-[#050512]/95 text-sm"
+                        style={{ boxShadow: '0 0 10px rgba(0,229,255,0.18)' }}>
+                        {stage.icon}
+                      </span>
+                      <div className="min-w-0 text-left">
+                        <h4 className="font-black uppercase text-[#00E5FF] tracking-[0.12em] leading-none"
+                          style={{ fontSize: 'clamp(9px,2.2vw,11px)' }}>{stage.title}</h4>
+                        <p className="mt-0.5 text-gray-400 leading-snug" style={{ fontSize: 'clamp(8px,1.8vw,10px)' }}>{stage.desc}</p>
+                      </div>
+                    </div>
+                  );
+                  const rowClass = 'w-full rounded-lg transition-opacity duration-200 hover:opacity-100 opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]';
+                  return (
+                    <React.Fragment key={stage.title}>
+                      {stage.action === 'gateway' ? (
+                        <button type="button" onClick={openGateway} aria-label={`${stage.title} — ${stage.desc}`} className={`${rowClass} text-left`}>
+                          {row}
+                        </button>
+                      ) : (
+                        <Link href={stage.href!} aria-label={`${stage.title} — ${stage.desc}`} className={rowClass}>
+                          {row}
+                        </Link>
+                      )}
+                      {index < WORKFLOW_STAGES.length - 1 && (
+                        <div className="pl-3.5 py-0.5 text-[#00E5FF]/40 select-none" style={{ fontSize: '10px' }} aria-hidden="true">↓</div>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>

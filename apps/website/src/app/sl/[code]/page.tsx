@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { createClient } from '@supabase/supabase-js';
 import SmartLinkActionButtons from '@/components/smartlink/SmartLinkActionButtons';
+import { AGENT_007_MUSIC_INTELLIGENCE_CONTEXT } from '@/lib/agent-007-domains';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://pjoijeligrgttimkqftk.supabase.co';
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
@@ -118,7 +119,10 @@ export default async function SmartLinkPage({ params }: PageProps) {
   const dspLinks = track.dsp_links || artist.dsp_profile_links || {};
 
   return (
-    <main className="min-h-screen bg-[#05050e] text-gray-100 flex flex-col items-center justify-start relative overflow-x-hidden font-sans select-none">
+    <main
+      className="min-h-screen bg-[#05050e] text-gray-100 flex flex-col items-center justify-start relative overflow-x-hidden font-sans select-none"
+      data-agent-domain={AGENT_007_MUSIC_INTELLIGENCE_CONTEXT}
+    >
       {/* Dark Cyberpunk Night Cityscape Atmosphere & Bokeh Glow */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,_rgba(0,229,255,0.14)_0%,_rgba(138,43,226,0.18)_35%,_transparent_75%)]" />

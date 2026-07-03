@@ -10,7 +10,7 @@ export function SiteChrome() {
   const isSmartLinkRoute = pathname === '/sl' || pathname.startsWith('/sl/')
 
   if (isSmartLinkRoute) {
-    return <ChatWidget />
+    return null
   }
 
   return (

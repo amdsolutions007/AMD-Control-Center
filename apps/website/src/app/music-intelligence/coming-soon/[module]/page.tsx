@@ -29,8 +29,11 @@ export default async function ComingSoonModulePage({ params }: PageProps) {
       title={mod.headline}
       description={mod.description}
     >
-      <p className="mt-6 text-sm text-gray-500 uppercase tracking-[0.2em] font-bold">
-        Phase 2 Intelligence Platform — In Development
+      <p className="mt-6 text-sm sm:text-base text-gray-300 leading-relaxed">
+        {mod.vision}
+      </p>
+      <p className="mt-3 font-black uppercase tracking-[0.22em] text-[#D4AF37]/85" style={{ fontSize: 'clamp(10px,1.6vw,12px)' }}>
+        Coming in Phase 2
       </p>
       <Link
         href="/sl/pYP56C"
