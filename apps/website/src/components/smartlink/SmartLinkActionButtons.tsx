@@ -568,7 +568,7 @@ export default function SmartLinkActionButtons({
                   }}
                 >
                   {/* Inner glass core */}
-                  <div className="w-full h-full rounded-full flex flex-col items-center justify-center text-center relative overflow-hidden gap-[2px] sm:gap-1 px-1"
+                  <div className="w-full h-full rounded-full flex flex-col items-center justify-center text-center relative overflow-hidden gap-[3px] sm:gap-[5px] px-1.5 py-0.5"
                     style={{
                       background: 'radial-gradient(circle at 40% 35%, #07071a 0%, #020208 72%)',
                       border: '1.5px solid rgba(0,229,255,0.35)',
@@ -576,27 +576,32 @@ export default function SmartLinkActionButtons({
                     }}
                   >
                     <div className="absolute inset-0 pointer-events-none"
-                      style={{ background: 'radial-gradient(circle at 50% 60%, rgba(124,58,237,0.14) 0%, transparent 62%)' }}/>
+                      style={{ background: 'radial-gradient(circle at 50% 60%, rgba(124,58,237,0.12) 0%, transparent 62%)' }}/>
                     <div className="absolute top-0 left-1/4 right-1/4 pointer-events-none"
-                      style={{ height: '35%', background: 'radial-gradient(ellipse, rgba(0,229,255,0.03) 0%, transparent 80%)', filter: 'blur(4px)' }}/>
+                      style={{ height: '35%', background: 'radial-gradient(ellipse, rgba(0,229,255,0.025) 0%, transparent 80%)', filter: 'blur(4px)' }}/>
                     <div className="absolute inset-x-[6%] inset-y-[16%] pointer-events-none z-[8] rounded-full"
-                      style={{ background: 'radial-gradient(ellipse at center, rgba(2,2,8,0.9) 0%, rgba(2,2,8,0.55) 58%, transparent 88%)' }}/>
+                      style={{ background: 'radial-gradient(ellipse at center, rgba(2,2,8,0.93) 0%, rgba(2,2,8,0.58) 58%, transparent 88%)' }}/>
 
-                    <span className="relative z-10 font-black text-white"
-                      style={{ fontSize: 'clamp(7px,1.75vw,14.8px)', letterSpacing: '0.22em', fontFamily: 'Georgia,serif', textShadow: '0 1px 2px rgba(0,0,0,0.95), 0 0 4px rgba(0,229,255,0.22)' }}>CHROME</span>
+                    <span className="relative z-10 font-black text-white leading-none"
+                      style={{
+                        fontSize: 'clamp(7px,1.75vw,14.8px)', letterSpacing: '0.22em', fontFamily: 'Georgia,serif',
+                        WebkitTextStroke: '0.35px rgba(255,255,255,0.92)',
+                        paintOrder: 'stroke fill',
+                        textShadow: '0 1px 3px rgba(0,0,0,0.98), 0 0 2px rgba(0,229,255,0.15)',
+                      }}>CHROME</span>
                     <span className="relative z-10 font-black leading-tight"
                       style={{
                         fontSize: 'clamp(8.8px,2.2vw,18.5px)', letterSpacing: '0.1em',
                         background: 'linear-gradient(90deg,#FFF8D6,#D4AF37,#FFDF00,#D4AF37,#AA771C)',
                         WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                        filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.92)) drop-shadow(0 0 8px rgba(255,215,0,0.55))',
+                        filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.94)) drop-shadow(0 0 7px rgba(255,215,0,0.48))',
                       }}>AFROFUSION</span>
-                    <span className="relative z-10 font-black text-white/95"
-                      style={{ fontSize: 'clamp(5.5px,1.32vw,10.5px)', letterSpacing: '0.35em', margin: '1px 0 2px', textShadow: '0 1px 2px rgba(0,0,0,0.9)' }}>— RADIO —</span>
-                    <span className="relative z-10 font-bold text-[#00E5FF]"
-                      style={{ fontSize: 'clamp(5px,1.05vw,8.2px)', letterSpacing: '0.2em', filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.88)) drop-shadow(0 0 3px rgba(0,229,255,0.35))' }}>POWERED BY</span>
-                    <span className="relative z-10 font-bold text-white"
-                      style={{ fontSize: 'clamp(5px,1.1vw,9.3px)', letterSpacing: '0.2em', filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.92)) drop-shadow(0 0 4px rgba(0,229,255,0.35))' }}>MUSIC INTEL</span>
+                    <span className="relative z-10 font-black text-white leading-none"
+                      style={{ fontSize: 'clamp(5.5px,1.32vw,10.5px)', letterSpacing: '0.35em', textShadow: '0 1px 2px rgba(0,0,0,0.95)' }}>— RADIO —</span>
+                    <span className="relative z-10 font-bold text-[#00E5FF] leading-none"
+                      style={{ fontSize: 'clamp(5px,1.05vw,8.2px)', letterSpacing: '0.2em', filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.92)) drop-shadow(0 0 2px rgba(0,229,255,0.28))' }}>POWERED BY</span>
+                    <span className="relative z-10 font-bold text-white leading-none"
+                      style={{ fontSize: 'clamp(5px,1.1vw,9.3px)', letterSpacing: '0.2em', filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.94)) drop-shadow(0 0 3px rgba(0,229,255,0.28))' }}>MUSIC INTEL</span>
                   </div>
                 </div>
               </button>
