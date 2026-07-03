@@ -589,7 +589,7 @@ export default function SmartLinkActionButtons({
                         paintOrder: 'stroke fill',
                         textShadow: '0 1px 3px rgba(0,0,0,0.98), 0 0 2px rgba(0,229,255,0.15)',
                       }}>CHROME</span>
-                    <span className="relative z-10 font-black leading-tight"
+                    <span className="relative z-10 font-black leading-tight hub-afrofusion-title"
                       style={{
                         fontSize: 'clamp(8.8px,2.2vw,18.5px)', letterSpacing: '0.1em',
                         background: 'linear-gradient(90deg,#FFF8D6,#D4AF37,#FFDF00,#D4AF37,#AA771C)',
@@ -845,6 +845,18 @@ export default function SmartLinkActionButtons({
 
       {/* ── KEYFRAME ANIMATIONS ── */}
       <style>{`
+        @media (min-width: 768px) {
+          .hub-afrofusion-title {
+            display: block;
+            width: 100%;
+            max-width: 92%;
+            margin-inline: auto;
+            text-align: center;
+            font-size: clamp(8.8px, 2.2vw, 17.75px) !important;
+            letter-spacing: 0.075em !important;
+            padding-inline: 2px;
+          }
+        }
         @keyframes hubAura {
           0%,100% { opacity: 0.62; transform: scale(1); }
           50%      { opacity: 0.82; transform: scale(1.03); }
