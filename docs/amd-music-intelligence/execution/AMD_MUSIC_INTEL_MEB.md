@@ -37,7 +37,7 @@
 | **Effective Date** | 2026-07-04 |
 | **Last Updated** | 2026-07-04 |
 | **Volume** | I of V — Platform Experience |
-| **MEB Series** | I — Platform Experience · II — Platform Intelligence · III — Business Platform · IV — Operations & Governance · V — Evolution & Roadmap *(Volumes II–III in this document; Volumes IV–V pending)* |
+| **MEB Series** | I — Platform Experience · II — Platform Intelligence · III — Business Platform · IV — Operations & Governance · V — Evolution & Roadmap *(Volumes I–IV in this document; Volume V pending)* |
 
 ---
 
@@ -107,7 +107,7 @@ AMC (Constitution — principles & laws)
               ├── Volume I — Platform Experience (this document)
               ├── Volume II — Platform Intelligence (this document)
               ├── Volume III — Business Platform (this document)
-              ├── Volume IV — Operations & Governance (pending)
+              ├── Volume IV — Operations & Governance (this document)
               └── Volume V — Evolution & Roadmap (pending)
                     └── AMOM · AKB · Analytics Architecture (domain depth)
 ```
@@ -425,7 +425,7 @@ Referenced by relative path only. Contents are not reproduced herein.
 |---|---|
 | MEB Volume II — Platform Intelligence | [Volume II — Platform Intelligence](#volume-ii--platform-intelligence) *(this document)* |
 | MEB Volume III — Business Platform | [Volume III — Business Platform](#volume-iii--business-platform) *(this document)* |
-| MEB Volume IV — Operations & Governance | *Pending — same file, future section* |
+| MEB Volume IV — Operations & Governance | [Volume IV — Operations & Governance](#volume-iv--operations--governance) *(this document)* |
 | MEB Volume V — Evolution & Roadmap | *Pending — same file, future section* |
 | Architecture Memory & Operations Manual | [`./AMD_MUSIC_INTEL_AMOM.md`](./AMD_MUSIC_INTEL_AMOM.md) |
 | Agent Knowledge Base | [`../intelligence/AMD_MUSIC_INTEL_AKB.md`](../intelligence/AMD_MUSIC_INTEL_AKB.md) |
@@ -500,7 +500,7 @@ Referenced by relative path only. Contents are not reproduced herein.
 | **Effective Date** | 2026-07-04 |
 | **Last Updated** | 2026-07-04 |
 | **Volume** | II of V — Platform Intelligence |
-| **MEB Series** | I — Platform Experience · II — Platform Intelligence · **III — Business Platform** · IV — Operations & Governance · V — Evolution & Roadmap *(Volumes IV–V pending)* |
+| **MEB Series** | I — Platform Experience · II — Platform Intelligence · III — Business Platform · IV — Operations & Governance · V — Evolution & Roadmap *(Volumes I–IV in this document; Volume V pending)* |
 
 ---
 
@@ -895,7 +895,7 @@ Decision Intelligence generates operational recommendations for:
 - Deployment timing based on traffic and campaign calendars
 - Support escalation based on anomaly severity
 
-Operational recommendations feed [AMOM](./AMD_MUSIC_INTEL_AMOM.md) when populated — not duplicated here.
+Operational recommendations feed [Volume IV — Operations & Governance](#volume-iv--operations--governance) and [AMOM](./AMD_MUSIC_INTEL_AMOM.md) — not duplicated here.
 
 ### Executive Insights
 
@@ -1088,12 +1088,12 @@ Referenced by relative path only. Contents are not reproduced herein.
 | Analytics Architecture | [`../analytics/AMD_MUSIC_INTEL_ANALYTICS_ARCHITECTURE.md`](../analytics/AMD_MUSIC_INTEL_ANALYTICS_ARCHITECTURE.md) |
 | Agent 007 Data Architecture | [`../AMD_AGENT_007_DATA_ARCHITECTURE.md`](../AMD_AGENT_007_DATA_ARCHITECTURE.md) |
 
-### MEB Series (Volumes IV–V — Pending)
+### MEB Series (Volume V — Pending)
 
 | Document | Path |
 |---|---|
 | MEB Volume III — Business Platform | [Volume III — Business Platform](#volume-iii--business-platform) *(this document)* |
-| MEB Volume IV — Operations & Governance | *Pending — this document* |
+| MEB Volume IV — Operations & Governance | [Volume IV — Operations & Governance](#volume-iv--operations--governance) *(this document)* |
 | MEB Volume V — Evolution & Roadmap | *Pending — this document* |
 | Architecture Memory & Operations Manual | [`./AMD_MUSIC_INTEL_AMOM.md`](./AMD_MUSIC_INTEL_AMOM.md) |
 
@@ -1162,7 +1162,7 @@ Referenced by relative path only. Contents are not reproduced herein.
 | **Effective Date** | 2026-07-04 |
 | **Last Updated** | 2026-07-04 |
 | **Volume** | III of V — Business Platform |
-| **MEB Series** | I — Platform Experience · II — Platform Intelligence · **III — Business Platform** · IV — Operations & Governance · V — Evolution & Roadmap *(Volumes IV–V pending)* |
+| **MEB Series** | I — Platform Experience · II — Platform Intelligence · III — Business Platform · IV — Operations & Governance · V — Evolution & Roadmap *(Volumes I–IV in this document; Volume V pending)* |
 
 ---
 
@@ -1588,7 +1588,7 @@ Volume III defines **business capabilities and operating behaviour**. It explici
 | UI component implementation | Application codebase · Volume I experience specs |
 | Campaign technical configuration | Campaign records · AMOM |
 | AI and analytics mechanics | Volume II · AKB · AI OS · Analytics Architecture |
-| Operations and deployment | MEB Volume IV — Operations & Governance *(pending)* |
+| Operations and deployment | [MEB Volume IV — Operations & Governance](#volume-iv--operations--governance) *(this document)* |
 | Roadmap sequencing | MEB Volume V — Evolution & Roadmap *(pending)* |
 
 **Rule for business stakeholders:** If the question is *what business capability exists*, answer from Volume III. If the question is *how it is built*, consult downstream technical documents.
@@ -1631,7 +1631,7 @@ Volume III defines **business capabilities and operating behaviour**. It explici
 | **Status** | Approved Draft |
 | **Effective date** | 2026-07-04 |
 | **Prior volumes** | [Volume I — Platform Experience](#volume-i--platform-experience) · [Volume II — Platform Intelligence](#volume-ii--platform-intelligence) |
-| **Subsequent volumes** | Volume IV — Operations & Governance · Volume V — Evolution & Roadmap *(pending)* |
+| **Subsequent volumes** | [Volume IV — Operations & Governance](#volume-iv--operations--governance) · Volume V — Evolution & Roadmap *(pending)* |
 
 Volume III may be amended through standard MEB revision procedures defined in the AMC. Business capability additions use **extension points** (Section 13) — not structural rewrites.
 
@@ -1669,11 +1669,11 @@ Referenced by relative path only. Contents are not reproduced herein.
 | MEB Volume I — Platform Experience | [Volume I — Platform Experience](#volume-i--platform-experience) *(this document)* |
 | MEB Volume II — Platform Intelligence | [Volume II — Platform Intelligence](#volume-ii--platform-intelligence) *(this document)* |
 
-### MEB Series (Volumes IV–V — Pending)
+### MEB Series (Volume V — Pending)
 
 | Document | Path |
 |---|---|
-| MEB Volume IV — Operations & Governance | *Pending — this document* |
+| MEB Volume IV — Operations & Governance | [Volume IV — Operations & Governance](#volume-iv--operations--governance) *(this document)* |
 | MEB Volume V — Evolution & Roadmap | *Pending — this document* |
 
 ### Business & Intelligence Domain
@@ -1701,4 +1701,470 @@ Referenced by relative path only. Contents are not reproduced herein.
 
 *AMD Music Intelligence — Master Execution Blueprint (MEB)*  
 *Volume III — Business Platform · Version 1.0.0 · Approved Draft*  
+*Effective 2026-07-04 · Authority: AMD Solutions 007*
+
+---
+---
+
+# Volume IV — Operations & Governance
+
+> **Classification:** Implementation Blueprint · Operations & Governance · Volume IV of V  
+> **Authority:** Subordinate to [AMC](../architecture/AMD_MUSIC_INTEL_AMC.md) · Implements [EAF](../architecture/AMD_MUSIC_INTEL_EAF.md) Layer 8 (Governance Architecture)  
+> **Continuity:** Builds upon [Volumes I–III](#volume-i--platform-experience) · Operationalizes business and intelligence intent into governed procedures  
+> **Distinction:** Volumes I–III define *what* the platform delivers. Volume IV defines *how the platform is operated and governed*.
+
+---
+
+## Table of Contents — Volume IV
+
+1. [Document Information](#1-document-information-3)
+2. [Operations Overview](#2-operations-overview)
+3. [Platform Operations](#3-platform-operations)
+4. [Documentation Operations](#4-documentation-operations)
+5. [AI Operations](#5-ai-operations)
+6. [Campaign Operations](#6-campaign-operations)
+7. [Analytics Operations](#7-analytics-operations)
+8. [Security & Compliance Operations](#8-security--compliance-operations)
+9. [Change Management](#9-change-management)
+10. [Incident & Recovery Governance](#10-incident--recovery-governance)
+11. [Quality Assurance](#11-quality-assurance)
+12. [Release Governance](#12-release-governance)
+13. [Implementation Boundaries](#13-implementation-boundaries)
+14. [Dependencies](#14-dependencies)
+15. [Version Notes](#15-version-notes)
+16. [Future Extension Points](#16-future-extension-points)
+17. [Document Quality Checklist](#17-document-quality-checklist)
+18. [References](#18-references)
+
+---
+
+## 1. Document Information
+
+| Field | Value |
+|---|---|
+| **Title** | AMD Music Intelligence — Master Execution Blueprint (MEB) · Volume IV — Operations & Governance |
+| **Version** | 1.0.0 |
+| **Status** | Approved Draft |
+| **Owner** | AMD Solutions 007 |
+| **Approval Authority** | Solutions 007 — Chief Product Architect / Technical Governance |
+| **Effective Date** | 2026-07-04 |
+| **Last Updated** | 2026-07-04 |
+| **Volume** | IV of V — Operations & Governance |
+| **MEB Series** | I — Platform Experience · II — Platform Intelligence · III — Business Platform · **IV — Operations & Governance** · V — Evolution & Roadmap *(Volume V pending)* |
+
+---
+
+## 2. Operations Overview
+
+Volume IV defines the **operational governance model** for AMD Music Intelligence — how the platform is run, monitored, changed, secured, and recovered while remaining consistent with constitutional authority.
+
+Operations translate governed intent into **repeatable discipline**:
+
+| Operational Domain | Governs |
+|---|---|
+| **Platform Operations** | Live platform health, deployment continuity, and runtime stewardship |
+| **Documentation Operations** | Catalog integrity, safe amendment, and institutional memory |
+| **AI Operations** | Agent 007, AI OS, and intelligence capability lifecycle |
+| **Campaign Operations** | Promotional cycle execution and performance accountability |
+| **Analytics Operations** | Measurement integrity, telemetry governance, and reporting truth |
+| **Security & Compliance** | Tenant isolation, privacy, and access governance |
+| **Change Management** | Controlled evolution of platform, documentation, and policy |
+| **Incident & Recovery** | Failure response, business continuity, and post-incident learning |
+| **Quality Assurance** | Verification before release and regression prevention |
+| **Release Governance** | Authorized deployment to production |
+
+Operations do **not** replace the AMC, EAF, or AMOM — they define **MEB-level operational behaviour** that AMOM will detail when populated.
+
+---
+
+## 3. Platform Operations
+
+Platform operations govern the **live Master Platform** — availability, performance, and continuity of user-facing and business-critical capabilities.
+
+### Operational Responsibilities
+
+| Responsibility | Behaviour |
+|---|---|
+| **Availability stewardship** | Monitor platform reachability and user-facing surface health |
+| **Performance oversight** | Ensure experience meets Volume I speed and responsiveness principles |
+| **Multi-tenant integrity** | Verify Client Hub isolation remains intact across operations |
+| **Platform registry maintenance** | Govern active, Coming Soon, and retired streaming and discovery destinations |
+| **Configuration discipline** | Platform behaviour changes follow change management — not silent drift |
+| **Operational memory** | Significant events append to [Interaction Memory Log](../AMD_MUSIC_INTEL_INTERACTION_MEMORY_LOG.md) |
+
+### Platform Operations Constraints
+
+- Experience surfaces certified in production records are **operated, not silently redesigned**
+- Platform neutrality (Volume I) enforced in operational registry updates
+- Listen Now and motherboard separation verified in operational checks before release
+
+---
+
+## 4. Documentation Operations
+
+Documentation operations govern the **Enterprise Documentation Suite** and all institutional knowledge.
+
+### Operational Responsibilities
+
+| Responsibility | Behaviour |
+|---|---|
+| **Catalog maintenance** | All documents registered in [MDL](../governance/AMD_MUSIC_INTEL_MDL.md) with status and edit policy |
+| **Safe integration** | Amendments follow [DIP](../governance/AMD_MUSIC_INTEL_DIP.md) — no unauthorized locked-record edits |
+| **Version discipline** | Document versions increment per AMC change management classes |
+| **AKB synchronization** | Approved documentation changes propagate to agent knowledge through governed sync |
+| **Append-only records** | Interaction logs and institutional memory append — never overwrite |
+| **Review cadence** | Periodic review of Approved Draft documents for elevation or amendment |
+
+### Documentation Operations Constraints
+
+- Phase 1 and Phase 2 certified records remain **immutable** — corrections via supplemental documents only
+- MEB volumes append within series structure — no reorganization without executive approval
+- AMC amendments require constitutional change procedure
+
+---
+
+## 5. AI Operations
+
+AI operations govern **Agent 007**, the AI Operating System, and all AI-assisted platform capabilities.
+
+### Operational Responsibilities
+
+| Responsibility | Behaviour |
+|---|---|
+| **Capability activation** | New AI features require AI governance review before production |
+| **Behaviour monitoring** | Agent outputs reviewed for compliance with AKB constraints and AMC laws |
+| **Context hygiene** | Agent context synchronized from authorized knowledge — not stale or speculative |
+| **Human oversight** | High-impact AI decisions require human approval per Volume II Decision Intelligence |
+| **Model lifecycle** | AI model updates documented, reviewed, and rolled back if non-compliant |
+| **Privacy enforcement** | AI data access respects tenant isolation and privacy architecture |
+
+### AI Operations Constraints
+
+- Agent 007 remains the **single designated intelligence layer** — no unauthorized parallel agents
+- AI must not fabricate analytics or override experience laws
+- Autonomous campaign optimization (Volume II reserved) requires explicit executive authorization before activation
+
+---
+
+## 6. Campaign Operations
+
+Campaign operations govern the **lifecycle of promotional activity** across Client Hubs.
+
+### Operational Responsibilities
+
+| Phase | Operational Behaviour |
+|---|---|
+| **Pre-launch** | Campaign configuration reviewed against Volume I experience laws and Volume III business authorization |
+| **Launch** | Deployment authorized through release governance; monitoring activated |
+| **Active** | Campaign Intelligence (Volume II) monitored; anomalies escalated |
+| **Optimization** | Recommendations reviewed by operators — autonomous changes governed by AI policy |
+| **Completion** | Campaign report generated from verified analytics; record archived |
+| **Post-campaign** | Learnings appended to institutional memory; locked record if certified |
+
+### Campaign Operations Constraints
+
+- Campaigns deploy through **certified Smart Link patterns** — translation, not redesign
+- Campaign metrics must reflect **verified telemetry only**
+- Cross-hub campaign isolation enforced at operational level
+
+---
+
+## 7. Analytics Operations
+
+Analytics operations govern **measurement integrity** across the platform.
+
+### Operational Responsibilities
+
+| Responsibility | Behaviour |
+|---|---|
+| **Telemetry integrity** | Event recording verified operational — no silent gaps in measurement |
+| **Truth enforcement** | Dashboards and reports display source-derived metrics only (AMC Law 8) |
+| **Aggregation governance** | Analytics rollups defined in Analytics Architecture — not ad hoc in operations |
+| **Data retention** | Retention policies respect privacy and business requirements |
+| **Anomaly response** | Unexpected metric patterns investigated — not ignored or smoothed |
+| **Audit support** | Analytics operations support governance and compliance review |
+
+### Analytics Operations Constraints
+
+- **No fabricated metrics** in any operational report or dashboard
+- Analytics changes that affect published numbers require change management review
+- Listener and artist data handled within tenant and privacy boundaries
+
+---
+
+## 8. Security & Compliance Operations
+
+Security and compliance operations govern **platform protection** at operational level — principles defined in EAF Section 11, procedures here.
+
+### Operational Responsibilities
+
+| Domain | Behaviour |
+|---|---|
+| **Access governance** | Role-based access reviewed periodically; least privilege enforced |
+| **Tenant isolation verification** | Operational checks confirm Client Hub data separation |
+| **Credential stewardship** | Secrets rotated per policy; never embedded in documentation |
+| **Privacy compliance** | Audience capture and communications operate with consent discipline |
+| **Vulnerability response** | Security findings triaged, remediated, and recorded |
+| **Compliance audit readiness** | Operational records support audit without fabrication |
+
+### Security Operations Constraints
+
+- Security incidents follow incident governance (Section 10) — not ad hoc response
+- Compliance scope expands with international markets (Volume III) through governed review
+
+---
+
+## 9. Change Management
+
+Change management operationalizes [AMC Section 12](../architecture/AMD_MUSIC_INTEL_AMC.md) for day-to-day platform evolution.
+
+### Change Classes
+
+| Class | Examples | Approval |
+|---|---|---|
+| **Constitutional** | AMC Sections 4–9 amendments | Executive (Solutions 007) |
+| **Architectural** | New EAF layer boundaries, new MEB domain | Chief Product Architect + Technical Governance |
+| **Experience** | Motherboard, Listen Now, hero changes | Chief Product Architect — formal design phase if certified surface affected |
+| **Intelligence** | New AI capability, agent behaviour change | AI Governance + Technical Governance |
+| **Business** | New commercial tier, partner class | Executive + Business Governance |
+| **Operational** | Monitoring, runbook, procedure update | Documentation Governance or Operations Lead |
+| **Documentation** | MEB/AMOM/AKB population or amendment | Documentation Governance per DIP |
+
+### Change Process
+
+1. **Proposal** — Document rationale, impact, and AMC/EAF/MEB compliance assessment
+2. **Review** — Appropriate authority per change class
+3. **Approval** — Recorded in Interaction Memory Log or MDL amendment entry
+4. **Implementation** — Executed per downstream technical documents
+5. **Verification** — QA per Section 11 before production if user-facing
+6. **Catalog update** — MDL and AKB synchronized post-approval
+
+---
+
+## 10. Incident & Recovery Governance
+
+Incident governance defines **how the platform responds to failure** and restores continuity.
+
+### Incident Classification
+
+| Severity | Definition | Response |
+|---|---|---|
+| **Critical** | Platform unavailable or data integrity at risk | Immediate escalation; executive notification |
+| **Major** | Significant feature degradation affecting campaigns or hubs | Urgent remediation; operator communication |
+| **Minor** | Limited impact; workaround available | Scheduled remediation |
+| **Informational** | Anomaly detected; no user impact | Logged and monitored |
+
+### Recovery Principles
+
+| Principle | Behaviour |
+|---|---|
+| **Business continuity** | Restore user-facing capability before non-critical functions |
+| **Data integrity first** | Never sacrifice analytics truth or tenant isolation for speed |
+| **Transparent communication** | Affected Client Hubs notified per SLA tier |
+| **Post-incident review** | Root cause documented; append to institutional memory |
+| **No silent fixes** | Production changes during incident still follow release governance where possible |
+
+### Recovery Governance Constraints
+
+- Rollback to last certified release is preferred over hotfix drift on experience surfaces
+- Incident records append to operational memory — not deleted after resolution
+
+---
+
+## 11. Quality Assurance
+
+Quality assurance governs **verification before production** and **regression prevention** after change.
+
+### QA Domains
+
+| Domain | Verification Intent |
+|---|---|
+| **Experience QA** | Volume I compliance — motherboard, Listen Now, responsive behaviour, platform states |
+| **Intelligence QA** | Volume II compliance — agent boundaries, analytics truth, recommendation integrity |
+| **Business QA** | Volume III compliance — hub isolation, campaign authorization, commercial boundaries |
+| **Cross-browser / device** | Mobile-first and desktop verification per Volume I principles |
+| **Regression** | Certified surfaces unchanged unless authorized design phase completed |
+| **UAT governance** | User acceptance criteria defined before launch; results recorded as immutable reports |
+
+### QA Constraints
+
+- Production certification follows **pass/fail scorecard** model — reference Phase 2H pattern without duplicating content
+- QA failures block release until resolved or explicitly waived by executive authority
+- Automated and manual verification complementary — neither alone sufficient for experience certification
+
+---
+
+## 12. Release Governance
+
+Release governance defines **who authorizes production deployment** and under what conditions.
+
+### Release Authorization
+
+| Release Type | Authorizing Authority | Prerequisites |
+|---|---|---|
+| **Experience release** | Chief Product Architect / Release Authority | QA pass; AMC/MEB Volume I compliance |
+| **Intelligence release** | AI Governance + Release Authority | AI policy review; Volume II compliance |
+| **Business feature release** | Chief Product Architect + Business Governance | Volume III authorization; hub impact assessed |
+| **Documentation release** | Documentation Governance | DIP compliance; MDL updated |
+| **Emergency release** | Executive override | Documented incident justification; post-release review mandatory |
+
+### Release Discipline
+
+| Principle | Behaviour |
+|---|---|
+| **Single production baseline** | One authoritative production state — no undocumented forks |
+| **Commit traceability** | Production deployments traceable to authorized change record |
+| **Rollback readiness** | Previous certified state recoverable before release proceeds |
+| **Post-release verification** | Production smoke verification after deployment — experience, analytics, and routing |
+| **No silent production edits** | All production changes through governed pipeline |
+
+---
+
+## 13. Implementation Boundaries
+
+Volume IV defines **operational governance behaviour**. It explicitly does not define:
+
+| Domain | Belongs In |
+|---|---|
+| Deployment runbooks and CI/CD configuration | [AMOM](./AMD_MUSIC_INTEL_AMOM.md) |
+| Infrastructure provisioning and hosting detail | EAF Layer 7 · Infrastructure documents |
+| API and application implementation | Application codebase · Phase specifications |
+| Database operations and migration execution | DB Execution Checklist · Supabase Migration Plan |
+| AI model implementation | AI Operating System · Agent 007 Data Architecture |
+| Analytics pipeline implementation | Analytics Architecture |
+| Roadmap sequencing and future phases | MEB Volume V — Evolution & Roadmap *(pending)* |
+
+**Rule for operators:** If the question is *how the platform is governed and operated*, answer from Volume IV. If the question is *exact steps to deploy or configure*, consult AMOM and technical runbooks.
+
+---
+
+## 14. Dependencies
+
+### Prerequisite Documents
+
+| Document | Dependency Reason |
+|---|---|
+| [AMC](../architecture/AMD_MUSIC_INTEL_AMC.md) | Constitutional authority — change management, decision authority, laws |
+| [EAF](../architecture/AMD_MUSIC_INTEL_EAF.md) | Layer 8 Governance Architecture; security principles |
+| [MEB Volume I](#volume-i--platform-experience) | Experience surfaces under operational stewardship |
+| [MEB Volume II](#volume-ii--platform-intelligence) | Intelligence capabilities under AI and analytics operations |
+| [MEB Volume III](#volume-iii--business-platform) | Business processes under campaign and commercial operations |
+| [DIP](../governance/AMD_MUSIC_INTEL_DIP.md) | Documentation integration rules |
+| [MDL](../governance/AMD_MUSIC_INTEL_MDL.md) | Documentation catalog and edit policy |
+
+### Downstream Documents
+
+| Document | Relationship |
+|---|---|
+| [AMOM](./AMD_MUSIC_INTEL_AMOM.md) | Detailed operations manual — deployment, continuity, runtime procedures |
+| MEB Volume V — Evolution & Roadmap | Sequences business capability activation over time |
+| [AKB](../intelligence/AMD_MUSIC_INTEL_AKB.md) | Receives synchronized operational constraints for agents |
+| Historical production records | Immutable QA and certification authority |
+
+---
+
+## 15. Version Notes
+
+| Field | Value |
+|---|---|
+| **Series position** | Volume IV of V in the Master Execution Blueprint |
+| **Volume title** | Operations & Governance |
+| **Version** | 1.0.0 |
+| **Status** | Approved Draft |
+| **Effective date** | 2026-07-04 |
+| **Prior volumes** | [Volume I](#volume-i--platform-experience) · [Volume II](#volume-ii--platform-intelligence) · [Volume III](#volume-iii--business-platform) |
+| **Subsequent volume** | Volume V — Evolution & Roadmap *(pending)* |
+
+Volume IV may be amended through standard MEB revision procedures. Operational additions use extension points (Section 16).
+
+---
+
+## 16. Future Extension Points
+
+| Extension Point | Domain | Notes |
+|---|---|---|
+| **24/7 NOC function** | Platform Operations | Dedicated network operations center for enterprise tier |
+| **Automated compliance scanning** | Security Operations | Continuous policy verification |
+| **AI red-team programme** | AI Operations | Adversarial testing of agent behaviour |
+| **Campaign autopilot tier** | Campaign Operations | Governed autonomous optimization — executive authorization required |
+| **Real-time analytics SLA** | Analytics Operations | Sub-minute dashboard freshness for enterprise customers |
+| **Multi-region failover runbooks** | Incident & Recovery | Geographic redundancy operations |
+| **Formal CAB (Change Advisory Board)** | Change Management | Structured cross-functional change review |
+| **SOC 2 / ISO certification path** | Security & Compliance | Enterprise compliance programme |
+
+Extension activation requires: AMC compliance · DIP amendment · MDL update · MEB version increment.
+
+---
+
+## 17. Document Quality Checklist
+
+Use this checklist when reviewing or amending Volume IV and related operational documentation.
+
+| # | Criterion | Pass |
+|---|---|---|
+| 1 | Complies with AMC constitutional principles and architectural laws | ☐ |
+| 2 | Aligns with EAF Layer 8 Governance Architecture | ☐ |
+| 3 | Does not contradict MEB Volumes I–III | ☐ |
+| 4 | Contains no source code, SQL, APIs, or infrastructure configuration | ☐ |
+| 5 | Defines operational **behaviour** — not implementation steps | ☐ |
+| 6 | References locked production records as immutable — not editable | ☐ |
+| 7 | Analytics truth (AMC Law 8) enforced in operational procedures | ☐ |
+| 8 | AI operations respect Agent 007 as sole intelligence layer | ☐ |
+| 9 | Change classes map to AMC Section 12 approval requirements | ☐ |
+| 10 | Cross-references use valid relative paths only | ☐ |
+| 11 | Extension points append — no structural reorganization | ☐ |
+| 12 | Version, status, and volume metadata accurate in Document Information | ☐ |
+
+---
+
+## 18. References
+
+Referenced by relative path only. Contents are not reproduced herein.
+
+### Constitutional & Structural
+
+| Document | Path |
+|---|---|
+| Architecture Master Charter | [`../architecture/AMD_MUSIC_INTEL_AMC.md`](../architecture/AMD_MUSIC_INTEL_AMC.md) |
+| Enterprise Architecture Framework | [`../architecture/AMD_MUSIC_INTEL_EAF.md`](../architecture/AMD_MUSIC_INTEL_EAF.md) |
+| MEB Volume I — Platform Experience | [Volume I — Platform Experience](#volume-i--platform-experience) *(this document)* |
+| MEB Volume II — Platform Intelligence | [Volume II — Platform Intelligence](#volume-ii--platform-intelligence) *(this document)* |
+| MEB Volume III — Business Platform | [Volume III — Business Platform](#volume-iii--business-platform) *(this document)* |
+
+### Operations & Governance Domain
+
+| Document | Path |
+|---|---|
+| Architecture Memory & Operations Manual | [`./AMD_MUSIC_INTEL_AMOM.md`](./AMD_MUSIC_INTEL_AMOM.md) |
+| Master Documentation Ledger | [`../governance/AMD_MUSIC_INTEL_MDL.md`](../governance/AMD_MUSIC_INTEL_MDL.md) |
+| Documentation Integration Protocol | [`../governance/AMD_MUSIC_INTEL_DIP.md`](../governance/AMD_MUSIC_INTEL_DIP.md) |
+| Agent Knowledge Base | [`../intelligence/AMD_MUSIC_INTEL_AKB.md`](../intelligence/AMD_MUSIC_INTEL_AKB.md) |
+| AI Operating System | [`../intelligence/AMD_MUSIC_INTEL_AI_OPERATING_SYSTEM.md`](../intelligence/AMD_MUSIC_INTEL_AI_OPERATING_SYSTEM.md) |
+| Analytics Architecture | [`../analytics/AMD_MUSIC_INTEL_ANALYTICS_ARCHITECTURE.md`](../analytics/AMD_MUSIC_INTEL_ANALYTICS_ARCHITECTURE.md) |
+| Interaction Memory Log | [`../AMD_MUSIC_INTEL_INTERACTION_MEMORY_LOG.md`](../AMD_MUSIC_INTEL_INTERACTION_MEMORY_LOG.md) |
+
+### MEB Series (Volume V — Pending)
+
+| Document | Path |
+|---|---|
+| MEB Volume V — Evolution & Roadmap | *Pending — same file, future section* |
+
+### Historical Production Records (Immutable)
+
+| Document | Path |
+|---|---|
+| Phase 1 Completion Report | [`../AMD_MUSIC_INTEL_PHASE1_COMPLETION_REPORT.md`](../AMD_MUSIC_INTEL_PHASE1_COMPLETION_REPORT.md) |
+| Phase 2H — UAT Report | [`../AMD_MUSIC_INTEL_PHASE2H_UAT_REPORT.md`](../AMD_MUSIC_INTEL_PHASE2H_UAT_REPORT.md) |
+| DB Execution Checklist | [`../AMD_MUSIC_INTEL_DB_EXECUTION_CHECKLIST.md`](../AMD_MUSIC_INTEL_DB_EXECUTION_CHECKLIST.md) |
+
+### Entry Point
+
+| Document | Path |
+|---|---|
+| Documentation Entry Point | [`../README.md`](../README.md) |
+
+---
+
+*AMD Music Intelligence — Master Execution Blueprint (MEB)*  
+*Volume IV — Operations & Governance · Version 1.0.0 · Approved Draft*  
 *Effective 2026-07-04 · Authority: AMD Solutions 007*
