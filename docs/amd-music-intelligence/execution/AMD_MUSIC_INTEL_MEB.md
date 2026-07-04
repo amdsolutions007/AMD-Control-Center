@@ -37,7 +37,7 @@
 | **Effective Date** | 2026-07-04 |
 | **Last Updated** | 2026-07-04 |
 | **Volume** | I of V — Platform Experience |
-| **MEB Series** | I — Platform Experience · II — Platform Intelligence · III — Business Platform · IV — Operations & Governance · V — Evolution & Roadmap *(Volumes II–V pending)* |
+| **MEB Series** | I — Platform Experience · II — Platform Intelligence · III — Business Platform · IV — Operations & Governance · V — Evolution & Roadmap *(Volume II in this document; Volumes III–V pending)* |
 
 ---
 
@@ -105,7 +105,7 @@ AMC (Constitution — principles & laws)
   └── EAF (Structure — eight enterprise layers)
         └── MEB (Master Execution Blueprint — five volumes)
               ├── Volume I — Platform Experience (this document)
-              ├── Volume II — Platform Intelligence (pending)
+              ├── Volume II — Platform Intelligence (this document)
               ├── Volume III — Business Platform (pending)
               ├── Volume IV — Operations & Governance (pending)
               └── Volume V — Evolution & Roadmap (pending)
@@ -423,7 +423,7 @@ Referenced by relative path only. Contents are not reproduced herein.
 
 | Document | Path |
 |---|---|
-| MEB Volume II — Platform Intelligence | *Pending — same file, future section* |
+| MEB Volume II — Platform Intelligence | [Volume II — Platform Intelligence](#volume-ii--platform-intelligence) *(this document)* |
 | MEB Volume III — Business Platform | *Pending — same file, future section* |
 | MEB Volume IV — Operations & Governance | *Pending — same file, future section* |
 | MEB Volume V — Evolution & Roadmap | *Pending — same file, future section* |
@@ -456,4 +456,665 @@ Referenced by relative path only. Contents are not reproduced herein.
 
 *AMD Music Intelligence — Master Execution Blueprint (MEB)*  
 *Volume I — Platform Experience · Version 1.0.0 · Approved Draft*  
+*Effective 2026-07-04 · Authority: AMD Solutions 007*
+
+---
+---
+
+# Volume II — Platform Intelligence
+
+> **Classification:** Implementation Blueprint · Platform Intelligence · Volume II of V  
+> **Authority:** Subordinate to [AMC](../architecture/AMD_MUSIC_INTEL_AMC.md) · Implements [EAF](../architecture/AMD_MUSIC_INTEL_EAF.md) Layer 3 (Intelligence Architecture)  
+> **Continuity:** Builds upon [Volume I — Platform Experience](#volume-i--platform-experience) · Does not redefine user-facing experience  
+> **Distinction:** Volume I defines *what users experience*. Volume II defines *how intelligence operates* across the platform.
+
+---
+
+## Table of Contents — Volume II
+
+1. [Document Information](#1-document-information-1)
+2. [Platform Intelligence Overview](#2-platform-intelligence-overview)
+3. [Agent 007](#3-agent-007)
+4. [AI Operating System Integration](#4-ai-operating-system-integration)
+5. [Agent Knowledge Base Integration](#5-agent-knowledge-base-integration)
+6. [Recommendation Intelligence](#6-recommendation-intelligence)
+7. [Campaign Intelligence](#7-campaign-intelligence)
+8. [Analytics Intelligence](#8-analytics-intelligence)
+9. [Decision Intelligence](#9-decision-intelligence)
+10. [Intelligence Interaction Model](#10-intelligence-interaction-model)
+11. [Future Intelligence](#11-future-intelligence)
+12. [Implementation Boundaries](#12-implementation-boundaries-1)
+13. [References](#13-references-1)
+
+---
+
+## 1. Document Information
+
+| Field | Value |
+|---|---|
+| **Title** | AMD Music Intelligence — Master Execution Blueprint (MEB) · Volume II — Platform Intelligence |
+| **Version** | 1.0.0 |
+| **Status** | Approved Draft |
+| **Owner** | AMD Solutions 007 |
+| **Approval Authority** | Solutions 007 — Chief Product Architect / AI Governance |
+| **Effective Date** | 2026-07-04 |
+| **Last Updated** | 2026-07-04 |
+| **Volume** | II of V — Platform Intelligence |
+| **MEB Series** | I — Platform Experience · **II — Platform Intelligence** · III — Business Platform · IV — Operations & Governance · V — Evolution & Roadmap *(Volumes III–V pending)* |
+
+---
+
+## 2. Platform Intelligence Overview
+
+AMD Music Intelligence is an **intelligence-first platform**. Experience surfaces — Smart Link, motherboard, Listen Now — are the visible layer. Intelligence is the operating layer beneath them: understanding users, artists, campaigns, music, and markets; assisting decisions; and improving continuously from verified data.
+
+### Intelligence-First Platform
+
+| Attribute | Product Intent |
+|---|---|
+| **Primary asset** | Understanding — of music, audiences, behavior, and outcomes |
+| **Platform role** | Not merely routing traffic — interpreting, recommending, and learning |
+| **User value** | Smarter discovery, better campaigns, truthful analytics, assisted decisions |
+| **Business value** | Audience ownership, Artist Intelligence, campaign optimization, enterprise insight |
+
+Intelligence-first does not mean AI replaces human judgment. It means **every platform capability is designed to generate, consume, or act on intelligence** within governed boundaries.
+
+### AI-Assisted Operation
+
+Artificial intelligence assists platform operation across:
+
+- User guidance and discovery support
+- Campaign monitoring and optimization recommendations
+- Analytics pattern recognition and insight surfacing
+- Operational and business decision support
+
+AI assistance operates under AI governance defined in the AMC and reserved for detailed specification in the [AI Operating System](../intelligence/AMD_MUSIC_INTEL_AI_OPERATING_SYSTEM.md). AI augments; it does not autonomously override governance, privacy, or brand standards.
+
+### Human + AI Collaboration
+
+| Actor | Role in Intelligence |
+|---|---|
+| **Human (Executive / Operator / Artist)** | Sets goals, approves decisions, interprets insights, retains accountability |
+| **Agent 007** | Platform intelligence layer — contextual guide, assistant, and decision support |
+| **Analytics Intelligence** | Surfaces patterns and measurements from verified data |
+| **Decision Intelligence** | Presents options and recommendations — not unilateral actions |
+
+Collaboration model: **AI proposes, data supports, humans decide** — except for defined low-risk automated responses governed by AI policy.
+
+### Continuous Learning Philosophy
+
+The platform improves through **measured learning cycles**:
+
+1. **Observe** — Record interactions, behaviors, and outcomes from verified events
+2. **Analyze** — Apply analytics intelligence to identify patterns and performance
+3. **Recommend** — Generate intelligence outputs for users, operators, and Agent 007
+4. **Act** — Human or governed AI action within approved boundaries
+5. **Record** — Append outcomes to institutional memory and knowledge repositories
+6. **Refine** — Update models, knowledge, and recommendations — never fabricate data
+
+Learning is **continuous but governed**. Intelligence outputs must remain traceable to source data. The platform never learns by inventing metrics.
+
+---
+
+## 3. Agent 007
+
+Agent 007 is the **designated platform intelligence layer** of AMD Music Intelligence (AMC Law 5). It is not a generic chatbot. It is the governed intelligence presence that understands platform context, user intent, and operational state — and assists accordingly.
+
+### Role Definitions
+
+| Role | Responsibility |
+|---|---|
+| **Platform Guide** | Orient users, artists, and operators within the AMD Music Intelligence ecosystem — explain capabilities, routes, and next actions |
+| **User Assistant** | Support listeners in discovery — playlist exploration, artist finding, platform navigation — within personalization boundaries |
+| **Campaign Assistant** | Support operators and labels in campaign understanding — performance context, optimization suggestions, lifecycle guidance |
+| **Artist Assistant** | Support artists with career-relevant intelligence — audience insights, discovery exposure context, platform opportunity awareness |
+| **Decision Support** | Present analyzed options for business and operational decisions — with evidence, not assertion |
+
+### Agent 007 Boundaries
+
+| Agent 007 Does | Agent 007 Does Not |
+|---|---|
+| Assist within governed knowledge and data | Override AMC architectural laws |
+| Recommend based on verified analytics | Fabricate metrics or outcomes |
+| Guide users to platform capabilities | Replace Listen Now or motherboard routing logic |
+| Support campaign and artist understanding | Autonomously launch campaigns without authorization |
+| Operate within AKB constraints | Access data outside AI governance boundaries |
+
+Agent 007 implementation detail belongs in the [Agent 007 Data Architecture](../AMD_AGENT_007_DATA_ARCHITECTURE.md) and [AI Operating System](../intelligence/AMD_MUSIC_INTEL_AI_OPERATING_SYSTEM.md). This section defines **responsibilities only**.
+
+---
+
+## 4. AI Operating System Integration
+
+The [AI Operating System](../intelligence/AMD_MUSIC_INTEL_AI_OPERATING_SYSTEM.md) (AI OS) is the governed specification for how AI capabilities are organized, coordinated, and bounded on the platform. MEB Volume II defines the **integration intent** — not technical implementation.
+
+### AI Orchestration
+
+The AI OS orchestrates **which intelligence capabilities activate** for a given context:
+
+| Context Type | Orchestration Intent |
+|---|---|
+| User discovery session | Recommendation + Agent 007 guidance |
+| Campaign review | Campaign Intelligence + Analytics Intelligence + Decision Support |
+| Artist dashboard | Analytics Intelligence + Artist Assistant |
+| Operator administration | Decision Intelligence + platform guide functions |
+
+Orchestration ensures the right intelligence domain responds — without capability collision or redundant AI surfacing.
+
+### Intelligence Coordination
+
+Multiple intelligence domains may contribute to a single user or operator need. The AI OS coordinates:
+
+- **Priority** — Which intelligence output leads
+- **Consistency** — Outputs do not contradict without flagged uncertainty
+- **Governance** — All coordination respects AI policy and privacy boundaries
+
+### Workflow Orchestration
+
+Intelligence participates in platform workflows — not as isolated features:
+
+| Workflow | Intelligence Participation |
+|---|---|
+| Smart Link visit → streaming conversion | Analytics Intelligence records; Recommendation Intelligence may inform future surfacing |
+| Campaign launch → monitoring | Campaign Intelligence activates lifecycle tracking |
+| Artist onboarding | Agent 007 guides; Recommendation Intelligence prepares discovery context |
+| Executive review | Decision Intelligence aggregates cross-domain insight |
+
+Workflow orchestration is **product behavior**. Execution mechanics belong in the AI OS document.
+
+### Knowledge Synchronization
+
+The AI OS synchronizes intelligence outputs with the [Agent Knowledge Base](../intelligence/AMD_MUSIC_INTEL_AKB.md):
+
+- Platform laws and constraints flow from documentation into agent-readable knowledge
+- Operational learnings append to knowledge repositories through governed processes
+- Agent 007 context reflects current, authorized platform state — not stale or invented context
+
+---
+
+## 5. Agent Knowledge Base Integration
+
+The [Agent Knowledge Base (AKB)](../intelligence/AMD_MUSIC_INTEL_AKB.md) is the bridge between **governed documentation** and **runtime intelligence behavior**. It ensures Agent 007 and AI services operate within institutional constraints.
+
+### Knowledge Authority
+
+| Source | Authority Level |
+|---|---|
+| **AMC** | Supreme — constitutional laws and principles |
+| **EAF** | Structural — layer boundaries and enterprise organization |
+| **MEB** | Implementation behavior — experience and intelligence intent |
+| **AKB** | Agent-readable operationalization of the above |
+| **Locked production records** | Immutable historical truth — reference only |
+
+The AKB does not supersede governed documents. It **translates** them into machine- and agent-readable constraints.
+
+### Documentation Synchronization
+
+When governed documents are approved or amended:
+
+1. Documentation Governance records the change in [MDL](../governance/AMD_MUSIC_INTEL_MDL.md)
+2. [DIP](../governance/AMD_MUSIC_INTEL_DIP.md) defines safe integration rules
+3. AKB is updated to reflect new constraints — without rewriting source documents
+4. Agent 007 and AI OS consume updated knowledge on next authorized sync cycle
+
+Synchronization is **downstream of governance approval** — never speculative or automatic on draft content.
+
+### Learning Lifecycle
+
+| Phase | AKB Role |
+|---|---|
+| **Ingest** | Receive approved knowledge from documentation and verified operational records |
+| **Structure** | Organize constraints, context, and domain knowledge for agent retrieval |
+| **Serve** | Provide Agent 007 and AI OS with authorized context |
+| **Append** | Record governed operational learnings — append-only where required |
+| **Retire** | Deprecate superseded knowledge without deleting institutional history |
+
+### Context Management
+
+Agent 007 maintains **session and persistent context** within governed boundaries:
+
+| Context Type | Scope |
+|---|---|
+| **Session context** | Current interaction — user intent, active campaign, immediate task |
+| **User preference context** | Long-term listening and discovery preferences — privacy-governed |
+| **Platform context** | Current platform state — active platforms, policies, capabilities |
+| **Tenant context** | Client Hub scope — multi-tenant isolation mandatory |
+
+Context management must respect tenant isolation, privacy principles, and data minimization defined in the AMC and EAF.
+
+---
+
+## 6. Recommendation Intelligence
+
+Recommendation Intelligence governs how the platform **surfaces music, artists, playlists, and platforms** to the right audience at the right time — without manipulation or fabricated relevance.
+
+### Artist Recommendations
+
+| Principle | Behavior |
+|---|---|
+| **Merit-based surfacing** | Artists recommended based on catalog fit, genre alignment, and verified engagement — not paid placement disguised as recommendation |
+| **Discovery mission** | African music and diaspora artists receive equitable discovery opportunity within relevance bounds |
+| **Tenant scope** | Recommendations respect Client Hub boundaries — no cross-tenant leakage |
+| **Transparency** | Recommendation rationale available to operators — not black-box manipulation |
+
+### Playlist Recommendations
+
+| Principle | Behavior |
+|---|---|
+| **Curatorial intelligence** | Playlists recommended based on listening context, mood, genre, and campaign alignment |
+| **Human + AI curation** | AI assists curation; human curators retain authority for flagship playlists |
+| **Freshness** | Recommendation models account for catalog updates and new releases |
+
+### Platform Recommendations
+
+| Principle | Behavior |
+|---|---|
+| **Neutrality** | No DSP favored in recommendation logic — aligns with Volume I platform neutrality |
+| **Context-fit** | Platform suggested based on user preference, regional availability, and listening history — not commercial bias |
+| **Honest state** | Coming Soon platforms never recommended as active destinations |
+
+### Music Discovery
+
+Recommendation Intelligence powers the **African Music Discovery Engine** mission:
+
+- Similarity and affinity modeling for track and artist discovery
+- Cultural and genre context as first-class recommendation inputs
+- Discovery outcomes measured — not assumed
+
+### Personalization Philosophy
+
+| Commitment | Definition |
+|---|---|
+| **Opt-in depth** | Deep personalization requires sufficient user context — not surveillance |
+| **Explainability** | Users and operators can understand why something was recommended |
+| **Reversibility** | Preference models update when user behavior changes — no permanent profiling without governance |
+| **Privacy respect** | Personalization operates within privacy architecture — not against it |
+
+---
+
+## 7. Campaign Intelligence
+
+Campaign Intelligence governs how the platform **understands, monitors, optimizes, and learns from** promotional activity across Client Hubs, artists, and Smart Links.
+
+### Campaign Lifecycle
+
+| Phase | Intelligence Role |
+|---|---|
+| **Planning** | Provide historical benchmarks, audience context, and platform readiness assessment |
+| **Launch** | Activate monitoring; establish baseline metrics from verified telemetry |
+| **Active** | Continuous performance tracking against defined campaign objectives |
+| **Optimization** | Surface improvement recommendations — timing, platform mix, audience targeting |
+| **Completion** | Generate campaign report; append learnings to institutional memory |
+| **Archive** | Preserve immutable campaign record — corrections via supplemental documents |
+
+### Campaign Monitoring
+
+Campaign Intelligence monitors:
+
+- Traffic acquisition by source channel
+- Smart Link engagement and conversion patterns
+- Streaming vs discovery click distribution
+- Audience capture performance *(where governed flows exist)*
+- Anomaly detection — unexpected drops, spikes, or routing failures
+
+Monitoring uses **verified event data only** — never estimated-as-factual metrics.
+
+### Campaign Optimisation
+
+Optimization recommendations may include:
+
+- Platform mix adjustment suggestions
+- Creative or messaging refinement guidance
+- Audience channel reallocation advice
+- Timing and sequencing recommendations
+
+Optimization is **recommendation intelligence** — autonomous campaign changes require human or executive authorization unless explicitly governed otherwise.
+
+### Campaign Reporting
+
+| Report Audience | Intelligence Output |
+|---|---|
+| **Operator / Label** | Campaign performance dashboard — verifiable metrics, conversion funnels, platform breakdown |
+| **Artist** | Simplified career-relevant campaign exposure and audience growth context |
+| **Executive** | Cross-campaign comparison and strategic performance summary |
+
+Reports display **truthful data only** — AMC Law 8 and Volume I Trust principle apply.
+
+### Campaign Learning
+
+Completed campaigns append learnings to:
+
+- Client Hub operational memory
+- Recommendation Intelligence training inputs *(governed, privacy-respecting)*
+- Decision Intelligence benchmark library
+- AKB operational knowledge *(through approved sync)*
+
+Campaign learning improves future campaigns — it does not rewrite historical campaign records.
+
+---
+
+## 8. Analytics Intelligence
+
+Analytics Intelligence transforms **recorded platform events** into **understanding** — patterns, trends, anomalies, and insights that drive product, campaign, and business decisions.
+
+Detailed measurement architecture belongs in [Analytics Architecture](../analytics/AMD_MUSIC_INTEL_ANALYTICS_ARCHITECTURE.md). This section defines **intelligence principles only**.
+
+### User Behaviour
+
+| Intelligence Focus | Product Intent |
+|---|---|
+| **Navigation patterns** | How users move through Smart Link, motherboard, and gateway |
+| **Conversion paths** | Which routes lead to streaming vs discovery vs departure |
+| **Engagement depth** | Time on surface, interaction frequency, return visits |
+| **Device and context** | Mobile vs desktop behavior differences for experience optimization |
+
+### Streaming Behaviour
+
+| Intelligence Focus | Product Intent |
+|---|---|
+| **DSP preference** | Which streaming platforms users select — informs neutrality verification |
+| **Gateway usage** | Listen Now vs motherboard pill selection patterns |
+| **Conversion rate** | Arrival-to-streaming conversion measurement |
+| **Platform availability** | Coming Soon interest signals — informs activation priority |
+
+### Discovery Behaviour
+
+| Intelligence Focus | Product Intent |
+|---|---|
+| **Social channel performance** | TikTok vs Instagram click-through and return patterns |
+| **Audience acquisition** | Discovery-to-Smart-Link return journey measurement |
+| **Brand engagement** | Follower growth correlation with campaign activity |
+
+### Campaign Performance
+
+Cross-references [Campaign Intelligence](#7-campaign-intelligence). Analytics Intelligence provides the **measurement foundation**; Campaign Intelligence provides the **campaign-specific interpretation layer**.
+
+### Business Intelligence
+
+| Audience | Intelligence Output |
+|---|---|
+| **Client Hub operators** | Roster performance, audience growth, ROI indicators |
+| **Platform executives** | Cross-tenant health, growth trends, strategic KPIs |
+| **Partners** | Governed data sharing insights — within contractual boundaries |
+
+Business intelligence aggregates **verified analytics only**. It never presents fabricated growth or inflated engagement.
+
+### Decision Support
+
+Analytics Intelligence feeds Decision Intelligence with:
+
+- Trend analysis and comparative benchmarks
+- Anomaly alerts requiring operator attention
+- Performance context for AI-assisted recommendations
+
+---
+
+## 9. Decision Intelligence
+
+Decision Intelligence governs how **human and AI-assisted decisions** are supported across the platform — from operational choices to executive strategy.
+
+### Human Decisions
+
+| Decision Type | Intelligence Support |
+|---|---|
+| **Platform activation** | Evidence on demand, user interest, and strategic fit for new DSPs or social platforms |
+| **Campaign approval** | Benchmark data, audience context, and risk indicators |
+| **Experience changes** | Analytics on current experience performance; AMC/MEB compliance check |
+| **Resource allocation** | Cross-campaign and cross-tenant performance comparison |
+
+Human decisions retain **full accountability**. Intelligence provides evidence — not coercion.
+
+### AI-Assisted Decisions
+
+| Decision Type | AI Assistance Level |
+|---|---|
+| **Discovery surfacing** | AI recommends; human curators approve flagship placements |
+| **Campaign optimization** | AI suggests; operators approve changes |
+| **Anomaly response** | AI flags; operators investigate and act |
+| **Routine routing** | Governed automated responses within defined low-risk boundaries |
+
+AI-assisted decisions operate within AI governance. High-impact decisions require human approval unless explicitly authorized by policy.
+
+### Business Recommendations
+
+Decision Intelligence generates business recommendations for:
+
+- Client Hub growth opportunities
+- Artist development priorities
+- Market expansion timing
+- Partnership evaluation
+
+Recommendations cite **analytics evidence and strategic alignment** — not speculative market fiction.
+
+### Operational Recommendations
+
+Decision Intelligence generates operational recommendations for:
+
+- Platform health interventions
+- Documentation updates triggered by operational patterns
+- Deployment timing based on traffic and campaign calendars
+- Support escalation based on anomaly severity
+
+Operational recommendations feed [AMOM](./AMD_MUSIC_INTEL_AMOM.md) when populated — not duplicated here.
+
+### Executive Insights
+
+| Insight Type | Audience |
+|---|---|
+| **Strategic performance** | Solutions 007 executive leadership |
+| **Platform maturity** | Architecture and product governance |
+| **Competitive positioning** | Business development and partnership strategy |
+| **Risk indicators** | Governance and compliance awareness |
+
+Executive insights aggregate cross-domain intelligence — they do not replace governed executive judgment.
+
+---
+
+## 10. Intelligence Interaction Model
+
+The intelligence layer connects users, content, agents, knowledge, analytics, and external platforms through defined relationships.
+
+### Interaction Diagram
+
+```mermaid
+flowchart TB
+    subgraph Users
+        L[Listeners]
+        A[Artists]
+        O[Operators / Labels]
+        E[Executives]
+    end
+
+    subgraph Platform
+        SL[Smart Link / Experience — Volume I]
+        AG[Agent 007]
+        CI[Campaign Intelligence]
+        RI[Recommendation Intelligence]
+        DI[Decision Intelligence]
+        AN[Analytics Intelligence]
+    end
+
+    subgraph Knowledge
+        AKB[Agent Knowledge Base]
+        AIOS[AI Operating System]
+    end
+
+    subgraph External
+        DSP[Streaming Platforms]
+        SOC[Social Discovery Platforms]
+    end
+
+    L --> SL
+    A --> SL
+    O --> SL
+    SL --> AN
+    AN --> CI
+    AN --> RI
+    AN --> DI
+    AG --> AKB
+    AG --> AIOS
+    AIOS --> RI
+    AIOS --> CI
+    AIOS --> DI
+    AKB --> AG
+    L --> AG
+    A --> AG
+    O --> AG
+    E --> DI
+    SL --> DSP
+    SL --> SOC
+    CI --> O
+    RI --> L
+    DI --> E
+```
+
+### Relationship Definitions
+
+| Relationship | Description |
+|---|---|
+| **Users → Experience (Volume I)** | All users enter through governed experience surfaces |
+| **Experience → Analytics Intelligence** | Every interaction generates verifiable events for analysis |
+| **Analytics → Campaign / Recommendation / Decision Intelligence** | Raw measurement feeds specialized intelligence domains |
+| **Agent 007 ↔ AKB ↔ AI OS** | Agent operates within synchronized knowledge and orchestrated AI capabilities |
+| **Agent 007 → Users** | Contextual assistance across listener, artist, and operator roles |
+| **Intelligence → Experience** | Recommendations and insights may influence future experience — never bypass AMC laws |
+| **Experience → Streaming / Social Platforms** | External routing remains experience-layer responsibility; intelligence observes outcomes |
+
+### Cross-Entity Intelligence Flow
+
+| Entity | Primary Intelligence Consumers | Primary Intelligence Producers |
+|---|---|---|
+| **Listeners** | Recommendation Intelligence, Agent 007 | Analytics Intelligence (behavior events) |
+| **Artists** | Agent 007, Analytics Intelligence, Campaign Intelligence | Analytics Intelligence (engagement events) |
+| **Campaigns** | Campaign Intelligence, Decision Intelligence | Analytics Intelligence (campaign events) |
+| **Agent 007** | AKB, AI OS, Analytics Intelligence | Decision support outputs, user guidance |
+| **Knowledge Base** | Agent 007, AI OS | Documentation Governance, operational learning |
+| **Streaming Platforms** | Analytics Intelligence (conversion outcomes) | None — external; observed only |
+
+---
+
+## 11. Future Intelligence
+
+The following intelligence domains are **architecturally reserved** in MEB Volume II. Population and activation occur through governed execution phases — not ad hoc implementation.
+
+### Predictive Intelligence
+
+| Reservation | Intent |
+|---|---|
+| **Scope** | Forecast campaign performance, audience growth, and market trends before they fully manifest |
+| **Dependency** | Sufficient historical analytics data; governed model training |
+| **Governance** | Predictions labeled as forecasts — never presented as recorded fact |
+
+### Voice Intelligence
+
+| Reservation | Intent |
+|---|---|
+| **Scope** | Voice-driven discovery, Agent 007 voice interaction, accessibility enhancement |
+| **Dependency** | AI OS voice capability domain; privacy and consent architecture |
+| **Governance** | Voice data handling under privacy principles |
+
+### Multi-Agent Intelligence
+
+| Reservation | Intent |
+|---|---|
+| **Scope** | Specialized agents for curation, campaign, analytics, and enterprise tasks under unified governance |
+| **Dependency** | AI OS multi-agent orchestration; AKB multi-agent constraint model |
+| **Governance** | Multi-agent authority model; conflict resolution protocol |
+
+### Autonomous Campaign Optimisation
+
+| Reservation | Intent |
+|---|---|
+| **Scope** | Governed automatic campaign adjustments within pre-approved boundaries |
+| **Dependency** | Campaign Intelligence maturity; executive authorization framework |
+| **Governance** | Autonomy limits defined by AI governance — not open-ended |
+
+### Enterprise Intelligence
+
+| Reservation | Intent |
+|---|---|
+| **Scope** | Cross-tenant analytics, white-label intelligence, enterprise SLA reporting |
+| **Dependency** | MEB Volume III (Business Platform); enterprise data governance |
+| **Governance** | Enterprise tier authorization; tenant isolation preserved |
+
+### Future AI Services
+
+| Reservation | Intent |
+|---|---|
+| **Scope** | AI Curator, AI DJ, advanced discovery engines, music intelligence APIs |
+| **Dependency** | AI OS capability expansion; AKB knowledge growth |
+| **Governance** | Each service requires AI governance review before activation |
+
+---
+
+## 12. Implementation Boundaries
+
+Volume II defines **intelligence behavior and operational intent**. It explicitly does not define:
+
+| Domain | Belongs In |
+|---|---|
+| AI model selection, prompts, and code | AI Operating System · Application codebase |
+| Agent context storage and retrieval mechanics | Agent 007 Data Architecture · AKB |
+| Telemetry schemas and event pipelines | Analytics Architecture |
+| Database tables for intelligence data | Database Master Blueprint |
+| API endpoints for intelligence services | Phase specifications · Application architecture |
+| Campaign-specific intelligence configurations | Campaign records · AMOM |
+| Business model and pricing intelligence | MEB Volume III — Business Platform *(pending)* |
+
+**Rule for intelligence implementers:** If the question is *what intelligence should do*, answer from MEB Volume II. If the question is *how to build it*, consult AKB, AI OS, Analytics Architecture, and technical documents.
+
+**Rule for AI governance reviewers:** Any intelligence capability that violates AMC Law 5 (Agent 007 as intelligence layer), Law 8 (analytics truth), or Volume I experience laws requires executive review before activation.
+
+---
+
+## 13. References
+
+Referenced by relative path only. Contents are not reproduced herein.
+
+### Constitutional & Structural
+
+| Document | Path |
+|---|---|
+| Architecture Master Charter | [`../architecture/AMD_MUSIC_INTEL_AMC.md`](../architecture/AMD_MUSIC_INTEL_AMC.md) |
+| Enterprise Architecture Framework | [`../architecture/AMD_MUSIC_INTEL_EAF.md`](../architecture/AMD_MUSIC_INTEL_EAF.md) |
+| MEB Volume I — Platform Experience | [Volume I — Platform Experience](#volume-i--platform-experience) *(this document)* |
+
+### Intelligence Domain Documents
+
+| Document | Path |
+|---|---|
+| Agent Knowledge Base | [`../intelligence/AMD_MUSIC_INTEL_AKB.md`](../intelligence/AMD_MUSIC_INTEL_AKB.md) |
+| AI Operating System | [`../intelligence/AMD_MUSIC_INTEL_AI_OPERATING_SYSTEM.md`](../intelligence/AMD_MUSIC_INTEL_AI_OPERATING_SYSTEM.md) |
+| Analytics Architecture | [`../analytics/AMD_MUSIC_INTEL_ANALYTICS_ARCHITECTURE.md`](../analytics/AMD_MUSIC_INTEL_ANALYTICS_ARCHITECTURE.md) |
+| Agent 007 Data Architecture | [`../AMD_AGENT_007_DATA_ARCHITECTURE.md`](../AMD_AGENT_007_DATA_ARCHITECTURE.md) |
+
+### MEB Series (Volumes III–V — Pending)
+
+| Document | Path |
+|---|---|
+| MEB Volume III — Business Platform | *Pending — this document* |
+| MEB Volume IV — Operations & Governance | *Pending — this document* |
+| MEB Volume V — Evolution & Roadmap | *Pending — this document* |
+| Architecture Memory & Operations Manual | [`./AMD_MUSIC_INTEL_AMOM.md`](./AMD_MUSIC_INTEL_AMOM.md) |
+
+### Governance & Entry Point
+
+| Document | Path |
+|---|---|
+| Master Documentation Ledger | [`../governance/AMD_MUSIC_INTEL_MDL.md`](../governance/AMD_MUSIC_INTEL_MDL.md) |
+| Documentation Integration Protocol | [`../governance/AMD_MUSIC_INTEL_DIP.md`](../governance/AMD_MUSIC_INTEL_DIP.md) |
+| Documentation Entry Point | [`../README.md`](../README.md) |
+
+### Strategic & Legacy
+
+| Document | Path |
+|---|---|
+| AI DJ Master Roadmap | [`../AMD_AI_DJ_MASTER_ROADMAP.md`](../AMD_AI_DJ_MASTER_ROADMAP.md) |
+| Product Blueprint | [`../AMD_MUSIC_INTEL_PRODUCT_BLUEPRINT.md`](../AMD_MUSIC_INTEL_PRODUCT_BLUEPRINT.md) |
+| Interaction Memory Log | [`../AMD_MUSIC_INTEL_INTERACTION_MEMORY_LOG.md`](../AMD_MUSIC_INTEL_INTERACTION_MEMORY_LOG.md) |
+
+---
+
+*AMD Music Intelligence — Master Execution Blueprint (MEB)*  
+*Volume II — Platform Intelligence · Version 1.0.0 · Approved Draft*  
 *Effective 2026-07-04 · Authority: AMD Solutions 007*
