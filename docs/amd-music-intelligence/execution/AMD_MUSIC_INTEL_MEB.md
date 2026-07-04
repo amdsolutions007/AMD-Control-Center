@@ -37,7 +37,7 @@
 | **Effective Date** | 2026-07-04 |
 | **Last Updated** | 2026-07-04 |
 | **Volume** | I of V — Platform Experience |
-| **MEB Series** | I — Platform Experience · II — Platform Intelligence · III — Business Platform · IV — Operations & Governance · V — Evolution & Roadmap *(Volume II in this document; Volumes III–V pending)* |
+| **MEB Series** | I — Platform Experience · II — Platform Intelligence · III — Business Platform · IV — Operations & Governance · V — Evolution & Roadmap *(Volumes II–III in this document; Volumes IV–V pending)* |
 
 ---
 
@@ -106,7 +106,7 @@ AMC (Constitution — principles & laws)
         └── MEB (Master Execution Blueprint — five volumes)
               ├── Volume I — Platform Experience (this document)
               ├── Volume II — Platform Intelligence (this document)
-              ├── Volume III — Business Platform (pending)
+              ├── Volume III — Business Platform (this document)
               ├── Volume IV — Operations & Governance (pending)
               └── Volume V — Evolution & Roadmap (pending)
                     └── AMOM · AKB · Analytics Architecture (domain depth)
@@ -424,7 +424,7 @@ Referenced by relative path only. Contents are not reproduced herein.
 | Document | Path |
 |---|---|
 | MEB Volume II — Platform Intelligence | [Volume II — Platform Intelligence](#volume-ii--platform-intelligence) *(this document)* |
-| MEB Volume III — Business Platform | *Pending — same file, future section* |
+| MEB Volume III — Business Platform | [Volume III — Business Platform](#volume-iii--business-platform) *(this document)* |
 | MEB Volume IV — Operations & Governance | *Pending — same file, future section* |
 | MEB Volume V — Evolution & Roadmap | *Pending — same file, future section* |
 | Architecture Memory & Operations Manual | [`./AMD_MUSIC_INTEL_AMOM.md`](./AMD_MUSIC_INTEL_AMOM.md) |
@@ -500,7 +500,7 @@ Referenced by relative path only. Contents are not reproduced herein.
 | **Effective Date** | 2026-07-04 |
 | **Last Updated** | 2026-07-04 |
 | **Volume** | II of V — Platform Intelligence |
-| **MEB Series** | I — Platform Experience · **II — Platform Intelligence** · III — Business Platform · IV — Operations & Governance · V — Evolution & Roadmap *(Volumes III–V pending)* |
+| **MEB Series** | I — Platform Experience · II — Platform Intelligence · **III — Business Platform** · IV — Operations & Governance · V — Evolution & Roadmap *(Volumes IV–V pending)* |
 
 ---
 
@@ -1034,7 +1034,7 @@ The following intelligence domains are **architecturally reserved** in MEB Volum
 | Reservation | Intent |
 |---|---|
 | **Scope** | Cross-tenant analytics, white-label intelligence, enterprise SLA reporting |
-| **Dependency** | MEB Volume III (Business Platform); enterprise data governance |
+| **Dependency** | [MEB Volume III — Business Platform](#volume-iii--business-platform); enterprise data governance |
 | **Governance** | Enterprise tier authorization; tenant isolation preserved |
 
 ### Future AI Services
@@ -1059,7 +1059,7 @@ Volume II defines **intelligence behavior and operational intent**. It explicitl
 | Database tables for intelligence data | Database Master Blueprint |
 | API endpoints for intelligence services | Phase specifications · Application architecture |
 | Campaign-specific intelligence configurations | Campaign records · AMOM |
-| Business model and pricing intelligence | MEB Volume III — Business Platform *(pending)* |
+| Business model and pricing intelligence | [MEB Volume III — Business Platform](#volume-iii--business-platform) *(this document)* |
 
 **Rule for intelligence implementers:** If the question is *what intelligence should do*, answer from MEB Volume II. If the question is *how to build it*, consult AKB, AI OS, Analytics Architecture, and technical documents.
 
@@ -1088,11 +1088,11 @@ Referenced by relative path only. Contents are not reproduced herein.
 | Analytics Architecture | [`../analytics/AMD_MUSIC_INTEL_ANALYTICS_ARCHITECTURE.md`](../analytics/AMD_MUSIC_INTEL_ANALYTICS_ARCHITECTURE.md) |
 | Agent 007 Data Architecture | [`../AMD_AGENT_007_DATA_ARCHITECTURE.md`](../AMD_AGENT_007_DATA_ARCHITECTURE.md) |
 
-### MEB Series (Volumes III–V — Pending)
+### MEB Series (Volumes IV–V — Pending)
 
 | Document | Path |
 |---|---|
-| MEB Volume III — Business Platform | *Pending — this document* |
+| MEB Volume III — Business Platform | [Volume III — Business Platform](#volume-iii--business-platform) *(this document)* |
 | MEB Volume IV — Operations & Governance | *Pending — this document* |
 | MEB Volume V — Evolution & Roadmap | *Pending — this document* |
 | Architecture Memory & Operations Manual | [`./AMD_MUSIC_INTEL_AMOM.md`](./AMD_MUSIC_INTEL_AMOM.md) |
@@ -1117,4 +1117,588 @@ Referenced by relative path only. Contents are not reproduced herein.
 
 *AMD Music Intelligence — Master Execution Blueprint (MEB)*  
 *Volume II — Platform Intelligence · Version 1.0.0 · Approved Draft*  
+*Effective 2026-07-04 · Authority: AMD Solutions 007*
+
+---
+---
+
+# Volume III — Business Platform
+
+> **Classification:** Implementation Blueprint · Business Platform · Volume III of V  
+> **Authority:** Subordinate to [AMC](../architecture/AMD_MUSIC_INTEL_AMC.md) · Implements [EAF](../architecture/AMD_MUSIC_INTEL_EAF.md) Layer 1 (Business Architecture)  
+> **Continuity:** Builds upon [Volume I — Platform Experience](#volume-i--platform-experience) and [Volume II — Platform Intelligence](#volume-ii--platform-intelligence)  
+> **Distinction:** Volume I defines *experience*. Volume II defines *intelligence*. Volume III defines *business capabilities and operating behaviour*.
+
+---
+
+## Table of Contents — Volume III
+
+1. [Document Information](#1-document-information-2)
+2. [Business Platform Overview](#2-business-platform-overview)
+3. [Artist Capability](#3-artist-capability)
+4. [Label Capability](#4-label-capability)
+5. [Partner Capability](#5-partner-capability)
+6. [Commercial Capability](#6-commercial-capability)
+7. [Community Capability](#7-community-capability)
+8. [Business Intelligence Relationships](#8-business-intelligence-relationships)
+9. [Future Business Expansion](#9-future-business-expansion)
+10. [Implementation Boundaries](#10-implementation-boundaries)
+11. [Dependencies](#11-dependencies)
+12. [Version Notes](#12-version-notes)
+13. [Future Extension Points](#13-future-extension-points)
+14. [References](#14-references)
+
+---
+
+## 1. Document Information
+
+| Field | Value |
+|---|---|
+| **Title** | AMD Music Intelligence — Master Execution Blueprint (MEB) · Volume III — Business Platform |
+| **Version** | 1.0.0 |
+| **Status** | Approved Draft |
+| **Owner** | AMD Solutions 007 |
+| **Approval Authority** | Solutions 007 — Chief Product Architect / Executive Governance |
+| **Effective Date** | 2026-07-04 |
+| **Last Updated** | 2026-07-04 |
+| **Volume** | III of V — Business Platform |
+| **MEB Series** | I — Platform Experience · II — Platform Intelligence · **III — Business Platform** · IV — Operations & Governance · V — Evolution & Roadmap *(Volumes IV–V pending)* |
+
+---
+
+## 2. Business Platform Overview
+
+The Business Platform is the **commercial and stakeholder operating layer** of AMD Music Intelligence. It defines how the Master Platform serves artists, labels, partners, listeners, and enterprise customers — and how business value is created, delivered, and measured.
+
+AMD Music Intelligence operates a **B2B2C model**:
+
+| Layer | Business Role |
+|---|---|
+| **B2B (Labels & Collectives)** | Client Hubs — branded tenant environments for roster management, campaigns, analytics, and audience ownership |
+| **B2C (Listeners)** | Discovery consumers — engaging with music, playlists, and intelligence-powered experiences |
+| **B2B2C Bridge** | Artists — creating within Client Hubs while reaching listener audiences through platform intelligence |
+
+The Business Platform is **not** a single client or campaign. It is the governed capability set that allows **N artists, N labels, N partners, and N markets** to operate on one Master Platform without architectural reinvention.
+
+Business capabilities consume:
+
+- **Volume I** — governed experience surfaces (Smart Link, motherboard, Listen Now)
+- **Volume II** — intelligence services (Agent 007, analytics, campaign intelligence, recommendations)
+
+Business capabilities do **not** redefine experience or intelligence — they define **who receives what business value** and **how stakeholder relationships operate**.
+
+---
+
+## 3. Artist Capability
+
+Artists are the **creative core** of the ecosystem. Artist capability defines how individual creators engage with the platform through Client Hubs.
+
+### Artist Onboarding
+
+| Stage | Business Behaviour |
+|---|---|
+| **Discovery of platform** | Artist or representative learns of AMD Music Intelligence through label, partner, or direct outreach |
+| **Hub association** | Artist is associated with a Client Hub — no standalone orphan artist tenant without governance |
+| **Profile establishment** | Artist identity, catalog references, and brand assets registered within hub scope |
+| **Capability orientation** | Agent 007 and platform guides orient artist to available services and intelligence |
+| **Activation** | Artist surfaces (Smart Links, campaigns, analytics access) enabled per hub policy |
+
+Onboarding is **relationship-governed** — artists enter through labels/collectives unless executive policy defines direct artist tier.
+
+### Music Submission
+
+| Behaviour | Intent |
+|---|---|
+| **Catalog registration** | Artist music registered for platform intelligence, playlist consideration, and distribution coordination |
+| **Metadata governance** | Accurate artist, track, and release information — foundation for analytics truth |
+| **Hub-scoped ownership** | Submitted catalog belongs to artist within Client Hub tenant boundaries |
+
+Submission is a **business process** — technical ingestion belongs in downstream documents.
+
+### Playlist Consideration
+
+| Behaviour | Intent |
+|---|---|
+| **Flagship playlist pathways** | Curated playlists (e.g., genre flagship collections) accept consideration requests through governed process |
+| **Merit-based inclusion** | Inclusion based on quality, genre fit, and strategic alignment — not pay-to-play disguised as curation |
+| **Transparency** | Artists understand consideration status and criteria |
+
+Playlist consideration connects to Recommendation Intelligence (Volume II) without duplicating its mechanics.
+
+### Promotion Services
+
+| Service Domain | Business Intent |
+|---|---|
+| **Smart Link campaigns** | Artist and release promotion through governed acquisition surfaces |
+| **Social discovery amplification** | Traffic acquisition through TikTok, Instagram, and future social channels |
+| **Cross-platform reach** | Streaming destination routing through platform-neutral motherboard |
+| **Audience capture** | Governed audience ownership flows where enabled by hub policy |
+
+Promotion services leverage Volume I experience and Volume II campaign intelligence.
+
+### Verification
+
+| Verification Type | Purpose |
+|---|---|
+| **Identity verification** | Confirm artist authenticity and prevent impersonation |
+| **Catalog verification** | Confirm rights and metadata accuracy where required |
+| **Hub authorization** | Confirm label/collective authorization for artist representation |
+
+Verification protects platform trust — for listeners, labels, and partners.
+
+### Artist Growth Philosophy
+
+| Principle | Definition |
+|---|---|
+| **Discovery as career infrastructure** | Platform exists to amplify artist careers — not extract value without return |
+| **Truthful intelligence** | Artist-facing analytics reflect verifiable data — never inflated metrics |
+| **Progressive capability** | Artists gain deeper intelligence and promotion tools as engagement matures |
+| **Hub partnership** | Labels and collectives support artist growth — platform enables, not replaces, that relationship |
+| **Long-term relationship** | Artist capability designed for career arcs — not one-release transactions |
+
+---
+
+## 4. Label Capability
+
+Labels and collectives operate **Client Hubs** — the B2B tenant unit of the Master Platform.
+
+### Label Onboarding
+
+| Stage | Business Behaviour |
+|---|---|
+| **Commercial qualification** | Label evaluated for platform fit, strategic alignment, and hub capacity |
+| **Client Hub provisioning** | Branded tenant environment created — roster, campaigns, analytics scoped to hub |
+| **Operator training** | Hub administrators oriented to platform capabilities, governance, and intelligence tools |
+| **Template activation** | Certified experience patterns (Smart Link, motherboard) activated for hub — translation, not redesign |
+| **Go-live governance** | Executive or technical sign-off before public campaign launch |
+
+Client Hub onboarding establishes the **template for all future label tenants**.
+
+### Campaign Management
+
+| Capability | Business Behaviour |
+|---|---|
+| **Campaign creation** | Operators define promotional cycles — releases, playlists, artist pushes |
+| **Asset coordination** | Creative, copy, and media aligned with platform identity guardrails |
+| **Lifecycle oversight** | Launch, active monitoring, optimization, completion — per Volume II Campaign Intelligence |
+| **Multi-artist campaigns** | Hub-scoped campaigns spanning roster members |
+| **Performance accountability** | Verifiable reporting — no fabricated campaign success |
+
+Campaign management is the **primary B2B operational workflow** on the platform.
+
+### Analytics Access
+
+| Access Level | Business Intent |
+|---|---|
+| **Hub dashboard** | Aggregate hub performance — traffic, conversions, audience growth |
+| **Artist-level drill-down** | Per-artist metrics within hub authorization boundaries |
+| **Campaign reports** | Campaign-specific verifiable performance |
+| **Export & sharing** | Governed data export for label business use — within privacy rules |
+
+Analytics access implements AMC Law 8 — analytics must never lie.
+
+### Distribution Coordination
+
+| Behaviour | Intent |
+|---|---|
+| **DSP alignment** | Coordinate streaming destination availability across platform registry |
+| **Release synchronization** | Align campaign timing with distribution availability |
+| **Platform neutrality** | No preferential commercial routing to specific DSPs |
+| **Future platform activation** | Governed process for adding new streaming integrations |
+
+Distribution coordination connects business timing to Volume I streaming layer without defining technical routing.
+
+### Label Intelligence
+
+| Intelligence Domain | Business Value |
+|---|---|
+| **Roster performance** | Which artists are gaining discovery traction |
+| **Audience composition** | Who is engaging — geography, channel, behavior patterns |
+| **Campaign ROI indicators** | Cost-of-acquisition vs audience and streaming conversion |
+| **Competitive context** | Hub performance trends over time — internal benchmarks, not fabricated market data |
+| **Strategic recommendations** | Decision Intelligence outputs for label operators |
+
+Label intelligence is the **B2B face of platform intelligence** — powered by Volume II, consumed by hub operators.
+
+---
+
+## 5. Partner Capability
+
+Partners extend the platform's reach, capability, and ecosystem value without becoming platform identity.
+
+### Technology Partners
+
+| Partner Type | Collaboration Model |
+|---|---|
+| **Cloud and infrastructure providers** | Hosting, storage, AI services — integrated at infrastructure layer |
+| **AI service providers** | Intelligence capability extension under AI governance |
+| **Analytics and data partners** | Supplementary data sources — governed, privacy-respecting |
+| **Developer platform partners** | Future API and SDK ecosystem *(reserved)* |
+
+Technology partners integrate through EAF Layer 6 (Integration Architecture) — business relationship defined here.
+
+### Strategic Partners
+
+| Partner Type | Collaboration Model |
+|---|---|
+| **Media and culture organizations** | Co-marketing, discovery amplification, cultural credibility |
+| **Industry bodies** | Standards alignment, market access, advocacy |
+| **Brand partners** | Sponsorship and co-branded discovery initiatives — governed commercial terms |
+
+Strategic partners amplify platform mission — African music discovery and artist growth.
+
+### Distribution Partners
+
+| Partner Type | Collaboration Model |
+|---|---|
+| **DSP relationships** | Platform routing to official streaming destinations |
+| **Social platform relationships** | Discovery channel profile linking and traffic acquisition |
+| **Regional distributors** | Market-specific reach extension |
+
+Distribution partners are **destinations and channels** — the platform remains the sovereign entry point.
+
+### Ecosystem Collaboration
+
+| Principle | Definition |
+|---|---|
+| **Open architecture** | Partners integrate through defined boundaries — not walled-garden capture |
+| **Platform sovereignty** | AMD Music Intelligence identity preserved in all partner-facing experiences |
+| **Mutual value** | Partnerships must benefit artists, labels, and listeners — not extract without return |
+| **Governed contracts** | All partnerships operate under executive-approved commercial and data terms |
+
+---
+
+## 6. Commercial Capability
+
+Commercial capability defines **how the platform generates and will generate revenue** — without prescribing pricing implementation.
+
+### Advertising
+
+| Domain | Business Intent |
+|---|---|
+| **Campaign ad traffic** | Paid acquisition driving traffic to Smart Links and hub surfaces |
+| **Platform ad inventory** | Future governed ad placements within platform experiences *(reserved)* |
+| **Attribution** | Ad performance measured through verified analytics — not estimated reach fiction |
+
+Advertising must respect user experience principles from Volume I — no degradation of premium presentation without governed design phase.
+
+### Sponsorship
+
+| Domain | Business Intent |
+|---|---|
+| **Playlist sponsorship** | Brands sponsor curated discovery experiences — clearly disclosed |
+| **Campaign co-branding** | Sponsored artist or release campaigns within hub governance |
+| **Event and cultural sponsorship** | Platform-associated cultural initiatives |
+
+Sponsorship revenue supports platform sustainability while preserving discovery integrity.
+
+### Premium Services
+
+| Service Tier | Business Intent |
+|---|---|
+| **Enhanced analytics** | Deeper Artist Intelligence and hub reporting |
+| **Priority promotion** | Elevated campaign support and discovery surfacing — not pay-to-play playlist fraud |
+| **Advanced intelligence** | Premium Agent 007 and decision support capabilities |
+| **White-label options** | Future hub customization within identity guardrails *(reserved)* |
+
+Premium services extend capability — they do not compromise analytics truth or platform neutrality.
+
+### Enterprise Offerings
+
+| Offering | Business Intent |
+|---|---|
+| **Multi-hub enterprise tier** | Large labels and agencies managing multiple rosters |
+| **Enterprise SLA** | Guaranteed uptime, support, and reporting standards |
+| **Custom intelligence** | Enterprise Decision Intelligence and cross-roster analytics |
+| **API access** | Governed programmatic access to platform capabilities *(reserved)* |
+
+Enterprise offerings align with Future Business Expansion (Section 9).
+
+### Future Monetisation
+
+| Reserved Domain | Notes |
+|---|---|
+| **Marketplace** | Future platform for services, beats, or rights transactions *(architecturally reserved)* |
+| **Data products** | Aggregated, privacy-respecting market intelligence products *(governed)* |
+| **Licensing** | Platform technology licensing to third parties *(executive approval required)* |
+
+Future monetisation requires constitutional and commercial governance review before activation.
+
+---
+
+## 7. Community Capability
+
+Community capability defines how **listeners and fans** engage with the platform beyond single-transaction streaming routing.
+
+### Listener Engagement
+
+| Behaviour | Intent |
+|---|---|
+| **Repeat visitation** | Listeners return to Smart Links, playlists, and discovery surfaces |
+| **Preference expression** | Listening and discovery behavior informs personalization — privacy-governed |
+| **Community membership** | WhatsApp, Telegram, and future community channels for direct fan relationship |
+| **Feedback loops** | Listener engagement informs curation and recommendation intelligence |
+
+Engagement builds **audience ownership** — strategic capital defined in the AMC and Product Blueprint.
+
+### Music Discovery
+
+| Behaviour | Intent |
+|---|---|
+| **Curated discovery** | Flagship playlists and recommendation surfaces introduce listeners to new music |
+| **Cultural context** | African music and diaspora positioned as first-class discovery citizens |
+| **Agent-assisted exploration** | Agent 007 supports listener discovery journeys |
+| **Cross-hub discovery** | Listeners discover artists across Client Hubs — within governed recommendation bounds |
+
+Discovery is the **B2C core value** — streaming routing is the conversion mechanism, not the sole product.
+
+### Social Ecosystem
+
+| Channel | Business Role |
+|---|---|
+| **TikTok** | Short-form discovery and viral acquisition |
+| **Instagram** | Brand visual presence and community building |
+| **Facebook** | Community group and event engagement *(future depth reserved)* |
+| **WhatsApp** | Direct fan communication and audience ownership |
+
+Social ecosystem drives traffic **into** the platform — consistent with Volume I discovery layer and AMC Law 4.
+
+### Communications
+
+| Communication Type | Governance |
+|---|---|
+| **Platform announcements** | Release alerts, playlist updates, campaign notifications |
+| **Artist-to-fan** | Governed messaging through hub authorization |
+| **Opt-in respect** | All communications require consent — no spam architecture |
+| **Brand voice** | Executive authority tone — consistent with AMD Solutions 007 standards |
+
+---
+
+## 8. Business Intelligence Relationships
+
+Business entities interact through experience, intelligence, and commercial layers. This section defines **relationship behaviour** — not implementation.
+
+### Relationship Model
+
+```mermaid
+flowchart TB
+    subgraph Business
+        AR[Artists]
+        LB[Labels / Client Hubs]
+        PT[Partners]
+        CM[Campaigns]
+        LS[Listeners]
+    end
+
+    subgraph Platform
+        SL[Smart Link — Volume I]
+        AG[Agent 007 — Volume II]
+        AI[AI Operating System — Volume II]
+        AN[Analytics — Volume II]
+    end
+
+    LB --> AR
+    LB --> CM
+    AR --> CM
+    PT --> LB
+    PT --> SL
+    CM --> SL
+    LS --> SL
+    LS --> AG
+    LB --> AG
+    AR --> AG
+    SL --> AN
+    AG --> AI
+    AN --> LB
+    AN --> AR
+    AN --> CM
+    AI --> AG
+```
+
+### Relationship Definitions
+
+| Relationship | Business Behaviour |
+|---|---|
+| **Labels → Artists** | Labels manage roster; artists operate within hub scope; platform enables hub authority |
+| **Labels → Campaigns** | Labels create and oversee campaigns for roster artists and playlists |
+| **Artists → Campaigns** | Artists participate in campaigns; receive performance intelligence |
+| **Partners → Labels** | Partners provide distribution, technology, or strategic value to hubs |
+| **Partners → Platform** | Partners integrate at governed boundaries; do not own platform identity |
+| **Campaigns → Smart Link** | Campaigns deploy through Smart Link as primary acquisition surface |
+| **Listeners → Smart Link** | Listeners arrive via social, ads, or direct link; experience Volume I surfaces |
+| **Listeners → Agent 007** | Listeners receive discovery assistance and platform guidance |
+| **Labels / Artists → Agent 007** | Operators and artists receive campaign, career, and decision support |
+| **Smart Link → Analytics** | All interactions generate verifiable events feeding business intelligence |
+| **Analytics → Labels / Artists / Campaigns** | Intelligence outputs returned as dashboards, reports, and recommendations |
+| **AI OS → Agent 007** | AI capabilities orchestrated to support agent roles across stakeholder types |
+
+---
+
+## 9. Future Business Expansion
+
+The following business domains are **architecturally reserved**. Activation requires governed execution phases and executive approval.
+
+### International Markets
+
+| Expansion Dimension | Business Intent |
+|---|---|
+| **Regional Client Hubs** | Labels and collectives in new geographic markets |
+| **Localized discovery** | Market-specific playlist and recommendation context |
+| **Regional DSP availability** | Integration layer extended for market-relevant streaming platforms |
+| **Compliance** | Privacy and commercial terms adapted per jurisdiction |
+
+### Enterprise Customers
+
+| Expansion Dimension | Business Intent |
+|---|---|
+| **Major label groups** | Multi-roster, multi-market enterprise tenants |
+| **Agency networks** | Campaign management across multiple hub instances |
+| **Enterprise SLA tier** | Contractual performance and support guarantees |
+| **Custom intelligence products** | Bespoke analytics and decision support packages |
+
+### Additional Services
+
+| Reserved Service | Notes |
+|---|---|
+| **Artist Intelligence portal** | Deep career analytics — referenced in strategic roadmap |
+| **AI Curator and AI DJ** | Premium listener and operator experiences |
+| **Rights and licensing services** | Future marketplace capability |
+| **Education and certification** | Platform training for operators and partners |
+
+### Future Products
+
+| Reserved Product | Notes |
+|---|---|
+| **Standalone discovery app** | Native mobile discovery experience |
+| **B2B intelligence API** | Programmatic access for enterprise integrators |
+| **White-label platform** | Partner-branded hub instances within governance |
+| **Music intelligence reports** | Commercial market intelligence products |
+
+---
+
+## 10. Implementation Boundaries
+
+Volume III defines **business capabilities and operating behaviour**. It explicitly does not define:
+
+| Domain | Belongs In |
+|---|---|
+| Pricing, billing, and payment processing | Future commercial implementation documents |
+| Database schema for business entities | Database Master Blueprint |
+| API contracts for hub and artist portals | Application architecture · Phase specifications |
+| UI component implementation | Application codebase · Volume I experience specs |
+| Campaign technical configuration | Campaign records · AMOM |
+| AI and analytics mechanics | Volume II · AKB · AI OS · Analytics Architecture |
+| Operations and deployment | MEB Volume IV — Operations & Governance *(pending)* |
+| Roadmap sequencing | MEB Volume V — Evolution & Roadmap *(pending)* |
+
+**Rule for business stakeholders:** If the question is *what business capability exists*, answer from Volume III. If the question is *how it is built*, consult downstream technical documents.
+
+**Rule for commercial reviewers:** New revenue mechanisms must align with AMC core values (Integrity, Intelligence, Ownership) and Volume I trust principles before activation.
+
+---
+
+## 11. Dependencies
+
+### Prerequisite Documents
+
+| Document | Dependency Reason |
+|---|---|
+| [AMC](../architecture/AMD_MUSIC_INTEL_AMC.md) | Constitutional authority — business capabilities must comply with all laws and principles |
+| [EAF](../architecture/AMD_MUSIC_INTEL_EAF.md) | Layer 1 Business Architecture structure and boundaries |
+| [MEB Volume I](#volume-i--platform-experience) | Experience surfaces through which business value is delivered |
+| [MEB Volume II](#volume-ii--platform-intelligence) | Intelligence services powering business analytics and decisions |
+| [Product Blueprint](../AMD_MUSIC_INTEL_PRODUCT_BLUEPRINT.md) | B2B2C model and audience ownership strategy — referenced, not duplicated |
+
+### Downstream Documents
+
+| Document | Relationship |
+|---|---|
+| MEB Volume IV — Operations & Governance | Operationalizes business processes into deployment and governance procedures |
+| MEB Volume V — Evolution & Roadmap | Sequences business capability activation over time |
+| [AMOM](./AMD_MUSIC_INTEL_AMOM.md) | Operations manual for business-critical deployment and continuity |
+| [Analytics Architecture](../analytics/AMD_MUSIC_INTEL_ANALYTICS_ARCHITECTURE.md) | Measurement implementation for business intelligence |
+| [MDL](../governance/AMD_MUSIC_INTEL_MDL.md) | Catalogs this document and governs amendments |
+
+---
+
+## 12. Version Notes
+
+| Field | Value |
+|---|---|
+| **Series position** | Volume III of V in the Master Execution Blueprint |
+| **Volume title** | Business Platform |
+| **Version** | 1.0.0 |
+| **Status** | Approved Draft |
+| **Effective date** | 2026-07-04 |
+| **Prior volumes** | [Volume I — Platform Experience](#volume-i--platform-experience) · [Volume II — Platform Intelligence](#volume-ii--platform-intelligence) |
+| **Subsequent volumes** | Volume IV — Operations & Governance · Volume V — Evolution & Roadmap *(pending)* |
+
+Volume III may be amended through standard MEB revision procedures defined in the AMC. Business capability additions use **extension points** (Section 13) — not structural rewrites.
+
+---
+
+## 13. Future Extension Points
+
+The following extension points are reserved within Volume III structure. New capabilities **append within domains** — they do not require volume restructuring.
+
+| Extension Point | Domain | Notes |
+|---|---|---|
+| **Direct artist tier** | Artist Capability | Artist onboarding without label intermediary — executive policy required |
+| **Fan membership tiers** | Community Capability | Paid fan clubs and exclusive content access |
+| **Partner marketplace** | Partner Capability | Self-service partner integration portal |
+| **Dynamic pricing models** | Commercial Capability | Tiered hub pricing, usage-based billing |
+| **Regional hub templates** | Label Capability | Market-specific onboarding and compliance packages |
+| **Creator economy tools** | Artist Capability | Tips, merchandise links, crowdfunding integration |
+| **Enterprise API products** | Commercial Capability | Programmatic B2B access packages |
+| **Education and certification** | Partner Capability | Official platform training for operators |
+
+Extension activation requires: AMC compliance review · Documentation update via DIP · MDL catalog amendment · MEB version increment.
+
+---
+
+## 14. References
+
+Referenced by relative path only. Contents are not reproduced herein.
+
+### Constitutional & Structural
+
+| Document | Path |
+|---|---|
+| Architecture Master Charter | [`../architecture/AMD_MUSIC_INTEL_AMC.md`](../architecture/AMD_MUSIC_INTEL_AMC.md) |
+| Enterprise Architecture Framework | [`../architecture/AMD_MUSIC_INTEL_EAF.md`](../architecture/AMD_MUSIC_INTEL_EAF.md) |
+| MEB Volume I — Platform Experience | [Volume I — Platform Experience](#volume-i--platform-experience) *(this document)* |
+| MEB Volume II — Platform Intelligence | [Volume II — Platform Intelligence](#volume-ii--platform-intelligence) *(this document)* |
+
+### MEB Series (Volumes IV–V — Pending)
+
+| Document | Path |
+|---|---|
+| MEB Volume IV — Operations & Governance | *Pending — this document* |
+| MEB Volume V — Evolution & Roadmap | *Pending — this document* |
+
+### Business & Intelligence Domain
+
+| Document | Path |
+|---|---|
+| Product Blueprint | [`../AMD_MUSIC_INTEL_PRODUCT_BLUEPRINT.md`](../AMD_MUSIC_INTEL_PRODUCT_BLUEPRINT.md) |
+| Master Strategic README | [`../AMD_MUSIC_INTEL_MASTER_STRATEGIC_README.md`](../AMD_MUSIC_INTEL_MASTER_STRATEGIC_README.md) |
+| SmartLink System | [`../AMD_MUSIC_INTEL_SMARTLINK_SYSTEM.md`](../AMD_MUSIC_INTEL_SMARTLINK_SYSTEM.md) |
+| AI DJ Master Roadmap | [`../AMD_AI_DJ_MASTER_ROADMAP.md`](../AMD_AI_DJ_MASTER_ROADMAP.md) |
+| Agent Knowledge Base | [`../intelligence/AMD_MUSIC_INTEL_AKB.md`](../intelligence/AMD_MUSIC_INTEL_AKB.md) |
+| AI Operating System | [`../intelligence/AMD_MUSIC_INTEL_AI_OPERATING_SYSTEM.md`](../intelligence/AMD_MUSIC_INTEL_AI_OPERATING_SYSTEM.md) |
+| Analytics Architecture | [`../analytics/AMD_MUSIC_INTEL_ANALYTICS_ARCHITECTURE.md`](../analytics/AMD_MUSIC_INTEL_ANALYTICS_ARCHITECTURE.md) |
+| Architecture Memory & Operations Manual | [`./AMD_MUSIC_INTEL_AMOM.md`](./AMD_MUSIC_INTEL_AMOM.md) |
+
+### Governance & Entry Point
+
+| Document | Path |
+|---|---|
+| Master Documentation Ledger | [`../governance/AMD_MUSIC_INTEL_MDL.md`](../governance/AMD_MUSIC_INTEL_MDL.md) |
+| Documentation Integration Protocol | [`../governance/AMD_MUSIC_INTEL_DIP.md`](../governance/AMD_MUSIC_INTEL_DIP.md) |
+| Documentation Entry Point | [`../README.md`](../README.md) |
+
+---
+
+*AMD Music Intelligence — Master Execution Blueprint (MEB)*  
+*Volume III — Business Platform · Version 1.0.0 · Approved Draft*  
 *Effective 2026-07-04 · Authority: AMD Solutions 007*
