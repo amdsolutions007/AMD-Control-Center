@@ -86,11 +86,11 @@ const GATEWAY_PLATFORMS = [
 ] as const;
 
 const FEATURE_CARDS = [
-  { icon: '🧠', color: '#a855f7', title: 'MUSIC INTELLIGENCE', sub: 'Smart curation. Smarter listening.', href: '/music-intelligence' },
-  { icon: '🌐', color: '#00E5FF', title: 'GLOBAL REACH', sub: 'One link. Worldwide.', href: '/music-intelligence/platforms' },
-  { icon: '⭐', color: '#D4AF37', title: 'SMART RECS', sub: 'Discover more. Love more.', href: '/music-intelligence/coming-soon/discovery-engine' },
-  { icon: '📈', color: '#34d399', title: 'DATA GROWTH', sub: 'Real insights. Real results.', href: '/music-intelligence/coming-soon/analytics-dashboard' },
-  { icon: '👑', color: '#facc15', title: 'ARTIST POWER', sub: 'More visibility. More opportunities.', href: '/music-intelligence/coming-soon/artist-services' },
+  { icon: '🧠', color: '#a855f7', title: 'Music Intelligence', sub: 'AI-powered music discovery with intelligent playlist curation.', href: '/music-intelligence' },
+  { icon: '🌐', color: '#00E5FF', title: 'Global Reach', sub: 'One Link. Worldwide music access.', href: '/music-intelligence/platforms' },
+  { icon: '⭐', color: '#D4AF37', title: 'Smart Recommendations', sub: 'Personalized discovery powered by intelligent insights.', href: '/music-intelligence/coming-soon/discovery-engine' },
+  { icon: '📈', color: '#34d399', title: 'Audience Intelligence', sub: 'Real audience insights. Smarter growth decisions.', href: '/music-intelligence/coming-soon/analytics-dashboard' },
+  { icon: '👑', color: '#facc15', title: 'Artist Growth', sub: 'More visibility. More opportunities. More listeners.', href: '/music-intelligence/coming-soon/artist-services' },
 ] as const;
 
 const WORKFLOW_STAGES = [
