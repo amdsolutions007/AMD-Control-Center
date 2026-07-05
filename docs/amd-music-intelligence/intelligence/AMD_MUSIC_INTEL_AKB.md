@@ -894,11 +894,11 @@ Referenced by relative path only. Contents are not reproduced herein.
 
 | Volume | Path |
 |---|---|
-| Volume I — Platform Experience | [Volume I](./AMD_MUSIC_INTEL_MEB.md#volume-i--platform-experience) |
-| Volume II — Platform Intelligence | [Volume II](./AMD_MUSIC_INTEL_MEB.md#volume-ii--platform-intelligence) |
-| Volume III — Business Platform | [Volume III](./AMD_MUSIC_INTEL_MEB.md#volume-iii--business-platform) |
-| Volume IV — Operations & Governance | [Volume IV](./AMD_MUSIC_INTEL_MEB.md#volume-iv--operations--governance) |
-| Volume V — Evolution & Roadmap | [Volume V](./AMD_MUSIC_INTEL_MEB.md#volume-v--evolution--roadmap) |
+| Volume I — Platform Experience | [Volume I](../execution/AMD_MUSIC_INTEL_MEB.md#volume-i--platform-experience) |
+| Volume II — Platform Intelligence | [Volume II](../execution/AMD_MUSIC_INTEL_MEB.md#volume-ii--platform-intelligence) |
+| Volume III — Business Platform | [Volume III](../execution/AMD_MUSIC_INTEL_MEB.md#volume-iii--business-platform) |
+| Volume IV — Operations & Governance | [Volume IV](../execution/AMD_MUSIC_INTEL_MEB.md#volume-iv--operations--governance) |
+| Volume V — Evolution & Roadmap | [Volume V](../execution/AMD_MUSIC_INTEL_MEB.md#volume-v--evolution--roadmap) |
 
 ### Enterprise Suite
 
