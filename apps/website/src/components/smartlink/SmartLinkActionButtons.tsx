@@ -94,11 +94,11 @@ const FEATURE_CARDS = [
 ] as const;
 
 const WORKFLOW_STAGES = [
-  { icon: '🔍', title: 'DISCOVER', desc: 'We curate the biggest hits.', href: '/music-intelligence/coming-soon/discovery-engine', action: 'navigate' as const },
-  { icon: '🔗', title: 'CONNECT', desc: 'One link connects every platform.', href: '/music-intelligence/coming-soon/smart-link-technology', action: 'navigate' as const },
-  { icon: '▶', title: 'STREAM', desc: 'Stream anywhere, anytime.', action: 'gateway' as const },
-  { icon: '🧠', title: 'INTELLIGENCE', desc: 'AI-powered music discovery with intelligent playlist curation.', href: '/music-intelligence/coming-soon/agent-007', action: 'navigate' as const },
-  { icon: '📈', title: 'AUDIENCE INTELLIGENCE', desc: 'Real audience insights. Smarter growth decisions.', href: '/music-intelligence/coming-soon/analytics-platform', action: 'navigate' as const },
+  { icon: '🔍', title: 'DISCOVER', desc: 'AI-powered discovery. Curated hits, intelligently delivered.', href: '/music-intelligence/coming-soon/discovery-engine', action: 'navigate' as const },
+  { icon: '🔗', title: 'CONNECT', desc: 'Intelligent routing. One link, every platform.', href: '/music-intelligence/coming-soon/smart-link-technology', action: 'navigate' as const },
+  { icon: '▶', title: 'STREAM', desc: 'Seamless streaming across every connected platform.', action: 'gateway' as const },
+  { icon: '🧠', title: 'INTELLIGENCE', desc: 'AI optimization powering smarter music experiences.', href: '/music-intelligence/coming-soon/agent-007', action: 'navigate' as const },
+  { icon: '📈', title: 'AUDIENCE INTELLIGENCE', desc: 'Data intelligence that drives audience growth.', href: '/music-intelligence/coming-soon/analytics-platform', action: 'navigate' as const },
 ];
 
 /* ──────────────────────────────────────────────────────────
