@@ -813,9 +813,28 @@ Append-only record of approved implementations. Maintain per [Documentation Sync
 | **Next approved phase** | Phase 2C — Connect With AMD Music Intelligence |
 | **Git commit** | 220f9f4684c6bcdde9d006ee88f1e90b4a21cd47 |
 
+### IMP-006 — Phase 2C: Connect With AMD Music Intelligence (Revision)
+
+| Field | Value |
+|---|---|
+| **Date** | 2026-07-06 |
+| **Implementation summary** | Revised Connect With AMD Music Intelligence section — nine official AMD Music Intelligence channel cards (Gmail · X · Instagram · TikTok · YouTube · Website · LinkedIn · WhatsApp · Telegram); removed AMD Solutions 007 corporate links |
+| **Purpose** | Enable fans and partners to follow, connect, and engage across every official AMD Music Intelligence platform using correct MI-branded destinations |
+| **Architectural decisions** | ADR-009 — content-only · Connect section · UI frozen · external links via `target="_blank"` · internal Website link via Next.js `Link` |
+| **Official channels integrated** | `amdmusicintel@gmail.com` · `x.com/AMDmusicintel` · `instagram.com/amdmusicintel` · `tiktok.com/@amdmusicintel` · `youtube.com/@amdmusicintel` · `/music-intelligence` |
+| **Coming Soon cards** | LinkedIn · WhatsApp · Telegram |
+| **Files created** | None |
+| **Files modified** | `apps/website/src/components/smartlink/SmartLinkActionButtons.tsx` · `docs/amd-music-intelligence/README.md` · `docs/amd-music-intelligence/AMD_MUSIC_INTEL_MASTER_EXECUTION_STATUS.md` · `docs/amd-music-intelligence/AMD_MUSIC_INTEL_CHANGELOG.md` · `docs/amd-music-intelligence/AMD_MUSIC_INTEL_CHATGPT_MEMORY_RECALIBRATION_LOG.md` |
+| **Files removed** | None |
+| **Verification results** | Production build pass · desktop/tablet/mobile screenshots · official MI links confirmed · no `amdsolutions007` in Connect section · zero console errors |
+| **Enterprise impact** | Phase 2C remains **Active** — revision complete locally · awaiting executive approval before push/deploy |
+| **Current approved phase** | Phase 2C — **Active** (Revision) |
+| **Next approved phase** | Phase 2D — Contact AMD Music Intelligence (Pending) |
+| **Git commit** | `e49f56d` |
+
 ---
 
-*Last Updated: 2026-07-06 · Phase 2B complete · Phase 2C active · MES v4.0*
+*Last Updated: 2026-07-06 · Phase 2C active (revision) · Phase 2D pending · MES v4.0*
 
 *Do not treat this document as constitutional, architectural, registry, or process authority. Consult Section 20 references for authoritative specifications.*
 

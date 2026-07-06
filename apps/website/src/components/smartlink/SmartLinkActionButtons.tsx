@@ -101,6 +101,18 @@ const WORKFLOW_STAGES = [
   { icon: '📈', title: 'AUDIENCE INTELLIGENCE', desc: 'Data intelligence that drives audience growth.', href: '/music-intelligence/coming-soon/analytics-platform', action: 'navigate' as const },
 ];
 
+const CONNECT_CARDS = [
+  { icon: '📧', color: '#EA4335', title: 'Gmail', sub: 'Official email for AMD Music Intelligence.', href: 'mailto:amdmusicintel@gmail.com', external: true },
+  { icon: '𝕏', color: '#E8E8E8', title: 'X (Twitter)', sub: 'Latest updates and music intelligence insights.', href: 'https://x.com/AMDmusicintel', external: true },
+  { icon: '📸', color: '#E4405F', title: 'Instagram', sub: 'Visual stories, playlists and community updates.', href: 'https://www.instagram.com/amdmusicintel', external: true },
+  { icon: '🎵', color: '#00F2EA', title: 'TikTok', sub: 'Short-form music discovery and trending content.', href: 'https://www.tiktok.com/@amdmusicintel', external: true },
+  { icon: '▶', color: '#FF0000', title: 'YouTube', sub: 'Official videos, playlists and music intelligence content.', href: 'https://youtube.com/@amdmusicintel', external: true },
+  { icon: '🌐', color: '#00E5FF', title: 'Official Website', sub: 'Explore the AMD Music Intelligence ecosystem.', href: '/music-intelligence', external: false },
+  { icon: '💼', color: '#0A66C2', title: 'LinkedIn', sub: 'Professional music industry network.', comingSoon: true },
+  { icon: '💬', color: '#25D366', title: 'WhatsApp', sub: 'Direct community communication.', comingSoon: true },
+  { icon: '✈️', color: '#29B6F6', title: 'Telegram', sub: 'Instant updates and announcements.', comingSoon: true },
+] as const;
+
 /* ──────────────────────────────────────────────────────────
    MASTER BLUEPRINT MOTHERBOARD MODEL
    Static coordinate map for the approved motherboard artwork:
@@ -817,7 +829,7 @@ export default function SmartLinkActionButtons({
           </div>
 
           {/* ── CUSTOMER JOURNEY TIMELINE ── */}
-          <div className="mt-7 sm:mt-9 pb-20">
+          <div className="mt-7 sm:mt-9">
             <p className="text-center mb-6 sm:mb-8 font-black uppercase tracking-[0.26em] text-[#00E5FF]/70"
               style={{ fontSize: 'clamp(10px,1.6vw,11px)', fontWeight: 900, textShadow: '0 1px 2px rgba(0,0,0,0.85)' }}>
               How It Works
@@ -902,6 +914,97 @@ export default function SmartLinkActionButtons({
                   })}
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* ── CONNECT WITH AMD MUSIC INTELLIGENCE ── */}
+          <div className="mt-10 sm:mt-12 pb-20">
+            <p className="text-center font-black uppercase tracking-[0.18em] sm:tracking-[0.22em] text-gray-50 px-2"
+              style={{ fontSize: 'clamp(11px,2.1vw,14px)', fontWeight: 900, textShadow: '0 1px 2px rgba(0,0,0,0.85)' }}>
+              Connect With AMD Music Intelligence
+            </p>
+            <p className="text-center mt-3 mb-6 sm:mb-8 text-gray-400/90 max-w-xl mx-auto px-4 leading-relaxed"
+              style={{ fontSize: 'clamp(10px,1.8vw,13px)', lineHeight: 1.55 }}>
+              Follow, connect and engage with AMD Music Intelligence across every official platform.
+            </p>
+            <div className="mx-auto max-w-4xl grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 auto-rows-fr items-stretch px-1">
+              {CONNECT_CARDS.map(({ icon, color, title, sub, ...rest }) => {
+                const href = 'href' in rest ? rest.href : undefined;
+                const external = 'external' in rest ? rest.external : false;
+                const comingSoon = 'comingSoon' in rest ? rest.comingSoon : false;
+                const cardInner = (
+                  <>
+                    <span className="flex h-[clamp(16px,2.5vw,20px)] w-[clamp(16px,2.5vw,20px)] flex-shrink-0 items-center justify-center transition-transform duration-300 group-hover:scale-110 mt-0.5"
+                      style={{ color, fontSize:'clamp(16px,2.5vw,20px)', filter:`drop-shadow(0 0 9px ${color})` }}>{icon}</span>
+                    <div className="min-w-0 flex-1">
+                      <h4 className="font-black uppercase text-gray-50 leading-tight"
+                        style={{ fontSize:'clamp(8px,1.45vw,11.5px)', letterSpacing:'0.07em', fontWeight: 900, textShadow: '0 1px 2px rgba(0,0,0,0.85)' }}>{title}</h4>
+                      <p className="text-gray-300/95 leading-relaxed mt-1.5"
+                        style={{ fontSize:'clamp(8px,1.2vw,10.5px)', lineHeight: 1.5 }}>{sub}</p>
+                      {comingSoon && (
+                        <span className="mt-2 inline-block rounded-full border border-white/15 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-gray-400">Coming Soon</span>
+                      )}
+                    </div>
+                  </>
+                );
+                const cardStyle: React.CSSProperties = {
+                  padding: 'clamp(13px,2.1vw,17px)',
+                  background: 'rgba(5,5,18,0.92)', backdropFilter:'blur(28px)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.82), 0 0 20px rgba(124,58,237,0.08)',
+                };
+                const cardClass = `group flex h-full min-h-[64px] md:min-h-[72px] w-full items-start gap-3 rounded-xl md:rounded-2xl transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]${comingSoon ? ' opacity-80 cursor-default' : ' hover:-translate-y-0.5'}`;
+                const hoverHandlers = comingSoon ? {} : {
+                  onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
+                    e.currentTarget.style.borderColor = `${color}66`;
+                    e.currentTarget.style.boxShadow = `0 12px 36px rgba(0,0,0,0.88), 0 0 28px ${color}33`;
+                  },
+                  onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
+                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.82), 0 0 20px rgba(124,58,237,0.08)';
+                  },
+                };
+                if (href && !comingSoon) {
+                  if (external) {
+                    return (
+                      <a
+                        key={title}
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${title} — ${sub}`}
+                        className={cardClass}
+                        style={cardStyle}
+                        {...hoverHandlers}
+                      >
+                        {cardInner}
+                      </a>
+                    );
+                  }
+                  return (
+                    <Link
+                      key={title}
+                      href={href}
+                      aria-label={`${title} — ${sub}`}
+                      className={cardClass}
+                      style={cardStyle}
+                      {...hoverHandlers}
+                    >
+                      {cardInner}
+                    </Link>
+                  );
+                }
+                return (
+                  <div
+                    key={title}
+                    aria-label={`${title} — Coming Soon`}
+                    className={cardClass}
+                    style={cardStyle}
+                  >
+                    {cardInner}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

@@ -100,4 +100,19 @@ All entries are append-only. Do not modify or delete historical entries.
 
 ---
 
+### 2026-07-06 — Phase 2C: Connect With AMD Music Intelligence (Revision)
+
+| Field | Value |
+|---|---|
+| **Date** | 2026-07-06 |
+| **Version** | MES v4.0 |
+| **Phase** | 2C — Connect With AMD Music Intelligence (Revision) |
+| **Summary** | Corrected Connect section to official AMD Music Intelligence channels only — Gmail · X · Instagram · TikTok · YouTube · Website · LinkedIn · WhatsApp · Telegram (Coming Soon); removed AMD Solutions 007 corporate links |
+| **Files Affected** | `apps/website/src/components/smartlink/SmartLinkActionButtons.tsx` · `README.md` · `AMD_MUSIC_INTEL_MASTER_EXECUTION_STATUS.md` · `AMD_MUSIC_INTEL_CHANGELOG.md` · `AMD_MUSIC_INTEL_CHATGPT_MEMORY_RECALIBRATION_LOG.md` |
+| **Git Commit** | `e49f56d` |
+| **Author** | AMD Solutions 007 |
+| **Verification** | **Pass** — production build · desktop/tablet/mobile · official MI links · Coming Soon badges · zero console errors |
+
+---
+
 *Append new entries at the bottom. Never rewrite history.*
