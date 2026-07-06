@@ -131,6 +131,15 @@ const ARTIST_CARDS = [
   { icon: '🚀', color: '#E4405F', title: 'Artist Promotion', sub: 'Premium promotional pathways that amplify visibility, discovery and engagement opportunities.' },
 ] as const;
 
+const PARTNER_CARDS = [
+  { icon: '🏷️', color: '#A855F7', title: 'Record Labels', sub: 'Catalog intelligence, roster analytics and strategic release planning for modern label operations.' },
+  { icon: '📦', color: '#00E5FF', title: 'Music Distributors', sub: 'Cross-platform distribution intelligence with unified performance visibility across every connected market.' },
+  { icon: '📝', color: '#D4AF37', title: 'Music Publishers', sub: 'Rights management insights and catalog analytics powering smarter licensing and royalty decisions.' },
+  { icon: '👔', color: '#34D399', title: 'Artist Management', sub: 'End-to-end artist portfolio intelligence for managers driving growth across every platform.' },
+  { icon: '🔎', color: '#F59E0B', title: 'A&R Intelligence', sub: 'AI-powered talent discovery and market signals that identify emerging artists before the competition.' },
+  { icon: '🤝', color: '#E4405F', title: 'Commercial Partnerships', sub: 'Enterprise partnership frameworks for brands, platforms and strategic music industry alliances.' },
+] as const;
+
 /* ──────────────────────────────────────────────────────────
    MASTER BLUEPRINT MOTHERBOARD MODEL
    Static coordinate map for the approved motherboard artwork:
@@ -1109,7 +1118,7 @@ export default function SmartLinkActionButtons({
           </div>
 
           {/* ── FOR ARTISTS ── */}
-          <div className="mt-10 sm:mt-12 pb-20">
+          <div className="mt-10 sm:mt-12">
             <p className="text-center font-black uppercase tracking-[0.18em] sm:tracking-[0.22em] text-gray-50 px-2"
               style={{ fontSize: 'clamp(11px,2.1vw,14px)', fontWeight: 900, textShadow: '0 1px 2px rgba(0,0,0,0.85)' }}>
               For Artists
@@ -1120,6 +1129,55 @@ export default function SmartLinkActionButtons({
             </p>
             <div className="mx-auto max-w-4xl grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 auto-rows-fr items-stretch px-1">
               {ARTIST_CARDS.map(({ icon, color, title, sub }) => {
+                const cardStyle: React.CSSProperties = {
+                  padding: 'clamp(13px,2.1vw,17px)',
+                  background: 'rgba(5,5,18,0.92)', backdropFilter:'blur(28px)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.82), 0 0 20px rgba(124,58,237,0.08)',
+                };
+                const cardClass = 'group flex h-full min-h-[64px] md:min-h-[72px] w-full items-start gap-3 rounded-xl md:rounded-2xl transition-all duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]';
+                return (
+                  <div
+                    key={title}
+                    role="article"
+                    aria-label={`${title} — ${sub}`}
+                    className={cardClass}
+                    style={cardStyle}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = `${color}66`;
+                      e.currentTarget.style.boxShadow = `0 12px 36px rgba(0,0,0,0.88), 0 0 28px ${color}33`;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                      e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.82), 0 0 20px rgba(124,58,237,0.08)';
+                    }}
+                  >
+                    <span className="flex h-[clamp(16px,2.5vw,20px)] w-[clamp(16px,2.5vw,20px)] flex-shrink-0 items-center justify-center transition-transform duration-300 group-hover:scale-110 mt-0.5"
+                      style={{ color, fontSize:'clamp(16px,2.5vw,20px)', filter:`drop-shadow(0 0 9px ${color})` }}>{icon}</span>
+                    <div className="min-w-0 flex-1">
+                      <h4 className="font-black uppercase text-gray-50 leading-tight"
+                        style={{ fontSize:'clamp(8px,1.45vw,11.5px)', letterSpacing:'0.07em', fontWeight: 900, textShadow: '0 1px 2px rgba(0,0,0,0.85)' }}>{title}</h4>
+                      <p className="text-gray-300/95 leading-relaxed mt-1.5"
+                        style={{ fontSize:'clamp(8px,1.2vw,10.5px)', lineHeight: 1.5 }}>{sub}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* ── FOR LABELS & PARTNERS ── */}
+          <div className="mt-10 sm:mt-12 pb-20">
+            <p className="text-center font-black uppercase tracking-[0.18em] sm:tracking-[0.22em] text-gray-50 px-2"
+              style={{ fontSize: 'clamp(11px,2.1vw,14px)', fontWeight: 900, textShadow: '0 1px 2px rgba(0,0,0,0.85)' }}>
+              For Labels &amp; Partners
+            </p>
+            <p className="text-center mt-3 mb-6 sm:mb-8 text-gray-400/90 max-w-xl mx-auto px-4 leading-relaxed"
+              style={{ fontSize: 'clamp(10px,1.8vw,13px)', lineHeight: 1.55 }}>
+              Empowering labels, distributors, publishers and strategic partners with AI-powered music intelligence, analytics and commercial growth opportunities.
+            </p>
+            <div className="mx-auto max-w-4xl grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 auto-rows-fr items-stretch px-1">
+              {PARTNER_CARDS.map(({ icon, color, title, sub }) => {
                 const cardStyle: React.CSSProperties = {
                   padding: 'clamp(13px,2.1vw,17px)',
                   background: 'rgba(5,5,18,0.92)', backdropFilter:'blur(28px)',
