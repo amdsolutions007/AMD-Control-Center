@@ -113,6 +113,15 @@ const CONNECT_CARDS = [
   { icon: '✈️', color: '#29B6F6', title: 'Telegram', sub: 'Instant updates and announcements.', comingSoon: true },
 ] as const;
 
+const CONTACT_CARDS = [
+  { icon: '📩', color: '#EA4335', title: 'General Enquiries', sub: 'Questions about AMD Music Intelligence.', href: 'mailto:amdmusicintel@gmail.com', email: 'amdmusicintel@gmail.com', external: true },
+  { icon: '🎤', color: '#A855F7', title: 'Artist Partnerships', sub: 'Artist onboarding, playlist consideration and promotional opportunities.', comingSoon: true },
+  { icon: '🤝', color: '#00E5FF', title: 'Business Partnerships', sub: 'Enterprise partnerships, strategic collaborations and commercial enquiries.', comingSoon: true },
+  { icon: '🎧', color: '#22C55E', title: 'Playlist Support', sub: 'Playlist submissions, playlist updates and editorial enquiries.', comingSoon: true },
+  { icon: '📰', color: '#F59E0B', title: 'Marketing & Media', sub: 'Media interviews, press requests and marketing opportunities.', comingSoon: true },
+  { icon: '🔧', color: '#94A3B8', title: 'Technical Support', sub: 'Platform support and technical assistance.', comingSoon: true },
+] as const;
+
 /* ──────────────────────────────────────────────────────────
    MASTER BLUEPRINT MOTHERBOARD MODEL
    Static coordinate map for the approved motherboard artwork:
@@ -918,7 +927,7 @@ export default function SmartLinkActionButtons({
           </div>
 
           {/* ── CONNECT WITH AMD MUSIC INTELLIGENCE ── */}
-          <div className="mt-10 sm:mt-12 pb-20">
+          <div className="mt-10 sm:mt-12">
             <p className="text-center font-black uppercase tracking-[0.18em] sm:tracking-[0.22em] text-gray-50 px-2"
               style={{ fontSize: 'clamp(11px,2.1vw,14px)', fontWeight: 900, textShadow: '0 1px 2px rgba(0,0,0,0.85)' }}>
               Connect With AMD Music Intelligence
@@ -992,6 +1001,88 @@ export default function SmartLinkActionButtons({
                     >
                       {cardInner}
                     </Link>
+                  );
+                }
+                return (
+                  <div
+                    key={title}
+                    aria-label={`${title} — Coming Soon`}
+                    className={cardClass}
+                    style={cardStyle}
+                  >
+                    {cardInner}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* ── CONTACT AMD MUSIC INTELLIGENCE ── */}
+          <div className="mt-10 sm:mt-12 pb-20">
+            <p className="text-center font-black uppercase tracking-[0.18em] sm:tracking-[0.22em] text-gray-50 px-2"
+              style={{ fontSize: 'clamp(11px,2.1vw,14px)', fontWeight: 900, textShadow: '0 1px 2px rgba(0,0,0,0.85)' }}>
+              Contact AMD Music Intelligence
+            </p>
+            <p className="text-center mt-3 mb-6 sm:mb-8 text-gray-400/90 max-w-xl mx-auto px-4 leading-relaxed"
+              style={{ fontSize: 'clamp(10px,1.8vw,13px)', lineHeight: 1.55 }}>
+              Get in touch with the AMD Music Intelligence team for partnerships, playlist support, business enquiries and collaboration opportunities.
+            </p>
+            <div className="mx-auto max-w-4xl grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 auto-rows-fr items-stretch px-1">
+              {CONTACT_CARDS.map(({ icon, color, title, sub, ...rest }) => {
+                const href = 'href' in rest ? rest.href : undefined;
+                const external = 'external' in rest ? rest.external : false;
+                const email = 'email' in rest ? rest.email : undefined;
+                const comingSoon = 'comingSoon' in rest ? rest.comingSoon : false;
+                const cardInner = (
+                  <>
+                    <span className="flex h-[clamp(16px,2.5vw,20px)] w-[clamp(16px,2.5vw,20px)] flex-shrink-0 items-center justify-center transition-transform duration-300 group-hover:scale-110 mt-0.5"
+                      style={{ color, fontSize:'clamp(16px,2.5vw,20px)', filter:`drop-shadow(0 0 9px ${color})` }}>{icon}</span>
+                    <div className="min-w-0 flex-1">
+                      <h4 className="font-black uppercase text-gray-50 leading-tight"
+                        style={{ fontSize:'clamp(8px,1.45vw,11.5px)', letterSpacing:'0.07em', fontWeight: 900, textShadow: '0 1px 2px rgba(0,0,0,0.85)' }}>{title}</h4>
+                      <p className="text-gray-300/95 leading-relaxed mt-1.5"
+                        style={{ fontSize:'clamp(8px,1.2vw,10.5px)', lineHeight: 1.5 }}>{sub}</p>
+                      {email && (
+                        <span className="mt-2 block truncate font-semibold"
+                          style={{ fontSize:'clamp(8px,1.1vw,10px)', color: '#00E5FF' }}>{email}</span>
+                      )}
+                      {comingSoon && (
+                        <span className="mt-2 inline-block rounded-full border border-white/15 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-gray-400">Coming Soon</span>
+                      )}
+                    </div>
+                  </>
+                );
+                const cardStyle: React.CSSProperties = {
+                  padding: 'clamp(13px,2.1vw,17px)',
+                  background: 'rgba(5,5,18,0.92)', backdropFilter:'blur(28px)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.82), 0 0 20px rgba(124,58,237,0.08)',
+                };
+                const cardClass = `group flex h-full min-h-[64px] md:min-h-[72px] w-full items-start gap-3 rounded-xl md:rounded-2xl transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]${comingSoon ? ' opacity-80 cursor-default' : ' hover:-translate-y-0.5'}`;
+                const hoverHandlers = comingSoon ? {} : {
+                  onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
+                    e.currentTarget.style.borderColor = `${color}66`;
+                    e.currentTarget.style.boxShadow = `0 12px 36px rgba(0,0,0,0.88), 0 0 28px ${color}33`;
+                  },
+                  onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
+                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.82), 0 0 20px rgba(124,58,237,0.08)';
+                  },
+                };
+                if (href && !comingSoon) {
+                  return (
+                    <a
+                      key={title}
+                      href={href}
+                      target={external ? '_blank' : undefined}
+                      rel={external ? 'noopener noreferrer' : undefined}
+                      aria-label={`${title} — ${sub}${email ? ` — ${email}` : ''}`}
+                      className={cardClass}
+                      style={cardStyle}
+                      {...hoverHandlers}
+                    >
+                      {cardInner}
+                    </a>
                   );
                 }
                 return (

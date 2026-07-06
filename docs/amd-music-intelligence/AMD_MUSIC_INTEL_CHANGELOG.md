@@ -131,4 +131,19 @@ All entries are append-only. Do not modify or delete historical entries.
 
 ---
 
+### 2026-07-06 — Phase 2D: Contact AMD Music Intelligence
+
+| Field | Value |
+|---|---|
+| **Date** | 2026-07-06 |
+| **Version** | MES v4.0 |
+| **Phase** | 2D — Contact AMD Music Intelligence |
+| **Summary** | Six contact cards below Connect section — General Enquiries (amdmusicintel@gmail.com) · Artist Partnerships · Business Partnerships · Playlist Support · Marketing & Media · Technical Support (Coming Soon) |
+| **Files Affected** | `apps/website/src/components/smartlink/SmartLinkActionButtons.tsx` · `README.md` · `AMD_MUSIC_INTEL_MASTER_EXECUTION_STATUS.md` · `AMD_MUSIC_INTEL_CHANGELOG.md` · `AMD_MUSIC_INTEL_CHATGPT_MEMORY_RECALIBRATION_LOG.md` |
+| **Git Commit** | 64d6ec4 |
+| **Author** | AMD Solutions 007 |
+| **Verification** | **Pass** — production build · desktop/tablet/mobile · mailto link · Coming Soon badges · zero console errors |
+
+---
+
 *Append new entries at the bottom. Never rewrite history.*
