@@ -97,8 +97,8 @@ const WORKFLOW_STAGES = [
   { icon: '🔍', title: 'DISCOVER', desc: 'We curate the biggest hits.', href: '/music-intelligence/coming-soon/discovery-engine', action: 'navigate' as const },
   { icon: '🔗', title: 'CONNECT', desc: 'One link connects every platform.', href: '/music-intelligence/coming-soon/smart-link-technology', action: 'navigate' as const },
   { icon: '▶', title: 'STREAM', desc: 'Stream anywhere, anytime.', action: 'gateway' as const },
-  { icon: '🧠', title: 'AI POWER', desc: 'AI engine optimizes your experience.', href: '/music-intelligence/coming-soon/agent-007', action: 'navigate' as const },
-  { icon: '📈', title: 'AUDIENCE GROWTH', desc: 'Grow your audience with AI-powered insights.', href: '/music-intelligence/coming-soon/analytics-platform', action: 'navigate' as const },
+  { icon: '🧠', title: 'INTELLIGENCE', desc: 'AI-powered music discovery with intelligent playlist curation.', href: '/music-intelligence/coming-soon/agent-007', action: 'navigate' as const },
+  { icon: '📈', title: 'AUDIENCE INTELLIGENCE', desc: 'Real audience insights. Smarter growth decisions.', href: '/music-intelligence/coming-soon/analytics-platform', action: 'navigate' as const },
 ];
 
 /* ──────────────────────────────────────────────────────────
@@ -812,7 +812,7 @@ export default function SmartLinkActionButtons({
                 WebkitTextFillColor: 'transparent',
                 filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.88)) drop-shadow(0 0 16px rgba(0,229,255,0.35))',
               }}>
-              ONE SYSTEM. ONE INTELLIGENCE. INFINITE CONNECTIONS.
+              ONE SYSTEM. ONE INTELLIGENCE. EVERY PLATFORM CONNECTED.
             </p>
           </div>
 
