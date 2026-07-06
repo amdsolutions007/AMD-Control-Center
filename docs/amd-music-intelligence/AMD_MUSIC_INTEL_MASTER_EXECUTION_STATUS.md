@@ -144,7 +144,7 @@ Post-production implementation phases (MES v4.0). Distinct from certified Phase 
 |---|---|---|---|---|
 | CR-001 | 2026-07-05 | Enterprise Suite v1.0.0 published to `origin/main` | `26d1647` | Official remote governance baseline |
 | CR-002 | 2026-07-05 | Remote daily update merged (`activity_log.md`) | `26d1647` | Non-suite append-only |
-| CR-007 | 2026-07-06 | Phase 2C Connect With AMD Music Intelligence — official MI channels revision | `e49f56d` | Nine AMD Music Intelligence channel cards · Coming Soon badges |
+| CR-007 | 2026-07-06 | Phase 2C Connect With AMD Music Intelligence — official MI channels revision | `ca2e87b` | Nine AMD Music Intelligence channel cards · Coming Soon badges |
 | CR-006 | 2026-07-06 | Phase 2B How It Works premium workflow copy | 220f9f4684c6bcdde9d006ee88f1e90b4a21cd47 | Enterprise AI platform messaging |
 | CR-005 | 2026-07-06 | Phase 2A finalization — intelligence statement · How It Works workflow copy | `69d643b` | Full Phase 2A scope closed |
 | CR-004 | 2026-07-05 | Phase 2A AI feature card content refinement | `78672e3` | Production copy upgrade · UI preserved |
@@ -168,7 +168,7 @@ Post-production implementation phases (MES v4.0). Distinct from certified Phase 
 | Field | Value |
 |---|---|
 | **Branch** | `main` |
-| **HEAD** | `e49f56d` |
+| **HEAD** | `ca2e87b` |
 | **origin/main** | `4aaa8f7` |
 | **Ahead / Behind** | 1 / 0 |
 | **Enterprise Suite** | Published · v1.0.0 · Phase 2C local revision |
