@@ -11,9 +11,9 @@ Entry point and navigation guide for all AMD Music Intelligence documentation.
 | Field | Value |
 |---|---|
 | **Project Version** | Enterprise Documentation Suite **v1.0.0** |
-| **Remote Baseline** | Published on `origin/main` · `ec38f87` |
-| **Implementation Status** | Track B Phase 2 complete · **Track C Phase 3A** production verified · UI frozen |
-| **Active Development Phase** | **Phase 3B** — Intelligence Activation (awaiting Executive Prompt Card) |
+| **Remote Baseline** | Published on `origin/main` · `3bc4e1a` |
+| **Implementation Status** | Track B Phase 2 complete · **Track C Phase 3B** production verified · Smart Link UI frozen |
+| **Active Development Phase** | **Phase 3C** — Intelligence Activation (awaiting Executive Prompt Card) |
 
 ### Current Platform Capabilities
 
@@ -30,6 +30,7 @@ Entry point and navigation guide for all AMD Music Intelligence documentation.
 - **Phase 2E:** For Artists — six artist benefit cards (Playlist Consideration · AI Music Discovery · Audience Growth · Global Reach · Streaming Intelligence · Artist Promotion)
 - **Phase 2F:** For Labels & Partners — six enterprise benefit cards (Record Labels · Music Distributors · Music Publishers · Artist Management · A&R Intelligence · Commercial Partnerships)
 - **Phase 3A:** Identity & Onboarding — ten role cards (Artist · Record Label · Distributor · Music Publisher · Artist Manager · A&R · Brand/Commercial Partner · Media · Fan · Enterprise Partner)
+- **Phase 3B:** Authentication & User Management — Supabase SSR auth flows · Sign In · Sign Up · Forgot/Reset Password · Email Verification · Profile Setup · RBAC foundation · protected routes (`/music-intelligence/onboarding`, `/music-intelligence/account`)
 
 ### Operational Workflow
 
