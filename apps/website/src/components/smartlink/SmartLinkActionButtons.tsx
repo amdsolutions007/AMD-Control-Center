@@ -140,6 +140,19 @@ const PARTNER_CARDS = [
   { icon: '🤝', color: '#E4405F', title: 'Commercial Partnerships', sub: 'Enterprise partnership frameworks for brands, platforms and strategic music industry alliances.' },
 ] as const;
 
+const IDENTITY_ROLE_CARDS = [
+  { icon: '🎤', color: '#A855F7', title: 'Artist', sub: 'Access playlist pathways, discovery tools and audience growth intelligence tailored for creators.' },
+  { icon: '🏷️', color: '#00E5FF', title: 'Record Label', sub: 'Manage catalog intelligence, roster analytics and strategic release operations at scale.' },
+  { icon: '📦', color: '#34D399', title: 'Distributor', sub: 'Monitor cross-platform distribution performance with unified market visibility.' },
+  { icon: '📝', color: '#D4AF37', title: 'Music Publisher', sub: 'Navigate rights management, catalog analytics and licensing intelligence.' },
+  { icon: '👔', color: '#22C55E', title: 'Artist Manager', sub: 'Oversee artist portfolios with end-to-end growth and performance insights.' },
+  { icon: '🔎', color: '#F59E0B', title: 'A&R', sub: 'Discover emerging talent with AI-powered market signals and scouting intelligence.' },
+  { icon: '🤝', color: '#E4405F', title: 'Brand / Commercial Partner', sub: 'Explore strategic brand alliances and commercial music partnerships.' },
+  { icon: '📰', color: '#94A3B8', title: 'Media', sub: 'Access press intelligence, editorial insights and music media opportunities.' },
+  { icon: '❤️', color: '#EC4899', title: 'Fan', sub: 'Discover curated playlists, trending artists and immersive music experiences.' },
+  { icon: '🏢', color: '#6366F1', title: 'Enterprise Partner', sub: 'Unlock enterprise-grade music intelligence for large-scale industry operations.' },
+] as const;
+
 /* ──────────────────────────────────────────────────────────
    MASTER BLUEPRINT MOTHERBOARD MODEL
    Static coordinate map for the approved motherboard artwork:
@@ -1167,7 +1180,7 @@ export default function SmartLinkActionButtons({
           </div>
 
           {/* ── FOR LABELS & PARTNERS ── */}
-          <div className="mt-10 sm:mt-12 pb-20">
+          <div className="mt-10 sm:mt-12">
             <p className="text-center font-black uppercase tracking-[0.18em] sm:tracking-[0.22em] text-gray-50 px-2"
               style={{ fontSize: 'clamp(11px,2.1vw,14px)', fontWeight: 900, textShadow: '0 1px 2px rgba(0,0,0,0.85)' }}>
               For Labels &amp; Partners
@@ -1208,6 +1221,48 @@ export default function SmartLinkActionButtons({
                         style={{ fontSize:'clamp(8px,1.45vw,11.5px)', letterSpacing:'0.07em', fontWeight: 900, textShadow: '0 1px 2px rgba(0,0,0,0.85)' }}>{title}</h4>
                       <p className="text-gray-300/95 leading-relaxed mt-1.5"
                         style={{ fontSize:'clamp(8px,1.2vw,10.5px)', lineHeight: 1.5 }}>{sub}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* ── IDENTITY & ONBOARDING ── */}
+          <div className="mt-10 sm:mt-12 pb-20">
+            <p className="text-center font-black uppercase tracking-[0.18em] sm:tracking-[0.22em] text-gray-50 px-2"
+              style={{ fontSize: 'clamp(11px,2.1vw,14px)', fontWeight: 900, textShadow: '0 1px 2px rgba(0,0,0,0.85)' }}>
+              Identity &amp; Onboarding
+            </p>
+            <p className="text-center mt-3 mb-6 sm:mb-8 text-gray-400/90 max-w-xl mx-auto px-4 leading-relaxed"
+              style={{ fontSize: 'clamp(10px,1.8vw,13px)', lineHeight: 1.55 }}>
+              Choose your role to begin your AMD Music Intelligence journey.
+            </p>
+            <div className="mx-auto max-w-4xl grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 auto-rows-fr items-stretch px-1">
+              {IDENTITY_ROLE_CARDS.map(({ icon, color, title, sub }) => {
+                const cardStyle: React.CSSProperties = {
+                  padding: 'clamp(13px,2.1vw,17px)',
+                  background: 'rgba(5,5,18,0.92)', backdropFilter:'blur(28px)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.82), 0 0 20px rgba(124,58,237,0.08)',
+                };
+                const cardClass = 'group flex h-full min-h-[64px] md:min-h-[72px] w-full items-start gap-3 rounded-xl md:rounded-2xl transition-all duration-300 opacity-80 cursor-default focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]';
+                return (
+                  <div
+                    key={title}
+                    role="article"
+                    aria-label={`${title} — ${sub} — Coming Soon`}
+                    className={cardClass}
+                    style={cardStyle}
+                  >
+                    <span className="flex h-[clamp(16px,2.5vw,20px)] w-[clamp(16px,2.5vw,20px)] flex-shrink-0 items-center justify-center mt-0.5"
+                      style={{ color, fontSize:'clamp(16px,2.5vw,20px)', filter:`drop-shadow(0 0 9px ${color})` }}>{icon}</span>
+                    <div className="min-w-0 flex-1">
+                      <h4 className="font-black uppercase text-gray-50 leading-tight"
+                        style={{ fontSize:'clamp(8px,1.45vw,11.5px)', letterSpacing:'0.07em', fontWeight: 900, textShadow: '0 1px 2px rgba(0,0,0,0.85)' }}>{title}</h4>
+                      <p className="text-gray-300/95 leading-relaxed mt-1.5"
+                        style={{ fontSize:'clamp(8px,1.2vw,10.5px)', lineHeight: 1.5 }}>{sub}</p>
+                      <span className="mt-2 inline-block rounded-full border border-white/15 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-gray-400">Coming Soon</span>
                     </div>
                   </div>
                 );
