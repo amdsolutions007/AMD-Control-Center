@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@paypal/react-paypal-js": "^8.9.2",
+    "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.91.0",
     "framer-motion": "latest",
     "lucide-react": "^0.563.0",
