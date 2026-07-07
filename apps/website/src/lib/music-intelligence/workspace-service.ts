@@ -194,7 +194,7 @@ export async function loadWorkspaceDashboard(session: MIWorkspaceSession): Promi
         .eq('id', session.userId)
         .maybeSingle();
       recentSubmissions = getContextSubmissions(
-        profile?.agent_007_context as { submissions?: typeof recentSubmissions },
+        profile?.agent_007_context as Record<string, unknown> | null,
       ).slice(0, 5);
     }
     submissionCount = recentSubmissions.length;
@@ -246,7 +246,7 @@ export async function listSubmissions(session: MIWorkspaceSession) {
     .select('agent_007_context')
     .eq('id', session.userId)
     .maybeSingle();
-  return getContextSubmissions(profile?.agent_007_context as { submissions?: unknown[] });
+  return getContextSubmissions(profile?.agent_007_context as Record<string, unknown> | null);
 }
 
 export async function createSubmission(

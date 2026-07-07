@@ -14,8 +14,10 @@ export async function tableAvailable(
   return !error;
 }
 
-export function getContextSubmissions(ctx: Agent007Context | null | undefined) {
-  return (ctx?.submissions ?? []) as Array<{
+export function getContextSubmissions(ctx: Record<string, unknown> | null | undefined) {
+  const rows = ctx?.submissions;
+  if (!Array.isArray(rows)) return [];
+  return rows as Array<{
     id: string;
     song_title: string;
     artist_name: string;
