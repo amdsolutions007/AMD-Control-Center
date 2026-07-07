@@ -314,7 +314,7 @@ export function OnboardingForm() {
       setError(updateError.message);
       return;
     }
-    router.push('/music-intelligence/onboarding?complete=1');
+    router.push('/music-intelligence/account');
     router.refresh();
   }
 

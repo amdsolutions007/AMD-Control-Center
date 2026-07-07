@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { getSupabaseAuthConfig } from '@/lib/supabase/mi-auth-config';
 import { updateMISession } from '@/lib/supabase/mi-middleware';
+import { isValidRoleSlug } from '@/lib/music-intelligence/auth-roles';
 
 const PROTECTED_PREFIXES = ['/music-intelligence/onboarding', '/music-intelligence/account'];
 
@@ -39,6 +40,16 @@ export async function middleware(request: NextRequest) {
     const signIn = new URL('/music-intelligence/sign-in', request.url);
     signIn.searchParams.set('redirect', pathname);
     return NextResponse.redirect(signIn);
+  }
+
+  if (pathname.startsWith('/music-intelligence/account')) {
+    const role = user.user_metadata?.role;
+    const artistRole = typeof role === 'string' && isValidRoleSlug(role) && role === 'artist';
+    const onboardingComplete = Boolean(user.user_metadata?.onboarding_complete);
+    if (!artistRole || !onboardingComplete) {
+      const onboarding = new URL('/music-intelligence/onboarding', request.url);
+      return NextResponse.redirect(onboarding);
+    }
   }
 
   return sessionResponse;

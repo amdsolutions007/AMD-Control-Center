@@ -13,7 +13,7 @@ Entry point and navigation guide for all AMD Music Intelligence documentation.
 | **Project Version** | Enterprise Documentation Suite **v1.0.0** |
 | **Remote Baseline** | Published on `origin/main` · `3bc4e1a` |
 | **Implementation Status** | Track B Phase 2 complete · **Track C Phase 3B** production verified · Smart Link UI frozen |
-| **Active Development Phase** | **Phase 3C** — Intelligence Activation (awaiting Executive Prompt Card) |
+| **Active Development Phase** | **Phase 3C** — Artist Command Center (local verified · awaiting Executive Deployment Approval) |
 
 ### Current Platform Capabilities
 
@@ -31,6 +31,7 @@ Entry point and navigation guide for all AMD Music Intelligence documentation.
 - **Phase 2F:** For Labels & Partners — six enterprise benefit cards (Record Labels · Music Distributors · Music Publishers · Artist Management · A&R Intelligence · Commercial Partnerships)
 - **Phase 3A:** Identity & Onboarding — ten role cards (Artist · Record Label · Distributor · Music Publisher · Artist Manager · A&R · Brand/Commercial Partner · Media · Fan · Enterprise Partner)
 - **Phase 3B:** Authentication & User Management — Supabase SSR auth flows · Sign In · Sign Up · Forgot/Reset Password · Email Verification · Profile Setup · RBAC foundation · protected routes (`/music-intelligence/onboarding`, `/music-intelligence/account`)
+- **Phase 3C:** Artist Command Center — protected workspace at `/music-intelligence/account` · artist profile management · music submission workflow · Identity Artist card activated · extends `mi_user_profiles`, `mi_artists`, new `mi_artist_members` + `mi_music_submissions`
 
 ### Operational Workflow
 

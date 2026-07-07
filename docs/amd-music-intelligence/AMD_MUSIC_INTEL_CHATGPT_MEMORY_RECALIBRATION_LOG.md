@@ -941,9 +941,29 @@ Append-only record of approved implementations. Maintain per [Documentation Sync
 | **Next approved phase** | Phase 3C — Intelligence Activation (awaiting Executive Prompt Card) |
 | **Git commit** | `3bc4e1a` |
 
+### IMP-012 — Phase 3C: Artist Command Center & Submission Workspace
+
+| Field | Value |
+|---|---|
+| **Date** | 2026-07-07 |
+| **Implementation summary** | First operational MI workspace — Artist Command Center with profile management, music submission workflow, submission history, dashboard metrics, and Identity Artist card activation |
+| **Purpose** | Transform authenticated artist users from passive visitors into active platform participants with persistent Supabase-backed profiles and submissions |
+| **Architectural decisions** | ADR-015 — extend Phase 1 schema only · reuse `auth.users`, `mi_user_profiles`, `mi_artists` · add `mi_artist_members` + `mi_music_submissions` · service-role API layer with Phase 3B session guard · Artist card sole Identity activation |
+| **Workspace routes** | `/music-intelligence/account` · `/account/profile` · `/account/submissions` · `/account/submissions/history` |
+| **API routes** | `/api/music-intelligence/workspace/dashboard` · `/profile` · `/submissions` |
+| **Schema reused** | `auth.users` · `mi_user_profiles` · `mi_artists` · `mi_client_hubs` |
+| **Schema added** | `mi_artist_members` · `mi_music_submissions` (SQL: `docs/amd-music-intelligence/sql/phase-3c-artist-workspace.sql`) |
+| **Files created** | Workspace components · account pages · workspace API routes · `workspace-service.ts` · `artist-profile.ts` · `submissions.ts` · `constants.ts` · `mi-service.ts` · `workspace-auth.ts` · SQL migration |
+| **Files modified** | `SmartLinkActionButtons.tsx` (Artist card only) · `AuthForms.tsx` (onboarding redirect) · `onboarding/page.tsx` · `middleware.ts` (artist RBAC gate) |
+| **Verification results** | Production build pass · unit tests pass · local route checks pass · Playwright Smart Link timeout (environment) · **NOT deployed** — awaiting Executive Approval |
+| **Deployment status** | ⏸ **STOPPED** per High-Risk Workflow — no commit · no push · no Vercel deploy |
+| **Enterprise impact** | Phase 3C **Local Complete** · Phase 3D–3G remain locked |
+| **Current approved phase** | Phase 3C — **Local Verified** · Awaiting Deployment Approval |
+| **Git commit** | *(pending Executive Approval)* |
+
 ---
 
-*Last Updated: 2026-07-07 · Phase 3B production verified · Track C active · MES v4.0*
+*Last Updated: 2026-07-07 · Phase 3C local verified · awaiting deployment approval · MES v4.0*
 
 *Do not treat this document as constitutional, architectural, registry, or process authority. Consult Section 20 references for authoritative specifications.*
 

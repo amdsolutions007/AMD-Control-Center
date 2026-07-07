@@ -141,7 +141,7 @@ const PARTNER_CARDS = [
 ] as const;
 
 const IDENTITY_ROLE_CARDS = [
-  { icon: '🎤', color: '#A855F7', title: 'Artist', sub: 'Access playlist pathways, discovery tools and audience growth intelligence tailored for creators.' },
+  { icon: '🎤', color: '#A855F7', title: 'Artist', sub: 'Access playlist pathways, discovery tools and audience growth intelligence tailored for creators.', href: '/music-intelligence/sign-up?role=artist', active: true },
   { icon: '🏷️', color: '#00E5FF', title: 'Record Label', sub: 'Manage catalog intelligence, roster analytics and strategic release operations at scale.' },
   { icon: '📦', color: '#34D399', title: 'Distributor', sub: 'Monitor cross-platform distribution performance with unified market visibility.' },
   { icon: '📝', color: '#D4AF37', title: 'Music Publisher', sub: 'Navigate rights management, catalog analytics and licensing intelligence.' },
@@ -1239,14 +1239,46 @@ export default function SmartLinkActionButtons({
               Choose your role to begin your AMD Music Intelligence journey.
             </p>
             <div className="mx-auto max-w-4xl grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 auto-rows-fr items-stretch px-1">
-              {IDENTITY_ROLE_CARDS.map(({ icon, color, title, sub }) => {
+              {IDENTITY_ROLE_CARDS.map(({ icon, color, title, sub, ...rest }) => {
+                const isActive = 'active' in rest && rest.active === true;
+                const href = 'href' in rest ? rest.href : undefined;
                 const cardStyle: React.CSSProperties = {
                   padding: 'clamp(13px,2.1vw,17px)',
                   background: 'rgba(5,5,18,0.92)', backdropFilter:'blur(28px)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.82), 0 0 20px rgba(124,58,237,0.08)',
+                  border: isActive ? '1px solid rgba(0,229,255,0.35)' : '1px solid rgba(255,255,255,0.1)',
+                  boxShadow: isActive ? '0 8px 32px rgba(0,0,0,0.82), 0 0 20px rgba(0,229,255,0.15)' : '0 8px 32px rgba(0,0,0,0.82), 0 0 20px rgba(124,58,237,0.08)',
                 };
-                const cardClass = 'group flex h-full min-h-[64px] md:min-h-[72px] w-full items-start gap-3 rounded-xl md:rounded-2xl transition-all duration-300 opacity-80 cursor-default focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF]';
+                const cardClass = `group flex h-full min-h-[64px] md:min-h-[72px] w-full items-start gap-3 rounded-xl md:rounded-2xl transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00E5FF] ${isActive ? 'opacity-100 hover:border-[#00E5FF]/50 cursor-pointer' : 'opacity-80 cursor-default'}`;
+                const inner = (
+                  <>
+                    <span className="flex h-[clamp(16px,2.5vw,20px)] w-[clamp(16px,2.5vw,20px)] flex-shrink-0 items-center justify-center mt-0.5"
+                      style={{ color, fontSize:'clamp(16px,2.5vw,20px)', filter:`drop-shadow(0 0 9px ${color})` }}>{icon}</span>
+                    <div className="min-w-0 flex-1">
+                      <h4 className="font-black uppercase text-gray-50 leading-tight"
+                        style={{ fontSize:'clamp(8px,1.45vw,11.5px)', letterSpacing:'0.07em', fontWeight: 900, textShadow: '0 1px 2px rgba(0,0,0,0.85)' }}>{title}</h4>
+                      <p className="text-gray-300/95 leading-relaxed mt-1.5"
+                        style={{ fontSize:'clamp(8px,1.2vw,10.5px)', lineHeight: 1.5 }}>{sub}</p>
+                      {isActive ? (
+                        <span className="mt-2 inline-block rounded-full border border-[#00E5FF]/45 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-[#00E5FF]">Get Started</span>
+                      ) : (
+                        <span className="mt-2 inline-block rounded-full border border-white/15 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-gray-400">Coming Soon</span>
+                      )}
+                    </div>
+                  </>
+                );
+                if (isActive && href) {
+                  return (
+                    <Link
+                      key={title}
+                      href={href}
+                      aria-label={`${title} — ${sub} — Get Started`}
+                      className={cardClass}
+                      style={cardStyle}
+                    >
+                      {inner}
+                    </Link>
+                  );
+                }
                 return (
                   <div
                     key={title}
@@ -1255,15 +1287,7 @@ export default function SmartLinkActionButtons({
                     className={cardClass}
                     style={cardStyle}
                   >
-                    <span className="flex h-[clamp(16px,2.5vw,20px)] w-[clamp(16px,2.5vw,20px)] flex-shrink-0 items-center justify-center mt-0.5"
-                      style={{ color, fontSize:'clamp(16px,2.5vw,20px)', filter:`drop-shadow(0 0 9px ${color})` }}>{icon}</span>
-                    <div className="min-w-0 flex-1">
-                      <h4 className="font-black uppercase text-gray-50 leading-tight"
-                        style={{ fontSize:'clamp(8px,1.45vw,11.5px)', letterSpacing:'0.07em', fontWeight: 900, textShadow: '0 1px 2px rgba(0,0,0,0.85)' }}>{title}</h4>
-                      <p className="text-gray-300/95 leading-relaxed mt-1.5"
-                        style={{ fontSize:'clamp(8px,1.2vw,10.5px)', lineHeight: 1.5 }}>{sub}</p>
-                      <span className="mt-2 inline-block rounded-full border border-white/15 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-gray-400">Coming Soon</span>
-                    </div>
+                    {inner}
                   </div>
                 );
               })}

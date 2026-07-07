@@ -23,7 +23,7 @@ export default async function OnboardingPage({ searchParams }: OnboardingPagePro
       title={isComplete ? 'Profile Initialized' : 'Profile Setup'}
       description={
         isComplete
-          ? 'Your AMD Music Intelligence profile is ready. Role-based dashboards and AI workflows will unlock in upcoming phases.'
+          ? 'Your AMD Music Intelligence artist profile is ready. Enter the Artist Command Center to manage your profile and submit music.'
           : 'Complete your profile to prepare role-based access control, secure sessions, and protected routes for your account.'
       }
       badge="User Profile"
@@ -34,10 +34,10 @@ export default async function OnboardingPage({ searchParams }: OnboardingPagePro
             Profile initialization complete. Your role and organization are saved to your secure session.
           </AuthMessage>
           <Link
-            href="/sl/pYP56C"
+            href="/music-intelligence/account"
             className="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-[#7c3aed] to-[#00E5FF] px-6 py-3 text-[11px] font-black uppercase tracking-[0.18em] text-white shadow-[0_0_20px_rgba(0,229,255,0.35)]"
           >
-            Return to Smart Link
+            Enter Artist Command Center
           </Link>
         </div>
       ) : (

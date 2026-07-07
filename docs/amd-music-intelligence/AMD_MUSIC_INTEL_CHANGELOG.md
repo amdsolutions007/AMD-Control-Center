@@ -291,4 +291,19 @@ All entries are append-only. Do not modify or delete historical entries.
 
 ---
 
+### 2026-07-07 — Phase 3C: Artist Command Center & Submission Workspace (Local)
+
+| Field | Value |
+|---|---|
+| **Date** | 2026-07-07 |
+| **Version** | MES v4.0 |
+| **Phase** | 3C — Artist Command Center (Track C) |
+| **Summary** | Protected Artist workspace at `/music-intelligence/account` · profile management · music submission center · submission history · Artist Identity card activated · post-onboarding redirect to workspace |
+| **Schema** | Extends `mi_user_profiles`, `mi_artists` · adds `mi_artist_members`, `mi_music_submissions` via `docs/amd-music-intelligence/sql/phase-3c-artist-workspace.sql` |
+| **Infrastructure** | Same Supabase project (`pjoijeligrgttimkqftk`) · same env vars · Phase 3B auth/RBAC extended |
+| **Author** | AMD Solutions 007 |
+| **Verification** | **Pass (local)** — production build · unit tests · route protection · pending Executive Deployment Approval |
+
+---
+
 *Append new entries at the bottom. Never rewrite history.*
