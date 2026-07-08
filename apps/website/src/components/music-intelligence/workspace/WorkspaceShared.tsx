@@ -75,11 +75,15 @@ export function WorkspaceSection({
 export function StatusBadge({ status }: { status: string }) {
   const styles: Record<string, string> = {
     pending_review: 'border-[#00E5FF]/40 text-[#00E5FF]',
+    revision_requested: 'border-amber-500/40 text-amber-300',
     approved: 'border-emerald-500/40 text-emerald-300',
     rejected: 'border-red-500/40 text-red-300',
     draft: 'border-gray-500/40 text-gray-400',
     complete: 'border-emerald-500/40 text-emerald-300',
     incomplete: 'border-amber-500/40 text-amber-300',
+    pending: 'border-amber-500/40 text-amber-300',
+    in_review: 'border-[#00E5FF]/40 text-[#00E5FF]',
+    verified: 'border-emerald-500/40 text-emerald-300',
   };
   return (
     <span className={`inline-block rounded-full border px-2 py-0.5 text-[9px] font-black uppercase tracking-wider ${styles[status] ?? styles.draft}`}>

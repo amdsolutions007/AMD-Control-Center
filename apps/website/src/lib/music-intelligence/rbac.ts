@@ -25,6 +25,7 @@ export const MI_ROLE_PERMISSIONS: Record<MIAuthRoleSlug, MIPermission[]> = {
 export const MI_PROTECTED_ROUTE_PREFIXES = [
   '/music-intelligence/onboarding',
   '/music-intelligence/account',
+  '/music-intelligence/partner',
 ] as const;
 
 export function roleHasPermission(role: MIAuthRoleSlug, permission: MIPermission): boolean {

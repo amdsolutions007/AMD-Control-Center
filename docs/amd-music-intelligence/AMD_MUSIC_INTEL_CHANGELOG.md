@@ -322,4 +322,21 @@ All entries are append-only. Do not modify or delete historical entries.
 
 ---
 
+### 2026-07-07 — Phase 3D: Partner Command Center & Enterprise Workspace (Local)
+
+| Field | Value |
+|---|---|
+| **Date** | 2026-07-07 |
+| **Version** | MES v4.0 |
+| **Phase** | 3D — Partner Command Center (Track C) |
+| **Summary** | Protected Partner workspace at `/music-intelligence/partner` · Enterprise Dashboard · Organization Profile · Artist Management · Submission Management · Analytics foundation placeholders · Notifications · Settings · Enterprise Partner Identity card activated · role-aware onboarding redirect |
+| **Schema** | `docs/amd-music-intelligence/sql/phase-3d-partner-workspace.sql` — `mi_partner_profiles`, `mi_partner_members`, `mi_partner_invites` · extends `mi_music_submissions` status for `revision_requested` |
+| **Infrastructure** | Extends Phase 3B auth · middleware · RBAC · same Supabase project · fallback via `mi_user_profiles.agent_007_context` until SQL applied |
+| **Files Affected** | `apps/website/middleware.ts` · `apps/website/src/app/music-intelligence/partner/**` · `apps/website/src/app/api/music-intelligence/partner/**` · `apps/website/src/components/music-intelligence/partner-workspace/**` · `apps/website/src/lib/music-intelligence/partner-*` · `SmartLinkActionButtons.tsx` · `AuthForms.tsx` · `onboarding/page.tsx` |
+| **Git Commit** | Pending Executive Approval |
+| **Author** | AMD Solutions 007 |
+| **Verification** | **Pass (local)** — production build · partner routes compiled · Artist workspace unchanged · pending Executive Deployment Approval |
+
+---
+
 *Append new entries at the bottom. Never rewrite history.*

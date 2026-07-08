@@ -3,8 +3,13 @@ import { createServerClient } from '@supabase/ssr';
 import { getSupabaseAuthConfig } from '@/lib/supabase/mi-auth-config';
 import { updateMISession } from '@/lib/supabase/mi-middleware';
 import { isValidRoleSlug } from '@/lib/music-intelligence/auth-roles';
+import { isPartnerWorkspaceRole } from '@/lib/music-intelligence/partner-constants';
 
-const PROTECTED_PREFIXES = ['/music-intelligence/onboarding', '/music-intelligence/account'];
+const PROTECTED_PREFIXES = [
+  '/music-intelligence/onboarding',
+  '/music-intelligence/account',
+  '/music-intelligence/partner',
+];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -52,6 +57,17 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  if (pathname.startsWith('/music-intelligence/partner')) {
+    const role = user.user_metadata?.role;
+    const partnerRole =
+      typeof role === 'string' && isValidRoleSlug(role) && isPartnerWorkspaceRole(role);
+    const onboardingComplete = Boolean(user.user_metadata?.onboarding_complete);
+    if (!partnerRole || !onboardingComplete) {
+      const onboarding = new URL('/music-intelligence/onboarding', request.url);
+      return NextResponse.redirect(onboarding);
+    }
+  }
+
   return sessionResponse;
 }
 
@@ -59,6 +75,7 @@ export const config = {
   matcher: [
     '/music-intelligence/onboarding/:path*',
     '/music-intelligence/account/:path*',
+    '/music-intelligence/partner/:path*',
     '/music-intelligence/sign-in',
     '/music-intelligence/sign-up',
     '/music-intelligence/forgot-password',

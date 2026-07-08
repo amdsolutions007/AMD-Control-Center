@@ -18,6 +18,7 @@ export const MI_SUBMISSION_STATUSES = [
   'pending_review',
   'approved',
   'rejected',
+  'revision_requested',
 ] as const;
 
 export type MISubmissionStatus = (typeof MI_SUBMISSION_STATUSES)[number];

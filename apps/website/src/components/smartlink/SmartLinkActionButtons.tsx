@@ -150,7 +150,7 @@ const IDENTITY_ROLE_CARDS = [
   { icon: '🤝', color: '#E4405F', title: 'Brand / Commercial Partner', sub: 'Explore strategic brand alliances and commercial music partnerships.' },
   { icon: '📰', color: '#94A3B8', title: 'Media', sub: 'Access press intelligence, editorial insights and music media opportunities.' },
   { icon: '❤️', color: '#EC4899', title: 'Fan', sub: 'Discover curated playlists, trending artists and immersive music experiences.' },
-  { icon: '🏢', color: '#6366F1', title: 'Enterprise Partner', sub: 'Unlock enterprise-grade music intelligence for large-scale industry operations.' },
+  { icon: '🏢', color: '#6366F1', title: 'Enterprise Partner', sub: 'Unlock enterprise-grade music intelligence for large-scale industry operations.', href: '/music-intelligence/sign-up?role=enterprise-partner', active: true },
 ] as const;
 
 /* ──────────────────────────────────────────────────────────

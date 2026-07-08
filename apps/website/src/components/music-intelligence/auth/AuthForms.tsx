@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { createMIAuthClient } from '@/lib/supabase/mi-browser';
 import { getSiteOrigin } from '@/lib/supabase/mi-auth-config';
 import { isValidRoleSlug, type MIAuthRoleSlug } from '@/lib/music-intelligence/auth-roles';
+import { getPostOnboardingPath } from '@/lib/music-intelligence/partner-constants';
 import RoleSelector, { AuthField, AuthSubmitButton, AuthMessage } from '@/components/music-intelligence/auth/AuthForm';
 import SocialAuthComingSoon, { AuthDivider, AuthFooterLinks } from '@/components/music-intelligence/auth/AuthShared';
 
@@ -314,7 +315,7 @@ export function OnboardingForm() {
       setError(updateError.message);
       return;
     }
-    router.push('/music-intelligence/account');
+    router.push(getPostOnboardingPath(role));
     router.refresh();
   }
 
