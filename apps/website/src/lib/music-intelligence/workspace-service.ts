@@ -180,12 +180,25 @@ export async function loadWorkspaceDashboard(session: MIWorkspaceSession): Promi
   if (service) {
     const hasSubmissionTable = await tableAvailable(service, 'mi_music_submissions');
     if (hasSubmissionTable) {
-      const { data: submissions } = await service
-        .from('mi_music_submissions')
-        .select('id, song_title, status, created_at')
-        .eq('submitted_by', session.userId)
-        .order('created_at', { ascending: false })
-        .limit(5);
+      const [{ count: totalCount }, { count: pendingTotal }, { data: submissions }] = await Promise.all([
+        service
+          .from('mi_music_submissions')
+          .select('*', { count: 'exact', head: true })
+          .eq('submitted_by', session.userId),
+        service
+          .from('mi_music_submissions')
+          .select('*', { count: 'exact', head: true })
+          .eq('submitted_by', session.userId)
+          .in('status', ['pending_review', 'revision_requested']),
+        service
+          .from('mi_music_submissions')
+          .select('id, song_title, status, created_at')
+          .eq('submitted_by', session.userId)
+          .order('created_at', { ascending: false })
+          .limit(5),
+      ]);
+      submissionCount = totalCount ?? 0;
+      pendingCount = pendingTotal ?? 0;
       recentSubmissions = submissions ?? [];
     } else {
       const { data: profile } = await service
@@ -196,9 +209,9 @@ export async function loadWorkspaceDashboard(session: MIWorkspaceSession): Promi
       recentSubmissions = getContextSubmissions(
         profile?.agent_007_context as Record<string, unknown> | null,
       ).slice(0, 5);
+      submissionCount = recentSubmissions.length;
+      pendingCount = recentSubmissions.filter((s) => s.status === 'pending_review').length;
     }
-    submissionCount = recentSubmissions.length;
-    pendingCount = recentSubmissions.filter((s) => s.status === 'pending_review').length;
   }
 
   const notifications: WorkspaceDashboardData['notifications'] = [];

@@ -40,7 +40,7 @@ export interface PartnerDashboardData {
   notifications: Array<{ id: string; message: string; type: string }>;
 }
 
-async function resolvePartnerContext(session: MIPartnerWorkspaceSession) {
+export async function resolvePartnerContext(session: MIPartnerWorkspaceSession) {
   const service = createMIServiceClient();
   if (!service) return { service: null, hubId: session.hubId ?? MI_DEFAULT_HUB_ID, partnerId: session.partnerId };
 
@@ -243,16 +243,21 @@ export async function loadPartnerDashboard(session: MIPartnerWorkspaceSession): 
 
   if (service) {
     if (await tableAvailable(service, 'mi_music_submissions')) {
-      const { data: submissions } = await service
-        .from('mi_music_submissions')
-        .select('id, song_title, artist_name, status, created_at')
-        .eq('hub_id', hubId)
-        .order('created_at', { ascending: false })
-        .limit(5);
+      const [{ count: queueCount }, { data: submissions }] = await Promise.all([
+        service
+          .from('mi_music_submissions')
+          .select('*', { count: 'exact', head: true })
+          .eq('hub_id', hubId)
+          .in('status', ['pending_review', 'revision_requested']),
+        service
+          .from('mi_music_submissions')
+          .select('id, song_title, artist_name, status, created_at')
+          .eq('hub_id', hubId)
+          .order('created_at', { ascending: false })
+          .limit(5),
+      ]);
       recentSubmissions = submissions ?? [];
-      submissionQueue = (submissions ?? []).filter((s) =>
-        ['pending_review', 'revision_requested'].includes(s.status),
-      ).length;
+      submissionQueue = queueCount ?? 0;
     }
 
     const { data: artists } = await service

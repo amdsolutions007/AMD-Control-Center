@@ -7,6 +7,7 @@ import {
   StatusBadge,
   WorkspaceSection,
 } from '@/components/music-intelligence/workspace/WorkspaceShared';
+import IntelligenceDashboardSection from '@/components/music-intelligence/intelligence/IntelligenceDashboardSection';
 
 interface DashboardData {
   organizationName: string;
@@ -64,7 +65,7 @@ export default function PartnerDashboardPanel() {
         <MetricCard label="Profile Completion" value={`${data.profileCompletion}%`} />
         <MetricCard label="Active Artists" value={String(data.activeArtists)} />
         <MetricCard label="Active Campaigns" value={String(data.activeCampaigns)}>
-          <span className="text-[10px] text-gray-500 uppercase tracking-wider">Phase 3E</span>
+          <span className="text-[10px] text-gray-500 uppercase tracking-wider">Awaiting campaign engine</span>
         </MetricCard>
         <MetricCard label="Submission Queue" value={String(data.submissionQueue)} />
       </div>
@@ -110,6 +111,8 @@ export default function PartnerDashboardPanel() {
           </ul>
         )}
       </Panel>
+
+      <IntelligenceDashboardSection scope="partner" showActivity={false} />
     </WorkspaceSection>
   );
 }

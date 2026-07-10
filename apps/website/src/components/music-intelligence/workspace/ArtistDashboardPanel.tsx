@@ -7,6 +7,7 @@ import {
   StatusBadge,
   WorkspaceSection,
 } from '@/components/music-intelligence/workspace/WorkspaceShared';
+import IntelligenceDashboardSection from '@/components/music-intelligence/intelligence/IntelligenceDashboardSection';
 
 interface DashboardData {
   welcomeName: string;
@@ -45,7 +46,7 @@ export default function ArtistDashboardPanel() {
     <WorkspaceSection
       eyebrow="Artist Command Center"
       title={`Welcome, ${data.welcomeName}`}
-      description="Your operational hub for profile management, music submissions, and future AI intelligence modules."
+      description="Your operational hub for profile management, music submissions, and live intelligence metrics."
     >
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
         <MetricCard label="Profile Status" value={`${data.profileCompletion}%`}>
@@ -98,9 +99,11 @@ export default function ArtistDashboardPanel() {
         )}
       </Panel>
 
+      <IntelligenceDashboardSection scope="artist" showActivity={false} />
+
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
-        <LockedModule title="AI Intelligence" description="Agent 007 discovery signals and campaign intelligence." />
-        <LockedModule title="Analytics" description="Streaming performance and audience growth dashboards." />
+        <FoundationModule title="AI Intelligence Engine" description="Agent 007 discovery signals activate in Phase 3F." />
+        <FoundationModule title="Streaming Analytics" description="Cross-platform performance dashboards activate in Phase 5." />
       </div>
     </WorkspaceSection>
   );
@@ -136,15 +139,14 @@ function QuickAction({ href, label }: { href: string; label: string }) {
   );
 }
 
-function LockedModule({ title, description }: { title: string; description: string }) {
+function FoundationModule({ title, description }: { title: string; description: string }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-[#050512]/50 p-4 opacity-75">
+    <div className="rounded-2xl border border-white/10 bg-[#050512]/50 p-4">
       <div className="flex items-center justify-between gap-2">
         <h3 className="text-[10px] font-black uppercase tracking-[0.14em] text-gray-300">{title}</h3>
-        <StatusBadge status="draft" />
+        <span className="text-[8px] font-black uppercase tracking-wider text-[#00E5FF]/70">Foundation</span>
       </div>
       <p className="mt-2 text-xs text-gray-500">{description}</p>
-      <span className="mt-2 inline-block text-[8px] font-black uppercase tracking-wider text-gray-500">Coming Soon</span>
     </div>
   );
 }
