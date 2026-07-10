@@ -401,7 +401,7 @@ All entries are append-only. Do not modify or delete historical entries.
 | **API Routes** | `/api/music-intelligence/workspace/intelligence` · `/api/music-intelligence/partner/intelligence` |
 | **Components** | `IntelligenceWidgetCard` · `IntelligenceWidgetGrid` · `IntelligenceActivityFeed` · `IntelligenceDashboardSection` |
 | **SQL Migration** | None — reuses `mi_user_profiles` · `mi_artists` · `mi_partner_profiles` · `mi_partner_members` · `mi_music_submissions` |
-| **Git Commit** | pending local commit |
+| **Git Commit** | `9c806f3` |
 | **Author** | AMD Solutions 007 |
 | **Verification** | **Pass** — production build · middleware · RBAC · `phase-3e-local-verification.mjs` |
 | **Deployment** | 🔒 Pending Executive Approval — no GitHub push · no Vercel deploy |
