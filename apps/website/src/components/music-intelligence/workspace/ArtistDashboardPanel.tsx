@@ -8,6 +8,7 @@ import {
   WorkspaceSection,
 } from '@/components/music-intelligence/workspace/WorkspaceShared';
 import IntelligenceDashboardSection from '@/components/music-intelligence/intelligence/IntelligenceDashboardSection';
+import AIIntelligenceSection from '@/components/music-intelligence/ai-intelligence/AIIntelligenceSection';
 
 interface DashboardData {
   welcomeName: string;
@@ -101,8 +102,9 @@ export default function ArtistDashboardPanel() {
 
       <IntelligenceDashboardSection scope="artist" showActivity={false} />
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-2">
-        <FoundationModule title="AI Intelligence Engine" description="Agent 007 discovery signals activate in Phase 3F." />
+      <AIIntelligenceSection scope="artist" />
+
+      <div className="mt-6">
         <FoundationModule title="Streaming Analytics" description="Cross-platform performance dashboards activate in Phase 5." />
       </div>
     </WorkspaceSection>

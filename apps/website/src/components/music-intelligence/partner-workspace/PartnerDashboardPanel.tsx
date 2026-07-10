@@ -8,6 +8,7 @@ import {
   WorkspaceSection,
 } from '@/components/music-intelligence/workspace/WorkspaceShared';
 import IntelligenceDashboardSection from '@/components/music-intelligence/intelligence/IntelligenceDashboardSection';
+import AIIntelligenceSection from '@/components/music-intelligence/ai-intelligence/AIIntelligenceSection';
 
 interface DashboardData {
   organizationName: string;
@@ -113,6 +114,8 @@ export default function PartnerDashboardPanel() {
       </Panel>
 
       <IntelligenceDashboardSection scope="partner" showActivity={false} />
+
+      <AIIntelligenceSection scope="partner" />
     </WorkspaceSection>
   );
 }

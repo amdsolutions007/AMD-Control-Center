@@ -1042,9 +1042,24 @@ Append-only record of approved implementations. Maintain per [Documentation Sync
 | **Next approved phase** | Phase 3F — AI Intelligence Engine (Executive Prompt Card required) |
 | **Non-blocking** | Playwright screenshots skipped (tooling timeout) · password reset manual UAT pending · CEO manual visual verification delegated |
 
+### IMP-018 — Phase 3F AI Intelligence Engine (Local)
+
+| Field | Value |
+|---|---|
+| **Date** | 2026-07-10 |
+| **Implementation type** | AI Intelligence Engine — local complete |
+| **Architecture** | Data Collection (`ai-intelligence-collector`) → Intelligence Processing (`ai-intelligence-processor`) → Presentation (`AIIntelligenceSection`) |
+| **Processing flow** | Reuses Phase 3E metrics + profile/submission loaders · deterministic scoring · recommendations include `derivedFrom` transparency |
+| **Artist modules** | Profile completion · submission quality · readiness score · recommendations · executive insights |
+| **Partner modules** | Organization health · review workload · portfolio overview · partnership recommendations |
+| **SQL migration** | None required |
+| **Verification** | Production build pass · `phase-3f-local-verification.mjs` pass |
+| **Enterprise impact** | Phase 3F **Local Complete** — deploy pending Executive Approval |
+| **Next approved action** | Executive Approval → Git Commit → GitHub Push → Vercel Deploy → Production Verification |
+
 ---
 
-*Last Updated: 2026-07-10 · Phase 3E production deployed · Track C active · MES v4.0*
+*Last Updated: 2026-07-10 · Phase 3F local implementation complete · Track C active · MES v4.0*
 
 *Do not treat this document as constitutional, architectural, registry, or process authority. Consult Section 20 references for authoritative specifications.*
 
