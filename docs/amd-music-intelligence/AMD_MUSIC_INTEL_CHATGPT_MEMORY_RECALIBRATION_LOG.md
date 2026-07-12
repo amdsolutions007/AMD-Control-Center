@@ -1104,9 +1104,24 @@ Append-only record of approved implementations. Maintain per [Documentation Sync
 | **Next approved phase** | Phase 5 — Streaming Intelligence Engine (Executive Authorization required) |
 | **Non-blocking** | Authenticated music-engine 200 — CEO manual visual verification · password reset UAT pending |
 
+### IMP-020 — Phase 5 Streaming Intelligence Engine (Local)
+
+| Field | Value |
+|---|---|
+| **Date** | 2026-07-12 |
+| **Implementation type** | Streaming Intelligence Engine — local complete |
+| **Architecture** | Connector Framework → Collector → Processor → Service → `StreamingEngineSection` UI |
+| **Core modules** | DSP Connector Framework (7 platforms) · Streaming Profile · Streaming Metrics Engine · Platform Comparison · Playlist Performance · Streaming Timeline · Executive Streaming Report · Streaming Status Panel |
+| **Data sources** | `mi_music_submissions.dsp_links` · `mi_click_tracking` redirect telemetry · Phase 4 playlist rules |
+| **SQL migration** | None required |
+| **Verification** | Production build pass (54 routes) · `phase-5-local-verification.mjs` pass |
+| **ADR-020** | Locked — connector framework · no fabricated stream counts · extends Phases 3E–4 only |
+| **Enterprise impact** | Phase 5 **Local Complete** — deploy pending Executive Approval |
+| **Next approved action** | Executive Approval → Git Commit → GitHub Push → Vercel Deploy → Production Verification |
+
 ---
 
-*Last Updated: 2026-07-12 · Phase 4 production deployed · Track D active · MES v4.0*
+*Last Updated: 2026-07-12 · Phase 5 local complete · Track E active · MES v4.0*
 
 *Do not treat this document as constitutional, architectural, registry, or process authority. Consult Section 20 references for authoritative specifications.*
 

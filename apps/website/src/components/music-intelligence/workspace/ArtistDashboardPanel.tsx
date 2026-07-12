@@ -10,6 +10,7 @@ import {
 import IntelligenceDashboardSection from '@/components/music-intelligence/intelligence/IntelligenceDashboardSection';
 import AIIntelligenceSection from '@/components/music-intelligence/ai-intelligence/AIIntelligenceSection';
 import MusicEngineSection from '@/components/music-intelligence/music-engine/MusicEngineSection';
+import StreamingEngineSection from '@/components/music-intelligence/streaming-engine/StreamingEngineSection';
 
 interface DashboardData {
   welcomeName: string;
@@ -107,9 +108,7 @@ export default function ArtistDashboardPanel() {
 
       <MusicEngineSection scope="artist" />
 
-      <div className="mt-6">
-        <FoundationModule title="Streaming Analytics" description="Cross-platform performance dashboards activate in Phase 5." />
-      </div>
+      <StreamingEngineSection scope="artist" />
     </WorkspaceSection>
   );
 }
@@ -144,14 +143,3 @@ function QuickAction({ href, label }: { href: string; label: string }) {
   );
 }
 
-function FoundationModule({ title, description }: { title: string; description: string }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-[#050512]/50 p-4">
-      <div className="flex items-center justify-between gap-2">
-        <h3 className="text-[10px] font-black uppercase tracking-[0.14em] text-gray-300">{title}</h3>
-        <span className="text-[8px] font-black uppercase tracking-wider text-[#00E5FF]/70">Foundation</span>
-      </div>
-      <p className="mt-2 text-xs text-gray-500">{description}</p>
-    </div>
-  );
-}

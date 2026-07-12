@@ -10,6 +10,7 @@ import {
 import IntelligenceDashboardSection from '@/components/music-intelligence/intelligence/IntelligenceDashboardSection';
 import AIIntelligenceSection from '@/components/music-intelligence/ai-intelligence/AIIntelligenceSection';
 import MusicEngineSection from '@/components/music-intelligence/music-engine/MusicEngineSection';
+import StreamingEngineSection from '@/components/music-intelligence/streaming-engine/StreamingEngineSection';
 
 interface DashboardData {
   organizationName: string;
@@ -119,6 +120,8 @@ export default function PartnerDashboardPanel() {
       <AIIntelligenceSection scope="partner" />
 
       <MusicEngineSection scope="partner" />
+
+      <StreamingEngineSection scope="partner" />
     </WorkspaceSection>
   );
 }
