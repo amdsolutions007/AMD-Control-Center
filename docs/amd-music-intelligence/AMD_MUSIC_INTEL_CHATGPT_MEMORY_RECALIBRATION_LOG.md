@@ -1135,9 +1135,24 @@ Append-only record of approved implementations. Maintain per [Documentation Sync
 | **Next approved phase** | Phase 6 — Audience Intelligence Engine (Executive Authorization required) |
 | **Non-blocking** | Authenticated streaming-engine 200 — CEO manual visual verification · password reset UAT pending |
 
+### IMP-021 — Phase 6 Audience Intelligence Engine (Local)
+
+| Field | Value |
+|---|---|
+| **Date** | 2026-07-12 |
+| **Implementation type** | Audience Intelligence Engine — local complete |
+| **Architecture** | Connector Framework → Collector → Processor → Service → `AudienceEngineSection` UI |
+| **Core modules** | Global Audience Overview · Geographic Intelligence · Demographic Intelligence · Platform Audience Distribution · Audience Behaviour · Engagement Intelligence · Growth Intelligence · Executive Audience Report · Audience Timeline · Audience Health Dashboard |
+| **Data sources** | `mi_audience` owned contacts · `mi_click_tracking` geographic/session telemetry · submission metadata |
+| **SQL migration** | None required |
+| **Verification** | Production build pass (56 routes) · `phase-6-local-verification.mjs` pass |
+| **ADR-021** | Locked — unified audience analytics · no fabricated metrics · extends Phases 3E–5 only |
+| **Enterprise impact** | Phase 6 **Local Complete** — deploy pending Executive Approval |
+| **Next approved action** | Executive Approval → Git Commit → GitHub Push → Vercel Deploy → Production Verification |
+
 ---
 
-*Last Updated: 2026-07-12 · Phase 5 production deployed · Track E active · MES v4.0*
+*Last Updated: 2026-07-12 · Phase 6 local complete · Track F active · MES v4.0*
 
 *Do not treat this document as constitutional, architectural, registry, or process authority. Consult Section 20 references for authoritative specifications.*
 
