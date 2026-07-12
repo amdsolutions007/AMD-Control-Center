@@ -9,6 +9,7 @@ import {
 } from '@/components/music-intelligence/workspace/WorkspaceShared';
 import IntelligenceDashboardSection from '@/components/music-intelligence/intelligence/IntelligenceDashboardSection';
 import AIIntelligenceSection from '@/components/music-intelligence/ai-intelligence/AIIntelligenceSection';
+import MusicEngineSection from '@/components/music-intelligence/music-engine/MusicEngineSection';
 
 interface DashboardData {
   welcomeName: string;
@@ -103,6 +104,8 @@ export default function ArtistDashboardPanel() {
       <IntelligenceDashboardSection scope="artist" showActivity={false} />
 
       <AIIntelligenceSection scope="artist" />
+
+      <MusicEngineSection scope="artist" />
 
       <div className="mt-6">
         <FoundationModule title="Streaming Analytics" description="Cross-platform performance dashboards activate in Phase 5." />
