@@ -473,7 +473,7 @@ All entries are append-only. Do not modify or delete historical entries.
 | **API Routes** | `/api/music-intelligence/workspace/music-engine` · `/api/music-intelligence/partner/music-engine` |
 | **Modules** | Music Intelligence Report · Release Readiness · Submission Quality · Metadata Intelligence · Rights Intelligence · Playlist Intelligence · Executive Music Report · Submission Timeline |
 | **SQL Migration** | None — reuses `mi_music_submissions` and Phase 3C–3F services |
-| **Git Commit** | pending local commit |
+| **Git Commit** | `df2beff` |
 | **Author** | AMD Solutions 007 |
 | **Verification** | **Pass** — production build (52 routes) · `phase-4-local-verification.mjs` · RBAC on music-engine endpoints |
 | **Deployment** | 🔒 Pending Executive Approval |
