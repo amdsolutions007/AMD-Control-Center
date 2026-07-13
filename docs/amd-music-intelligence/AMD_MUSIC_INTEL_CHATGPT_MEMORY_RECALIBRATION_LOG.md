@@ -1246,9 +1246,26 @@ Append-only record of approved implementations. Maintain per [Documentation Sync
 | **Next approved phase** | Phase 9 — Automation Intelligence Engine (Executive Authorization required) |
 | **Non-blocking** | Authenticated business-engine 200 — CEO manual visual verification · password reset UAT pending |
 
+### IMP-027 — Phase 9 Automation Intelligence Engine (Local)
+
+| Field | Value |
+|---|---|
+| **Date** | 2026-07-13 |
+| **Implementation type** | Automation Intelligence Engine — local complete |
+| **Architecture** | BI consumer → Rules Engine → Workflow Orchestrator → Notification Manager → `AutomationEngineSection` UI |
+| **Core modules** | Automation Rules Engine · Workflow Automation · Scheduled Operations · Executive Alerts · Notification Center · Automation History · Approval Center · Health Dashboard · Timeline · Executive Automation Report |
+| **Key decision** | Consumes Phase 8 Business Intelligence only — no upstream engine duplication · no irreversible automatic actions |
+| **Approval modes** | automatic · manual_approval · executive_approval_required |
+| **Notification strategy** | Dashboard active · Email/WhatsApp/Slack/Teams connector stubs |
+| **Verification** | Production build pass (62 routes) · `phase-9-local-verification.mjs` pass |
+| **ADR-024** | Locked — workflow automation · approval gates · no irreversible actions |
+| **CR-027** | Local implementation · pending commit |
+| **Enterprise impact** | Phase 9 **Local Complete** — deploy pending Executive Production Approval |
+| **Next approved action** | Executive Production Deployment Approval → GitHub Push → Vercel Deploy → Production Verification |
+
 ---
 
-*Last Updated: 2026-07-13 · Phase 8 production verified · Track H complete · MES v4.0*
+*Last Updated: 2026-07-13 · Phase 9 local complete · Track I active · MES v4.0*
 
 *Do not treat this document as constitutional, architectural, registry, or process authority. Consult Section 20 references for authoritative specifications.*
 
