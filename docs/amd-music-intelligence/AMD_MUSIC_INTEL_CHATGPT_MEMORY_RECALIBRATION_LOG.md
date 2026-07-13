@@ -1226,7 +1226,7 @@ Append-only record of approved implementations. Maintain per [Documentation Sync
 | **Phase 9 hooks** | Recommendations · alerts · scorecards · cross-engine summary exposed |
 | **Verification** | Production build pass (60 routes) · `phase-8-local-verification.mjs` pass |
 | **ADR-023** | Locked — orchestration architecture · no duplication · no fabricated financial values |
-| **CR-025** | Local implementation · pending commit |
+| **CR-025** | Local implementation · `d1322d3` |
 | **Enterprise impact** | Phase 8 **Local Complete** — deploy pending Executive Production Approval |
 | **Next approved action** | Executive Production Deployment Approval → GitHub Push → Vercel Deploy → Production Verification |
 
