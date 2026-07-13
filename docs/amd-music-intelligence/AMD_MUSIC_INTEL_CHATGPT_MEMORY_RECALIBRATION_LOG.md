@@ -1197,9 +1197,42 @@ Append-only record of approved implementations. Maintain per [Documentation Sync
 | **Next approved phase** | Phase 8 — Business Intelligence Engine (Executive Authorization required) |
 | **Non-blocking** | Authenticated marketing-engine 200 — CEO manual visual verification · password reset UAT pending |
 
+### IMP-024 — Phase 8 Executive Architecture Blueprint
+
+| Field | Value |
+|---|---|
+| **Date** | 2026-07-13 |
+| **Planning type** | Executive Architecture Blueprint |
+| **Architecture** | Orchestration layer → Collector invokes Phases 3E–7 services → Processor → `BusinessEngineSection` UI |
+| **Core modules** | Executive KPI Dashboard · Business Health · Growth Intelligence · Revenue Framework · Executive Performance · Cross-Engine Intelligence · Executive Alerts · Executive Scorecards · Business Timeline · Executive Business Report |
+| **Key decision** | Phase 8 orchestrates existing engine services — does NOT duplicate collector logic or re-query tables |
+| **Revenue strategy** | Connector stubs only · honest empty states until financial APIs connected |
+| **Phase 9 hooks** | Recommendations · alerts · scorecards · cross-engine summary exposed for Automation Intelligence |
+| **ADR-023** | Locked — orchestration architecture · no duplication · no fabricated financial values |
+| **CR-024** | Architecture blueprint v1.0.0 approved |
+| **Enterprise impact** | Phase 8 **Architecture Approved** — implementation pending Executive Development Authorization |
+| **Next approved action** | Executive Development Authorization → Extend → Verify → Test → Deploy |
+
+### IMP-025 — Phase 8 Business Intelligence Engine (Local)
+
+| Field | Value |
+|---|---|
+| **Date** | 2026-07-13 |
+| **Implementation type** | Business Intelligence Engine — local complete |
+| **Architecture** | Orchestration → Collector invokes Phases 3E–7 services → Aggregator → Processor → `BusinessEngineSection` UI |
+| **Core modules** | Executive KPI Dashboard · Business Health · Growth Intelligence · Revenue Framework · Executive Performance · Cross-Engine Intelligence · Executive Alerts · Executive Scorecards · Business Timeline · Executive Business Report |
+| **Key decision** | Phase 8 orchestrates existing engine services — no table duplication · no calculation duplication |
+| **Revenue strategy** | 7 connector stubs · honest empty states until financial APIs connected |
+| **Phase 9 hooks** | Recommendations · alerts · scorecards · cross-engine summary exposed |
+| **Verification** | Production build pass (60 routes) · `phase-8-local-verification.mjs` pass |
+| **ADR-023** | Locked — orchestration architecture · no duplication · no fabricated financial values |
+| **CR-025** | Local implementation · pending commit |
+| **Enterprise impact** | Phase 8 **Local Complete** — deploy pending Executive Production Approval |
+| **Next approved action** | Executive Production Deployment Approval → GitHub Push → Vercel Deploy → Production Verification |
+
 ---
 
-*Last Updated: 2026-07-13 · Phase 7 production verified · Track G complete · MES v4.0*
+*Last Updated: 2026-07-13 · Phase 8 local complete · Track H active · MES v4.0*
 
 *Do not treat this document as constitutional, architectural, registry, or process authority. Consult Section 20 references for authoritative specifications.*
 

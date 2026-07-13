@@ -13,6 +13,7 @@ import MusicEngineSection from '@/components/music-intelligence/music-engine/Mus
 import StreamingEngineSection from '@/components/music-intelligence/streaming-engine/StreamingEngineSection';
 import AudienceEngineSection from '@/components/music-intelligence/audience-engine/AudienceEngineSection';
 import MarketingEngineSection from '@/components/music-intelligence/marketing-engine/MarketingEngineSection';
+import BusinessEngineSection from '@/components/music-intelligence/business-engine/BusinessEngineSection';
 
 interface DashboardData {
   welcomeName: string;
@@ -115,6 +116,8 @@ export default function ArtistDashboardPanel() {
       <AudienceEngineSection scope="artist" />
 
       <MarketingEngineSection scope="artist" />
+
+      <BusinessEngineSection scope="artist" />
     </WorkspaceSection>
   );
 }

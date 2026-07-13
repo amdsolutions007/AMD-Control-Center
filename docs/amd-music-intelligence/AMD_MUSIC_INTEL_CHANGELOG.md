@@ -605,4 +605,41 @@ All entries are append-only. Do not modify or delete historical entries.
 
 ---
 
+### 2026-07-13 — Phase 8 Business Intelligence Engine (Executive Architecture Blueprint)
+
+| Field | Value |
+|---|---|
+| **Date** | 2026-07-13 |
+| **Version** | MES v4.0 |
+| **Phase** | Track H — Phase 8 Executive Architecture Blueprint |
+| **Summary** | Orchestration layer above Phases 3E–7 · executive KPI dashboard · business health · growth intelligence · revenue framework · cross-engine aggregation · executive alerts · scorecards · business timeline · executive business report |
+| **Architecture Document** | `AMD_MUSIC_INTEL_PHASE8_BUSINESS_INTELLIGENCE_ARCHITECTURE.md` v1.0.0 |
+| **ADR** | ADR-023 locked — orchestration via existing engine services · no duplication · no fabricated financial values |
+| **API Routes (planned)** | `/api/music-intelligence/workspace/business-engine` · `/api/music-intelligence/partner/business-engine` |
+| **Expected Routes** | 60 (58 current + 2 new API routes) |
+| **SQL Migration** | None — orchestrates existing engine payloads |
+| **Author** | AMD Solutions 007 |
+| **Deployment** | 🔒 Pending Executive Development Authorization |
+
+---
+
+### 2026-07-13 — Phase 8 Business Intelligence Engine (Local)
+
+| Field | Value |
+|---|---|
+| **Date** | 2026-07-13 |
+| **Version** | MES v4.0 |
+| **Phase** | Track H — Phase 8 Business Intelligence Engine |
+| **Summary** | Orchestration layer above Phases 3E–7 · executive KPI dashboard · business health · growth intelligence · revenue framework · cross-engine aggregation · executive alerts · scorecards · business timeline · executive business report |
+| **Service Layer** | `business-engine-collector.ts` · `business-engine-aggregator.ts` · `business-engine-processor.ts` · `business-engine-service.ts` |
+| **API Routes** | `/api/music-intelligence/workspace/business-engine` · `/api/music-intelligence/partner/business-engine` |
+| **Modules** | Executive KPI Dashboard · Business Health · Growth Intelligence · Revenue Framework · Executive Performance · Cross-Engine Intelligence · Executive Alerts · Executive Scorecards · Business Timeline · Executive Business Report |
+| **SQL Migration** | None — orchestrates existing engine service outputs |
+| **Git Commit** | Pending commit |
+| **Author** | AMD Solutions 007 |
+| **Verification** | **Pass** — production build (60 routes) · `phase-8-local-verification.mjs` · orchestration layer verified · no table duplication · RBAC on business-engine endpoints |
+| **Deployment** | 🔒 Pending Executive Production Approval |
+
+---
+
 *Append new entries at the bottom. Never rewrite history.*
