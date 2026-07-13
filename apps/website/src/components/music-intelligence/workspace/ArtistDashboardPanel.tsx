@@ -17,6 +17,7 @@ import BusinessEngineSection from '@/components/music-intelligence/business-engi
 import AutomationEngineSection from '@/components/music-intelligence/automation-engine/AutomationEngineSection';
 import EnterpriseEngineSection from '@/components/music-intelligence/enterprise-engine/EnterpriseEngineSection';
 import GlobalEngineSection from '@/components/music-intelligence/global-engine/GlobalEngineSection';
+import OperatingSystemSection from '@/components/music-intelligence/operating-system/OperatingSystemSection';
 
 interface DashboardData {
   welcomeName: string;
@@ -127,6 +128,8 @@ export default function ArtistDashboardPanel() {
       <EnterpriseEngineSection scope="artist" />
 
       <GlobalEngineSection scope="artist" />
+
+      <OperatingSystemSection scope="artist" />
     </WorkspaceSection>
   );
 }

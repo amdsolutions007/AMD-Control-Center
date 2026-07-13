@@ -11,6 +11,7 @@ import BusinessEngineSection from '@/components/music-intelligence/business-engi
 import AutomationEngineSection from '@/components/music-intelligence/automation-engine/AutomationEngineSection';
 import EnterpriseEngineSection from '@/components/music-intelligence/enterprise-engine/EnterpriseEngineSection';
 import GlobalEngineSection from '@/components/music-intelligence/global-engine/GlobalEngineSection';
+import OperatingSystemSection from '@/components/music-intelligence/operating-system/OperatingSystemSection';
 
 export default function AnalyticsFoundationPanel() {
   return (
@@ -29,6 +30,7 @@ export default function AnalyticsFoundationPanel() {
       <AutomationEngineSection scope="partner" />
       <EnterpriseEngineSection scope="partner" />
       <GlobalEngineSection scope="partner" />
+      <OperatingSystemSection scope="partner" />
     </WorkspaceSection>
   );
 }
