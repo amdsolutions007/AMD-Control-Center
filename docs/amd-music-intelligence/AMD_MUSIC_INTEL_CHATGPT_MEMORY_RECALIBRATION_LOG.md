@@ -1259,7 +1259,7 @@ Append-only record of approved implementations. Maintain per [Documentation Sync
 | **Notification strategy** | Dashboard active · Email/WhatsApp/Slack/Teams connector stubs |
 | **Verification** | Production build pass (62 routes) · `phase-9-local-verification.mjs` pass |
 | **ADR-024** | Locked — workflow automation · approval gates · no irreversible actions |
-| **CR-027** | Local implementation · pending commit |
+| **CR-027** | Local implementation · `358f3a1` |
 | **Enterprise impact** | Phase 9 **Local Complete** — deploy pending Executive Production Approval |
 | **Next approved action** | Executive Production Deployment Approval → GitHub Push → Vercel Deploy → Production Verification |
 
