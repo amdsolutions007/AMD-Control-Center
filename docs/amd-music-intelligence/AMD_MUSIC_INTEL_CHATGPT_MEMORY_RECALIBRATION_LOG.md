@@ -1279,9 +1279,25 @@ Append-only record of approved implementations. Maintain per [Documentation Sync
 | **Next approved phase** | Phase 10 — Enterprise Intelligence Engine (Executive Authorization required) |
 | **Non-blocking** | Authenticated automation-engine 200 — CEO manual visual verification · password reset UAT pending |
 
+### IMP-029 — Phase 10 Enterprise Intelligence Engine (Local)
+
+| Field | Value |
+|---|---|
+| **Date** | 2026-07-13 |
+| **Implementation type** | Enterprise Intelligence Engine — local complete |
+| **Architecture** | BI + Automation consumers → Governance Engine → Processor → `EnterpriseEngineSection` UI |
+| **Core modules** | Enterprise Command Center · Organization Intelligence · Enterprise Administration · Enterprise Governance · Enterprise RBAC · Enterprise Analytics · Health Dashboard · Timeline · Reports · API Framework |
+| **Key decision** | Consumes Phase 8 Business Intelligence + Phase 9 Automation Intelligence only — no upstream engine duplication |
+| **Governance strategy** | Six deterministic modules from BI + Automation signals · honest empty states where live data absent |
+| **Verification** | Production build pass (64 routes) · `phase-10-local-verification.mjs` pass |
+| **ADR-025** | Locked — enterprise operating layer · BI + Automation consumers only |
+| **CR-029** | Local implementation · `08f00a2` |
+| **Enterprise impact** | Phase 10 **Local Complete** — deploy pending Executive Production Approval |
+| **Next approved action** | Executive Production Deployment Approval → GitHub Push → Vercel Deploy → Production Verification |
+
 ---
 
-*Last Updated: 2026-07-13 · Phase 9 production verified · Track I complete · MES v4.0*
+*Last Updated: 2026-07-13 · Phase 10 local verified · Track J local complete · MES v4.0*
 
 *Do not treat this document as constitutional, architectural, registry, or process authority. Consult Section 20 references for authoritative specifications.*
 
