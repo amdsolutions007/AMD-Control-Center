@@ -16,6 +16,7 @@ import MarketingEngineSection from '@/components/music-intelligence/marketing-en
 import BusinessEngineSection from '@/components/music-intelligence/business-engine/BusinessEngineSection';
 import AutomationEngineSection from '@/components/music-intelligence/automation-engine/AutomationEngineSection';
 import EnterpriseEngineSection from '@/components/music-intelligence/enterprise-engine/EnterpriseEngineSection';
+import GlobalEngineSection from '@/components/music-intelligence/global-engine/GlobalEngineSection';
 
 interface DashboardData {
   organizationName: string;
@@ -137,6 +138,8 @@ export default function PartnerDashboardPanel() {
       <AutomationEngineSection scope="partner" />
 
       <EnterpriseEngineSection scope="partner" />
+
+      <GlobalEngineSection scope="partner" />
     </WorkspaceSection>
   );
 }
