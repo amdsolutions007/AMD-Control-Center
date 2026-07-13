@@ -758,7 +758,7 @@ All entries are append-only. Do not modify or delete historical entries.
 | **Version** | MES v4.0 |
 | **Phase** | Track K — Phase 11 Production Deployment |
 | **Summary** | GitHub push · Vercel production deploy · global-engine APIs live |
-| **Git Commits** | `d5c103d` (feature) · `0f45599` (local docs) · pending (production docs) |
+| **Git Commits** | `d5c103d` (feature) · `0f45599` (local docs) · `6f2c168` (production docs) |
 | **Vercel Deployment ID** | `AaQ2hCubV2Cpx352PLFVzdPgcdCB` |
 | **Production URL** | `https://www.amdsolutions007.com` |
 | **Production Alias** | `https://www.amdsolutions007.com` ← `website-qyjddfx0s-solutions007s-projects.vercel.app` |

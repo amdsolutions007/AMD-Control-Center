@@ -1338,7 +1338,7 @@ Append-only record of approved implementations. Maintain per [Documentation Sync
 | **Production alias** | `https://www.amdsolutions007.com` |
 | **Production verification** | Landing 200 · MI 200 · sign-in 200 · artist/partner/analytics 307 · Smart Link 200 · all 20 engine APIs 401 RBAC · tenant isolation verified · 27/27 checks pass |
 | **ADR-026** | Locked · global federation layer · Enterprise consumer only · tenant isolation |
-| **CR-032** | Production verified · pending docs commit |
+| **CR-032** | Production verified · `6f2c168` |
 | **Enterprise impact** | Phase 11 **Production Complete** |
 | **Next approved phase** | Phase 12 — AMD Music OS™ (Executive Authorization required) |
 | **Non-blocking** | Authenticated global-engine 200 — CEO manual visual verification · password reset UAT pending |
