@@ -1306,7 +1306,7 @@ Append-only record of approved implementations. Maintain per [Documentation Sync
 | **Production alias** | `https://www.amdsolutions007.com` |
 | **Production verification** | Landing 200 · MI 200 · sign-in 200 · artist/partner/analytics 307 · Smart Link 200 · all 18 engine APIs 401 RBAC · 25/25 checks pass |
 | **ADR-025** | Locked · enterprise operating layer · BI + Automation consumers only |
-| **CR-030** | Production verified · `8d5b612` |
+| **CR-030** | Production verified · `38c93a8` |
 | **Enterprise impact** | Phase 10 **Production Complete** |
 | **Next approved phase** | Phase 11 — Global Intelligence Network (Executive Authorization required) |
 | **Non-blocking** | Authenticated enterprise-engine 200 — CEO manual visual verification · password reset UAT pending |

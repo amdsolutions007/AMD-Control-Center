@@ -722,7 +722,7 @@ All entries are append-only. Do not modify or delete historical entries.
 | **Version** | MES v4.0 |
 | **Phase** | Track J — Phase 10 Production Deployment |
 | **Summary** | GitHub push · Vercel production deploy · enterprise-engine APIs live |
-| **Git Commits** | `08f00a2` (feature) · `8d5b612` (docs) |
+| **Git Commits** | `08f00a2` (feature) · `8d5b612` (local docs) · `38c93a8` (production docs) |
 | **Vercel Deployment ID** | `EA7cN8m9CVLC96rBMpHNqvfzswKY` |
 | **Production URL** | `https://www.amdsolutions007.com` |
 | **Production Alias** | `https://www.amdsolutions007.com` ← `website-5z7hxxf34-solutions007s-projects.vercel.app` |
