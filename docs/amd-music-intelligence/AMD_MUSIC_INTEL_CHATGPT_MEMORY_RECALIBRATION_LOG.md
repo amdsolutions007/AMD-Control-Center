@@ -1166,9 +1166,24 @@ Append-only record of approved implementations. Maintain per [Documentation Sync
 | **Next approved phase** | Phase 7 — Marketing Intelligence Engine (Executive Authorization required) |
 | **Non-blocking** | Authenticated audience-engine 200 — CEO manual visual verification · password reset UAT pending |
 
+### IMP-022 — Phase 7 Marketing Intelligence Engine (Local)
+
+| Field | Value |
+|---|---|
+| **Date** | 2026-07-13 |
+| **Implementation type** | Marketing Intelligence Engine — local complete |
+| **Architecture** | Connector Framework → Collector → Processor → Service → `MarketingEngineSection` UI |
+| **Core modules** | Campaign Intelligence · Performance Intelligence · Conversion Intelligence · ROI Intelligence · Audience Acquisition · Geographic Marketing · Platform Comparison · Executive Marketing Report · Marketing Timeline · Marketing Health Dashboard |
+| **Data sources** | `mi_click_tracking` UTM attribution · `mi_audience` acquisition · submission conversions |
+| **SQL migration** | None required |
+| **Verification** | Production build pass (58 routes) · `phase-7-local-verification.mjs` pass |
+| **ADR-022** | Locked — marketing connector framework · no fabricated campaign metrics · extends Phases 3E–6 only |
+| **Enterprise impact** | Phase 7 **Local Complete** — deploy pending Executive Approval |
+| **Next approved action** | Executive Approval → Git Commit → GitHub Push → Vercel Deploy → Production Verification |
+
 ---
 
-*Last Updated: 2026-07-12 · Phase 6 production deployed · Track F active · MES v4.0*
+*Last Updated: 2026-07-13 · Phase 7 local complete · Track G active · MES v4.0*
 
 *Do not treat this document as constitutional, architectural, registry, or process authority. Consult Section 20 references for authoritative specifications.*
 
