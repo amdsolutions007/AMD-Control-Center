@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useId, useEffect } from 'react';
+import React, { useState, useId, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 
 interface DSPLinks { [key: string]: string; }
@@ -20,6 +20,59 @@ interface ActionButtonsProps {
   amdBadgeUrl: string;
   playlistName?: string;
   artistName?: string;
+}
+
+type SmartLinkEventName =
+  | 'smartlink_view'
+  | 'smartlink_gateway_open'
+  | 'dsp_outbound_click'
+  | 'audio_preview_start'
+  | 'artist_signup_start'
+  | 'enterprise_signup_start';
+
+type SmartLinkEventParameters = {
+  cta_id?: string;
+  destination_dsp?: string;
+  interaction_context?: string;
+  outbound_domain?: string;
+};
+
+type AnalyticsWindow = Window & {
+  dataLayer?: unknown[];
+  gtag?: (...args: unknown[]) => void;
+};
+
+const DSP_DESTINATIONS = new Set([
+  'spotify',
+  'apple_music',
+  'audiomack',
+  'boomplay',
+  'soundcloud',
+  'youtube_music',
+  'amazon_music',
+  'deezer',
+]);
+
+function outboundDomain(url: string) {
+  try {
+    return new URL(url, window.location.origin).hostname;
+  } catch (_) {
+    return undefined;
+  }
+}
+
+function sendGtagEvent(eventName: SmartLinkEventName, parameters: Record<string, string>) {
+  const analyticsWindow = window as AnalyticsWindow;
+  const command = ['event', eventName, parameters] as const;
+
+  if (typeof analyticsWindow.gtag === 'function') {
+    analyticsWindow.gtag(...command);
+    return;
+  }
+
+  // Queue early interactions until the afterInteractive GA script is ready.
+  analyticsWindow.dataLayer = analyticsWindow.dataLayer || [];
+  analyticsWindow.dataLayer.push(command);
 }
 
 /* ──────────────────────────────────────────────────────────
@@ -423,7 +476,27 @@ export default function SmartLinkActionButtons({
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioEl, setAudioEl] = useState<HTMLAudioElement | null>(null);
   const [gatewayOpen, setGatewayOpen] = useState(false);
+  const smartLinkViewTracked = useRef(false);
+  const audioPreviewTracked = useRef(false);
   const uid = useId().replace(/:/g, '');
+
+  const trackSmartLinkEvent = useCallback((
+    eventName: SmartLinkEventName,
+    parameters: SmartLinkEventParameters = {},
+  ) => {
+    sendGtagEvent(eventName, {
+      page_path: window.location.pathname,
+      smart_link_code: window.location.pathname.split('/').filter(Boolean).at(-1) || 'unknown',
+      smart_link_id: smartLinkId,
+      hub_id: hubId,
+      ...(artistId ? { artist_id: artistId } : {}),
+      ...(trackId ? { track_id: trackId } : {}),
+      ...(playlistId ? { playlist_id: playlistId } : {}),
+      ...Object.fromEntries(
+        Object.entries(parameters).filter((entry): entry is [string, string] => Boolean(entry[1])),
+      ),
+    });
+  }, [artistId, hubId, playlistId, smartLinkId, trackId]);
 
   const fire = (key: string, url: string) => {
     try {
@@ -434,15 +507,37 @@ export default function SmartLinkActionButtons({
     } catch (_) {}
   };
 
-  const go = (key: string, url?: string) => { if (!url) return; fire(key, url); window.open(url, '_blank', 'noopener,noreferrer'); };
+  const go = (key: string, url?: string, interactionContext = 'platform_board') => {
+    if (!url) return;
+    fire(key, url);
+    if (DSP_DESTINATIONS.has(key)) {
+      trackSmartLinkEvent('dsp_outbound_click', {
+        cta_id: `listen_on_${key}`,
+        destination_dsp: key,
+        interaction_context: interactionContext,
+        outbound_domain: outboundDomain(url),
+      });
+    }
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
 
   const toggleAudio = () => {
     if (!audioPreviewUrl) return;
     if (isPlaying && audioEl) { audioEl.pause(); setIsPlaying(false); return; }
     const a = audioEl || new Audio(audioPreviewUrl);
     if (!audioEl) { a.onended = () => setIsPlaying(false); setAudioEl(a); }
-    fire('internal_audio_preview', audioPreviewUrl);
-    a.play(); setIsPlaying(true);
+    void a.play().then(() => {
+      fire('internal_audio_preview', audioPreviewUrl);
+      if (!audioPreviewTracked.current) {
+        trackSmartLinkEvent('audio_preview_start', {
+          cta_id: 'audio_preview_toggle',
+          interaction_context: 'smartlink_audio_preview',
+          outbound_domain: outboundDomain(audioPreviewUrl),
+        });
+        audioPreviewTracked.current = true;
+      }
+      setIsPlaying(true);
+    }).catch(() => setIsPlaying(false));
   };
 
   const ready = (k: string) => {
@@ -462,6 +557,10 @@ export default function SmartLinkActionButtons({
 
   const openGateway = () => {
     fire('smart_link_gateway', window.location.href);
+    trackSmartLinkEvent('smartlink_gateway_open', {
+      cta_id: 'open_streaming_gateway',
+      interaction_context: 'smartlink_gateway',
+    });
     setGatewayOpen(true);
   };
 
@@ -472,8 +571,16 @@ export default function SmartLinkActionButtons({
     const link = href(k);
     if (!link) return;
     setGatewayOpen(false);
-    go(k, link);
+    go(k, link, 'streaming_gateway');
   };
+
+  useEffect(() => {
+    if (smartLinkViewTracked.current) return;
+    smartLinkViewTracked.current = true;
+    trackSmartLinkEvent('smartlink_view', {
+      interaction_context: 'smartlink_page',
+    });
+  }, [trackSmartLinkEvent]);
 
   useEffect(() => {
     if (!gatewayOpen) return;
@@ -1267,10 +1374,19 @@ export default function SmartLinkActionButtons({
                   </>
                 );
                 if (isActive && href) {
+                  const signupEvent = title === 'Artist'
+                    ? 'artist_signup_start'
+                    : 'enterprise_signup_start';
                   return (
                     <Link
                       key={title}
                       href={href}
+                      onClick={() => trackSmartLinkEvent(signupEvent, {
+                        cta_id: title === 'Artist'
+                          ? 'identity_artist_get_started'
+                          : 'identity_enterprise_get_started',
+                        interaction_context: 'identity_onboarding',
+                      })}
                       aria-label={`${title} — ${sub} — Get Started`}
                       className={cardClass}
                       style={cardStyle}
