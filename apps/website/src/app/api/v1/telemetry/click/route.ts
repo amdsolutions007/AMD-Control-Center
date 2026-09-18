@@ -22,6 +22,31 @@ function getDeviceType(userAgent: string) {
   return 'unknown';
 }
 
+function normalizeDestinationDsp(value: unknown, isLanding: boolean) {
+  if (isLanding) return 'internal';
+
+  const key = clean(value, 80).toLowerCase();
+  const canonical: Record<string, string> = {
+    spotify: 'spotify',
+    apple_music: 'apple_music',
+    apple: 'apple_music',
+    audiomack: 'audiomack',
+    boomplay: 'boomplay',
+    youtube: 'youtube',
+    youtube_music: 'youtube',
+    smart_link_gateway: 'internal',
+    internal_audio_preview: 'internal',
+    whatsapp: 'internal',
+    tiktok: 'other',
+    instagram: 'other',
+    soundcloud: 'other',
+    amazon_music: 'other',
+    deezer: 'other',
+  };
+
+  return canonical[key] || 'other';
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -38,9 +63,10 @@ export async function POST(req: Request) {
       requestedEvent === 'page_view' ||
       requestedEvent === 'page_view_impression';
 
-    const destinationDsp = isLanding
-      ? 'internal'
-      : clean(body.destination_dsp, 80);
+    const destinationDsp = normalizeDestinationDsp(
+      body.destination_dsp,
+      isLanding
+    );
 
     const destinationUrl = isLanding
       ? clean(body.page_url || body.destination_url, 2000)
