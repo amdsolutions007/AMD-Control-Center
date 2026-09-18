@@ -1,0 +1,44 @@
+name: AMD Music Intel Phase 02 CI
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+      - music-intel/phase02-first-party-attribution
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'apps/website/src/app/api/v1/telemetry/click/route.ts'
+      - 'apps/website/src/components/smartlink/SmartLinkActionButtons.tsx'
+      - 'apps/website/package.json'
+      - 'apps/website/package-lock.json'
+
+jobs:
+  website-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/website
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: 'ci-build-placeholder-key'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: apps/website/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build website
+        run: npm run build
