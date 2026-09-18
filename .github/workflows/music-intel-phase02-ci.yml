@@ -21,6 +21,7 @@ jobs:
         working-directory: apps/website
     env:
       NEXT_TELEMETRY_DISABLED: '1'
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: 'ci-build-placeholder-key'
 
     steps:
       - name: Checkout
