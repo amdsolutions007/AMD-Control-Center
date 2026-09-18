@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useId, useEffect } from 'react';
+import React, { useState, useId, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 interface DSPLinks { [key: string]: string; }
@@ -424,15 +424,92 @@ export default function SmartLinkActionButtons({
   const [audioEl, setAudioEl] = useState<HTMLAudioElement | null>(null);
   const [gatewayOpen, setGatewayOpen] = useState(false);
   const uid = useId().replace(/:/g, '');
+  const landingSentRef = useRef(false);
+  const sessionIdRef = useRef('');
 
-  const fire = (key: string, url: string) => {
+  const getSessionId = () => {
+    if (sessionIdRef.current) return sessionIdRef.current;
+
     try {
-      const p = JSON.stringify({ smart_link_id: smartLinkId, hub_id: hubId, artist_id: artistId,
-        track_id: trackId, playlist_id: playlistId, destination_dsp: key, destination_url: url });
-      if (navigator.sendBeacon) navigator.sendBeacon('/api/v1/telemetry/click', p);
-      else fetch('/api/v1/telemetry/click', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: p }).catch(() => {});
+      const storageKey = 'amd_music_intel_session_id';
+      const existing = window.sessionStorage.getItem(storageKey);
+      if (existing) {
+        sessionIdRef.current = existing;
+        return existing;
+      }
+
+      const generated =
+        typeof window.crypto?.randomUUID === 'function'
+          ? window.crypto.randomUUID()
+          : `ami-${Date.now()}-${Math.random().toString(36).slice(2, 12)}`;
+
+      window.sessionStorage.setItem(storageKey, generated);
+      sessionIdRef.current = generated;
+      return generated;
+    } catch (_) {
+      const fallback = `ami-${Date.now()}-${Math.random().toString(36).slice(2, 12)}`;
+      sessionIdRef.current = fallback;
+      return fallback;
+    }
+  };
+
+  const getAttribution = () => {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      session_id: getSessionId(),
+      referrer_url: document.referrer || '',
+      utm_source: params.get('utm_source') || '',
+      utm_medium: params.get('utm_medium') || '',
+      utm_campaign: params.get('utm_campaign') || '',
+    };
+  };
+
+  const sendTelemetry = (payload: Record<string, unknown>) => {
+    try {
+      const body = JSON.stringify(payload);
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon('/api/v1/telemetry/click', body);
+      } else {
+        fetch('/api/v1/telemetry/click', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body,
+          keepalive: true,
+        }).catch(() => {});
+      }
     } catch (_) {}
   };
+
+  const fire = (key: string, url: string) => {
+    sendTelemetry({
+      smart_link_id: smartLinkId,
+      hub_id: hubId,
+      artist_id: artistId,
+      track_id: trackId,
+      playlist_id: playlistId,
+      destination_dsp: key,
+      destination_url: url,
+      ...getAttribution(),
+    });
+  };
+
+  useEffect(() => {
+    if (landingSentRef.current) return;
+    landingSentRef.current = true;
+
+    sendTelemetry({
+      smart_link_id: smartLinkId,
+      hub_id: hubId,
+      artist_id: artistId,
+      track_id: trackId,
+      playlist_id: playlistId,
+      event_type: 'landing',
+      destination_dsp: 'internal',
+      destination_url: window.location.href,
+      page_url: window.location.href,
+      ...getAttribution(),
+    });
+  }, [smartLinkId, hubId, artistId, trackId, playlistId]);
 
   const go = (key: string, url?: string) => { if (!url) return; fire(key, url); window.open(url, '_blank', 'noopener,noreferrer'); };
 
