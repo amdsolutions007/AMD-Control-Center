@@ -1,42 +1,94 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://pjoijeligrgttimkqftk.supabase.co';
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabaseUrl =
+  process.env.NEXT_PUBLIC_SUPABASE_URL ||
+  'https://pjoijeligrgttimkqftk.supabase.co';
+
+const serviceRoleKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+  '';
 
 const supabase = createClient(supabaseUrl, serviceRoleKey);
+
+const clean = (value: unknown, max = 500) =>
+  typeof value === 'string' ? value.trim().slice(0, max) : '';
+
+function getDeviceType(userAgent: string) {
+  if (/ipad|tablet/i.test(userAgent)) return 'tablet';
+  if (/mobile|android|iphone/i.test(userAgent)) return 'mobile';
+  if (userAgent) return 'desktop';
+  return 'unknown';
+}
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const {
-      smart_link_id,
-      hub_id,
-      artist_id,
-      track_id,
-      playlist_id,
-      destination_dsp,
-      destination_url
-    } = body;
 
-    if (!smart_link_id || !hub_id || !destination_dsp) {
-      return NextResponse.json({ error: 'Missing required telemetry fields' }, { status: 400 });
+    const smartLinkId = clean(body.smart_link_id, 100);
+    const hubId = clean(body.hub_id, 100);
+    const artistId = clean(body.artist_id, 100);
+    const trackId = clean(body.track_id, 100);
+    const playlistId = clean(body.playlist_id, 100);
+
+    const requestedEvent = clean(body.event_type, 40).toLowerCase();
+    const isLanding =
+      requestedEvent === 'landing' ||
+      requestedEvent === 'page_view' ||
+      requestedEvent === 'page_view_impression';
+
+    const destinationDsp = isLanding
+      ? 'internal'
+      : clean(body.destination_dsp, 80);
+
+    const destinationUrl = isLanding
+      ? clean(body.page_url || body.destination_url, 2000)
+      : clean(body.destination_url, 2000);
+
+    if (!smartLinkId || !hubId || !destinationDsp) {
+      return NextResponse.json(
+        { error: 'Missing required telemetry fields' },
+        { status: 400 }
+      );
     }
 
     const userAgent = req.headers.get('user-agent') || '';
-    const isMobile = /mobile|android|iphone|ipad/i.test(userAgent);
-    const deviceType = isMobile ? 'mobile' : 'desktop';
+    const deviceType = getDeviceType(userAgent);
+
+    const headerCountry =
+      req.headers.get('x-vercel-ip-country') ||
+      req.headers.get('cf-ipcountry') ||
+      '';
+
+    const userCountry = clean(body.user_country || headerCountry, 2).toUpperCase();
+
+    const referrerUrl = clean(
+      body.referrer_url || req.headers.get('referer') || '',
+      2000
+    );
+
+    const sessionId = clean(body.session_id, 200);
+    const utmSource = clean(body.utm_source, 250);
+    const utmMedium = clean(body.utm_medium, 250);
+    const utmCampaign = clean(body.utm_campaign, 250);
 
     const { error } = await supabase.from('mi_click_tracking').insert({
-      smart_link_id,
-      hub_id,
-      artist_id: artist_id || null,
-      track_id: track_id || null,
-      playlist_id: playlist_id || null,
-      destination_dsp,
-      destination_url: destination_url || null,
+      smart_link_id: smartLinkId,
+      hub_id: hubId,
+      artist_id: artistId || null,
+      track_id: trackId || null,
+      playlist_id: playlistId || null,
+      destination_dsp: destinationDsp,
+      destination_url: destinationUrl || null,
+      referrer_url: referrerUrl || null,
+      utm_source: utmSource || null,
+      utm_medium: utmMedium || null,
+      utm_campaign: utmCampaign || null,
+      user_country: userCountry || null,
       user_device_type: deviceType,
-      user_browser: userAgent.slice(0, 250)
+      user_browser: userAgent.slice(0, 250),
+      session_id: sessionId || null
     });
 
     if (error) {
@@ -44,8 +96,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({ success: true, status: 'INGESTED' });
+    return NextResponse.json({
+      success: true,
+      status: 'INGESTED',
+      event_type: isLanding ? 'landing' : 'dsp_click'
+    });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json(
+      { error: err?.message || 'Telemetry ingestion failed' },
+      { status: 500 }
+    );
   }
 }
