@@ -1,0 +1,14 @@
+name: AMD Runner Probe
+
+on:
+  push:
+    branches:
+      - music-intel/phase02-first-party-attribution
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Runner started
+        run: echo "AMD_RUNNER_OK"
