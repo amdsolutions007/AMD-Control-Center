@@ -11,6 +11,13 @@ on:
       - 'apps/website/src/components/smartlink/SmartLinkActionButtons.tsx'
       - 'apps/website/src/components/smartlink/MetaMusicPixel.tsx'
       - '.github/workflows/music-intel-phase03-preview.yml'
+  pull_request:
+    branches:
+      - music-intel/phase02-first-party-attribution
+    paths:
+      - 'apps/website/src/components/smartlink/SmartLinkActionButtons.tsx'
+      - 'apps/website/src/components/smartlink/MetaMusicPixel.tsx'
+      - '.github/workflows/music-intel-phase03-preview.yml'
   workflow_dispatch:
 
 env:
