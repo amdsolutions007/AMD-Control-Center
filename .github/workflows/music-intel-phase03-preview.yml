@@ -1,0 +1,79 @@
+name: AMD Music Intel Phase 03 Preview
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+      - music-intel/phase03-meta-browser-events
+    paths:
+      - 'apps/website/src/components/smartlink/SmartLinkActionButtons.tsx'
+      - 'apps/website/src/components/smartlink/MetaMusicPixel.tsx'
+      - '.github/workflows/music-intel-phase03-preview.yml'
+  pull_request:
+    branches:
+      - music-intel/phase02-first-party-attribution
+    paths:
+      - 'apps/website/src/components/smartlink/SmartLinkActionButtons.tsx'
+      - 'apps/website/src/components/smartlink/MetaMusicPixel.tsx'
+      - '.github/workflows/music-intel-phase03-preview.yml'
+  workflow_dispatch:
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  NEXT_TELEMETRY_DISABLED: '1'
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/website
+
+    steps:
+      - name: Checkout Phase 03 branch
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: apps/website/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull preview environment
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build preview artifact
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy preview artifact
+        id: deploy
+        shell: bash
+        run: |
+          set -euo pipefail
+          url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          printf '%s\n' "$url" > preview-url.txt
+
+      - name: Publish preview summary
+        run: |
+          echo "## AMD Music Intelligence Phase 03 Preview" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Branch: \`music-intel/phase03-meta-browser-events\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Commit: \`${GITHUB_SHA}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Preview: ${{ steps.deploy.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload preview URL
+        uses: actions/upload-artifact@v4
+        with:
+          name: amd-music-intel-phase03-preview-url
+          path: apps/website/preview-url.txt
+          retention-days: 7
