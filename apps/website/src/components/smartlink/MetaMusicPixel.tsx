@@ -11,8 +11,16 @@ type MetaMusicEventParameters = {
   destination_dsp?: string;
 };
 
+type Fbq = ((...args: unknown[]) => void) & {
+  callMethod?: (...args: unknown[]) => void;
+  queue?: unknown[];
+  push?: (...args: unknown[]) => void;
+  loaded?: boolean;
+  version?: string;
+};
+
 type MetaWindow = Window & {
-  fbq?: ((...args: unknown[]) => void) & { callMethod?: (...args: unknown[]) => void; queue?: unknown[]; push?: (...args: unknown[]) => void; loaded?: boolean; version?: string };
+  fbq?: Fbq;
   _fbq?: unknown;
   __amdMusicMetaPixelInitialized?: boolean;
 };
@@ -28,18 +36,18 @@ function createEventId() {
   return `ami-meta-${Date.now()}-${Math.random().toString(36).slice(2, 12)}`;
 }
 
-function ensureMetaPixel() {
+function ensureMetaPixel(): Fbq {
   const metaWindow = window as MetaWindow;
   if (!metaWindow.fbq) {
     const fbq = function (...args: unknown[]) {
       if (fbq.callMethod) fbq.callMethod(...args);
       else fbq.queue?.push(args);
-    } as MetaWindow['fbq'];
+    } as Fbq;
 
-    fbq!.queue = [];
-    fbq!.push = (...args: unknown[]) => fbq!.queue?.push(args);
-    fbq!.loaded = true;
-    fbq!.version = '2.0';
+    fbq.queue = [];
+    fbq.push = (...args: unknown[]) => fbq.queue?.push(args);
+    fbq.loaded = true;
+    fbq.version = '2.0';
 
     metaWindow.fbq = fbq;
     metaWindow._fbq = fbq;
@@ -50,12 +58,13 @@ function ensureMetaPixel() {
     document.head.appendChild(script);
   }
 
+  const fbq = metaWindow.fbq as Fbq;
   if (!metaWindow.__amdMusicMetaPixelInitialized) {
-    metaWindow.fbq('init', META_MUSIC_DATASET_ID);
+    fbq('init', META_MUSIC_DATASET_ID);
     metaWindow.__amdMusicMetaPixelInitialized = true;
   }
 
-  return metaWindow.fbq;
+  return fbq;
 }
 
 export function trackMusicPageView(parameters: Omit<MetaMusicEventParameters, 'destination_dsp'>) {
