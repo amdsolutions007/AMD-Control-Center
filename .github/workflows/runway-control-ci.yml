@@ -1,0 +1,42 @@
+name: AMD Runway Control CI
+
+on:
+  push:
+    branches:
+      - runway-control/v1
+    paths:
+      - "apps/runway-control/**"
+      - ".github/workflows/runway-control-ci.yml"
+  pull_request:
+    paths:
+      - "apps/runway-control/**"
+      - ".github/workflows/runway-control-ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/runway-control
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: npm install --ignore-scripts
+
+      - name: Syntax check
+        run: npm run check:syntax
+
+      - name: Verify secret-safe defaults
+        run: |
+          test "$(node -e "import('./src/config.mjs').then(({publicStatus}) => process.stdout.write(String(publicStatus().writesEnabled)))")" = "false"
+          test "$(node -e "import('./src/config.mjs').then(({publicStatus}) => process.stdout.write(String(publicStatus().runwayDeveloperApiConfigured)))")" = "false"

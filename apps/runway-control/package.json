@@ -1,0 +1,19 @@
+{
+  "name": "@amd-ascend/runway-control",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server.mjs",
+    "check:syntax": "node --check src/server.mjs && node --check src/config.mjs && node --check src/runway.mjs && node --check src/mcp.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/node": "2.0.0",
+    "@modelcontextprotocol/server": "2.0.0",
+    "zod": "4.6.5",
+    "@modelcontextprotocol/express": "2.0.0"
+  }
+}
