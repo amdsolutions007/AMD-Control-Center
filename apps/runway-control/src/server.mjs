@@ -1,11 +1,10 @@
-import express from "express";
+import { createMcpExpressApp } from "@modelcontextprotocol/express";
 import { toNodeHandler } from "@modelcontextprotocol/node";
 import { mcpHandler } from "./mcp.mjs";
 import { config, publicStatus } from "./config.mjs";
 
-const app = express();
+const app = createMcpExpressApp({ host: "0.0.0.0" });
 app.disable("x-powered-by");
-app.use(express.json({ limit: "2mb" }));
 
 app.get("/health", (_req, res) => {
   res.status(200).json({
