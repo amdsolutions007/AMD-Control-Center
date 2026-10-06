@@ -72,3 +72,8 @@ SENSITIVE_CREDENTIALS
 API_INVENTORY.md
 Gptcodex_Memory_Interaction_Logs.txt
 .leke_session_token
+whatsapp_empire/whatsapp_contacts.db
+whatsapp_empire/data/*.db
+client_bot/data/*.db
+client_bot/*.env
+client_bot/.env*
