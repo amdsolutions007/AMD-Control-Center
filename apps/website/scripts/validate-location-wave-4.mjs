@@ -19,10 +19,13 @@ const check=(name,ok,detail)=>{const row={name,status:ok?'PASS':'FAIL',detail};c
 check('22 governed routes',Object.keys(governance).length===22,String(Object.keys(governance).length)+'/22')
 check('Exactly five Wave 4 states',wave4.length===5&&wave4Slugs.every(s=>wave4.some(r=>r.slug===s))&&wave4.every(r=>wave4Slugs.includes(r.slug)),wave4.map(r=>r.slug).join(', '))
 check('Exactly five Wave 3 states',wave3.length===5&&wave3Slugs.every(s=>wave3.some(r=>r.slug===s)),wave3.map(r=>r.slug).join(', '))
-const baseTitles=[...network.matchAll(/\["([^"]+)","([^"]+)","([^"]+)","([^"]+)","([^"]+)"/g)].slice(0,12)
-const titles=[...baseTitles.map(m=>m[3]),...wave3.map(r=>r.title),...wave4.map(r=>r.title)]
-const descriptions=[...baseTitles.map(m=>m[4]),...wave3.map(r=>r.description),...wave4.map(r=>r.description)]
-const h1s=[...baseTitles.map(m=>m[5]),...wave3.map(r=>r.h1),...wave4.map(r=>r.h1)]
+const baseMarker='const baseLocations: LocationRecord[] = '
+const baseStart=network.indexOf(baseMarker)+baseMarker.length
+const baseEnd=network.indexOf('\nconst governance',baseStart)
+const base=JSON.parse(network.slice(baseStart,baseEnd))
+const titles=[...base.map(r=>r.title),...wave3.map(r=>r.title),...wave4.map(r=>r.title)]
+const descriptions=[...base.map(r=>r.description),...wave3.map(r=>r.description),...wave4.map(r=>r.description)]
+const h1s=[...base.map(r=>r.h1),...wave3.map(r=>r.h1),...wave4.map(r=>r.h1)]
 check('Unique titles',titles.length===22&&new Set(titles).size===22,String(new Set(titles).size)+'/'+String(titles.length))
 check('Unique descriptions',descriptions.length===22&&new Set(descriptions).size===22,String(new Set(descriptions).size)+'/'+String(descriptions.length))
 check('Unique H1s',h1s.length===22&&new Set(h1s).size===22,String(new Set(h1s).size)+'/'+String(h1s.length))
