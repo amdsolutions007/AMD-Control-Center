@@ -1,0 +1,89 @@
+name: Wave 4 Source Rehydration Validation
+
+on:
+  push:
+    branches:
+      - growth-ops/location-wave-4-rehydrated-release
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: https://placeholder.invalid
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder
+      NEXT_PUBLIC_GA_MEASUREMENT_ID: G-246XMJQERK
+    steps:
+      - name: Checkout exact branch commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: apps/website/package-lock.json
+
+      - name: Install locked dependencies
+        working-directory: apps/website
+        run: npm ci
+
+      - name: Static Wave 4 validation
+        working-directory: apps/website
+        run: npm run validate:locations:wave4
+
+      - name: TypeScript
+        working-directory: apps/website
+        run: npx tsc --noEmit --incremental false
+
+      - name: Full Next.js production build
+        working-directory: apps/website
+        run: npm run build
+
+      - name: Runtime 22-route and legacy regression
+        working-directory: apps/website
+        run: |
+          npm run start -- -H 127.0.0.1 -p 3104 >/tmp/wave4-next.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid 2>/dev/null || true' EXIT
+          for i in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:3104/locations/nigeria >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          npm run smoke:locations:wave4 -- http://127.0.0.1:3104 || {
+            cat /tmp/wave4-next.log
+            exit 1
+          }
+
+      - name: Preserve blocked browser gate
+        working-directory: apps/website
+        run: npm run certify:locations:wave4:mobile
+
+      - name: Create verified recovery bundle
+        run: |
+          git bundle create AMD_GROWTH_OPS_007_WAVE_4_REHYDRATED.bundle HEAD
+          git bundle verify AMD_GROWTH_OPS_007_WAVE_4_REHYDRATED.bundle
+          sha256sum AMD_GROWTH_OPS_007_WAVE_4_REHYDRATED.bundle | tee AMD_GROWTH_OPS_007_WAVE_4_REHYDRATED.bundle.sha256
+          git rev-parse HEAD | tee WAVE4_HEAD.txt
+          git status --porcelain | tee WAVE4_STATUS.txt
+
+      - name: Upload validation evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: wave4-source-rehydration-evidence
+          if-no-files-found: error
+          path: |
+            AMD_GROWTH_OPS_007_WAVE_4_REHYDRATED.bundle
+            AMD_GROWTH_OPS_007_WAVE_4_REHYDRATED.bundle.sha256
+            WAVE4_HEAD.txt
+            WAVE4_STATUS.txt
+            apps/website/docs/location-architecture/validation-report-wave-4.json
+            apps/website/docs/location-architecture/runtime-validation-wave-4.json
+            apps/website/docs/location-architecture/mobile-certification-wave-4.json
