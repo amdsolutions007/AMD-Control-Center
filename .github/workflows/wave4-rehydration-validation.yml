@@ -1,0 +1,100 @@
+name: Wave 4 Rehydration Validation
+
+on:
+  push:
+    branches:
+      - growth-ops/location-wave-4-rehydrated-release
+
+permissions:
+  contents: write
+
+jobs:
+  validate-and-freeze:
+    if: ${{ !contains(github.event.head_commit.message, '[rehydrated]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Restore bounded Wave 4 payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > /tmp/wave4-payload.b64 <<'PAYLOAD'
+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[... truncated for display ...]
+PAYLOAD
+          base64 --decode /tmp/wave4-payload.b64 > /tmp/wave4-payload.tar.gz
+          tar -xzf /tmp/wave4-payload.tar.gz -C "$GITHUB_WORKSPACE"
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: apps/website/package-lock.json
+
+      - name: Install locked dependencies
+        working-directory: apps/website
+        run: npm ci
+
+      - name: Regenerate deferred migration map
+        working-directory: apps/website
+        run: npm run generate:locations:wave4
+
+      - name: Static truth SEO and governance validation
+        working-directory: apps/website
+        run: npm run validate:locations:wave4
+
+      - name: TypeScript
+        working-directory: apps/website
+        run: npx tsc --noEmit --incremental false
+
+      - name: Production build
+        working-directory: apps/website
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://placeholder.invalid
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder
+        run: npm run build
+
+      - name: Runtime and legacy regression
+        working-directory: apps/website
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://placeholder.invalid
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder
+        run: |
+          set -euo pipefail
+          npm run start -- -H 127.0.0.1 -p 3104 > /tmp/wave4-next.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for i in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:3104/locations/nigeria >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:3104/locations/nigeria >/dev/null
+          npm run smoke:locations:wave4 -- http://127.0.0.1:3104
+
+      - name: Freeze validated release checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "AMD Growth Ops 007"
+          git config user.email "amdmediaoffice@gmail.com"
+          git add .github/workflows/wave4-rehydration-validation.yml .gitignore apps/website/package.json apps/website/src/app/locations apps/website/src/components/location apps/website/src/lib/location-network.ts apps/website/src/data/location-base.json apps/website/src/data/location-governance.json apps/website/src/data/location-wave-3.json apps/website/src/data/location-wave-4.json apps/website/scripts/generate-location-migration-map.mjs apps/website/scripts/validate-location-wave-4.mjs apps/website/scripts/smoke-location-wave-4-runtime.mjs apps/website/scripts/certify-location-wave-4-mobile.mjs apps/website/docs/location-architecture/migration-map-wave-4.csv apps/website/docs/location-architecture/validation-report-wave-4.json apps/website/docs/location-architecture/runtime-validation-wave-4.json apps/website/docs/location-architecture/mobile-certification-wave-4.json
+          git status --short
+          git commit -m "feat(wave4): [rehydrated] durable release checkpoint"
+          git push origin HEAD:growth-ops/location-wave-4-rehydrated-release
+
+      - name: Upload validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wave4-rehydration-validation
+          path: |
+            apps/website/docs/location-architecture/validation-report-wave-4.json
+            apps/website/docs/location-architecture/runtime-validation-wave-4.json
+            apps/website/docs/location-architecture/migration-map-wave-4.csv
