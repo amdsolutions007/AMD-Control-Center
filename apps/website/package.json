@@ -13,7 +13,11 @@
     "deploy:optimized": "npm run optimize-images && npm run deploy",
     "get-refresh-token": "ts-node -r dotenv/config src/scripts/ad-engine/get-refresh-token.ts",
     "launch-campaign": "ts-node -r dotenv/config src/scripts/ad-engine/launcher.ts dotenv_config_path=.env.local",
-    "test-snap-api": "ts-node -r dotenv/config src/scripts/ad-engine/launcher.ts dotenv_config_path=.env.local"
+    "test-snap-api": "ts-node -r dotenv/config src/scripts/ad-engine/launcher.ts dotenv_config_path=.env.local",
+    "generate:locations:wave4": "node ./scripts/generate-location-migration-map.mjs",
+    "validate:locations:wave4": "node ./scripts/validate-location-wave-4.mjs",
+    "smoke:locations:wave4": "node ./scripts/smoke-location-wave-4-runtime.mjs",
+    "certify:locations:wave4:mobile": "node ./scripts/certify-location-wave-4-mobile.mjs"
   },
   "dependencies": {
     "@paypal/react-paypal-js": "^8.9.2",
