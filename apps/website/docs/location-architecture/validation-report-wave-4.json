@@ -1,0 +1,151 @@
+{
+  "generatedAt": "2026-10-22T21:22:28.971Z",
+  "status": "PASS",
+  "routeCount": 22,
+  "wave4RouteCount": 5,
+  "migrationRouteCount": 75,
+  "highestWave4Similarity": {
+    "pair": "imo / osun",
+    "percentage": 28
+  },
+  "wave4SimilarityMatrix": [
+    {
+      "pair": "imo / osun",
+      "percentage": 28
+    },
+    {
+      "pair": "cross-river / imo",
+      "percentage": 24.1
+    },
+    {
+      "pair": "cross-river / osun",
+      "percentage": 23.1
+    },
+    {
+      "pair": "nasarawa / osun",
+      "percentage": 22.1
+    },
+    {
+      "pair": "nasarawa / imo",
+      "percentage": 21.2
+    },
+    {
+      "pair": "ondo / cross-river",
+      "percentage": 19.5
+    },
+    {
+      "pair": "ondo / imo",
+      "percentage": 19.5
+    },
+    {
+      "pair": "nasarawa / ondo",
+      "percentage": 19.4
+    },
+    {
+      "pair": "ondo / osun",
+      "percentage": 18.9
+    },
+    {
+      "pair": "nasarawa / cross-river",
+      "percentage": 13.2
+    }
+  ],
+  "checks": [
+    {
+      "name": "22 governed routes",
+      "status": "PASS",
+      "detail": "22/22"
+    },
+    {
+      "name": "Exactly five Wave 4 states",
+      "status": "PASS",
+      "detail": "nasarawa, ondo, cross-river, imo, osun"
+    },
+    {
+      "name": "Exactly five Wave 3 states",
+      "status": "PASS",
+      "detail": "delta, abia, edo, kwara, plateau"
+    },
+    {
+      "name": "Unique titles",
+      "status": "PASS",
+      "detail": "22/22"
+    },
+    {
+      "name": "Unique descriptions",
+      "status": "PASS",
+      "detail": "22/22"
+    },
+    {
+      "name": "Unique H1s",
+      "status": "PASS",
+      "detail": "22/22"
+    },
+    {
+      "name": "Governance coverage",
+      "status": "PASS",
+      "detail": "22/22 required fields"
+    },
+    {
+      "name": "Related locations",
+      "status": "PASS",
+      "detail": "3–6 valid non-self peers per route"
+    },
+    {
+      "name": "Nasarawa claim lock",
+      "status": "PASS",
+      "detail": "No exact Abuja travel time"
+    },
+    {
+      "name": "Ondo coastline lock",
+      "status": "PASS",
+      "detail": "No coastline length figure"
+    },
+    {
+      "name": "Ondo port truth",
+      "status": "PASS",
+      "detail": "Port references remain proposed/planned; no affirmative operational claim"
+    },
+    {
+      "name": "Approved schema graph",
+      "status": "PASS",
+      "detail": "Approved graph types present"
+    },
+    {
+      "name": "Prohibited schema absence",
+      "status": "PASS",
+      "detail": "No prohibited state schema"
+    },
+    {
+      "name": "Remote-service truth",
+      "status": "PASS",
+      "detail": "Explicit non-Lagos denial"
+    },
+    {
+      "name": "Canonical WhatsApp",
+      "status": "PASS",
+      "detail": "Canonical contact preserved"
+    },
+    {
+      "name": "Self-canonical",
+      "status": "PASS",
+      "detail": "Per-route AMD-domain canonical"
+    },
+    {
+      "name": "Crawlable static generation",
+      "status": "PASS",
+      "detail": "Static params bounded to governed network"
+    },
+    {
+      "name": "Migration actions deferred",
+      "status": "PASS",
+      "detail": "75/75"
+    },
+    {
+      "name": "Wave 4 similarity",
+      "status": "PASS",
+      "detail": "28% (imo / osun)"
+    }
+  ],
+  "failures": []
+}

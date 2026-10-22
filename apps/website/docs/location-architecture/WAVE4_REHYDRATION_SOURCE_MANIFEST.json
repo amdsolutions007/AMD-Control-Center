@@ -11,20 +11,74 @@
     "original_bytes_recovered": false
   },
   "rehydrated_files": [
-    {"path": ".gitignore", "blob_sha": "aeb13c7e26df641cc24b4a38134bdd4750e89e96"},
-    {"path": "apps/website/package.json", "blob_sha": "77a16a2ddec6da0db23e9a595450c8ff509a47b4"},
-    {"path": "apps/website/src/lib/location-network.ts", "blob_sha": "0dd46db2f30ff1c59db21355ca68cd485887625c"},
-    {"path": "apps/website/src/components/location/LocationLandingPage.tsx", "blob_sha": "4c94378138a5e8ea4d56fa32c342f2eaa8500a90"},
-    {"path": "apps/website/src/app/locations/[slug]/page.tsx", "blob_sha": "7ff2fe1dfc6d00bf69c4584c06cc70481cffce09"},
-    {"path": "apps/website/src/data/location-governance.json", "blob_sha": "6e6c11109ca4e5f184f83c890571b6e21834defc"},
-    {"path": "apps/website/src/data/location-wave-3.json", "blob_sha": "75fb3b8f9078fd49ffdf7c366063061c299b0ec5"},
-    {"path": "apps/website/src/data/location-wave-4.json", "blob_sha": "06967b9a57330c7171d2d6936d3ce91641aa475a"},
-    {"path": "apps/website/scripts/generate-location-migration-map.mjs", "blob_sha": "05ff39a0a6d675a4b60d7a5e54d2d49e85a0c9fb"},
-    {"path": "apps/website/scripts/validate-location-wave-4.mjs", "blob_sha": "34be81544c4d0c33a3696fda048c7e12333138c2"},
-    {"path": "apps/website/scripts/smoke-location-wave-4-runtime.mjs", "blob_sha": "415fb376915179866b18071e712683b6e5575bbe"},
-    {"path": "apps/website/scripts/certify-location-wave-4-mobile.mjs", "blob_sha": "f3617347b418c20181e817e78bc058c0f234c679"},
-    {"path": "apps/website/docs/location-architecture/migration-map-wave-4.csv", "blob_sha": "fa2116bd37f4323bd42e7224fca2d046767ea95d"}
+    {
+      "path": ".gitignore",
+      "blob_sha": "aeb13c7e26df641cc24b4a38134bdd4750e89e96"
+    },
+    {
+      "path": "apps/website/package.json",
+      "blob_sha": "77a16a2ddec6da0db23e9a595450c8ff509a47b4"
+    },
+    {
+      "path": "apps/website/src/lib/location-network.ts",
+      "blob_sha": "0dd46db2f30ff1c59db21355ca68cd485887625c"
+    },
+    {
+      "path": "apps/website/src/components/location/LocationLandingPage.tsx",
+      "blob_sha": "4c94378138a5e8ea4d56fa32c342f2eaa8500a90"
+    },
+    {
+      "path": "apps/website/src/app/locations/[slug]/page.tsx",
+      "blob_sha": "7ff2fe1dfc6d00bf69c4584c06cc70481cffce09"
+    },
+    {
+      "path": "apps/website/src/data/location-governance.json",
+      "blob_sha": "6e6c11109ca4e5f184f83c890571b6e21834defc"
+    },
+    {
+      "path": "apps/website/src/data/location-wave-3.json",
+      "blob_sha": "75fb3b8f9078fd49ffdf7c366063061c299b0ec5"
+    },
+    {
+      "path": "apps/website/src/data/location-wave-4.json",
+      "blob_sha": "06967b9a57330c7171d2d6936d3ce91641aa475a"
+    },
+    {
+      "path": "apps/website/scripts/generate-location-migration-map.mjs",
+      "blob_sha": "05ff39a0a6d675a4b60d7a5e54d2d49e85a0c9fb"
+    },
+    {
+      "path": "apps/website/scripts/validate-location-wave-4.mjs",
+      "blob_sha": "34be81544c4d0c33a3696fda048c7e12333138c2"
+    },
+    {
+      "path": "apps/website/scripts/smoke-location-wave-4-runtime.mjs",
+      "blob_sha": "415fb376915179866b18071e712683b6e5575bbe"
+    },
+    {
+      "path": "apps/website/scripts/certify-location-wave-4-mobile.mjs",
+      "blob_sha": "f3617347b418c20181e817e78bc058c0f234c679"
+    },
+    {
+      "path": "apps/website/docs/location-architecture/migration-map-wave-4.csv",
+      "blob_sha": "fa2116bd37f4323bd42e7224fca2d046767ea95d"
+    }
   ],
   "deployment_state": "NONE",
-  "main_merge_state": "NONE"
+  "main_merge_state": "NONE",
+  "validation": {
+    "static": "PASS",
+    "route_count": "22/22",
+    "wave4_state_count": "5/5",
+    "unique_title_meta_h1": "22/22",
+    "wave4_similarity_max": "28.0% (imo/osun)",
+    "typescript": "PASS",
+    "next_build": "PASS (Next.js 16.1.0; 90 static pages)",
+    "runtime": "22/22 PASS",
+    "legacy_regression": "3/3 PASS",
+    "migration_actions": "75/75 DEFERRED"
+  },
+  "validation_environment": "Macs-MacBook-Air.local isolated sparse checkout",
+  "production_changed": false,
+  "preview_deployed": false
 }

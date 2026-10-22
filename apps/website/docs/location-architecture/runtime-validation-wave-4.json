@@ -1,0 +1,180 @@
+{
+  "generatedAt": "2026-10-22T21:24:27.020Z",
+  "baseUrl": "http://127.0.0.1:3104",
+  "status": "PASS",
+  "results": [
+    {
+      "route": "/locations/nigeria",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/nigeria",
+      "bytes": 42630,
+      "pass": true
+    },
+    {
+      "route": "/locations/lagos",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/lagos",
+      "bytes": 41774,
+      "pass": true
+    },
+    {
+      "route": "/locations/abuja",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/abuja",
+      "bytes": 42097,
+      "pass": true
+    },
+    {
+      "route": "/locations/port-harcourt",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/port-harcourt",
+      "bytes": 41753,
+      "pass": true
+    },
+    {
+      "route": "/locations/ibadan",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/ibadan",
+      "bytes": 41769,
+      "pass": true
+    },
+    {
+      "route": "/locations/kano",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/kano",
+      "bytes": 40673,
+      "pass": true
+    },
+    {
+      "route": "/locations/enugu",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/enugu",
+      "bytes": 40731,
+      "pass": true
+    },
+    {
+      "route": "/locations/ogun",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/ogun",
+      "bytes": 40787,
+      "pass": true
+    },
+    {
+      "route": "/locations/anambra",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/anambra",
+      "bytes": 40727,
+      "pass": true
+    },
+    {
+      "route": "/locations/kaduna",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/kaduna",
+      "bytes": 41223,
+      "pass": true
+    },
+    {
+      "route": "/locations/akwa-ibom",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/akwa-ibom",
+      "bytes": 41281,
+      "pass": true
+    },
+    {
+      "route": "/locations/bauchi",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/bauchi",
+      "bytes": 40800,
+      "pass": true
+    },
+    {
+      "route": "/locations/delta",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/delta",
+      "bytes": 44192,
+      "pass": true
+    },
+    {
+      "route": "/locations/abia",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/abia",
+      "bytes": 43683,
+      "pass": true
+    },
+    {
+      "route": "/locations/edo",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/edo",
+      "bytes": 43471,
+      "pass": true
+    },
+    {
+      "route": "/locations/kwara",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/kwara",
+      "bytes": 43585,
+      "pass": true
+    },
+    {
+      "route": "/locations/plateau",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/plateau",
+      "bytes": 44530,
+      "pass": true
+    },
+    {
+      "route": "/locations/nasarawa",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/nasarawa",
+      "bytes": 45221,
+      "pass": true
+    },
+    {
+      "route": "/locations/ondo",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/ondo",
+      "bytes": 44859,
+      "pass": true
+    },
+    {
+      "route": "/locations/cross-river",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/cross-river",
+      "bytes": 44932,
+      "pass": true
+    },
+    {
+      "route": "/locations/imo",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/imo",
+      "bytes": 44244,
+      "pass": true
+    },
+    {
+      "route": "/locations/osun",
+      "status": 200,
+      "canonical": "https://www.amdsolutions007.com/locations/osun",
+      "bytes": 44705,
+      "pass": true
+    },
+    {
+      "route": "/states/delta.html",
+      "status": 200,
+      "legacyBaselinePreserved": true,
+      "pass": true
+    },
+    {
+      "route": "/nigeria/delta",
+      "status": 200,
+      "legacyBaselinePreserved": true,
+      "pass": true
+    },
+    {
+      "route": "/states/index.html",
+      "status": 200,
+      "legacyBaselinePreserved": true,
+      "pass": true
+    }
+  ],
+  "failures": []
+}
