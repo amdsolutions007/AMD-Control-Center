@@ -1,0 +1,156 @@
+{
+  "nigeria": {
+    "relatedLocations": ["lagos","abuja","port-harcourt","kano","enugu"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "national-observed",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "lagos": {
+    "relatedLocations": ["nigeria","ogun","ibadan","delta","abuja"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "operating-base",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "abuja": {
+    "relatedLocations": ["nigeria","kaduna","kano","kwara","plateau","nasarawa"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "observed-low",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "port-harcourt": {
+    "relatedLocations": ["nigeria","delta","abia","akwa-ibom","enugu"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "observed-low",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "ibadan": {
+    "relatedLocations": ["nigeria","lagos","ogun","kwara","ondo","osun"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "observed-low",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "kano": {
+    "relatedLocations": ["nigeria","kaduna","bauchi","plateau"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "observed-low",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "enugu": {
+    "relatedLocations": ["nigeria","anambra","abia","port-harcourt"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "observed-low",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "ogun": {
+    "relatedLocations": ["nigeria","lagos","ibadan","edo"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "observed-low",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "anambra": {
+    "relatedLocations": ["nigeria","enugu","abia","delta"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "observed-low",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "kaduna": {
+    "relatedLocations": ["nigeria","abuja","kano","plateau","kwara"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "observed-low",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "akwa-ibom": {
+    "relatedLocations": ["nigeria","port-harcourt","delta","enugu","cross-river"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "observed-low",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "bauchi": {
+    "relatedLocations": ["nigeria","kano","kaduna","plateau"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "observed-low",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "delta": {
+    "relatedLocations": ["nigeria","port-harcourt","edo","anambra","akwa-ibom"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "emerging",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "abia": {
+    "relatedLocations": ["nigeria","anambra","enugu","port-harcourt","imo"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "emerging",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "edo": {
+    "relatedLocations": ["nigeria","delta","lagos","ogun","anambra"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "emerging",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "kwara": {
+    "relatedLocations": ["nigeria","abuja","ibadan","kaduna","plateau"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "observed-low",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "plateau": {
+    "relatedLocations": ["nigeria","abuja","kaduna","bauchi","kano","kwara"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "emerging",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "nasarawa": {
+    "relatedLocations": ["abuja","plateau","kaduna","bauchi","kwara"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "emerging",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "ondo": {
+    "relatedLocations": ["ibadan","ogun","lagos","edo","osun"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "emerging",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "cross-river": {
+    "relatedLocations": ["akwa-ibom","abia","port-harcourt","enugu","imo"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "emerging",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "imo": {
+    "relatedLocations": ["abia","anambra","enugu","port-harcourt","cross-river"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "emerging",
+    "lastValidatedAt": "2026-10-22"
+  },
+  "osun": {
+    "relatedLocations": ["ibadan","ogun","kwara","ondo","lagos"],
+    "evidenceReviewedAt": "2026-10-04",
+    "contentOwner": "AMD WEB & LOCAL GROWTH INTELLIGENCE — WEBSITE, SEO & ANALYTICS",
+    "demandConfidence": "observed-low",
+    "lastValidatedAt": "2026-10-22"
+  }
+}
