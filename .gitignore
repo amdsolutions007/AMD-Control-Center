@@ -35,7 +35,7 @@ social_engine/sk_*
 social_engine/social_engine.out
 .credentials/
 
-# JSON files - allow config files only
+# JSON files - allow config and governed location evidence
 *.json
 !package.json
 !package-lock.json
@@ -50,6 +50,8 @@ social_engine/social_engine.out
 !state_tracker.json
 !campaign_progress.json
 !intelligence_vault/**/*.json
+!apps/website/src/data/location-*.json
+!apps/website/docs/location-architecture/*.json
 client_secret.json
 token.json
 
