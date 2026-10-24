@@ -32,10 +32,10 @@ export default function HighTicketLandingPage() {
         <nav className="flex justify-between items-center">
           <div className="text-2xl font-bold text-white">AMD Solutions 007</div>
           <a 
-            href="tel:+2348Custom0021007"
+            href="tel:+2348180021007"
             className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold"
           >
-            📞 Call AMD: +234 8Custom 002 1007
+            📞 Call AMD: +234 818 002 1007
           </a>
         </nav>
       </header>
@@ -100,7 +100,7 @@ export default function HighTicketLandingPage() {
             <div className="bg-gray-800 rounded-lg p-6 border-2 border-green-500">
               <div className="text-green-400 font-bold mb-2">E-COMMERCE</div>
               <h3 className="text-2xl font-bold text-white mb-4">
-                ₦Custom0M Revenue Increase
+                E-commerce Growth System
               </h3>
               <p className="text-gray-300 mb-4">
                 Example architecture for an online retailer:
@@ -108,7 +108,7 @@ export default function HighTicketLandingPage() {
               <ul className="text-gray-300 space-y-2">
                 <li>✅ Recommendation and merchandising workflows</li>
                 <li>✅ Conversion instrumentation</li>
-                <li>✅ ₦Custom0M additional revenue</li>
+                <li>✅ Revenue attribution framework</li>
                 <li>✅ ROI measured against agreed baseline</li>
               </ul>
             </div>
@@ -153,10 +153,10 @@ export default function HighTicketLandingPage() {
       {/* ROI Calculator */}
       <section id="calculator" className="container mx-auto px-4 py-20">
         <h2 className="text-4xl font-bold text-white text-center mb-4">
-          Calculate Your Potential ROI
+          Assess Your Business Case
         </h2>
         <p className="text-xl text-gray-300 text-center mb-12">
-          See how much revenue you could add with AI
+          Share your operating context so we can identify where automation or software may create measurable value
         </p>
 
         <div className="max-w-2xl mx-auto bg-gray-800 rounded-lg p-8">
@@ -249,11 +249,11 @@ export default function HighTicketLandingPage() {
               type="submit"
               className="w-full bg-yellow-400 hover:bg-yellow-500 text-black px-8 py-4 rounded-lg text-xl font-bold"
             >
-              Get My Custom ROI Report 📊
+              Request a Business-Case Review 📊
             </button>
 
             <p className="text-sm text-gray-400 text-center">
-              We'll analyze your business and show you exactly how much revenue you can add with AI.
+              We'll review your workflow, constraints and baseline data before proposing measurable success criteria.
               No obligation. Free consultation.
             </p>
           </form>
@@ -271,7 +271,7 @@ export default function HighTicketLandingPage() {
             {[
               {
                 title: 'Custom Systems Designed',
-                price: '₦2.5M - ₦5M',
+                price: 'Custom quote',
                 features: [
                   'Predictive analytics',
                   'Natural language AI',
@@ -283,7 +283,7 @@ export default function HighTicketLandingPage() {
               },
               {
                 title: 'Business Automation',
-                price: '₦800K - ₦1.5M',
+                price: 'Custom quote',
                 features: [
                   'Workflow automation',
                   'Document processing',
@@ -295,7 +295,7 @@ export default function HighTicketLandingPage() {
               },
               {
                 title: 'Data Analytics',
-                price: '₦1M - ₦2M',
+                price: 'Custom quote',
                 features: [
                   'Real-time dashboards',
                   'Predictive models',
@@ -327,11 +327,10 @@ export default function HighTicketLandingPage() {
       <section className="container mx-auto px-4 py-20">
         <div className="max-w-4xl mx-auto bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-lg p-8 text-center">
           <h2 className="text-4xl font-bold text-black mb-4">
-            Our 90-Day ROI Guarantee
+            Measurement & Delivery Commitment
           </h2>
           <p className="text-xl text-black mb-6">
-            If we don't deliver at least <span className="font-bold">20% efficiency improvement</span> within 90 days, 
-            we'll refund 50% of your investment and continue working for free until targets are met.
+            We define the baseline, success measures and review cadence before implementation. Any commercial warranty or service commitment is documented in the agreed proposal or contract.
           </p>
           <p className="text-lg text-black">
             That's how confident we are in our systems.
@@ -343,10 +342,10 @@ export default function HighTicketLandingPage() {
       <section className="bg-gradient-to-r from-purple-600 to-purple-800 py-20">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Ready to Add ₦50M+ to Your Revenue?
+            Ready to Build a Measurable Growth System?
           </h2>
           <p className="text-xl text-white mb-8">
-            Book a free 15-minute strategy call. We'll show you exactly how.
+            Start with a focused discovery conversation about the business problem, baseline and desired outcome.
           </p>
           <a 
             href="https://amdsolutions007.com/links"
@@ -355,7 +354,7 @@ export default function HighTicketLandingPage() {
             Book Your Free Call Now →
           </a>
           <p className="text-white mt-6">
-            Or call/WhatsApp: <a href="tel:+2348Custom0021007" className="underline font-bold">+234 906 855 9191</a>
+            Or call/WhatsApp: <a href="tel:+2348180021007" className="underline font-bold">+234 818 002 1007</a>
           </p>
         </div>
       </section>
@@ -363,7 +362,7 @@ export default function HighTicketLandingPage() {
       {/* Footer */}
       <footer className="bg-black py-8">
         <div className="container mx-auto px-4 text-center text-gray-400">
-          <p>&copy; 2025 AMD Solutions 007. All rights reserved.</p>
+          <p>&copy; 2026 AMD Solutions 007. All rights reserved.</p>
           <p className="mt-2">
             <a href="https://amdsolutions007.com" className="hover:text-white">www.amdsolutions007.com</a>
           </p>
