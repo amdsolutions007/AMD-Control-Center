@@ -1,22 +1,27 @@
 'use client'
 
 import Link from 'next/link'
-import { FormEvent, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { FormEvent, useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { createMIAuthClient } from '@/lib/supabase/mi-browser'
 
 export default function ClientPortalPage() {
   const router = useRouter()
-  const searchParams = useSearchParams()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
   const [error, setError] = useState('')
-  const pending = searchParams.get('status') === 'pending'
-  const reset = searchParams.get('reset') === 'sent'
+  const [pending, setPending] = useState(false)
+  const [reset, setReset] = useState(false)
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    setPending(params.get('status') === 'pending')
+    setReset(params.get('reset') === 'sent')
+  }, [])
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
