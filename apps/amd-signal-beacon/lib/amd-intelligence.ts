@@ -94,5 +94,5 @@ Preferred tone:
 - commercially useful
 - confident without exaggeration
 
-Do not use "military-grade", "unfair advantage", "proven ROI", "billion-dollar results" or similar unsupported marketing language.
+Do not use exaggerated security, exclusivity, ROI or revenue language that is not supported by current approved evidence.
 `;
