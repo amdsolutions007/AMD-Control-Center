@@ -1,329 +1,148 @@
-'use client';
+'use client'
 
-import { motion } from 'framer-motion';
+import Link from 'next/link'
+import { motion } from 'framer-motion'
 
 const services = [
   {
-    id: 1,
-    icon: '🤖',
-    title: 'Custom AI Development',
-    description: 'Bespoke AI solutions tailored to your business needs - from NLP to computer vision',
-    features: [
-      'Machine Learning Models',
-      'Natural Language Processing',
-      'Predictive Analytics',
-      'AI Integration & Deployment',
-    ],
-    priceRange: 'Custom quote',
-    timeline: '4-12 weeks',
-    popular: true,
+    icon: '🌐',
+    title: 'Professional Business Websites',
+    description: 'Responsive business websites built around trust, enquiries, conversion, SEO readiness and long-term maintainability.',
+    includes: ['Website strategy & structure', 'Responsive implementation', 'SEO-ready foundations', 'Conversion and contact journeys'],
   },
   {
-    id: 2,
+    icon: '📍',
+    title: 'Google Business Profile & Local Growth',
+    description: 'Setup, optimization and visibility support for eligible businesses with genuine local operations and service coverage.',
+    includes: ['Profile setup or optimization', 'Local visibility review', 'Website/location alignment', 'Verification assistance where applicable'],
+  },
+  {
+    icon: '💬',
+    title: 'WhatsApp & Workflow Automation',
+    description: 'Customer-enquiry and operational workflows designed around how the business actually receives, routes and follows up conversations.',
+    includes: ['Workflow discovery', 'Enquiry routing', 'Automation design', 'Operational integration'],
+  },
+  {
+    icon: '🧩',
+    title: 'Custom Software & AI Systems',
+    description: 'Purpose-built software, AI-assisted workflows and internal tools for problems that are not well served by off-the-shelf products.',
+    includes: ['Requirements discovery', 'Architecture & implementation', 'Integration planning', 'Testing & handover'],
+  },
+  {
     icon: '🎬',
-    title: 'Media Production',
-    description: 'Award-winning video content that captures attention and drives engagement',
-    features: [
-      'Viral Edits & Reels',
-      'Commercial Productions',
-      'Manifesto Videos',
-      'Brand Storytelling',
-    ],
-    priceRange: 'Custom quote',
-    timeline: '1-3 weeks',
-    popular: false,
+    title: 'Media & Campaign Engineering',
+    description: 'Creative and campaign assets connected to a real audience journey, destination and measurable next action.',
+    includes: ['Campaign brief', 'Creative system', 'Channel adaptation', 'Destination and measurement planning'],
   },
   {
-    id: 3,
-    icon: '⚡',
-    title: 'Automation Systems',
-    description: 'Streamline operations with custom automation workflows and integrations',
-    features: [
-      'Business Process Automation',
-      'API Integration & Development',
-      'Data Pipeline Engineering',
-      'Workflow Optimization',
-    ],
-    priceRange: 'Custom quote',
-    timeline: '2-8 weeks',
-    popular: false,
+    icon: '🧠',
+    title: 'Research & Intelligence Support',
+    description: 'Evidence-led research, comparison and decision-support systems for business questions that require more than a generic answer.',
+    includes: ['Source-backed research', 'Red-team review', 'Decision-support structure', 'Evidence classification'],
   },
-  {
-    id: 4,
-    icon: '🎓',
-    title: 'Consulting & Strategy',
-    description: 'Expert guidance on AI adoption, digital transformation, and technical architecture',
-    features: [
-      'AI Strategy & Roadmaps',
-      'Tech Stack Evaluation',
-      'System Architecture Design',
-      'Training & Workshops',
-    ],
-    priceRange: 'Custom quote',
-    timeline: 'Flexible',
-    popular: false,
-  },
-];
+]
 
-const packages = [
-  {
-    name: 'Starter',
-    price: 'Custom quote',
-    period: 'one-time',
-    description: 'Perfect for small businesses getting started',
-    features: [
-      'Basic AI Integration',
-      '2 Social Media Videos',
-      'Email Support',
-      '1 Month Support',
-    ],
-    cta: 'Get Started',
-  },
-  {
-    name: 'Professional',
-    price: 'Custom quote',
-    period: 'one-time',
-    description: 'For growing businesses ready to scale',
-    features: [
-      'Custom AI Solution',
-      '5 Premium Videos',
-      'Priority Support',
-      '3 Months Support',
-      'API Integration',
-      'Training Included',
-    ],
-    cta: 'Go Pro',
-    popular: true,
-  },
-  {
-    name: 'Enterprise',
-    price: 'Custom',
-    period: 'pricing',
-    description: 'Full-scale solutions for established companies',
-    features: [
-      'Multiple AI Systems',
-      'Unlimited Videos',
-      '24/7 Support',
-      '12 Months Support',
-      'Dedicated Team',
-      'White-Label Options',
-    ],
-    cta: 'Contact Us',
-  },
-];
+const commercialFlow = [
+  { step: '01', title: 'Discuss the need', text: 'Start with the business problem, desired outcome and current workflow.' },
+  { step: '02', title: 'Define the scope', text: 'AMD identifies deliverables, dependencies, boundaries and the commercial model.' },
+  { step: '03', title: 'Approve the quote', text: 'You review the agreed scope, amount, currency and payment terms before any invoice is issued.' },
+  { step: '04', title: 'Invoice & pay', text: 'Deposit, milestone or full-payment instructions are issued against the approved work.' },
+]
 
 export function ServicesPricing() {
   return (
-    <section className="border-b border-yellow-500/10 px-6 py-20 md:px-12 lg:px-24">
+    <section className="border-b border-yellow-500/10 px-4 py-16 sm:px-6 md:px-12 md:py-20 lg:px-24">
       <div className="mx-auto max-w-7xl">
-        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="mb-16 text-center"
+          className="mx-auto mb-12 max-w-3xl text-center"
         >
-          <div className="mb-4 flex items-center justify-center gap-2">
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-yellow-500"></div>
-            <span className="text-sm font-semibold uppercase tracking-wider text-yellow-500/70">
-              Services & Investment
-            </span>
-            <div className="h-px w-12 bg-gradient-to-l from-transparent to-yellow-500"></div>
+          <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-yellow-400">
+            Services & Commercial Model
           </div>
-          <h2 className="mb-6 bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-500 bg-clip-text text-4xl font-bold tracking-tight text-transparent drop-shadow-[0_0_10px_rgba(234,179,8,0.3)] md:text-6xl">
-            What We Build
+          <h2 className="bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-500 bg-clip-text text-4xl font-black tracking-tight text-transparent md:text-5xl">
+            Scope the work before pricing the work.
           </h2>
-          <p className="mx-auto max-w-3xl text-lg text-yellow-100/60 md:text-xl">
-            From AI systems to viral content - we deliver solutions that transform businesses.
+          <p className="mx-auto mt-4 text-base leading-7 text-yellow-100/60">
+            AMD services are shaped around the actual problem, deliverables and operating context.
+            Bespoke work is quoted after scope review rather than sold through a generic public package.
           </p>
         </motion.div>
 
-        {/* Services Grid */}
-        <div className="mb-20 grid gap-6 md:grid-cols-2">
-          {services.map((service, idx) => (
-            <motion.div
-              key={service.id}
-              initial={{ opacity: 0, y: 30 }}
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {services.map((service, index) => (
+            <motion.article
+              key={service.title}
+              initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
               viewport={{ once: true }}
-              className="group relative"
+              transition={{ duration: 0.4, delay: index * 0.04 }}
+              className="flex h-full flex-col rounded-2xl border border-yellow-500/20 bg-gradient-to-br from-yellow-500/[0.05] to-black p-6"
             >
-              {/* Popular Badge */}
-              {service.popular && (
-                <div className="absolute right-2 top-2 z-20 rotate-6">
-                  <div className="rounded-full border border-yellow-400 bg-gradient-to-r from-yellow-500 to-yellow-600 px-3 py-1 text-xs font-bold text-black shadow-[0_0_20px_rgba(234,179,8,0.5)]">
-                    🔥 MOST POPULAR
-                  </div>
+              <div className="text-3xl">{service.icon}</div>
+              <h3 className="mt-4 text-xl font-bold text-yellow-200">{service.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-yellow-100/60">{service.description}</p>
+
+              <ul className="mt-5 space-y-2">
+                {service.includes.map((item) => (
+                  <li key={item} className="flex gap-2 text-sm leading-6 text-yellow-100/65">
+                    <span className="mt-1 text-yellow-400">✓</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-auto pt-6">
+                <div className="rounded-xl border border-yellow-500/15 bg-yellow-500/[0.04] px-4 py-3 text-sm">
+                  <span className="text-yellow-100/45">Pricing: </span>
+                  <span className="font-bold text-yellow-300">Custom quote after scope review</span>
                 </div>
-              )}
-
-              <div className="relative h-full overflow-hidden rounded-2xl border border-yellow-500/20 bg-gradient-to-br from-black via-yellow-950/5 to-black p-8 transition-all duration-500 group-hover:border-yellow-500/40 group-hover:shadow-[0_0_40px_rgba(234,179,8,0.2)]">
-                {/* Icon */}
-                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-xl border border-yellow-500/30 bg-yellow-500/10 text-4xl transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(234,179,8,0.3)]">
-                  {service.icon}
-                </div>
-
-                {/* Title */}
-                <h3 className="mb-2 text-2xl font-bold text-yellow-200 transition-colors group-hover:text-yellow-300">
-                  {service.title}
-                </h3>
-
-                {/* Description */}
-                <p className="mb-6 text-yellow-100/60">{service.description}</p>
-
-                {/* Features */}
-                <ul className="mb-6 space-y-2">
-                  {service.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-sm text-yellow-100/70">
-                      <div className="h-1.5 w-1.5 rounded-full bg-yellow-400"></div>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-
-                {/* Pricing Info */}
-                <div className="mb-4 flex items-center justify-between border-t border-yellow-500/10 pt-4">
-                  <div>
-                    <div className="text-xs text-yellow-500/70">Investment</div>
-                    <div className="text-lg font-bold text-yellow-300">{service.priceRange}</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-xs text-yellow-500/70">Timeline</div>
-                    <div className="text-lg font-bold text-yellow-300">{service.timeline}</div>
-                  </div>
-                </div>
-
-                {/* CTA Button */}
-                <a
-                  href={`https://wa.me/2348180021007?text=Hi%2C%20I%27m%20interested%20in%20${encodeURIComponent(service.title)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 rounded-lg border border-yellow-500/30 bg-yellow-500/10 px-6 py-3 text-sm font-semibold text-yellow-300 transition-all duration-300 hover:border-yellow-500 hover:bg-yellow-500 hover:text-black hover:shadow-[0_0_20px_rgba(234,179,8,0.4)]"
-                >
-                  <span className="text-lg">💬</span>
-                  Discuss This Service
-                </a>
-
-                {/* Bottom Glow */}
-                <div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-500 transition-all duration-500 group-hover:w-full"></div>
               </div>
-            </motion.div>
+            </motion.article>
           ))}
         </div>
 
-        {/* Packages Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="mb-12 text-center"
-        >
-          <h3 className="mb-4 text-3xl font-bold text-yellow-300 md:text-4xl">Pre-Built Packages</h3>
-          <p className="mx-auto max-w-2xl text-yellow-100/60">
-            Choose a ready-made package or let us customize one for your specific needs.
-          </p>
-        </motion.div>
+        <div className="mt-14 rounded-3xl border border-yellow-500/20 bg-black/60 p-6 sm:p-8">
+          <div className="mb-8 text-center">
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-yellow-400">Commercial flow</div>
+            <h3 className="mt-3 text-3xl font-black text-yellow-200">From enquiry to approved payment</h3>
+          </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {packages.map((pkg, idx) => (
-            <motion.div
-              key={pkg.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-              viewport={{ once: true }}
-              className="group relative"
-            >
-              {/* Popular Badge */}
-              {pkg.popular && (
-                <div className="absolute -top-4 left-1/2 z-20 -translate-x-1/2">
-                  <div className="rounded-full border-2 border-yellow-400 bg-yellow-500 px-4 py-1 text-xs font-bold text-black shadow-[0_0_20px_rgba(234,179,8,0.5)]">
-                    ⭐ BEST VALUE
-                  </div>
-                </div>
-              )}
-
-              <div
-                className={`relative h-full overflow-hidden rounded-2xl border p-8 transition-all duration-500 ${
-                  pkg.popular
-                    ? 'border-yellow-500 bg-gradient-to-br from-yellow-950/20 via-black to-yellow-950/10 shadow-[0_0_40px_rgba(234,179,8,0.3)]'
-                    : 'border-yellow-500/20 bg-gradient-to-br from-black via-yellow-950/5 to-black hover:border-yellow-500/40 hover:shadow-[0_0_30px_rgba(234,179,8,0.2)]'
-                }`}
-              >
-                {/* Package Name */}
-                <div className="mb-2 text-sm font-semibold uppercase tracking-wider text-yellow-500">
-                  {pkg.name}
-                </div>
-
-                {/* Price */}
-                <div className="mb-2">
-                  <span className="text-4xl font-bold text-yellow-300">{pkg.price}</span>
-                  {pkg.period !== 'pricing' && (
-                    <span className="ml-2 text-sm text-yellow-100/50">/ {pkg.period}</span>
-                  )}
-                </div>
-
-                {/* Description */}
-                <p className="mb-6 text-sm text-yellow-100/60">{pkg.description}</p>
-
-                {/* Features */}
-                <ul className="mb-8 space-y-3">
-                  {pkg.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2 text-sm text-yellow-100/70">
-                      <svg
-                        className="mt-0.5 h-5 w-5 flex-shrink-0 text-yellow-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-
-                {/* CTA Button */}
-                <a
-                  href={`https://wa.me/2348180021007?text=Hi%2C%20I%27m%20interested%20in%20the%20${encodeURIComponent(pkg.name)}%20package`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`flex w-full items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-bold transition-all duration-300 ${
-                    pkg.popular
-                      ? 'border-2 border-yellow-500 bg-yellow-500 text-black hover:scale-105 hover:shadow-[0_0_30px_rgba(234,179,8,0.6)]'
-                      : 'border border-yellow-500/30 bg-yellow-500/10 text-yellow-300 hover:border-yellow-500 hover:bg-yellow-500 hover:text-black hover:shadow-[0_0_20px_rgba(234,179,8,0.4)]'
-                  }`}
-                >
-                  {pkg.cta}
-                </a>
-
-                {/* Bottom Glow */}
-                {!pkg.popular && (
-                  <div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-500 transition-all duration-500 group-hover:w-full"></div>
-                )}
+          <div className="grid gap-4 md:grid-cols-4">
+            {commercialFlow.map((item) => (
+              <div key={item.step} className="rounded-2xl border border-yellow-500/15 bg-yellow-500/[0.03] p-5">
+                <div className="text-xs font-black tracking-[0.18em] text-yellow-500">{item.step}</div>
+                <h4 className="mt-3 font-bold text-yellow-200">{item.title}</h4>
+                <p className="mt-2 text-sm leading-6 text-yellow-100/55">{item.text}</p>
               </div>
-            </motion.div>
-          ))}
+            ))}
+          </div>
+
+          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+            <Link
+              href="/payment"
+              className="rounded-xl bg-gradient-to-r from-yellow-400 to-amber-500 px-6 py-3 text-center font-black text-black"
+            >
+              Pricing & Payments
+            </Link>
+            <a
+              href="https://wa.me/2348180021007?text=Hi%20AMD%20Solutions%20007%2C%20I%27d%20like%20to%20request%20a%20project%20quote."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-xl border border-yellow-500/40 bg-yellow-500/5 px-6 py-3 text-center font-bold text-yellow-200"
+            >
+              Request a Quote
+            </a>
+          </div>
         </div>
 
-        {/* Money Back Guarantee */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="mt-12 rounded-xl border border-yellow-500/20 bg-yellow-500/5 p-6 text-center"
-        >
-          <div className="mb-2 text-3xl">🛡️</div>
-          <h4 className="mb-1 text-lg font-bold text-yellow-300">Quality Guarantee</h4>
-          <p className="text-sm text-yellow-100/60">
-            Not satisfied? We'll revise until you are - or your money back within 30 days.
-          </p>
-        </motion.div>
+        <p className="mx-auto mt-6 max-w-3xl text-center text-xs leading-5 text-yellow-100/40">
+          Timelines, support periods, warranties, deposits and milestone terms are confirmed in the approved proposal or invoice for the specific engagement.
+        </p>
       </div>
     </section>
-  );
+  )
 }
