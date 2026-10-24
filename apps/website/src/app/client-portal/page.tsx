@@ -1,179 +1,136 @@
 'use client'
 
+import Link from 'next/link'
 import { FormEvent, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { createMIAuthClient } from '@/lib/supabase/mi-browser'
 
-const gradientCard =
-  'rounded-2xl border border-yellow-500/30 bg-gradient-to-br from-black via-yellow-950/10 to-black backdrop-blur-xl'
-
 export default function ClientPortalPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [googleLoading, setGoogleLoading] = useState(false)
   const [error, setError] = useState('')
+  const pending = searchParams.get('status') === 'pending'
+  const reset = searchParams.get('reset') === 'sent'
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setError('')
     setLoading(true)
-
     const supabase = createMIAuthClient()
     if (!supabase) {
       setError('Client Portal authentication is not configured.')
       setLoading(false)
       return
     }
-
     const { data, error: authError } = await supabase.auth.signInWithPassword({
       email: email.trim(),
       password,
     })
-
     if (authError || !data.user) {
       setError('Unable to sign in. Check your email and password.')
       setLoading(false)
       return
     }
-
     const { data: profile, error: profileError } = await supabase
       .from('client_profiles')
       .select('status')
       .eq('user_id', data.user.id)
       .maybeSingle()
-
     if (profileError || !profile || profile.status !== 'active') {
       await supabase.auth.signOut()
-      setError('This account does not have active Client Portal access.')
-      setLoading(false)
+      router.replace('/client-portal?status=pending')
+      router.refresh()
       return
     }
-
     router.replace('/client-portal/dashboard')
     router.refresh()
   }
 
+  async function handleGoogle() {
+    setError('')
+    setGoogleLoading(true)
+    const supabase = createMIAuthClient()
+    if (!supabase) {
+      setError('Client Portal authentication is not configured.')
+      setGoogleLoading(false)
+      return
+    }
+    const { error: oauthError } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/client-portal/auth/callback?next=/client-portal/dashboard`,
+      },
+    })
+    if (oauthError) {
+      setError('Google sign-in is not enabled for this AMD account yet. Use email/password for now.')
+      setGoogleLoading(false)
+    }
+  }
+
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black text-white">
-      <div
-        className="fixed inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage:
-            "url('data:image/svg+xml,%3Csvg width=\\'60\\' height=\\'60\\' viewBox=\\'0 0 60 60\\' xmlns=\\'http://www.w3.org/2000/svg\\'%3E%3Cpath d=\\'M30 0l25.98 15v30L30 60 4.02 45V15z\\' fill=\\'none\\' stroke=\\'%23eab308\\' stroke-width=\\'1\\'/%3E%3C/svg%3E')",
-          backgroundSize: '60px 60px',
-        }}
-      />
+    <main className="relative min-h-screen overflow-hidden bg-[#020305] px-4 pb-16 pt-28 text-white sm:px-6 sm:pt-32">
+      <div className="pointer-events-none fixed inset-0 opacity-[0.08]" style={{backgroundImage:"radial-gradient(circle at 50% 10%, rgba(234,179,8,.24), transparent 30%), linear-gradient(rgba(234,179,8,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(234,179,8,.06) 1px, transparent 1px)",backgroundSize:"auto, 34px 34px, 34px 34px"}} />
+      <div className="pointer-events-none fixed left-1/2 top-20 h-72 w-72 -translate-x-1/2 rounded-full bg-yellow-500/10 blur-3xl sm:h-96 sm:w-96" />
 
-      <motion.div
-        className="fixed left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500 to-transparent"
-        animate={{ top: ['0%', '100%'] }}
-        transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
-      />
+      <div className="relative z-10 mx-auto w-full max-w-xl">
+        <motion.header initial={{opacity:0,y:-16}} animate={{opacity:1,y:0}} className="mb-6 text-center sm:mb-8">
+          <span className="mb-3 inline-flex rounded-full border border-yellow-500/30 bg-yellow-500/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.2em] text-yellow-300">
+            Secure Client Access
+          </span>
+          <h1 className="bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-500 bg-clip-text text-4xl font-black tracking-tight text-transparent sm:text-5xl">
+            Client Portal
+          </h1>
+          <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-yellow-100/60 sm:text-base">
+            Sign in with your verified AMD account or create a new client account.
+          </p>
+        </motion.header>
 
-      <div className="fixed left-1/2 top-1/2 h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-yellow-500/8 blur-3xl" />
+        <motion.section initial={{opacity:0,y:18}} animate={{opacity:1,y:0}} className="rounded-[28px] border border-yellow-500/35 bg-black/80 p-5 shadow-[0_0_55px_rgba(234,179,8,0.12)] backdrop-blur-xl sm:p-8">
+          {pending && <div className="mb-5 rounded-xl border border-yellow-500/30 bg-yellow-500/10 px-4 py-3 text-sm text-yellow-100">Your account exists, but Client Portal access is awaiting AMD activation.</div>}
+          {reset && <div className="mb-5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100">Password reset link sent. Check your email.</div>}
+          {error && <div className="mb-5 rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">{error}</div>}
 
-      <div className="relative z-10 flex min-h-screen items-center justify-center px-6 py-14">
-        <div className="w-full max-w-lg">
-          <motion.div
-            initial={{ opacity: 0, y: -18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="mb-8 text-center"
-          >
-            <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full border-2 border-yellow-500/40 bg-gradient-to-br from-yellow-500/10 to-yellow-600/5">
-              <svg className="h-10 w-10 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fillRule="evenodd"
-                  d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944zM11 14a1 1 0 11-2 0 1 1 0 012 0zm0-7a1 1 0 10-2 0v3a1 1 0 102 0V7z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-            <span className="mb-3 inline-block rounded-full border border-yellow-500/30 bg-yellow-500/10 px-4 py-2 text-xs font-semibold tracking-wider text-yellow-300">
-              SECURE CLIENT ACCESS
-            </span>
-            <h1 className="bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-500 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
-              Client Portal
-            </h1>
-            <p className="mt-2 text-yellow-100/60">
-              Invitation-only access using your verified AMD account.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.15 }}
-            className={`${gradientCard} relative overflow-hidden p-8`}
-          >
-            {error && (
-              <div className="mb-5 rounded-lg border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
-                {error}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <label className="block">
+              <span className="mb-2 block text-sm font-semibold text-yellow-300">Email address</span>
+              <input type="email" autoComplete="email" required value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com" className="w-full rounded-2xl border border-yellow-500/30 bg-[#080808] px-4 py-4 text-base text-white outline-none transition placeholder:text-white/25 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-500/15" />
+            </label>
+            <label className="block">
+              <span className="mb-2 block text-sm font-semibold text-yellow-300">Password</span>
+              <div className="relative">
+                <input type={showPassword ? 'text' : 'password'} autoComplete="current-password" required value={password} onChange={e=>setPassword(e.target.value)} placeholder="Enter your password" className="w-full rounded-2xl border border-yellow-500/30 bg-[#080808] px-4 py-4 pr-14 text-base text-white outline-none transition placeholder:text-white/25 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-500/15" />
+                <button type="button" onClick={()=>setShowPassword(v=>!v)} className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-yellow-300/70">{showPassword ? 'HIDE' : 'SHOW'}</button>
               </div>
-            )}
+            </label>
 
-            <div className="mb-6 rounded-lg border border-yellow-500/20 bg-yellow-500/5 p-4">
-              <div className="font-semibold uppercase tracking-wider text-yellow-400">Authentication</div>
-              <div className="mt-1 text-sm text-yellow-100/60">
-                Supabase Auth session + server-protected dashboard + client-specific access control.
-              </div>
-            </div>
+            <button type="submit" disabled={loading} className="mt-2 w-full rounded-2xl bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-500 px-5 py-4 text-base font-black uppercase tracking-[0.08em] text-black shadow-[0_0_28px_rgba(234,179,8,0.3)] disabled:opacity-60">
+              {loading ? 'VERIFYING ACCOUNT…' : 'Sign In Securely →'}
+            </button>
+          </form>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="email" className="mb-2 block text-sm font-semibold text-yellow-300">
-                  Email
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  autoComplete="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="w-full rounded-lg border border-yellow-500/30 bg-black/60 px-4 py-3 text-yellow-100 placeholder-yellow-100/30 transition focus:border-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/20"
-                  placeholder="you@example.com"
-                />
-              </div>
+          <div className="my-6 flex items-center gap-3 text-xs text-white/40"><span className="h-px flex-1 bg-white/10"/><span>OR</span><span className="h-px flex-1 bg-white/10"/></div>
 
-              <div>
-                <label htmlFor="password" className="mb-2 block text-sm font-semibold text-yellow-300">
-                  Password
-                </label>
-                <input
-                  id="password"
-                  type="password"
-                  autoComplete="current-password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="w-full rounded-lg border border-yellow-500/30 bg-black/60 px-4 py-3 text-yellow-100 placeholder-yellow-100/30 transition focus:border-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/20"
-                  placeholder="Enter your password"
-                />
-              </div>
+          <button type="button" onClick={handleGoogle} disabled={googleLoading} className="flex w-full items-center justify-center gap-3 rounded-2xl border border-yellow-500/40 bg-black px-5 py-4 font-bold text-white transition hover:bg-yellow-500/5 disabled:opacity-60">
+            <span className="grid h-7 w-7 place-items-center rounded-full bg-white text-sm font-black text-[#4285F4]">G</span>
+            {googleLoading ? 'Connecting to Google…' : 'Continue with Google'}
+          </button>
 
-              <motion.button
-                type="submit"
-                disabled={loading}
-                whileHover={{ scale: loading ? 1 : 1.01 }}
-                whileTap={{ scale: loading ? 1 : 0.98 }}
-                className="w-full rounded-lg border-2 border-yellow-500 bg-gradient-to-r from-yellow-500 to-yellow-600 py-4 font-semibold text-black shadow-[0_0_30px_rgba(234,179,8,0.35)] transition disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {loading ? 'VERIFYING ACCOUNT...' : 'SIGN IN SECURELY'}
-              </motion.button>
-            </form>
-
-            <div className="mt-6 border-t border-yellow-500/10 pt-5 text-sm text-yellow-100/55">
-              Client Portal accounts are activated by AMD. Public self-registration is disabled for this workspace.
-            </div>
-          </motion.div>
-
-          <div className="mt-6 text-center text-xs text-yellow-200/60">
-            Authentication is verified by Supabase Auth. Additional MFA can be enabled after the account foundation is certified.
+          <div className="mt-6 grid grid-cols-2 gap-3 text-sm">
+            <Link href="/client-portal/sign-up" className="rounded-xl border border-yellow-500/20 bg-yellow-500/5 px-3 py-3 text-center font-semibold text-yellow-300 transition hover:border-yellow-400">Create account</Link>
+            <Link href="/client-portal/forgot-password" className="rounded-xl border border-yellow-500/20 bg-yellow-500/5 px-3 py-3 text-center font-semibold text-yellow-300 transition hover:border-yellow-400">Forgot password?</Link>
           </div>
-        </div>
+
+          <div className="mt-6 grid gap-3 border-t border-yellow-500/10 pt-5 text-xs text-yellow-100/55 sm:grid-cols-2">
+            <div>Client Portal accounts are activated by AMD.</div>
+            <div className="sm:text-right">Protected by Supabase Auth</div>
+          </div>
+        </motion.section>
       </div>
     </main>
   )
