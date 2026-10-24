@@ -14,10 +14,8 @@ const RSS_SOURCES = [
     name: 'TechCabal',
     url: 'https://techcabal.com/feed/',
   },
-  {
-    name: 'TechPoint Africa',
-    url: 'https://techpoint.africa/feed/',
-  },
+  // TechPoint Africa is intentionally excluded while its RSS endpoint returns HTTP 403.
+  // Re-enable only after a successful source-level verification.
 ];
 
 // Simple XML parser for RSS feeds

@@ -37,7 +37,7 @@ export async function getAllArticles(): Promise<ArticleData[]> {
   const rawArticles = await ingestExternalNews();
   const freshArticles = filterFreshArticles(rawArticles);
   const dedupedArticles = filterArticles(freshArticles);
-  const refinedArticles = await refineArticles(dedupedArticles, true); // Generate graphics
+  const refinedArticles = await refineArticles(dedupedArticles, false); // Keep request-time ingestion deterministic; no image-generation API calls.
 
   // Transform to ArticleData format
   const articles: ArticleData[] = refinedArticles.map(article => ({
