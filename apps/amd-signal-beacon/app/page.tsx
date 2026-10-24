@@ -1,305 +1,97 @@
-import { getAllArticles } from '@/lib/article-fetcher';
-import NavigationHeader from '@/components/NavigationHeader';
-import SiteFooter from '@/components/SiteFooter';
-import AMDAgent007 from '@/components/AMDAgent007';
-import Agent007Badge from '@/components/Agent007Badge';
-import VideoGrid from '@/components/VideoGrid';
-import AIAssistant from '@/components/AIAssistant';
-import Link from 'next/link';
-import Image from 'next/image';
-import videosData from '@/data/videos.json';
+import { getAllArticles } from '@/lib/article-fetcher'
+import NavigationHeader from '@/components/NavigationHeader'
+import SiteFooter from '@/components/SiteFooter'
+import Link from 'next/link'
+import Image from 'next/image'
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 3600; // Revalidate every hour
+export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 export default async function Home() {
-  const articles = await getAllArticles();
-  const latestArticles = articles.slice(0, 12); // Show 12 latest
+  const articles = await getAllArticles()
+  const latestArticles = articles.slice(0, 12)
 
   return (
     <div className="min-h-screen bg-black text-white">
       <NavigationHeader />
 
-      {/* Hero Section - Linktree Style */}
-      <section className="relative py-20 px-6 border-b border-amd-gold border-opacity-20">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Gold Logo Icon */}
-          <div className="w-24 h-24 mx-auto mb-6 rounded-full border-4 border-amd-gold flex items-center justify-center bg-black shadow-2xl shadow-amd-gold">
-            <span className="text-5xl">📡</span>
-          </div>
-
-          {/* Main Title */}
-          <h1 className="text-4xl md:text-5xl font-bold mb-3 text-amd-gold">
-            AMD SIGNAL BEACON
-          </h1>
-          
-          <p className="text-lg md:text-xl text-gray-300 mb-12">
-            Illuminating the Digital Dark.
+      <section className="border-b border-amd-gold/20 px-4 py-16 sm:px-6 sm:py-20">
+        <div className="mx-auto max-w-5xl text-center">
+          <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full border-2 border-amd-gold/60 bg-amd-gold/5 text-4xl">📡</div>
+          <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-amd-gold">AMD Signal Beacon</div>
+          <h1 className="text-4xl font-black text-amd-gold sm:text-5xl">Curated technology signals with source attribution.</h1>
+          <p className="mx-auto mt-5 max-w-3xl text-base leading-7 text-gray-300 sm:text-lg">
+            Signal Beacon collects and organizes selected technology, AI and African digital-economy briefings.
+            It is a discovery surface, not a prediction engine or a substitute for checking the original source.
           </p>
 
-          {/* Stats Cards - Linktree Style */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div className="bg-black border-2 border-amd-gold rounded-lg p-6 hover:shadow-xl hover:shadow-amd-gold transition-all">
-              <div className="text-5xl font-bold text-amd-gold mb-2">{articles.length}</div>
-              <div className="text-sm text-gray-400">Intel Briefs</div>
-            </div>
-            <div className="bg-black border-2 border-amd-gold rounded-lg p-6 hover:shadow-xl hover:shadow-amd-gold transition-all">
-              <div className="text-5xl font-bold text-amd-gold mb-2">36</div>
-              <div className="text-sm text-gray-400">Nigerian States</div>
-            </div>
-            <div className="bg-black border-2 border-amd-gold rounded-lg p-6 hover:shadow-xl hover:shadow-amd-gold transition-all">
-              <div className="text-5xl font-bold text-amd-gold mb-2">Daily</div>
-              <div className="text-sm text-gray-400">Updates</div>
-            </div>
+          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+            <a href="/api/feed" target="_blank" rel="noopener noreferrer" className="rounded-xl bg-amd-gold px-5 py-3 font-bold text-black">Subscribe to RSS</a>
+            <Link href="https://www.amdsolutions007.com/intelligence" className="rounded-xl border border-amd-gold/50 px-5 py-3 font-bold text-amd-gold">AMD Intelligence</Link>
           </div>
 
-          {/* Contact Email */}
-          <div className="mb-8">
-            <a href="mailto:ceo@amdsolutions007.com" className="inline-flex items-center gap-2 text-gray-400 hover:text-amd-gold transition-colors">
-              <span>📧</span>
-              <span className="text-sm">ceo@amdsolutions007.com</span>
-            </a>
-          </div>
-
-          {/* Priority War Room CTA - Linktree Style */}
-          <div className="relative inline-block w-full max-w-2xl mx-auto mb-6">
-            <div className="absolute -top-2 -right-2 z-10">
-              <span className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-md">PRIORITY</span>
-            </div>
-            <a
-              href="https://chat.whatsapp.com/KmTlNs5TTV69xPNzRkcMZc"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full bg-black border-2 border-amd-gold text-white px-8 py-4 rounded-lg hover:bg-amd-gold hover:text-black transition-all font-semibold shadow-xl hover:shadow-2xl hover:shadow-amd-gold"
-            >
-              <div className="flex items-center justify-center gap-3">
-                <span className="text-2xl">📞</span>
-                <span>WhatsApp Hotline (Priority)</span>
-              </div>
-            </a>
-          </div>
-
-          {/* Leke Leke CTA */}
-          <div className="mb-6 w-full max-w-2xl mx-auto">
-            <a
-              href="https://www.lekeelekee.com/@amd"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full bg-black border-2 border-amd-gold text-white px-6 py-3 rounded-lg hover:bg-amd-gold hover:text-black transition-all font-semibold"
-            >
-              <div className="flex items-center justify-center gap-3">
-                <span className="text-xl">✈️</span>
-                <span>Join Telegram Intelligence</span>
-              </div>
-            </a>
-          </div>
-
-        </div>
-      </section>
-
-      {/* Visual Intelligence Section - MOVED TO TOP */}
-      <VideoGrid videos={videosData} />
-
-      {/* Social Proof Section - NEW */}
-      <section className="py-16 px-6 bg-gradient-to-b from-black to-transparent">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-amd-gold mb-4">
-              🏆 PROVEN RESULTS
-            </h2>
-            <p className="text-gray-400 text-lg">Real businesses. Real metrics. Real impact.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Testimonial 1 */}
-            <div className="bg-black border-2 border-amd-gold rounded-lg p-6 hover:shadow-xl hover:shadow-amd-gold transition-all">
-              <div className="text-5xl mb-4">📈</div>
-              <p className="text-gray-300 mb-4 italic">
-                "Naija-Prop-Intel transformed our property analysis. 94% prediction accuracy - game-changing."
-              </p>
-              <div className="text-amd-gold font-bold text-2xl mb-2">340% Revenue ↑</div>
-              <p className="text-gray-500 text-sm">— Chidinma O., CEO Proptech Nigeria</p>
-            </div>
-
-            {/* Testimonial 2 */}
-            <div className="bg-black border-2 border-amd-gold rounded-lg p-6 hover:shadow-xl hover:shadow-amd-gold transition-all">
-              <div className="text-5xl mb-4">⏰</div>
-              <p className="text-gray-300 mb-4 italic">
-                "NaijaLaw-GPT saved us 20+ hours per week on legal research. Understands Nigerian law perfectly."
-              </p>
-              <div className="text-amd-gold font-bold text-2xl mb-2">70% Faster Prep</div>
-              <p className="text-gray-500 text-sm">— Emeka A., Legal Founder</p>
-            </div>
-
-            {/* Testimonial 3 */}
-            <div className="bg-black border-2 border-amd-gold rounded-lg p-6 hover:shadow-xl hover:shadow-amd-gold transition-all">
-              <div className="text-5xl mb-4">💎</div>
-              <p className="text-gray-300 mb-4 italic">
-                "The crypto tracker helped us optimize trading. ROI was 5x our investment in first quarter."
-              </p>
-              <div className="text-amd-gold font-bold text-2xl mb-2">5x ROI Q1</div>
-              <p className="text-gray-500 text-sm">— Oluwaseun I., CTO Fintech</p>
-            </div>
-          </div>
-
-          {/* Aggregate Metrics */}
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-amd-gold">25+</div>
-              <div className="text-sm text-gray-400">Active Clients</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-amd-gold">98%</div>
-              <div className="text-sm text-gray-400">Satisfaction</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-amd-gold">₦2.5B+</div>
-              <div className="text-sm text-gray-400">Revenue Generated</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-amd-gold">4.9/5</div>
-              <div className="text-sm text-gray-400">Average Rating</div>
-            </div>
+          <div className="mx-auto mt-8 max-w-3xl rounded-2xl border border-amd-gold/15 bg-amd-gold/[0.04] p-4 text-left text-sm leading-6 text-gray-400">
+            <strong className="text-amd-gold">Evidence rule:</strong> article summaries are curated from attributed sources.
+            Source accuracy, dates and material claims should be checked at the original publication before making a consequential decision.
           </div>
         </div>
       </section>
 
-      {/* Latest Intel Section */}
-      <section className="py-16 px-6 border-t border-amd-gold border-opacity-20">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-amd-gold mb-2">
-              LATEST INTEL FROM THE 36 STATES
-            </h2>
-            <p className="text-gray-400 text-lg">Real-time Tech Intelligence • AI-Powered Analysis • Daily Briefs</p>
+      <section className="px-4 py-14 sm:px-6 sm:py-16">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-9 text-center">
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-amd-gold">Latest signals</div>
+            <h2 className="mt-3 text-3xl font-black text-white sm:text-4xl">Recent briefings from attributed sources</h2>
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-gray-400">
+              {articles.length} briefing{articles.length === 1 ? '' : 's'} currently available in the feed.
+            </p>
           </div>
-        </div>
-      </section>
 
-      {/* Article Grid */}
-      <section className="px-6 pb-16">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {latestArticles.map((article) => (
-              <article 
-                key={article.id}
-                className="group relative bg-black border-2 border-amd-gold rounded-lg overflow-hidden hover:shadow-2xl hover:shadow-amd-gold transition-all duration-300"
-              >
-                {/* Image */}
-                {article.imageUrl && (
-                  <div className="relative w-full h-48 overflow-hidden">
-                    <Image
-                      src={article.imageUrl}
-                      alt={article.title}
-                      fill
-                      loading="lazy"
-                      className="object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
+          {latestArticles.length === 0 ? (
+            <div className="rounded-2xl border border-amd-gold/20 bg-amd-gold/[0.03] p-8 text-center text-gray-400">
+              No briefings are available right now. The feed will update when supported sources return new items.
+            </div>
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {latestArticles.map((article) => (
+                <article key={article.id} className="overflow-hidden rounded-2xl border border-amd-gold/20 bg-gradient-to-br from-amd-gold/[0.04] to-black">
+                  {article.imageUrl && (
+                    <div className="relative h-44 w-full overflow-hidden">
+                      <Image src={article.imageUrl} alt="" fill loading="lazy" className="object-cover" />
+                    </div>
+                  )}
+                  <div className="p-5">
+                    <div className="mb-3 flex flex-wrap gap-2 text-[11px]">
+                      <span className="rounded-full border border-amd-gold/30 px-2 py-1 text-amd-gold">{article.source}</span>
+                      {article.categories.slice(0, 2).map((category) => (
+                        <span key={category} className="rounded-full border border-gray-700 px-2 py-1 text-gray-400">{category}</span>
+                      ))}
+                    </div>
+                    <h3 className="text-lg font-bold leading-6 text-white">{article.title}</h3>
+                    <p className="mt-3 line-clamp-3 text-sm leading-6 text-gray-400">{article.description}</p>
+                    <Link href={`/signal/${article.id}`} className="mt-5 inline-flex items-center gap-2 font-bold text-amd-gold">Read briefing →</Link>
                   </div>
-                )}
-
-                {/* Content */}
-                <div className="p-6">
-                  {/* Source Badge */}
-                  <div className="mb-3 flex items-center gap-2 text-xs">
-                    <span className="px-2 py-1 bg-transparent border border-amd-gold rounded text-amd-gold">
-                      {article.source}
-                    </span>
-                    {article.categories.slice(0, 2).map(cat => (
-                      <span key={cat} className="px-2 py-1 bg-transparent border border-gray-600 rounded text-gray-400">
-                        {cat}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-amd-gold transition-colors">
-                    {article.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-gray-400 text-sm mb-4 line-clamp-3">
-                    {article.description}
-                  </p>
-
-                  {/* Read Button */}
-                  <Link
-                    href={`/signal/${article.id}`}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-transparent border-2 border-amd-gold text-amd-gold rounded-lg hover:bg-amd-gold hover:text-black transition-all font-semibold text-sm"
-                  >
-                    <span>Read Brief</span>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          {/* View All Button */}
-          <div className="mt-12 text-center">
-            <a
-              href="/api/feed"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 border-2 border-amd-gold text-amd-gold rounded-lg hover:bg-amd-gold hover:text-black transition-all font-bold"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z" />
-              </svg>
-              <span>Subscribe to RSS Feed</span>
-            </a>
-          </div>
+                </article>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Bottom War Room CTA - Enhanced */}
-      <section className="py-16 px-6 border-t border-amd-gold border-opacity-20">
-        <div className="max-w-4xl mx-auto">
-          {/* CTA Box - Linktree Style */}
-          <div className="bg-gradient-to-br from-[rgba(218,165,32,0.1)] to-[rgba(0,0,0,0)] border-2 border-amd-gold rounded-lg p-8 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-amd-gold mb-4">
-              ⚡ JOIN THE WAR ROOM
-            </h2>
-            <p className="text-xl text-gray-300 mb-2">
-              127+ Active Builders Across 36 States
-            </p>
-            <p className="text-sm text-gray-400 mb-8">
-              Daily Intel Briefs at 8:00 AM WAT • Real-time Opportunities • Built by Africans, FOR Africans
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="https://chat.whatsapp.com/KmTlNs5TTV69xPNzRkcMZc"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-amd-gold text-black font-bold text-lg rounded-lg shadow-2xl hover:bg-amd-gold-light hover:scale-105 transition-all"
-              >
-                <span>Join AMD HQ on WhatsApp →</span>
-              </a>
-              
-              <a
-                href="https://www.lekeelekee.com/@amd"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 border-2 border-amd-gold text-amd-gold font-bold text-lg rounded-lg hover:bg-amd-gold hover:text-black transition-all"
-              >
-                <span>Follow @amd on Leke Leke →</span>
-              </a>
-            </div>
-
-            <p className="text-xs text-gray-500 mt-6">
-              🔥 Built by Africans, FOR Africans • 🚀 No Algorithm Suppression
-            </p>
+      <section className="border-t border-amd-gold/15 px-4 py-14 sm:px-6">
+        <div className="mx-auto max-w-4xl rounded-2xl border border-amd-gold/20 bg-amd-gold/[0.04] p-6 text-center sm:p-8">
+          <h2 className="text-2xl font-black text-amd-gold">Need intelligence for a business decision?</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-gray-400">
+            Signal Beacon is a discovery feed. For source-backed research, comparison or decision support, use the main AMD Intelligence service.
+          </p>
+          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+            <Link href="https://www.amdsolutions007.com/intelligence" className="rounded-xl bg-amd-gold px-5 py-3 font-bold text-black">Open AMD Intelligence</Link>
+            <a href="https://wa.me/2348180021007?text=Hi%20AMD%20Solutions%20007%2C%20I%27d%20like%20to%20discuss%20an%20intelligence%20project." target="_blank" rel="noopener noreferrer" className="rounded-xl border border-amd-gold/50 px-5 py-3 font-bold text-amd-gold">Discuss a Project</a>
           </div>
         </div>
       </section>
 
       <SiteFooter />
-      <AMDAgent007 />
-      <Agent007Badge />
-      <AIAssistant />
     </div>
-  );
+  )
 }
