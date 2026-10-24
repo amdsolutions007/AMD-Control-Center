@@ -23,15 +23,15 @@ export function Navbar() {
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50 border-b border-yellow-500/20 bg-black/90 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <nav className="mx-auto flex max-w-6xl items-center justify-between px-3 py-3 sm:px-6 sm:py-4">
           <motion.div 
-            className="flex items-center gap-3"
+            className="min-w-0 flex items-center gap-2 sm:gap-3"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <img src="/amd_logo.png" alt="AMD Logo" className="h-10 w-auto drop-shadow-[0_0_8px_rgba(234,179,8,0.4)]" />
-            <span className="bg-gradient-to-r from-yellow-600 via-yellow-300 to-yellow-600 bg-clip-text bg-[length:200%_100%] text-lg font-bold tracking-[0.18em] text-transparent drop-shadow-[0_0_8px_rgba(234,179,8,0.3)] animate-shimmer">
+            <img src="/amd_logo.png" alt="AMD Logo" className="h-8 w-8 shrink-0 rounded-md object-cover drop-shadow-[0_0_8px_rgba(234,179,8,0.4)] sm:h-10 sm:w-10" />
+            <span className="truncate bg-gradient-to-r from-yellow-600 via-yellow-300 to-yellow-600 bg-clip-text bg-[length:200%_100%] text-[13px] font-bold tracking-[0.08em] text-transparent drop-shadow-[0_0_8px_rgba(234,179,8,0.3)] animate-shimmer xs:text-sm sm:text-lg sm:tracking-[0.18em]">
               AMD SOLUTIONS 007
             </span>
           </motion.div>
@@ -76,7 +76,7 @@ export function Navbar() {
             {/* Mobile Menu Button */}
             <motion.button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="flex flex-col items-center justify-center gap-1.5 rounded-lg border border-yellow-500/40 bg-yellow-500/10 p-2.5 backdrop-blur-sm transition-all duration-300 hover:border-yellow-400 hover:bg-yellow-500/20 hover:shadow-[0_0_20px_rgba(234,179,8,0.4)] md:hidden"
+              className="ml-2 flex shrink-0 flex-col items-center justify-center gap-1.5 rounded-lg border border-yellow-500/40 bg-yellow-500/10 p-2 backdrop-blur-sm transition-all duration-300 hover:border-yellow-400 hover:bg-yellow-500/20 hover:shadow-[0_0_20px_rgba(234,179,8,0.4)] sm:p-2.5 md:hidden"
               whileTap={{ scale: 0.95 }}
               aria-label="Toggle mobile menu"
             >
