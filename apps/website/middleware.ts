@@ -5,15 +5,19 @@ import { updateMISession } from '@/lib/supabase/mi-middleware';
 import { isValidRoleSlug } from '@/lib/music-intelligence/auth-roles';
 import { isPartnerWorkspaceRole } from '@/lib/music-intelligence/partner-constants';
 
-const PROTECTED_PREFIXES = [
+const MI_PROTECTED_PREFIXES = [
   '/music-intelligence/onboarding',
   '/music-intelligence/account',
   '/music-intelligence/partner',
 ];
 
+const CLIENT_PORTAL_PROTECTED_PREFIXES = ['/client-portal/dashboard'];
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const isProtected = PROTECTED_PREFIXES.some((p) => pathname.startsWith(p));
+  const isMIProtected = MI_PROTECTED_PREFIXES.some((p) => pathname.startsWith(p));
+  const isClientPortalProtected = CLIENT_PORTAL_PROTECTED_PREFIXES.some((p) => pathname.startsWith(p));
+  const isProtected = isMIProtected || isClientPortalProtected;
 
   const sessionResponse = await updateMISession(request);
 
@@ -21,8 +25,9 @@ export async function middleware(request: NextRequest) {
 
   const { url, anonKey, configured } = getSupabaseAuthConfig();
   if (!configured) {
-    const redirect = NextResponse.redirect(new URL('/music-intelligence/sign-in', request.url));
-    return redirect;
+    return NextResponse.redirect(
+      new URL(isClientPortalProtected ? '/client-portal' : '/music-intelligence/sign-in', request.url),
+    );
   }
 
   const supabase = createServerClient(url, anonKey, {
@@ -39,12 +44,21 @@ export async function middleware(request: NextRequest) {
     },
   });
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
-    const signIn = new URL('/music-intelligence/sign-in', request.url);
-    signIn.searchParams.set('redirect', pathname);
+    const signIn = new URL(
+      isClientPortalProtected ? '/client-portal' : '/music-intelligence/sign-in',
+      request.url,
+    );
+    if (!isClientPortalProtected) signIn.searchParams.set('redirect', pathname);
     return NextResponse.redirect(signIn);
+  }
+
+  if (isClientPortalProtected) {
+    return sessionResponse;
   }
 
   if (pathname.startsWith('/music-intelligence/account')) {
@@ -52,8 +66,7 @@ export async function middleware(request: NextRequest) {
     const artistRole = typeof role === 'string' && isValidRoleSlug(role) && role === 'artist';
     const onboardingComplete = Boolean(user.user_metadata?.onboarding_complete);
     if (!artistRole || !onboardingComplete) {
-      const onboarding = new URL('/music-intelligence/onboarding', request.url);
-      return NextResponse.redirect(onboarding);
+      return NextResponse.redirect(new URL('/music-intelligence/onboarding', request.url));
     }
   }
 
@@ -63,8 +76,7 @@ export async function middleware(request: NextRequest) {
       typeof role === 'string' && isValidRoleSlug(role) && isPartnerWorkspaceRole(role);
     const onboardingComplete = Boolean(user.user_metadata?.onboarding_complete);
     if (!partnerRole || !onboardingComplete) {
-      const onboarding = new URL('/music-intelligence/onboarding', request.url);
-      return NextResponse.redirect(onboarding);
+      return NextResponse.redirect(new URL('/music-intelligence/onboarding', request.url));
     }
   }
 
@@ -73,6 +85,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    '/client-portal/dashboard/:path*',
     '/music-intelligence/onboarding/:path*',
     '/music-intelligence/account/:path*',
     '/music-intelligence/partner/:path*',
