@@ -209,14 +209,13 @@ export default function VideoGrid({ videos }: { videos: VideoData }) {
               </h3>
             </div>
             <p className="text-gray-300 mb-4 text-lg">
-              <span className="text-amd-gold font-semibold">Coming Soon:</span> Access 007's full AI tool arsenal, 
-              private deal alerts, and weekly video breakdowns you won't find anywhere else.
+              <span className="text-amd-gold font-semibold">Experimental:</span> Additional curated tool notes and video analysis may be added after they are reviewed and approved.
             </p>
             <p className="text-gray-400 mb-6">
-              • Early access to new tools before public release<br/>
-              • Exclusive affiliate deals (save $50-$500/year on AI tools)<br/>
-              • Weekly video analysis deep-dives with tool recommendations<br/>
-              • Direct 007 support in private Premium War Room
+              • Curated tool notes where sources are available<br/>
+              • Video analysis tied to the original publisher<br/>
+              • Clear separation between current capability and experiments<br/>
+              • No performance or savings claims without supporting evidence
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a

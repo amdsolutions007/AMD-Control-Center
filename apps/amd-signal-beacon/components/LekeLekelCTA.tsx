@@ -15,7 +15,7 @@ export function LekeLekelCTA() {
       
       {/* Description */}
       <p className="text-gray-300 text-lg mb-4">
-        Join <span className="text-yellow-500 font-bold">100+ African tech builders</span> getting exclusive insights every day on <span className="font-semibold">Leke Leke</span> - Africa's social platform
+        Follow attributed technology briefings and community discussions through <span className="font-semibold">Leke Leke</span> where the external feed is available.
       </p>
       
       {/* Stats */}

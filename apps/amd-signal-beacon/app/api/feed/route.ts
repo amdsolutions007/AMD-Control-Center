@@ -9,7 +9,6 @@ import { cleanupExpiredCache, getCacheStats } from '@/lib/image-cache';
 
 // Import data files
 import postsData from '@/data/posts.json';
-import hooksData from '@/data/hooks.json';
 import footersData from '@/data/footers.json';
 
 export const dynamic = 'force-dynamic';
@@ -47,7 +46,6 @@ export async function GET() {
     
     // Type cast the imported data
     const posts = postsData as Post[];
-    const hooks = hooksData as string[];
     const footers = footersData as Footers;
 
     // Step 1: Get published manual posts (time-gated)
