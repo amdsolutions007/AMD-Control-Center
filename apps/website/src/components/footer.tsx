@@ -155,7 +155,7 @@ export function Footer() {
 
           {/* Global Office - Column 4 */}
           <div>
-            <div className="mb-4 text-sm font-bold text-yellow-400">Global Office (US)</div>
+            <div className="mb-4 text-sm font-bold text-yellow-400">Nigeria Office</div>
             <div className="whitespace-pre-wrap rounded-xl border border-yellow-500/20 bg-gradient-to-br from-yellow-500/5 to-transparent p-4 text-xs leading-relaxed text-yellow-100/70 shadow-lg">
               651 N Broad Street, Suite 206
               Middletown, DE 19709
