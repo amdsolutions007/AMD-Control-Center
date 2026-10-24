@@ -32,10 +32,10 @@ export default function HighTicketLandingPage() {
         <nav className="flex justify-between items-center">
           <div className="text-2xl font-bold text-white">AMD Solutions 007</div>
           <a 
-            href="tel:+2349068559191"
+            href="tel:+2348Custom0021007"
             className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold"
           >
-            📞 Call Now: 0906 855 9191
+            📞 Call AMD: +234 8Custom 002 1007
           </a>
         </nav>
       </header>
@@ -43,14 +43,13 @@ export default function HighTicketLandingPage() {
       {/* Main Hero */}
       <section className="container mx-auto px-4 py-20 text-center">
         <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-          Add ₦50M - ₦200M to Your Revenue
+          Build a Measurable Growth System
           <br />
           <span className="text-yellow-400">Through Custom AI</span>
         </h1>
         
         <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
-          We build AI systems that generate measurable ROI for Nigerian enterprises.
-          Our clients have generated <span className="text-green-400 font-bold">₦2.5B+</span> in additional revenue.
+          We design AI, automation and software systems around measurable business goals, with scope and success criteria agreed before implementation.
         </p>
 
         <div className="flex flex-col md:flex-row gap-4 justify-center mb-12">
@@ -71,20 +70,20 @@ export default function HighTicketLandingPage() {
         {/* Trust Indicators */}
         <div className="flex flex-wrap justify-center gap-8 text-white">
           <div className="text-center">
-            <div className="text-4xl font-bold text-yellow-400">₦2.5B+</div>
-            <div className="text-sm text-gray-400">Revenue Generated</div>
+            <div className="text-4xl font-bold text-yellow-400">Evidence-led</div>
+            <div className="text-sm text-gray-400">Delivery Approach</div>
           </div>
           <div className="text-center">
-            <div className="text-4xl font-bold text-yellow-400">18</div>
-            <div className="text-sm text-gray-400">AI Systems</div>
+            <div className="text-4xl font-bold text-yellow-400">Custom</div>
+            <div className="text-sm text-gray-400">Systems Designed</div>
           </div>
           <div className="text-center">
-            <div className="text-4xl font-bold text-yellow-400">4.2x</div>
-            <div className="text-sm text-gray-400">Average ROI</div>
+            <div className="text-4xl font-bold text-yellow-400">Measured</div>
+            <div className="text-sm text-gray-400">Outcome Tracking</div>
           </div>
           <div className="text-center">
-            <div className="text-4xl font-bold text-yellow-400">95%</div>
-            <div className="text-sm text-gray-400">Client Satisfaction</div>
+            <div className="text-4xl font-bold text-yellow-400">Direct</div>
+            <div className="text-sm text-gray-400">Founder-Led Delivery</div>
           </div>
         </div>
       </section>
@@ -93,7 +92,7 @@ export default function HighTicketLandingPage() {
       <section className="bg-black/50 py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-white text-center mb-12">
-            Real Results from Real Businesses
+            Illustrative Solution Patterns
           </h2>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -101,17 +100,16 @@ export default function HighTicketLandingPage() {
             <div className="bg-gray-800 rounded-lg p-6 border-2 border-green-500">
               <div className="text-green-400 font-bold mb-2">E-COMMERCE</div>
               <h3 className="text-2xl font-bold text-white mb-4">
-                ₦180M Revenue Increase
+                ₦Custom0M Revenue Increase
               </h3>
               <p className="text-gray-300 mb-4">
-                Lagos-based online retailer implemented our AI recommendation engine. 
-                Results in 6 months:
+                Example architecture for an online retailer:
               </p>
               <ul className="text-gray-300 space-y-2">
-                <li>✅ 45% increase in average order value</li>
-                <li>✅ 38% improvement in conversion rate</li>
-                <li>✅ ₦180M additional revenue</li>
-                <li>✅ 5.8x ROI</li>
+                <li>✅ Recommendation and merchandising workflows</li>
+                <li>✅ Conversion instrumentation</li>
+                <li>✅ ₦Custom0M additional revenue</li>
+                <li>✅ ROI measured against agreed baseline</li>
               </ul>
             </div>
 
@@ -119,16 +117,16 @@ export default function HighTicketLandingPage() {
             <div className="bg-gray-800 rounded-lg p-6 border-2 border-purple-500">
               <div className="text-purple-400 font-bold mb-2">FINTECH</div>
               <h3 className="text-2xl font-bold text-white mb-4">
-                75% Faster Processing
+                Fintech Processing Automation
               </h3>
               <p className="text-gray-300 mb-4">
-                Payment processing company automated KYC and fraud detection:
+                Example automation pattern for payment operations:
               </p>
               <ul className="text-gray-300 space-y-2">
-                <li>✅ 75% reduction in processing time</li>
-                <li>✅ 92% fraud detection accuracy</li>
-                <li>✅ ₦45M saved in manual review costs</li>
-                <li>✅ 3.2x ROI</li>
+                <li>✅ KYC workflow automation</li>
+                <li>✅ Fraud-review decision support</li>
+                <li>✅ Manual-review cost tracking</li>
+                <li>✅ Outcome measurement after deployment</li>
               </ul>
             </div>
 
@@ -136,16 +134,16 @@ export default function HighTicketLandingPage() {
             <div className="bg-gray-800 rounded-lg p-6 border-2 border-yellow-500">
               <div className="text-yellow-400 font-bold mb-2">REAL ESTATE</div>
               <h3 className="text-2xl font-bold text-white mb-4">
-                80% Workflow Automation
+                Real-Estate Workflow Automation
               </h3>
               <p className="text-gray-300 mb-4">
-                Property management firm automated operations end-to-end:
+                Example workflow architecture for property operations:
               </p>
               <ul className="text-gray-300 space-y-2">
-                <li>✅ 80% of workflows automated</li>
-                <li>✅ 22 hours saved per week</li>
-                <li>✅ ₦28M annual savings</li>
-                <li>✅ 4.5x ROI</li>
+                <li>✅ Repeatable workflow automation</li>
+                <li>✅ Time-saved measurement</li>
+                <li>✅ Cost-savings instrumentation</li>
+                <li>✅ ROI measured from verified operating data</li>
               </ul>
             </div>
           </div>
@@ -272,7 +270,7 @@ export default function HighTicketLandingPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
-                title: 'Custom AI Systems',
+                title: 'Custom Systems Designed',
                 price: '₦2.5M - ₦5M',
                 features: [
                   'Predictive analytics',
@@ -357,7 +355,7 @@ export default function HighTicketLandingPage() {
             Book Your Free Call Now →
           </a>
           <p className="text-white mt-6">
-            Or call/WhatsApp: <a href="tel:+2349068559191" className="underline font-bold">+234 906 855 9191</a>
+            Or call/WhatsApp: <a href="tel:+2348Custom0021007" className="underline font-bold">+234 906 855 9191</a>
           </p>
         </div>
       </section>

@@ -27,19 +27,19 @@ const timeline = [
   {
     year: '2022',
     title: 'First AI Systems',
-    description: 'Launched Naija-Prop-Intel and NaijaLaw-GPT, serving 50+ businesses',
+    description: 'Expanded the AMD software and AI portfolio with Nigeria-focused systems',
     icon: '🚀',
   },
   {
     year: '2023',
     title: 'Media Evolution',
-    description: 'Expanded into viral content production, reaching 20M+ views',
+    description: 'Expanded into media engineering, automation and multi-channel digital systems',
     icon: '🎬',
   },
   {
-    year: '2024',
-    title: 'Enterprise Scale',
-    description: '18 active projects, 25+ clients, ₦2.5B+ revenue generated',
+    year: '2026',
+    title: 'National Growth Infrastructure',
+    description: 'Expanded the governed website network, local-growth architecture and production-ready digital systems',
     icon: '🏆',
   },
 ];
@@ -123,10 +123,7 @@ export function AboutSection() {
               "too complex."
             </p>
             <p>
-              Today, we're proud to have <span className="font-bold text-yellow-300">18 active production systems</span>, 
-              serving <span className="font-bold text-yellow-300">25+ clients</span> across real estate, legal tech, 
-              fintech, and media. Our solutions have generated over{' '}
-              <span className="font-bold text-yellow-300">₦2.5 billion</span> in client revenue.
+              Today, AMD develops and operates a growing portfolio of websites, automation, intelligence and software systems for Nigerian businesses and digital projects. We publish only claims that can be tied to current evidence.
             </p>
             <p className="font-semibold text-yellow-300">
               We don't just build software. We architect growth systems that transform businesses.
@@ -177,7 +174,7 @@ export function AboutSection() {
           <h3 className="mb-12 text-center text-3xl font-bold text-yellow-300">Our Journey</h3>
           <div className="relative">
             {/* Timeline Line */}
-            <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-gradient-to-b from-yellow-500 via-yellow-300 to-yellow-500"></div>
+            <div className="absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-gradient-to-b from-yellow-500 via-yellow-300 to-yellow-500 md:block"></div>
 
             {timeline.map((milestone, idx) => (
               <motion.div
@@ -186,12 +183,12 @@ export function AboutSection() {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: idx * 0.2 }}
                 viewport={{ once: true }}
-                className={`relative mb-12 flex items-center gap-8 ${
-                  idx % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
+                className={`relative mb-8 flex flex-col items-stretch gap-4 md:mb-12 md:items-center md:gap-8 ${
+                  idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
                 }`}
               >
                 {/* Content */}
-                <div className={`w-5/12 ${idx % 2 === 0 ? 'text-right' : 'text-left'}`}>
+                <div className={`w-full text-left md:w-5/12 ${idx % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
                   <div className="rounded-2xl border border-yellow-500/20 bg-gradient-to-br from-black via-yellow-950/5 to-black p-6 transition-all duration-500 hover:border-yellow-500/40 hover:shadow-[0_0_40px_rgba(234,179,8,0.2)]">
                     <div className="mb-2 text-sm font-bold text-yellow-500">{milestone.year}</div>
                     <h4 className="mb-2 text-xl font-bold text-yellow-200">{milestone.title}</h4>
@@ -200,12 +197,12 @@ export function AboutSection() {
                 </div>
 
                 {/* Center Icon */}
-                <div className="relative z-10 flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full border-4 border-yellow-500 bg-black text-3xl shadow-[0_0_30px_rgba(234,179,8,0.5)]">
+                <div className="relative z-10 mx-auto flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full md:mx-0 border-4 border-yellow-500 bg-black text-3xl shadow-[0_0_30px_rgba(234,179,8,0.5)]">
                   {milestone.icon}
                 </div>
 
                 {/* Spacer */}
-                <div className="w-5/12"></div>
+                <div className="hidden md:block md:w-5/12"></div>
               </motion.div>
             ))}
           </div>
@@ -252,7 +249,7 @@ export function AboutSection() {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href="https://wa.me/2348113775880?text=Hi%2C%20I%27d%20like%20to%20learn%20more%20about%20AMD%20Solutions%20007"
+              href="https://wa.me/2348180021007?text=Hi%2C%20I%27d%20like%20to%20learn%20more%20about%20AMD%20Solutions%20007"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-lg border-2 border-yellow-500 bg-yellow-500 px-8 py-3 text-base font-bold text-black transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(234,179,8,0.6)]"

@@ -45,6 +45,10 @@ export function Hero({
           transition={{ duration: 1, ease: 'easeOut', delay: 0.3 }}
           className="text-center"
         >
+          <h1 className="mx-auto mb-4 max-w-5xl break-words bg-gradient-to-r from-yellow-500 via-yellow-200 to-yellow-500 bg-clip-text text-4xl font-bold tracking-tight text-transparent drop-shadow-[0_0_14px_rgba(234,179,8,0.45)] sm:text-5xl md:text-6xl lg:text-7xl">
+            {headline}
+          </h1>
+
           {/* Subtitle in 24K Gold with shimmer effect */}
           <motion.p 
             initial={{ opacity: 0, y: 20 }}

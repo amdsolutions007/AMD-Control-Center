@@ -288,20 +288,20 @@ export function PortfolioGrid() {
             AI & Software Projects
           </h2>
           <p className="mx-auto max-w-3xl text-lg text-yellow-100/60 md:text-xl">
-            24 production-grade systems powering Nigerian businesses with custom AI, automation, and enterprise solutions.
+            A growing portfolio of software, automation and intelligence systems developed across AMD projects.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <div className="flex items-center gap-2 rounded-full border border-yellow-500/20 bg-yellow-500/5 px-4 py-2">
               <span className="text-2xl">🏆</span>
-              <span className="text-sm font-semibold text-yellow-300">24 Active Projects</span>
+              <span className="text-sm font-semibold text-yellow-300">24 Portfolio Entries</span>
             </div>
             <div className="flex items-center gap-2 rounded-full border border-yellow-500/20 bg-yellow-500/5 px-4 py-2">
               <span className="text-2xl">💻</span>
-              <span className="text-sm font-semibold text-yellow-300">50K+ Lines of Code</span>
+              <span className="text-sm font-semibold text-yellow-300">Multi-stack Engineering</span>
             </div>
             <div className="flex items-center gap-2 rounded-full border border-yellow-500/20 bg-yellow-500/5 px-4 py-2">
               <span className="text-2xl">⚡</span>
-              <span className="text-sm font-semibold text-yellow-300">12 Technologies</span>
+              <span className="text-sm font-semibold text-yellow-300">Nigeria-focused Systems</span>
             </div>
           </div>
         </motion.div>
@@ -340,7 +340,7 @@ export function PortfolioGrid() {
             >
               {/* Featured Badge */}
               {project.featured && (
-                <div className="absolute -right-2 -top-2 z-20 rotate-12">
+                <div className="absolute right-2 top-2 z-20 rotate-6">
                   <div className="flex items-center gap-1 rounded-full border border-yellow-400 bg-gradient-to-r from-yellow-500 to-yellow-600 px-3 py-1 text-xs font-bold text-black shadow-[0_0_20px_rgba(234,179,8,0.5)]">
                     ⭐ FEATURED
                   </div>
@@ -414,7 +414,7 @@ export function PortfolioGrid() {
             Let's build the next AI-powered system for your business.
           </p>
           <a
-            href="https://wa.me/2348113775880?text=Hi%2C%20I%27d%20like%20to%20discuss%20a%20custom%20AI%2Fsoftware%20project"
+            href="https://wa.me/2348180021007?text=Hi%2C%20I%27d%20like%20to%20discuss%20a%20custom%20AI%2Fsoftware%20project"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-lg border-2 border-yellow-500 bg-yellow-500 px-8 py-3 text-base font-bold text-black transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(234,179,8,0.6)]"

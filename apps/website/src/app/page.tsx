@@ -4,7 +4,6 @@ import { Footer } from '@/components/footer'
 import { Hero } from '@/components/hero'
 import { PortfolioGrid } from '@/components/portfolio-grid'
 import { ServicesPricing } from '@/components/services-pricing'
-import { Testimonials } from '@/components/testimonials'
 
 export default async function HomePage() {
   return (
@@ -32,9 +31,6 @@ export default async function HomePage() {
         </div>
         <EcosystemGrid />
       </section>
-
-      {/* Success Stories - NEW: Client Testimonials & Case Studies */}
-      <Testimonials />
 
       {/* About Section - NEW: AMD Solutions 007 Story */}
       <AboutSection />

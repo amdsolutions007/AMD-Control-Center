@@ -1,0 +1,17 @@
+import type { MetadataRoute } from 'next'
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: 'AMD Solutions 007',
+    short_name: 'AMD 007',
+    description: 'Websites, automation and software systems for businesses across Nigeria.',
+    start_url: '/',
+    scope: '/',
+    display: 'standalone',
+    background_color: '#050A14',
+    theme_color: '#050A14',
+    icons: [
+      { src: '/amd_logo.png', sizes: '512x512', type: 'image/png' },
+    ],
+  }
+}

@@ -6,16 +6,19 @@ export function TawkToChat() {
   useEffect(() => {
     // Tawk.to live chat widget
     // Sign up at https://www.tawk.to/ to get your property ID
-    const TAWK_PROPERTY_ID = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID || 'REPLACE_WITH_YOUR_TAWK_ID'
+    const TAWK_PROPERTY_ID = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID || ''
     const TAWK_WIDGET_ID = process.env.NEXT_PUBLIC_TAWK_WIDGET_ID || 'default'
 
-    if (TAWK_PROPERTY_ID === 'REPLACE_WITH_YOUR_TAWK_ID') {
-      console.warn('⚠️ Tawk.to not configured. Set NEXT_PUBLIC_TAWK_PROPERTY_ID in .env.local')
+    if (!TAWK_PROPERTY_ID) {
       return
     }
 
-    // Load Tawk.to script
+    // Load exactly one Tawk.to script instance.
+    const existingScript = document.getElementById('amd-tawk-embed')
+    if (existingScript) return
+
     const script = document.createElement('script')
+    script.id = 'amd-tawk-embed'
     script.async = true
     script.src = `https://embed.tawk.to/${TAWK_PROPERTY_ID}/${TAWK_WIDGET_ID}`
     script.charset = 'UTF-8'
@@ -49,12 +52,7 @@ export function TawkToChat() {
 
     document.body.appendChild(script)
 
-    return () => {
-      // Cleanup on unmount
-      if (document.body.contains(script)) {
-        document.body.removeChild(script)
-      }
-    }
+    return undefined
   }, [])
 
   return null // This component only loads the script

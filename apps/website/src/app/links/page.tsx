@@ -2,40 +2,19 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
-import Script from 'next/script'
 
 export default function LinksPage() {
   const [copied, setCopied] = useState(false)
   
   const stats = [
-    { number: '24', label: 'Active Projects' },
-    { number: '50K+', label: 'Lines of Code' },
-    { number: '12', label: 'Social Platforms' },
+    { number: '24', label: 'Portfolio Entries' },
+    { number: '22', label: 'Governed Locations' },
+    { number: '2026', label: 'Current Release' },
   ]
 
-  const socialProofStats = [
-    { number: '₦2.5B+', label: 'Revenue Generated' },
-    { number: '25+', label: 'Enterprise Clients' },
-    { number: '99.98%', label: 'Uptime' },
-  ]
+  const socialProofStats: { number: string; label: string }[] = []
 
-  const testimonials = [
-    {
-      quote: "AMD's WhatsApp bot handles 95% of customer queries. Our team focuses on complex issues while revenue grew 240%.",
-      author: "Chidi Okonkwo",
-      role: "CEO, TechVille Lagos"
-    },
-    {
-      quote: "The YouTube automation system uploads 50+ videos weekly. We went from 2K to 47K subscribers in 4 months.",
-      author: "Ngozi Adebayo",
-      role: "Founder, EduStream Africa"
-    },
-    {
-      quote: "Instagram system posts 6x daily with perfect captions. 127K followers, ₦8M monthly revenue. Best investment ever.",
-      author: "Tunde Bakare",
-      role: "COO, FashionHub Nigeria"
-    }
-  ]
+  const testimonials: { quote: string; author: string; role: string }[] = []
 
   const links = [
     {
@@ -46,8 +25,8 @@ export default function LinksPage() {
     },
     {
       icon: '💬',
-      title: 'WhatsApp: +234 811 377 5880',
-      url: 'https://wa.me/2348113775880',
+      title: 'WhatsApp: +234 818 002 1007',
+      url: 'https://wa.me/2348180021007',
       badge: 'Direct Line',
     },
     {
@@ -64,7 +43,7 @@ export default function LinksPage() {
     },
     {
       icon: '🎨',
-      title: 'Projects Portfolio - 24 Active Projects',
+      title: 'Projects Portfolio',
       url: 'https://amdsolutions007.github.io',
       badge: 'Featured',
     },
@@ -264,7 +243,7 @@ export default function LinksPage() {
               ₦150,000 Grant + 6 Months Mentorship + Production Deployment
             </p>
             <a
-              href="https://wa.me/2348113775880?text=I%27m%20interested%20in%20the%20AMD%20Fellowship%20Program"
+              href="https://wa.me/2348180021007?text=I%27m%20interested%20in%20the%20AMD%20Fellowship%20Program"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block rounded-lg bg-yellow-400 px-6 py-3 font-semibold text-black transition-all duration-300 hover:bg-yellow-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(212,175,55,0.6)]"
@@ -272,7 +251,7 @@ export default function LinksPage() {
               Apply for Fellowship →
             </a>
             <p className="mt-3 text-xs text-yellow-100/50">
-              Next cohort: March 2026 • 10 spots available
+              Program availability is confirmed on request
             </p>
           </div>
         </div>
@@ -306,7 +285,7 @@ export default function LinksPage() {
             </button>
           </form>
           <p className="mt-3 text-xs text-yellow-100/50">
-            2,400+ subscribers • No spam • Unsubscribe anytime
+            No spam • Unsubscribe anytime
           </p>
         </div>
 
@@ -319,7 +298,7 @@ export default function LinksPage() {
             Custom-built, world-class link pages with animations & analytics
           </p>
           <a
-            href="https://wa.me/2348113775880?text=Hi!%20I%20want%20a%20custom%20linktree"
+            href="https://wa.me/2348180021007?text=Hi!%20I%20want%20a%20custom%20linktree"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block rounded-lg bg-yellow-400 px-6 py-3 font-semibold text-black transition-all duration-300 hover:bg-yellow-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(212,175,55,0.6)]"
@@ -327,7 +306,7 @@ export default function LinksPage() {
             Contact for Custom Development →
           </a>
           <p className="mt-3 text-xs text-yellow-100/50">
-            Starting at $500 • Premium Quality • Fast Delivery
+            Scope and pricing are confirmed after project review
           </p>
         </div>
 
@@ -353,20 +332,6 @@ export default function LinksPage() {
           <p className="text-xs">Built with AI. Shipped with Speed. 🚀</p>
         </div>
       </div>
-
-      {/* Google Analytics */}
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-246XMJQERK"
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-246XMJQERK');
-        `}
-      </Script>
 
       {/* Custom Animations */}
       <style jsx>{`

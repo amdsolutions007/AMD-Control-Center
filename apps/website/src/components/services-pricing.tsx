@@ -14,7 +14,7 @@ const services = [
       'Predictive Analytics',
       'AI Integration & Deployment',
     ],
-    priceRange: '$5,000 - $50,000',
+    priceRange: 'Custom quote',
     timeline: '4-12 weeks',
     popular: true,
   },
@@ -29,7 +29,7 @@ const services = [
       'Manifesto Videos',
       'Brand Storytelling',
     ],
-    priceRange: '$500 - $5,000',
+    priceRange: 'Custom quote',
     timeline: '1-3 weeks',
     popular: false,
   },
@@ -44,7 +44,7 @@ const services = [
       'Data Pipeline Engineering',
       'Workflow Optimization',
     ],
-    priceRange: '$3,000 - $30,000',
+    priceRange: 'Custom quote',
     timeline: '2-8 weeks',
     popular: false,
   },
@@ -59,7 +59,7 @@ const services = [
       'System Architecture Design',
       'Training & Workshops',
     ],
-    priceRange: '$200/hour',
+    priceRange: 'Custom quote',
     timeline: 'Flexible',
     popular: false,
   },
@@ -68,7 +68,7 @@ const services = [
 const packages = [
   {
     name: 'Starter',
-    price: '$2,500',
+    price: 'Custom quote',
     period: 'one-time',
     description: 'Perfect for small businesses getting started',
     features: [
@@ -81,7 +81,7 @@ const packages = [
   },
   {
     name: 'Professional',
-    price: '$10,000',
+    price: 'Custom quote',
     period: 'one-time',
     description: 'For growing businesses ready to scale',
     features: [
@@ -152,7 +152,7 @@ export function ServicesPricing() {
             >
               {/* Popular Badge */}
               {service.popular && (
-                <div className="absolute -right-3 -top-3 z-20 rotate-12">
+                <div className="absolute right-2 top-2 z-20 rotate-6">
                   <div className="rounded-full border border-yellow-400 bg-gradient-to-r from-yellow-500 to-yellow-600 px-3 py-1 text-xs font-bold text-black shadow-[0_0_20px_rgba(234,179,8,0.5)]">
                     🔥 MOST POPULAR
                   </div>
@@ -197,7 +197,7 @@ export function ServicesPricing() {
 
                 {/* CTA Button */}
                 <a
-                  href={`https://wa.me/2348113775880?text=Hi%2C%20I%27m%20interested%20in%20${encodeURIComponent(service.title)}`}
+                  href={`https://wa.me/2348180021007?text=Hi%2C%20I%27m%20interested%20in%20${encodeURIComponent(service.title)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 rounded-lg border border-yellow-500/30 bg-yellow-500/10 px-6 py-3 text-sm font-semibold text-yellow-300 transition-all duration-300 hover:border-yellow-500 hover:bg-yellow-500 hover:text-black hover:shadow-[0_0_20px_rgba(234,179,8,0.4)]"
@@ -288,7 +288,7 @@ export function ServicesPricing() {
 
                 {/* CTA Button */}
                 <a
-                  href={`https://wa.me/2348113775880?text=Hi%2C%20I%27m%20interested%20in%20the%20${encodeURIComponent(pkg.name)}%20package`}
+                  href={`https://wa.me/2348180021007?text=Hi%2C%20I%27m%20interested%20in%20the%20${encodeURIComponent(pkg.name)}%20package`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`flex w-full items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-bold transition-all duration-300 ${
