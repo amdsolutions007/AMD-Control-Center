@@ -1,362 +1,200 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState } from 'react'
+
+const officialChannels = [
+  {
+    icon: '💬',
+    title: 'WhatsApp',
+    detail: '+234 818 002 1007',
+    url: 'https://wa.me/2348180021007',
+    badge: 'Primary contact',
+  },
+  {
+    icon: '❌',
+    title: 'X / Twitter',
+    detail: '@amdsolutions007',
+    url: 'https://x.com/amdsolutions007',
+  },
+  {
+    icon: '💻',
+    title: 'GitHub',
+    detail: '@amdsolutions007',
+    url: 'https://github.com/amdsolutions007',
+  },
+  {
+    icon: '📺',
+    title: 'YouTube',
+    detail: '@amdsolutions007',
+    url: 'https://youtube.com/@amdsolutions007',
+  },
+  {
+    icon: '✈️',
+    title: 'Telegram',
+    detail: 'AMD Solutions 007',
+    url: 'https://t.me/amdsolutions007',
+  },
+]
+
+const amdDestinations = [
+  {
+    title: 'Official Website',
+    description: 'Services, location coverage and current AMD company information.',
+    href: '/',
+  },
+  {
+    title: 'AMD Intelligence',
+    description: 'Research, evidence intelligence and decision-support capability.',
+    href: '/intelligence',
+  },
+  {
+    title: 'AMD Signal Beacon',
+    description: 'Curated technology briefings and RSS discovery.',
+    href: 'https://amd-signal-beacon.vercel.app',
+    external: true,
+  },
+  {
+    title: 'Portfolio',
+    description: 'Selected products, systems and engineering work.',
+    href: '/portfolio',
+  },
+  {
+    title: 'Pricing & Payments',
+    description: 'Request a quote or access the approved-invoice payment flow.',
+    href: '/payment',
+  },
+  {
+    title: 'Client Portal',
+    description: 'Authenticated access for approved AMD clients.',
+    href: '/client-portal',
+  },
+]
 
 export default function LinksPage() {
   const [copied, setCopied] = useState(false)
-  
-  const stats = [
-    { number: '24', label: 'Portfolio Entries' },
-    { number: '22', label: 'Governed Locations' },
-    { number: '2026', label: 'Current Release' },
-  ]
 
-  const socialProofStats: { number: string; label: string }[] = []
-
-  const testimonials: { quote: string; author: string; role: string }[] = []
-
-  const links = [
-    {
-      icon: '📅',
-      title: 'Book Discovery Call (15 mins)',
-      url: 'https://cal.com/amdsolutions007/discovery',
-      priority: true,
-    },
-    {
-      icon: '💬',
-      title: 'WhatsApp: +234 818 002 1007',
-      url: 'https://wa.me/2348180021007',
-      badge: 'Direct Line',
-    },
-    {
-      icon: '📞',
-      title: 'Call Hotline: +234 818 002 1007',
-      url: 'tel:+2348180021007',
-      badge: 'Available 24/7',
-    },
-    {
-      icon: '📡',
-      title: 'AMD Signal Beacon (Live Intel)',
-      url: 'https://amd-signal-beacon.vercel.app',
-      badge: 'Featured',
-    },
-    {
-      icon: '🎨',
-      title: 'Projects Portfolio',
-      url: 'https://amdsolutions007.github.io',
-      badge: 'Featured',
-    },
-    {
-      icon: '🌐',
-      title: 'Visit Official Website',
-      url: 'https://www.amdsolutions007.com',
-    },
-    {
-      icon: '✈️',
-      title: 'Join Telegram Intelligence',
-      url: 'https://t.me/amdsolutions007',
-    },
-    {
-      icon: '📸',
-      title: 'Instagram',
-      url: 'https://instagram.com/amdsolutions007',
-    },
-    {
-      icon: '❌',
-      title: 'X / Twitter',
-      url: 'https://x.com/amdsolutions007',
-    },
-    {
-      icon: '🎵',
-      title: 'TikTok',
-      url: 'https://tiktok.com/@amdsolutions007',
-    },
-    {
-      icon: '💼',
-      title: 'LinkedIn',
-      url: 'https://linkedin.com/company/amdsolutions007',
-    },
-    {
-      icon: '💻',
-      title: 'GitHub / Code Portfolio',
-      url: 'https://github.com/amdsolutions007',
-    },
-    {
-      icon: '📘',
-      title: 'Facebook',
-      url: 'https://facebook.com/amdsolutions007',
-    },
-    {
-      icon: '👻',
-      title: 'Snapchat',
-      url: 'https://snapchat.com/add/solutions007',
-    },
-    {
-      icon: '📺',
-      title: 'YouTube',
-      url: 'https://youtube.com/@amdsolutions007',
-    },
-    {
-      icon: '📌',
-      title: 'Pinterest',
-      url: 'https://pinterest.com/amdsolutions007',
-    },
-  ]
-
-  const copyEmail = () => {
-    navigator.clipboard.writeText('ceo@amdsolutions007.com')
+  const copyEmail = async () => {
+    await navigator.clipboard.writeText('ceo@amdsolutions007.com')
     setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    setTimeout(() => setCopied(false), 1800)
   }
 
   return (
-    <div className="min-h-screen bg-black py-12 px-4">
-      <div className="mx-auto max-w-2xl">
-        {/* Header Section */}
-        <div className="mb-8 text-center">
-          {/* Avatar with Animated Glow */}
-          <div className="mb-6 flex justify-center">
-            <div className="relative h-32 w-32 overflow-hidden rounded-full border-4 border-yellow-400 shadow-[0_0_30px_rgba(212,175,55,0.5)] animate-pulse">
-              <Image
-                src="/amd_logo.png"
-                alt="AMD Solutions 007"
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
+    <main className="min-h-screen bg-[#020305] px-4 pb-16 pt-24 text-white sm:px-6 sm:pt-28">
+      <div className="mx-auto max-w-3xl">
+        <section className="text-center">
+          <div className="mx-auto h-28 w-28 overflow-hidden rounded-full border-4 border-yellow-400 shadow-[0_0_30px_rgba(212,175,55,0.35)]">
+            <Image src="/amd_logo.png" alt="AMD Solutions 007" fill className="object-cover" priority />
           </div>
 
-          {/* Title with Gradient Animation */}
-          <h1 className="mb-2 text-3xl font-bold text-yellow-400 animate-[fadeIn_0.8s_ease-in]">
-            AMD SOLUTIONS 007
-          </h1>
-
-          {/* Bio */}
-          <p className="text-lg text-yellow-100/70 mb-4 animate-[fadeIn_1s_ease-in]">
-            Illuminating the Digital Dark.
+          <div className="mt-6 text-xs font-bold uppercase tracking-[0.18em] text-yellow-400">
+            Official links
+          </div>
+          <h1 className="mt-2 text-3xl font-black text-yellow-300 sm:text-4xl">AMD Solutions 007</h1>
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-yellow-100/65 sm:text-base">
+            Official AMD contact, social and website destinations in one place. For project enquiries, WhatsApp remains the primary direct channel.
           </p>
 
-          {/* Stats Dashboard */}
-          <div className="grid grid-cols-3 gap-4 mt-6 mb-6">
-            {stats.map((stat, index) => (
-              <div
-                key={index}
-                className="rounded-lg border border-yellow-400/30 bg-yellow-400/5 p-3 backdrop-blur-sm hover:border-yellow-400/60 transition-all duration-300 hover:scale-105"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="text-2xl font-bold text-yellow-400">{stat.number}</div>
-                <div className="text-xs text-yellow-100/50">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* Social Proof Stats - NEW */}
-          <div className="grid grid-cols-3 gap-4 mb-6 mt-4">
-            {socialProofStats.map((stat, index) => (
-              <div
-                key={index}
-                className="rounded-lg border-2 border-yellow-400/50 bg-gradient-to-b from-yellow-400/10 to-transparent p-3 backdrop-blur-sm hover:border-yellow-400 transition-all duration-300 hover:scale-105"
-                style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
-              >
-                <div className="text-xl font-bold text-yellow-400">{stat.number}</div>
-                <div className="text-xs text-yellow-100/70 font-semibold">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* Email Copy Button */}
-          <button
-            onClick={copyEmail}
-            className="inline-flex items-center gap-2 rounded-lg border border-yellow-400/30 bg-yellow-400/5 px-4 py-2 text-sm text-yellow-100/70 hover:border-yellow-400/60 hover:text-yellow-400 transition-all duration-300"
-          >
-            <span>📧</span>
-            <span>{copied ? '✓ Copied!' : 'ceo@amdsolutions007.com'}</span>
-          </button>
-        </div>
-
-        {/* Links Section with Staggered Animation */}
-        <div className="space-y-4">
-          {links.map((link, index) => (
+          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
             <a
-              key={index}
-              href={link.url}
+              href="https://wa.me/2348180021007?text=Hi%20AMD%20Solutions%20007%2C%20I%27d%20like%20to%20discuss%20a%20project."
               target="_blank"
               rel="noopener noreferrer"
-              className={`group relative flex items-center justify-center gap-3 rounded-xl border-2 bg-black px-6 py-4 text-center text-white transition-all duration-300 hover:scale-105 hover:-translate-y-1 animate-[slideUp_0.5s_ease-out] ${
-                link.priority
-                  ? 'border-yellow-400 shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)]'
-                  : 'border-yellow-400 hover:bg-yellow-400/10 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]'
-              }`}
-              style={{ animationDelay: `${index * 0.05}s` }}
+              className="rounded-xl bg-gradient-to-r from-yellow-400 to-amber-500 px-5 py-3 font-black text-black"
             >
-              {/* Priority Badge */}
-              {link.priority && (
-                <span className="absolute -top-2 -right-2 rounded-full bg-red-500 px-2 py-0.5 text-xs font-bold text-white animate-pulse">
-                  PRIORITY
-                </span>
-              )}
-              
-              {/* Featured Badge */}
-              {link.badge && (
-                <span className="absolute -top-2 -right-2 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-600 px-2 py-0.5 text-xs font-bold text-black">
-                  {link.badge}
-                </span>
-              )}
-
-              <span className="text-2xl group-hover:scale-110 transition-transform duration-300">
-                {link.icon}
-              </span>
-              <span className="text-lg font-semibold">{link.title}</span>
+              Discuss a Project
             </a>
-          ))}
-        </div>
-
-        {/* Client Testimonials - NEW */}
-        <div className="mt-12 mb-8 rounded-xl border-2 border-yellow-400/30 bg-gradient-to-b from-yellow-400/5 to-transparent p-6 backdrop-blur-sm">
-          <h3 className="mb-4 text-xl font-bold text-yellow-400 text-center">
-            ⭐ Client Success Stories
-          </h3>
-          <div className="space-y-4">
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={index}
-                className="rounded-lg border border-yellow-400/20 bg-black/30 p-4 hover:border-yellow-400/50 transition-all duration-300"
-              >
-                <p className="text-sm text-yellow-100/80 italic mb-3">"{testimonial.quote}"</p>
-                <div className="text-xs text-yellow-400 font-semibold">{testimonial.author}</div>
-                <div className="text-xs text-yellow-100/50">{testimonial.role}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* AMD Fellowship Program - NEW */}
-        <div className="mt-8 mb-8 rounded-xl border-2 border-yellow-400/50 bg-gradient-to-b from-yellow-400/10 to-transparent p-6 backdrop-blur-sm">
-          <div className="text-center">
-            <div className="text-4xl mb-3">🚀</div>
-            <h3 className="mb-2 text-xl font-bold text-yellow-400">
-              AMD Fellowship Program
-            </h3>
-            <p className="text-sm text-yellow-100/70 mb-4">
-              ₦150,000 Grant + 6 Months Mentorship + Production Deployment
-            </p>
-            <a
-              href="https://wa.me/2348180021007?text=I%27m%20interested%20in%20the%20AMD%20Fellowship%20Program"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block rounded-lg bg-yellow-400 px-6 py-3 font-semibold text-black transition-all duration-300 hover:bg-yellow-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(212,175,55,0.6)]"
-            >
-              Apply for Fellowship →
-            </a>
-            <p className="mt-3 text-xs text-yellow-100/50">
-              Program availability is confirmed on request
-            </p>
-          </div>
-        </div>
-
-        {/* Newsletter Signup - NEW */}
-        <div className="mt-8 mb-8 rounded-xl border-2 border-yellow-400/30 bg-black/30 p-6 text-center backdrop-blur-sm">
-          <h3 className="mb-2 text-lg font-bold text-yellow-400">
-            📬 Weekly Nigerian Tech Intel
-          </h3>
-          <p className="mb-4 text-sm text-yellow-100/70">
-            AI automation strategies, business growth tactics, real revenue numbers
-          </p>
-          <form
-            action="https://amdsolutions007.us17.list-manage.com/subscribe/post?u=YOUR_ID&id=YOUR_LIST_ID"
-            method="post"
-            target="_blank"
-            className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto"
-          >
-            <input
-              type="email"
-              name="EMAIL"
-              placeholder="your@email.com"
-              required
-              className="flex-1 rounded-lg border border-yellow-400/30 bg-black/50 px-4 py-2 text-yellow-100 placeholder:text-yellow-100/30 focus:border-yellow-400 focus:outline-none"
-            />
             <button
-              type="submit"
-              className="rounded-lg bg-yellow-400 px-6 py-2 font-semibold text-black transition-all duration-300 hover:bg-yellow-300 hover:scale-105"
+              onClick={copyEmail}
+              className="rounded-xl border border-yellow-500/35 bg-yellow-500/5 px-5 py-3 font-bold text-yellow-200"
             >
-              Subscribe
+              {copied ? 'Email copied ✓' : 'Copy ceo@amdsolutions007.com'}
             </button>
-          </form>
-          <p className="mt-3 text-xs text-yellow-100/50">
-            No spam • Unsubscribe anytime
-          </p>
-        </div>
+          </div>
+        </section>
 
-        {/* Call-to-Action Section */}
-        <div className="mt-12 rounded-xl border-2 border-yellow-400/50 bg-gradient-to-b from-yellow-400/10 to-transparent p-6 text-center backdrop-blur-sm">
-          <h3 className="mb-2 text-xl font-bold text-yellow-400">
-            Need a Linktree Like This?
-          </h3>
-          <p className="mb-4 text-sm text-yellow-100/70">
-            Custom-built, world-class link pages with animations & analytics
-          </p>
-          <a
-            href="https://wa.me/2348180021007?text=Hi!%20I%20want%20a%20custom%20linktree"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block rounded-lg bg-yellow-400 px-6 py-3 font-semibold text-black transition-all duration-300 hover:bg-yellow-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(212,175,55,0.6)]"
-          >
-            Contact for Custom Development →
-          </a>
-          <p className="mt-3 text-xs text-yellow-100/50">
-            Scope and pricing are confirmed after project review
-          </p>
-        </div>
+        <section className="mt-12">
+          <div className="mb-5">
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-yellow-400">Contact & social</div>
+            <h2 className="mt-2 text-2xl font-black text-yellow-200">Core AMD channels</h2>
+            <p className="mt-2 text-sm leading-6 text-yellow-100/55">
+              These are the primary public destinations currently carried by AMD. Individual social-platform availability can change independently of this website.
+            </p>
+          </div>
 
-        {/* Tech Stack Badge */}
-        <div className="mt-8 flex flex-wrap justify-center gap-2">
-          <span className="rounded-full bg-yellow-400/10 px-3 py-1 text-xs text-yellow-400 border border-yellow-400/30">
-            Python
-          </span>
-          <span className="rounded-full bg-yellow-400/10 px-3 py-1 text-xs text-yellow-400 border border-yellow-400/30">
-            Next.js
-          </span>
-          <span className="rounded-full bg-yellow-400/10 px-3 py-1 text-xs text-yellow-400 border border-yellow-400/30">
-            AI/ML
-          </span>
-          <span className="rounded-full bg-yellow-400/10 px-3 py-1 text-xs text-yellow-400 border border-yellow-400/30">
-            React
-          </span>
-        </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {officialChannels.map((channel) => (
+              <a
+                key={channel.title}
+                href={channel.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group rounded-2xl border border-yellow-500/20 bg-gradient-to-br from-yellow-500/[0.06] to-black p-5 transition hover:-translate-y-0.5 hover:border-yellow-500/45 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="text-2xl">{channel.icon}</div>
+                  {channel.badge && (
+                    <span className="rounded-full border border-yellow-500/20 bg-yellow-500/5 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-yellow-400">
+                      {channel.badge}
+                    </span>
+                  )}
+                </div>
+                <h3 className="mt-4 text-lg font-bold text-yellow-200">{channel.title}</h3>
+                <p className="mt-1 text-sm text-yellow-100/55">{channel.detail}</p>
+              </a>
+            ))}
+          </div>
+        </section>
 
-        {/* Footer */}
-        <div className="mt-12 text-center text-sm text-yellow-100/50">
-          <p className="mb-2">© 2026 AMD Solutions 007.</p>
-          <p className="text-xs">Built with AI. Shipped with Speed. 🚀</p>
-        </div>
+        <section className="mt-12">
+          <div className="mb-5">
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-yellow-400">AMD ecosystem</div>
+            <h2 className="mt-2 text-2xl font-black text-yellow-200">Go directly to the right surface</h2>
+          </div>
+
+          <div className="space-y-3">
+            {amdDestinations.map((item) =>
+              item.external ? (
+                <a
+                  key={item.title}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between gap-5 rounded-2xl border border-yellow-500/20 bg-black/60 p-5 transition hover:border-yellow-500/45"
+                >
+                  <div>
+                    <h3 className="font-bold text-yellow-200">{item.title}</h3>
+                    <p className="mt-1 text-sm leading-6 text-yellow-100/55">{item.description}</p>
+                  </div>
+                  <span className="shrink-0 text-yellow-400">↗</span>
+                </a>
+              ) : (
+                <Link
+                  key={item.title}
+                  href={item.href}
+                  className="flex items-center justify-between gap-5 rounded-2xl border border-yellow-500/20 bg-black/60 p-5 transition hover:border-yellow-500/45"
+                >
+                  <div>
+                    <h3 className="font-bold text-yellow-200">{item.title}</h3>
+                    <p className="mt-1 text-sm leading-6 text-yellow-100/55">{item.description}</p>
+                  </div>
+                  <span className="shrink-0 text-yellow-400">→</span>
+                </Link>
+              )
+            )}
+          </div>
+        </section>
+
+        <section className="mt-12 rounded-2xl border border-yellow-500/20 bg-yellow-500/[0.04] p-6 text-sm leading-6 text-yellow-100/60">
+          <strong className="text-yellow-300">No hidden programme promises:</strong> this page does not advertise grants, fellowships, 24/7 human availability, revenue guarantees or newsletter subscriptions unless those programmes are actually configured and approved.
+        </section>
+
+        <footer className="mt-10 text-center text-xs text-yellow-100/35">
+          © 2026 AMD Solutions 007 · AMD Ascend Solutions
+        </footer>
       </div>
-
-      {/* Custom Animations */}
-      <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(-10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes slideUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
-    </div>
+    </main>
   )
 }
