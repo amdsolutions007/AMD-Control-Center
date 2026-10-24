@@ -1,17 +1,13 @@
-import type { Metadata } from 'next';
-import './globals.css';
-import GoogleAnalytics from '@/components/GoogleAnalytics';
+import type { Metadata } from 'next'
+import './globals.css'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 
 export const metadata: Metadata = {
-  title: 'AMD Signal Beacon Pro',
-  description: 'RSS Content Engine for African Tech Ecosystem Domination on Leke Leke',
-};
+  title: 'AMD Signal Beacon | Curated Technology Briefings',
+  description: 'Curated technology, AI and African digital-economy briefings from attributed sources by AMD Solutions 007.',
+}
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -19,5 +15,5 @@ export default function RootLayout({
       </head>
       <body>{children}</body>
     </html>
-  );
+  )
 }
