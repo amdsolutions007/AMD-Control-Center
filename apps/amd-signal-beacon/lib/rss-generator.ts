@@ -9,14 +9,14 @@ interface RSSItem {
 
 export function generateRSSFeed(items: RSSItem[]): string {
   const feed = new RSS({
-    title: 'AMD Signal Beacon - African Tech Ecosystem',
-    description: 'Exclusive insights, state spotlights, and builder updates from AMD Solutions. Join the largest African tech community on Leke Leke.',
-    feed_url: 'https://signal-beacon.amdsolutions007.com/api/feed',
-    site_url: 'https://www.amdsolutions007.com',
-    image_url: 'https://www.amdsolutions007.com/logo.png',
+    title: 'AMD Signal Beacon | Curated Technology Briefings',
+    description: 'Curated technology, AI and African digital-economy briefings with source attribution from AMD Solutions 007.',
+    feed_url: 'https://amd-signal-beacon.vercel.app/api/feed',
+    site_url: 'https://amd-signal-beacon.vercel.app',
+    image_url: 'https://www.amdsolutions007.com/amd_logo.png',
     language: 'en',
     pubDate: new Date().toUTCString(),
-    ttl: 120, // 2 hours cache
+    ttl: 60, // Align RSS TTL with the one-hour feed/cache law
     custom_namespaces: {
       'content': 'http://purl.org/rss/1.0/modules/content/',
     },
