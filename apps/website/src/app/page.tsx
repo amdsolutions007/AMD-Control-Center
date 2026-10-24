@@ -19,14 +19,17 @@ export default async function HomePage() {
       {/* Services & Pricing - NEW: What We Build & Investment */}
       <ServicesPricing />
 
-      {/* The Architecture - EXISTING: Ecosystem Overview */}
-      <section className="mx-auto max-w-6xl px-6 py-20">
-        <div className="mb-12 text-center">
-          <h2 className="mb-3 bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-500 bg-clip-text text-4xl font-bold tracking-tight text-transparent drop-shadow-[0_0_10px_rgba(234,179,8,0.3)] md:text-5xl">
-            THE ARCHITECTURE
+      {/* AMD Ecosystem: how the customer-facing operating layers connect */}
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20">
+        <div className="mx-auto mb-10 max-w-3xl text-center md:mb-12">
+          <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-yellow-400">
+            AMD Ecosystem
+          </div>
+          <h2 className="bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-500 bg-clip-text text-4xl font-black tracking-tight text-transparent md:text-5xl">
+            One connected growth and delivery system
           </h2>
-          <p className="text-lg text-yellow-100/60 md:text-xl">
-            A unified stack: Ad Tech + Media Systems + Automation.
+          <p className="mt-4 text-base leading-7 text-yellow-100/60 md:text-lg">
+            AMD connects visibility, intelligence, automation, media, client delivery and commercial workflow so each layer supports the next instead of operating as a disconnected tool.
           </p>
         </div>
         <EcosystemGrid />
