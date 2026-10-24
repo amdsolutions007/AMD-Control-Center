@@ -173,7 +173,7 @@ export function Footer() {
             <Link className="text-yellow-200/70 hover:text-yellow-300 transition-colors font-medium" href="/media">
               Media
             </Link>
-            <Link className="text-yellow-200/70 hover:text-yellow-300 transition-colors font-medium" href="/portal">
+            <Link className="text-yellow-200/70 hover:text-yellow-300 transition-colors font-medium" href="/client-portal">
               Client Portal
             </Link>
           </div>
