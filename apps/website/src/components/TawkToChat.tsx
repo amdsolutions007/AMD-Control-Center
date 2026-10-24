@@ -6,8 +6,8 @@ export function TawkToChat() {
   useEffect(() => {
     // Tawk.to live chat widget
     // Sign up at https://www.tawk.to/ to get your property ID
-    const TAWK_PROPERTY_ID = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID || ''
-    const TAWK_WIDGET_ID = process.env.NEXT_PUBLIC_TAWK_WIDGET_ID || 'default'
+    const TAWK_PROPERTY_ID = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID?.trim() || ''
+    const TAWK_WIDGET_ID = process.env.NEXT_PUBLIC_TAWK_WIDGET_ID?.trim() || 'default'
 
     if (!TAWK_PROPERTY_ID) {
       return
