@@ -1,61 +1,39 @@
-import Link from 'next/link';
+import Link from 'next/link'
+
+const links = [
+  { href: 'https://www.amdsolutions007.com/about', label: 'About' },
+  { href: 'https://www.amdsolutions007.com/#ecosystem', label: 'Ecosystem' },
+  { href: 'https://www.amdsolutions007.com/intelligence', label: 'Intelligence' },
+  { href: 'https://www.amdsolutions007.com/media', label: 'Media' },
+  { href: 'https://www.amdsolutions007.com/links', label: 'Socials' },
+  { href: 'https://www.amdsolutions007.com/portfolio', label: 'Portfolio' },
+  { href: 'https://www.amdsolutions007.com/payment', label: 'Pricing & Payments' },
+]
 
 export default function NavigationHeader() {
   return (
-    <header className="border-b border-amd-gold border-opacity-20 bg-black/95 backdrop-blur-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo with Icon */}
-          <Link href="https://www.amdsolutions007.com" className="flex items-center gap-3 group">
-            {/* Gold Circle Icon */}
-            <div className="w-10 h-10 rounded-full border-2 border-amd-gold flex items-center justify-center group-hover:bg-amd-gold transition-all">
-              <span className="text-amd-gold group-hover:text-black text-xl font-bold">🌍</span>
-            </div>
-            <div className="text-xl font-bold">
-              <span className="text-amd-gold">AMD SOLUTIONS</span>
-              <span className="text-white ml-2">007</span>
-            </div>
-          </Link>
+    <header className="sticky top-0 z-50 border-b border-amd-gold/20 bg-black/95 backdrop-blur-sm">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+        <Link href="https://www.amdsolutions007.com" className="flex min-w-0 items-center gap-2">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-amd-gold/60 text-lg">🌍</div>
+          <div className="truncate text-sm font-bold text-amd-gold sm:text-lg">AMD SOLUTIONS 007</div>
+        </Link>
 
-          {/* Navigation */}
-          <nav className="hidden md:flex items-center gap-8 text-sm">
-            <a href="https://www.amdsolutions007.com#about" className="text-gray-300 hover:text-amd-gold transition-colors">
-              About
+        <nav className="hidden items-center gap-5 text-sm lg:flex">
+          {links.map((link) => (
+            <a key={link.href} href={link.href} className="text-gray-300 transition hover:text-amd-gold">
+              {link.label}
             </a>
-            <a href="https://www.amdsolutions007.com#ecosystem" className="text-gray-300 hover:text-amd-gold transition-colors">
-              Ecosystem
-            </a>
-            <a href="https://www.amdsolutions007.com#intelligence" className="text-amd-gold font-semibold">
-              Intelligence
-            </a>
-            <a href="https://www.amdsolutions007.com#media" className="text-gray-300 hover:text-amd-gold transition-colors">
-              Media
-            </a>
-            <a href="https://www.amdsolutions007.com#socials" className="text-gray-300 hover:text-amd-gold transition-colors">
-              Socials
-            </a>
-            <a href="https://www.amdsolutions007.com#portfolio" className="text-gray-300 hover:text-amd-gold transition-colors">
-              Portfolio
-            </a>
-            <a href="https://www.amdsolutions007.com#services" className="text-gray-300 hover:text-amd-gold transition-colors">
-              Services
-            </a>
-            <a 
-              href="https://www.amdsolutions007.com/portal" 
-              className="px-4 py-2 border-2 border-amd-gold text-amd-gold rounded-lg hover:bg-amd-gold hover:text-black transition-all font-semibold"
-            >
-              Client Portal
-            </a>
-          </nav>
+          ))}
+        </nav>
 
-          {/* Mobile Menu Button */}
-          <button className="md:hidden text-amd-gold hover:text-amd-gold-light transition-colors">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
+        <a
+          href="https://www.amdsolutions007.com/client-portal"
+          className="shrink-0 rounded-lg border border-amd-gold/60 px-3 py-2 text-xs font-bold text-amd-gold sm:text-sm"
+        >
+          Client Portal
+        </a>
       </div>
     </header>
-  );
+  )
 }
