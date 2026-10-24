@@ -3,7 +3,6 @@
 import { usePathname } from 'next/navigation'
 import { Navbar } from '@/components/navbar'
 import { ChatWidget } from '@/components/ChatWidget'
-import { TawkToChat } from '@/components/TawkToChat'
 
 export function SiteChrome() {
   const pathname = usePathname()
@@ -17,7 +16,6 @@ export function SiteChrome() {
     <>
       <Navbar />
       <ChatWidget />
-      <TawkToChat />
     </>
   )
 }

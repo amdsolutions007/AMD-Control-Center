@@ -15,6 +15,44 @@ export const COMPANY_PROFILE = {
     'Media & Campaign Engineering',
     'Research & Decision Support',
   ],
+  programs: [
+    {
+      name: 'AMD Web & Local Growth Intelligence',
+      status: 'Live operating program',
+      summary: 'The current AMD website, national service-area architecture, Client Portal, quote/invoice flow and local-growth operating layer.',
+    },
+    {
+      name: 'SHINE AI — Label & Artist Intelligence',
+      status: 'Governed product program',
+      summary: 'A music-intelligence product program for labels and artists. It should not be described as a fully launched general-market product unless separately verified.',
+    },
+    {
+      name: 'AMD SME Growth Intelligence',
+      status: 'Product direction',
+      summary: 'A customer-first operating layer for African SMEs connecting enquiries, customers, orders, payments, fulfilment and repeat-business intelligence.',
+    },
+    {
+      name: 'AMD Signal Beacon',
+      status: 'Curated intelligence surface',
+      summary: 'A curated technology, AI and African digital-economy briefing feed with source attribution.',
+    },
+  ],
+  portfolioExamples: [
+    'Address-Intel',
+    'Bank-Statement-Parser',
+    'CBN-Compliance-Copilot',
+    'NaijaStack-AI',
+    'NaijaLaw-GPT',
+    'Naija-Voice-AI',
+    'Naija-Prop-Intel',
+    'Naija-Rent-Estimator',
+    'Naija-Resume-Scanner',
+    'Naira-AI-Crypto-Tracker',
+    'AMD Global Intelligence',
+    'AMD Materiality Engine',
+    'NaijaBiz Pilot',
+    'AMD Activity Booster',
+  ],
   commercialModel:
     'Bespoke work is scoped before pricing. AMD confirms deliverables and commercial terms, then issues an approved quote or invoice. Public pages do not set arbitrary bespoke payment amounts.',
   evidencePolicy:
