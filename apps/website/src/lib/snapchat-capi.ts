@@ -41,12 +41,16 @@ export async function sendSnapEvent(
 ): Promise<{ success: boolean; data?: any; error?: string }> {
   try {
     // Get config from parameters or environment variables
-    const pixelId = config?.pixelId || process.env.SNAP_PIXEL_ID || '7856879a-cb0b-43b7-a2d3-0bb378eebd54'
-    const apiToken = config?.apiToken || process.env.SNAP_API_TOKEN || 'eyJhbGciOiJIUzI1NiIsImtpZCI6IkNhbnZhc1MyU0hNQUNQcm9kIiwidHlwIjoiSldUIn0.eyJhdWQiOiJjYW52YXMtY2FudmFzYXBpIiwiaXNzIjoiY2FudmFzLXMyc3Rva2VuIiwibmJmIjoxNzY2NDgwMjQ0LCJzdWIiOiIxNGYxMzc2My04MjMxLTRhYzgtYjRhNi0zYzliODE5YmMyMzR-UFJPRFVDVElPTn44NjVkYjI1NC0wYTg3LTQwMjQtYmYzMi1lOTM2YzY2NzM0NWUifQ.c-jrXPIU8WTrGs4OiSnP1YeMj8Vb3bsnVW5zWpKy9Gw'
+    const pixelId = config?.pixelId || process.env.SNAP_PIXEL_ID || ''
+    const apiToken = config?.apiToken || process.env.SNAP_API_TOKEN || ''
     const testMode = config?.testMode || process.env.SNAP_TEST_MODE === 'true'
 
     if (!pixelId) {
       throw new Error('Snapchat Pixel ID is required.')
+    }
+
+    if (!apiToken) {
+      throw new Error('Snapchat API token is required.')
     }
 
     // Construct CAPI endpoint

@@ -4,12 +4,13 @@ import { useEffect } from 'react'
 
 export function TawkToChat() {
   useEffect(() => {
-    // Tawk.to live chat widget
-    // Sign up at https://www.tawk.to/ to get your property ID
+    // Tawk is intentionally opt-in. Keep it disabled until the external
+    // dashboard greeting and quick replies have been reviewed and approved.
+    const TAWK_ENABLED = process.env.NEXT_PUBLIC_TAWK_ENABLED === 'true'
     const TAWK_PROPERTY_ID = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID?.trim() || ''
     const TAWK_WIDGET_ID = process.env.NEXT_PUBLIC_TAWK_WIDGET_ID?.trim() || 'default'
 
-    if (!TAWK_PROPERTY_ID) {
+    if (!TAWK_ENABLED || !TAWK_PROPERTY_ID) {
       return
     }
 

@@ -5,7 +5,7 @@ import MusicIntelligenceShell from '@/components/music-intelligence/MusicIntelli
 import { getComingSoonModule } from '@/lib/music-intelligence-modules';
 
 interface PageProps {
-  params: Promise<{ module: string }> | { module: string };
+  params: Promise<{ module: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

@@ -44,7 +44,10 @@ export function ChatWidget() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text }),
+        body: JSON.stringify({
+          message: text,
+          history: messages.slice(-8).map((item) => ({ sender: item.sender, text: item.text })),
+        }),
       })
 
       if (!res.ok) {
@@ -65,7 +68,7 @@ export function ChatWidget() {
         {
           id: `${Date.now()}-error`,
           sender: 'agent',
-          text: 'System is busy. Please try again.',
+          text: 'I could not reach the AMD assistant just now. Please try again or contact AMD on WhatsApp: +234 818 002 1007.',
         },
       ])
     } finally {
@@ -103,7 +106,7 @@ export function ChatWidget() {
           <div ref={scrollRef} className="max-h-80 space-y-3 overflow-y-auto px-4 py-3 text-sm text-yellow-50">
             {messages.length === 0 && (
               <div className="rounded-lg border border-dashed border-yellow-500/30 bg-yellow-500/5 px-3 py-4 text-yellow-100/80">
-                Ask me anything about AMD Solutions 007. I reply in real time.
+                Ask me about AMD Solutions 007, our services, project scope or next steps.
               </div>
             )}
             {messages.map((msg) => (
@@ -134,11 +137,12 @@ export function ChatWidget() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 rows={2}
+                maxLength={1200}
                 placeholder="Type a message..."
                 className="w-full resize-none bg-transparent text-sm text-yellow-50 placeholder-yellow-100/40 outline-none"
               />
               <div className="flex items-center justify-between pt-2 text-xs text-yellow-200/70">
-                <span>Realtime Intel</span>
+                <span>Evidence-led AMD assistant</span>
                 <button
                   type="button"
                   onClick={sendMessage}

@@ -14,7 +14,7 @@ const supabase = createClient(supabaseUrl, serviceRoleKey);
 export const revalidate = 60;
 
 interface PageProps {
-  params: Promise<{ code: string }> | { code: string };
+  params: Promise<{ code: string }>;
 }
 
 async function getSmartLinkData(code: string) {
